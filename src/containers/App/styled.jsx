@@ -8,5 +8,14 @@ export const MainContainer = styled.div`
     background-color: #adacac;
     overflow: hidden;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 `
+
+export const AppContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    width: 100vw;;
+`;
+
+
