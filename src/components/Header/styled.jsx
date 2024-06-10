@@ -5,7 +5,8 @@ export const HeaderContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
   height: 30px;
-  padding: 0 10px;
+  padding-top: 20px;
+  padding-left: 20px;
 `;
 
 export const HeaderTitle = styled.div`
