@@ -4,10 +4,5 @@ import { Bus } from "../Bus/index.jsx";
 // import ArrowIcon from "./arrow.jsx";
 
 export const RegisterBox = () => {
-  return (
-    <div>
-      <Box />
-      <Bus />
-    </div>
-  );
+  return <Box>Registros</Box>;
 };

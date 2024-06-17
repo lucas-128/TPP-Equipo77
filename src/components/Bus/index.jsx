@@ -1,15 +1,24 @@
-import { ArrowContainer, ArrowStart, Byte, ProgressColor } from "./styled";
+import {
+  VerticalSection,
+  Byte,
+  VerticalProgressColor,
+  HorizontalSection,
+  HorizontalProgressColor,
+} from "./styled";
 
 export const Bus = () => {
   return (
-    <ArrowContainer>
-      <ArrowStart>
-        <ProgressColor>
+    <>
+      <VerticalSection>
+        <VerticalProgressColor>
           <Byte />
           <Byte />
           <Byte />
-        </ProgressColor>
-      </ArrowStart>
-    </ArrowContainer>
+        </VerticalProgressColor>
+      </VerticalSection>
+      <HorizontalSection>
+        <HorizontalProgressColor />
+      </HorizontalSection>
+    </>
   );
 };

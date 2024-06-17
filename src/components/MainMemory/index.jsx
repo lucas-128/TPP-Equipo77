@@ -7,7 +7,7 @@ export const MainMemory = () => {
 
   return (
     <Container>
-      <div>Main Memory</div>
+      <div>Memoria principal</div>
       {/* <div>
         <tbody>
           {Array.from({ length: 8 }).map((_, rowIndex) => (

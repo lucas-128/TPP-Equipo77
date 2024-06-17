@@ -1,6 +1,6 @@
 import styled, { keyframes } from "styled-components";
 
-const progress = keyframes`
+const verticalProgress = keyframes`
     0%{
       height: 0%;
     }
@@ -18,10 +18,22 @@ const progress = keyframes`
     }
 `;
 
-export const ArrowContainer = styled.div`
-  position: absolute;
-  display: flex;
-  height: 100vh;
+const horizontalProgress = keyframes`
+0%{
+  width: 0%;
+}
+25%{
+  width: 50%;
+}
+50%{
+  width: 75%;
+}
+75%{
+  width: 85%;
+}
+100%{
+  width: 100%;
+}
 `;
 
 export const Progress = styled.div`
@@ -32,7 +44,7 @@ export const Progress = styled.div`
   border-radius: 15px;
 `;
 
-export const ProgressColor = styled.div`
+export const VerticalProgressColor = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -41,31 +53,41 @@ export const ProgressColor = styled.div`
   height: 100px;
   width: 15px;
   opacity: 0.5;
-  animation: ${progress} 4s infinite linear;
+  animation: ${verticalProgress} 4s infinite linear;
+  animation-delay: s;
 `;
 
 export const Byte = styled.div`
   height: 5px;
-  width: 15px;
+  width: 20px;
   background-color: lightgreen;
-  z-index: 100;
 `;
 
-export const ArrowStart = styled.div`
-  position: absolute;
+export const VerticalSection = styled.div`
+  position: relative;
   height: 100px;
-  width: 15px;
+  width: 20px;
   background-color: black;
+`;
 
-  /* &:after {
-    content: "";
-    position: absolute;
-    height: 0;
-    width: 0;
-    left: -13px;
-    top: 100%;
-    border: 20px solid transparent;
-    border-left: 20px solid black;
-    transform: rotate(90deg);
-  } */
+
+export const HorizontalSection = styled.div`
+  position: relative;
+  width: 100px;
+  height: 20px;
+  background-color: black;
+`;
+
+
+export const HorizontalProgressColor = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: absolute;
+  background-color: gray;
+  width: 100px;
+  height: 20px;
+  opacity: 0.5;
+  animation: ${horizontalProgress} 4s infinite linear;
+  animation-delay: 4s;
 `;
