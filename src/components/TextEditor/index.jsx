@@ -10,6 +10,7 @@ import {
   LineCounter,
   LineNumber,
   LineCounterText,
+  EditorTextContainer,
 } from "./styled";
 
 export const TextEditor = ({ isSimulating, selectedLine }) => {
@@ -74,21 +75,23 @@ export const TextEditor = ({ isSimulating, selectedLine }) => {
         </EditorHeaderIconContainer>
       </EditorHeader>
       <EditorTextWrapper>
-        <LineCounter>
-          {getLineNumbers(text).map((lineNumber, i) => (
-            <LineNumber
-              key={lineNumber}
-              isSelected={isSimulating && i == selectedLine}
-            >
-              <LineCounterText>{lineNumber}</LineCounterText>
-            </LineNumber>
-          ))}
-        </LineCounter>
-        <EditorText
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          onKeyDown={handleKeyDown}
-        />
+        <EditorTextContainer>
+          <LineCounter>
+            {getLineNumbers(text).map((lineNumber, i) => (
+              <LineNumber
+                key={lineNumber}
+                isSelected={isSimulating && i == selectedLine}
+              >
+                <LineCounterText>{lineNumber}</LineCounterText>
+              </LineNumber>
+            ))}
+          </LineCounter>
+          <EditorText
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+        </EditorTextContainer>
       </EditorTextWrapper>
     </EditorWrapper>
   );

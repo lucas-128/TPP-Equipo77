@@ -6,6 +6,7 @@ export const EditorWrapper = styled.div`
   flex: 15;
   border: 1px solid black;
   border-radius: 10px;
+  height: fit-content;
 `;
 
 export const EditorHeader = styled.div`
@@ -38,7 +39,8 @@ export const EditorTextWrapper = styled.div`
   border-radius: 0 0 10px 10px;
   flex: 20;
   overflow-y: scroll;
-  max-height: 80vh;
+  max-height: 75vh;
+  height: 75vh;
 `;
 
 export const LineCounter = styled.div`
@@ -83,4 +85,10 @@ export const EditorText = styled.textarea`
   tab-size: 4;
   white-space: nowrap;
   overflow-y: hidden;
+`;
+
+export const EditorTextContainer = styled.div`
+  display: flex;
+  width: 100%;
+  height: fit-content;
 `;
