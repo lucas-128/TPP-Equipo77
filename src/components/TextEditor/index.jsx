@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { MdOutlineFileUpload } from "react-icons/md";
 import { useSelector } from "react-redux";
+import { processCode } from "../../interpreter/main";
 import {
   EditorText,
   EditorHeader,
@@ -51,6 +52,12 @@ export const TextEditor = ({ isSimulating, selectedLine, text, setText }) => {
     }
   };
 
+  useEffect(() => console.log("Selected line: ", selectedLine), [selectedLine]);
+
+  useEffect(() => {
+    console.log("Is simulating: ", isSimulating);
+    if (text && isSimulating) processCode(text);
+  }, [isSimulating]);
   return (
     <EditorWrapper>
       <EditorHeader>
@@ -65,6 +72,7 @@ export const TextEditor = ({ isSimulating, selectedLine, text, setText }) => {
             style={{ display: "none" }}
             accept=".txt"
             onChange={handleFileUpload}
+            disabled={isSimulating}
           />
         </EditorHeaderIconContainer>
       </EditorHeader>
@@ -85,6 +93,7 @@ export const TextEditor = ({ isSimulating, selectedLine, text, setText }) => {
             value={text}
             onChange={(e) => setText(e.target.value)}
             onKeyDown={handleKeyDown}
+            readOnly={isSimulating}
           />
         </EditorTextContainer>
       </EditorTextWrapper>
