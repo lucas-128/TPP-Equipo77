@@ -85,6 +85,9 @@ export const EditorText = styled.textarea`
   tab-size: 4;
   white-space: nowrap;
   overflow-y: hidden;
+  overflow-x: scroll;
+  min-height: 75vh;
+  white-space: pre;
 `;
 
 export const EditorTextContainer = styled.div`

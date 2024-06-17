@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { MdOutlineFileUpload } from "react-icons/md";
+import { useSelector } from "react-redux";
 import {
   EditorText,
   EditorHeader,
@@ -13,9 +14,7 @@ import {
   EditorTextContainer,
 } from "./styled";
 
-export const TextEditor = ({ isSimulating, selectedLine }) => {
-  const [text, setText] = useState("");
-
+export const TextEditor = ({ isSimulating, selectedLine, text, setText }) => {
   const getLineNumbers = (text) => {
     const lines = text.split("\n").length;
     return Array.from({ length: lines }, (_, i) =>
@@ -52,11 +51,6 @@ export const TextEditor = ({ isSimulating, selectedLine }) => {
     }
   };
 
-  useEffect(() => console.log("Selected line: ", selectedLine), [selectedLine]);
-
-  useEffect(() => {
-    console.log("Is simulating: ", isSimulating);
-  }, [isSimulating]);
   return (
     <EditorWrapper>
       <EditorHeader>
@@ -87,6 +81,7 @@ export const TextEditor = ({ isSimulating, selectedLine }) => {
             ))}
           </LineCounter>
           <EditorText
+            disabled={isSimulating}
             value={text}
             onChange={(e) => setText(e.target.value)}
             onKeyDown={handleKeyDown}
