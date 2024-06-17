@@ -6,7 +6,7 @@ import { Container } from "./styled";
 export const SimulatorContainer = () => {
   return (
     <Container>
-      <div>Prueba</div>
+      <RegisterBox />
     </Container>
   );
 };

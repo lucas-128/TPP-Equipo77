@@ -1,7 +1,13 @@
-import cubo from "../../assets/cubo.svg";
+import React from "react";
+import { Box } from "./styled.jsx";
+import { Bus } from "../Bus/index.jsx";
+// import ArrowIcon from "./arrow.jsx";
 
 export const RegisterBox = () => {
-  // const registers = ["registro 1", "registro 2", "registro 3"];
-  return <div>aaa</div>;
-  //return <img src={cubo} />;
+  return (
+    <div>
+      <Box />
+      <Bus />
+    </div>
+  );
 };

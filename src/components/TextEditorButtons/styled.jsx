@@ -5,6 +5,7 @@ export const Container = styled.div`
   justify-content: center;
   flex: 1;
   gap: 10px;
+  margin-top: 10px;
 `;
 
 export const Button = styled.button`
@@ -13,9 +14,9 @@ export const Button = styled.button`
   color: black;
   text-align: center;
   font-size: 14px;
-  margin-top: 5px;
   cursor: pointer;
   border-radius: 5px;
   user-select: none;
-  padding: 5px 10px;
+  padding: 0px 10px;
+  height: 35px;
 `;
