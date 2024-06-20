@@ -1,13 +1,11 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  position: relative;
   align-self: center;
   color: black;
   display: flex;
   justify-content: center;
   align-items: center;
-  bottom: -85px;
   background-color: lightblue;
   border: 1px solid black;
   border-radius: 10px;

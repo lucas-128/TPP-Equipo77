@@ -3,21 +3,17 @@ import styled from "styled-components";
 export const EditorWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 15;
-  border: 1px solid black;
+  flex-grow: 0;
   border-radius: 10px;
-  height: fit-content;
+  height: 100%;
 `;
 
 export const EditorHeader = styled.div`
   display: flex;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 5px;
   align-items: center;
-  flex: 1;
   justify-content: space-between;
   border-radius: 10px 10px 0 0;
-  border-bottom: 1px solid black;
   background-color: lightblue;
 `;
 
@@ -26,8 +22,8 @@ export const EditorHeaderIconContainer = styled.div`
 `;
 
 export const EditorHeaderText = styled.p`
-  font-size: 16px;
-  color: black;
+  font-size: 14px;
+  color: gray;
   user-select: none;
   margin: 0px;
 `;
@@ -39,8 +35,8 @@ export const EditorTextWrapper = styled.div`
   border-radius: 0 0 10px 10px;
   flex: 20;
   overflow-y: scroll;
-  max-height: 75vh;
-  height: 75vh;
+  max-height: 100%;
+  height: 100%;
 `;
 
 export const LineCounter = styled.div`
@@ -92,3 +88,4 @@ export const EditorTextContainer = styled.div`
   width: 100%;
   height: fit-content;
 `;
+

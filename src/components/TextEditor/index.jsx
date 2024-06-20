@@ -15,7 +15,13 @@ import {
   EditorTextContainer,
 } from "./styled";
 
-export const TextEditor = ({ isSimulating, selectedLine, text, setText }) => {
+export const TextEditor = ({
+  children,
+  isSimulating,
+  selectedLine,
+  text,
+  setText,
+}) => {
   const getLineNumbers = (text) => {
     const lines = text.split("\n").length;
     return Array.from({ length: lines }, (_, i) =>
@@ -97,6 +103,7 @@ export const TextEditor = ({ isSimulating, selectedLine, text, setText }) => {
           />
         </EditorTextContainer>
       </EditorTextWrapper>
+      {children}
     </EditorWrapper>
   );
 };

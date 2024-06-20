@@ -1,40 +1,16 @@
-import React from "react";
+import React, { useMemo } from "react";
 import ReactFlow, {
   addEdge,
   applyEdgeChanges,
   applyNodeChanges,
 } from "reactflow";
 import { useState, useCallback } from "react";
-import { RegisterBox } from "../../components/RegisterBox";
 
 import "reactflow/dist/style.css";
+import { Container } from "./styled";
+import { initialEdges, initialNodes, nodeTypes } from "./components";
+import { RegisterBox } from "../../components/RegisterBox";
 
-const initialNodes = [
-  {
-    id: "1",
-    type: "input",
-    data: { label: "Input Node" },
-    position: { x: 250, y: 25 },
-  },
-
-  {
-    id: "2",
-    // you can also pass a React component as a label
-    data: { label: <div>Default Node</div> },
-    position: { x: 100, y: 125 },
-  },
-  {
-    id: "3",
-    type: "output",
-    data: { label: <RegisterBox /> },
-    position: { x: 250, y: 250 },
-  },
-];
-
-const initialEdges = [
-  { id: "e1-2", source: "1", target: "2" },
-  { id: "e2-3", source: "2", target: "3", animated: true },
-];
 
 export const SimulatorContainer = () => {
   const [nodes, setNodes] = useState(initialNodes);
@@ -59,13 +35,16 @@ export const SimulatorContainer = () => {
   );
 
   return (
-    <ReactFlow
-      nodes={nodes}
-      edges={edges}
-      onNodesChange={onNodesChange}
-      onEdgesChange={onEdgesChange}
-      onConnect={onConnect}
-      fitView
-    />
+    <Container>
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        nodeTypes={nodeTypes}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
+        fitView
+      />
+    </Container>
   );
 };

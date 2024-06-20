@@ -15,14 +15,15 @@ export const EditorSection = () => {
         selectedLine={selectedLine}
         text={text}
         setText={setText}
-      />
-      <TextEditorButtons
-        isSimulating={isSimulating}
-        setIsSimulating={setIsSimulating}
-        setSelectedLine={setSelectedLine}
-        selectedLine={selectedLine}
-        text={text}
-      />
+      >
+        <TextEditorButtons
+          isSimulating={isSimulating}
+          setIsSimulating={setIsSimulating}
+          setSelectedLine={setSelectedLine}
+          selectedLine={selectedLine}
+          text={text}
+        />
+      </TextEditor>
     </Container>
   );
 };

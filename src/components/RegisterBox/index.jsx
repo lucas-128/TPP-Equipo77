@@ -1,22 +1,24 @@
-// import React from "react";
-// import { Box } from "./styled.jsx";
+import React, { useMemo } from "react";
+import { MainContainer, CustomHandle, RegisterContainer, TitleContainer, RegistersContainer } from "./styled.jsx";
+import { Handle } from "reactflow";
 
-// export const RegisterBox = () => {
-//   return <Box>Registros</Box>;
-// };
+export const RegisterBox = () => {
 
+  const registerIds = useMemo(() => Array.from({ length: 16 }, (_, i) => `0x${(i + 1).toString(16).padStart(2, '0')}`), []);
 
-import { useState } from 'react';
-
-export const RegisterBox = (props) => {
-  const [count, setCount] = useState(props.data?.initialCount ?? 0);
- 
-  return (
-    <div>
-      <p>Count: {count}</p>
-      <button className="nodrag" onClick={() => setCount(count + 1)}>
-        Increment
-      </button>
-    </div>
-  );
-}
+  return <>
+  <MainContainer>
+    <TitleContainer>
+      Registros
+    </TitleContainer>
+    <RegistersContainer>
+    {registerIds.map((id) => (
+      <RegisterContainer key={id}>
+        {id}
+      </RegisterContainer>
+    ))}
+    </RegistersContainer>
+  </MainContainer>
+  <CustomHandle type="source" position="bottom" id="3" style={{ background: "#555" }} />
+  </>;
+};
