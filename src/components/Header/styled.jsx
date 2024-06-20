@@ -6,10 +6,12 @@ export const HeaderContainer = styled.div`
   align-items: center;
   height: 30px;
   padding: 5px;
+  background-color: #272727;
+  border-bottom: 2px solid var(--im-gray);
 `;
 
 export const HeaderTitle = styled.div`
-  font-size: 18px;
-  color: white;
-  font-weight: 500;
+  font-size: 16px;
+  color: var(--im-lightgray);
+  font-weight: 400;
 `;

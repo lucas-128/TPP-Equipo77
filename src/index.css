@@ -1,6 +1,5 @@
 :root {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
   line-height: 1.5;
   font-weight: 400;
   overflow: hidden;
@@ -14,13 +13,12 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --color-primary-im: #2d3142;
-  --color-background-im: #e5e9e9;
-  --color-secondary-im: #fc763c;
-  --color-tertiary-im: #4f5d75;
+  --im-gray: #565656;
+  --im-gray-lighter: #7f7f7f;
+  --im-lightgray: #d2d2d2;
+  --im-bluegray: #4f5d75;
   --color-quaternary-im: #4f5d75cc;
   --color-quinary-im: #eb6859;
-  --color-sexary-im: #bfc0c0;
 }
 
 

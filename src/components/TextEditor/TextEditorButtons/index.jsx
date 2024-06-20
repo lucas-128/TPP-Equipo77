@@ -3,7 +3,7 @@ import { Button, Container } from "./styled";
 import { FaBackward, FaForward } from "react-icons/fa6";
 import { useSelector, useDispatch } from "react-redux";
 import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
-import { setNewInstruction } from "../../slices/editorTextSlice";
+import { setNewInstruction } from "../../../slices/editorTextSlice";
 
 export const TextEditorButtons = ({
   isSimulating,

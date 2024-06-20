@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { TextEditor } from "../../components/TextEditor";
 import { Container } from "./styled";
-import { TextEditorButtons } from "../../components/TextEditorButtons";
+import { TextEditorButtons } from "../../components/TextEditor/TextEditorButtons";
 
 export const EditorSection = () => {
   const [isSimulating, setIsSimulating] = useState(false);

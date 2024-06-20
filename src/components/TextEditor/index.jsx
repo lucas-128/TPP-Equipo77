@@ -13,6 +13,7 @@ import {
   LineNumber,
   LineCounterText,
   EditorTextContainer,
+  Button,
 } from "./styled";
 
 export const TextEditor = ({
@@ -67,11 +68,11 @@ export const TextEditor = ({
   return (
     <EditorWrapper>
       <EditorHeader>
-        <EditorHeaderText>Editor de texto</EditorHeaderText>
+        {/* <EditorHeaderText>Editor de texto</EditorHeaderText> */}
         <EditorHeaderIconContainer>
-          <label htmlFor="file-upload" style={{ cursor: "pointer" }}>
+          <Button htmlFor="file-upload">
             <MdOutlineFileUpload size={20} />
-          </label>
+          </Button>
           <input
             id="file-upload"
             type="file"

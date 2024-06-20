@@ -12,9 +12,10 @@ export const EditorHeader = styled.div`
   display: flex;
   padding: 5px;
   align-items: center;
-  justify-content: space-between;
-  border-radius: 10px 10px 0 0;
-  background-color: lightblue;
+  justify-content: flex-end;
+  background-color: var(--im-gray);
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  z-index: 1;
 `;
 
 export const EditorHeaderIconContainer = styled.div`
@@ -23,7 +24,7 @@ export const EditorHeaderIconContainer = styled.div`
 
 export const EditorHeaderText = styled.p`
   font-size: 14px;
-  color: gray;
+  color: black;
   user-select: none;
   margin: 0px;
 `;
@@ -32,7 +33,6 @@ export const EditorTextWrapper = styled.div`
   display: flex;
   flex-direction: row;
   background-color: #f5f5f5;
-  border-radius: 0 0 10px 10px;
   flex: 20;
   overflow-y: scroll;
   max-height: 100%;
@@ -89,3 +89,17 @@ export const EditorTextContainer = styled.div`
   height: fit-content;
 `;
 
+export const Button = styled.div`
+  color: var(--im-lightgray);
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 2px;
+  transition: all 0.15s;
+
+  &:hover {
+    background-color: var(--im-gray-lighter);
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+`;
