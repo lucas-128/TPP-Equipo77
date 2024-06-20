@@ -9,8 +9,6 @@ import { useState, useCallback } from "react";
 import "reactflow/dist/style.css";
 import { Container } from "./styled";
 import { initialEdges, initialNodes, nodeTypes } from "./components";
-import { RegisterBox } from "../../components/RegisterBox";
-
 
 export const SimulatorContainer = () => {
   const [nodes, setNodes] = useState(initialNodes);
@@ -34,6 +32,8 @@ export const SimulatorContainer = () => {
     [setEdges]
   );
 
+  const proOptions = { hideAttribution: true };
+
   return (
     <Container>
       <ReactFlow
@@ -42,6 +42,7 @@ export const SimulatorContainer = () => {
         nodeTypes={nodeTypes}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
+        proOptions={proOptions}
         onConnect={onConnect}
         fitView
       />

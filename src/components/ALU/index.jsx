@@ -6,16 +6,23 @@ export const ALU = () => {
   let output = "num3";
 
   return (
-    <div className="ALU" style={{background: 'orange'}}>
+    <div
+      className="ALU"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        color: "black",
+        background: "lightblue",
+        width: "150px",
+        height: "150px",
+        clipPath:
+          "polygon(0 0, 100% 29%, 100% 67%, 0 100%, 0% 69%, 24% 48%, 0 29%)",
+      }}
+    >
       <Handle type="target" position="left" style={{ background: "#555" }} />
       <Handle type="target" position="right" style={{ background: "#555" }} />
-      <div>
-        <p>Input 1: {input1}</p>
-        <p>Input 2: {input2}</p>
-      </div>
-      <div>
-        <p>Output: {output}</p>
-      </div>
+      ALU
       <Handle type="source" position="bottom" style={{ background: "#555" }} />
     </div>
   );
