@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { MdOutlineFileUpload } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { MdOutlineFileUpload, MdArrowBackIosNew, MdArrowForwardIos} from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
 import { processCode } from "../../interpreter/main";
 import {
   EditorText,
@@ -14,7 +14,10 @@ import {
   LineCounterText,
   EditorTextContainer,
   Button,
+  Container,
+  HiddenEditorContainer,
 } from "./styled";
+import { setShowEditor } from "../../slices/editorTextSlice";
 
 export const TextEditor = ({
   children,
@@ -23,6 +26,9 @@ export const TextEditor = ({
   text,
   setText,
 }) => {
+  const show = useSelector((state) => state.editorText.show);
+  const dispatch = useDispatch();
+
   const getLineNumbers = (text) => {
     const lines = text.split("\n").length;
     return Array.from({ length: lines }, (_, i) =>
@@ -65,46 +71,60 @@ export const TextEditor = ({
     console.log("Is simulating: ", isSimulating);
     if (text && isSimulating) processCode(text);
   }, [isSimulating]);
-  return (
+
+  return show ? (
+    <Container>
+      <EditorWrapper>
+        <EditorHeader>
+          {/* <EditorHeaderText>Editor de texto</EditorHeaderText> */}
+          <EditorHeaderIconContainer>
+            <Button htmlFor="file-upload">
+              <MdOutlineFileUpload size={20} />
+            </Button>
+            <input
+              id="file-upload"
+              type="file"
+              style={{ display: "none" }}
+              accept=".txt"
+              onChange={handleFileUpload}
+              disabled={isSimulating}
+            />
+            <Button onClick={() => dispatch(setShowEditor(!show))}>
+              <MdArrowBackIosNew size={15} />
+            </Button>
+          </EditorHeaderIconContainer>
+        </EditorHeader>
+        <EditorTextWrapper>
+          <EditorTextContainer>
+            <LineCounter>
+              {getLineNumbers(text).map((lineNumber, i) => (
+                <LineNumber
+                  key={lineNumber}
+                  isSelected={isSimulating && i == selectedLine}
+                >
+                  <LineCounterText>{lineNumber}</LineCounterText>
+                </LineNumber>
+              ))}
+            </LineCounter>
+            <EditorText
+              disabled={isSimulating}
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              onKeyDown={handleKeyDown}
+              readOnly={isSimulating}
+            />
+          </EditorTextContainer>
+        </EditorTextWrapper>
+        {children}
+      </EditorWrapper>
+    </Container>
+  ) : (
     <EditorWrapper>
-      <EditorHeader>
-        {/* <EditorHeaderText>Editor de texto</EditorHeaderText> */}
-        <EditorHeaderIconContainer>
-          <Button htmlFor="file-upload">
-            <MdOutlineFileUpload size={20} />
-          </Button>
-          <input
-            id="file-upload"
-            type="file"
-            style={{ display: "none" }}
-            accept=".txt"
-            onChange={handleFileUpload}
-            disabled={isSimulating}
-          />
-        </EditorHeaderIconContainer>
-      </EditorHeader>
-      <EditorTextWrapper>
-        <EditorTextContainer>
-          <LineCounter>
-            {getLineNumbers(text).map((lineNumber, i) => (
-              <LineNumber
-                key={lineNumber}
-                isSelected={isSimulating && i == selectedLine}
-              >
-                <LineCounterText>{lineNumber}</LineCounterText>
-              </LineNumber>
-            ))}
-          </LineCounter>
-          <EditorText
-            disabled={isSimulating}
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            onKeyDown={handleKeyDown}
-            readOnly={isSimulating}
-          />
-        </EditorTextContainer>
-      </EditorTextWrapper>
-      {children}
+      <HiddenEditorContainer>
+        <Button onClick={() => dispatch(setShowEditor(!show))}>
+          <MdArrowForwardIos size={15} />
+        </Button>
+      </HiddenEditorContainer>
     </EditorWrapper>
   );
 };

@@ -45,6 +45,7 @@ export const SimulatorContainer = () => {
         proOptions={proOptions}
         onConnect={onConnect}
         fitView
+        draggable={false}
       />
     </Container>
   );
