@@ -9,7 +9,7 @@ export const MainMemory = () => {
   return (
     <>
       <Container>
-        <div>Memoria principal</div>
+        <h1 style={{ margin: "0px" }}>Memoria principal</h1>
         <Handle type="target" position="top" style={{ background: "#555" }} />
         {/* <div>
         <tbody>

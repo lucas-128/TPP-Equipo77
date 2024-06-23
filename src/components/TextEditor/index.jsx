@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { MdOutlineFileUpload, MdArrowBackIosNew, MdArrowForwardIos} from "react-icons/md";
+import {
+  MdOutlineFileUpload,
+  MdArrowBackIosNew,
+  MdArrowForwardIos,
+} from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { processCode } from "../../interpreter/main";
 import {

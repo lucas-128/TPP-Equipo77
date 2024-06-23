@@ -1,40 +1,29 @@
 import styled from "styled-components";
 
-export const MainContainer = styled.div`
-  align-self: center;
-  color: black;
-  display: flex;
-  justify-content: center;
+export const TableContainer = styled.div`
+  border: 1px solid #ccc;
 
+  width: fit-content;
+`;
+
+export const Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+`;
+
+export const TableRow = styled.tr``;
+
+export const TableHeader = styled.th`
   background-color: lightblue;
+  color: black;
+  padding: 8px;
+  text-align: center;
   border: 1px solid black;
-  border-radius: 10px;
-  width: 400px;
-  height: 400px;
-  overflow: hidden;
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
-    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-  cursor: pointer;
-
-  &:hover {
-    box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.1);
-  }
 `;
 
-export const MemoryDirectionContainer = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin: 10px;
-  background-color: red;
-`;
-
-export const MemoryValueContainer = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin: 10px;
-  background-color: green;
+export const TableCell = styled.td`
+  padding: 8px;
+  border: 1px solid black;
+  text-align: center;
+  color: black;
 `;

@@ -46,6 +46,10 @@ export const SimulatorContainer = () => {
         onConnect={onConnect}
         fitView
         draggable={false}
+        panOnDrag={false}
+        zoomOnPinch={false}
+        zoomOnDoubleClick={false}
+        zoomOnScroll={false}
       />
     </Container>
   );
