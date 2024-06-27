@@ -1,9 +1,10 @@
-import React, { act, useEffect, useState } from "react";
+import React from "react";
 import { Button, Container } from "./styled";
 import { FaBackward, FaForward } from "react-icons/fa6";
 import { useSelector, useDispatch } from "react-redux";
 import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
-import { setNewInstruction } from "../../../slices/editorTextSlice";
+import { getNewState } from "../../../interpreter/main";
+import { updateRegisters } from "../../../slices/applicationSlice";
 
 export const TextEditorButtons = ({
   isSimulating,
@@ -13,7 +14,7 @@ export const TextEditorButtons = ({
   text,
 }) => {
   const dispatch = useDispatch();
-
+  const applicationState = useSelector((state) => state.application);
   const handleButtonClick = () => {
     setIsSimulating((prev) => !prev);
     setSelectedLine(0);
@@ -23,14 +24,15 @@ export const TextEditorButtons = ({
     if (selectedLine === 0) return;
     const actualLine = text.split("\n")[selectedLine];
     setSelectedLine((prev) => Math.max(0, prev - 1));
-    dispatch(setNewInstruction(actualLine)); //Aca deberiamos llamar al interprete
+    //processInstruction(actualLine);
   };
 
   const setNextLine = () => {
     if (selectedLine === text.split("\n").length - 1) return;
     const actualLine = text.split("\n")[selectedLine];
     setSelectedLine((prev) => prev + 1);
-    dispatch(setNewInstruction(actualLine)); //Aca deberiamos llamar al interprete
+    const newState = getNewState(applicationState, actualLine);
+    dispatch(updateRegisters({ nodeId: "4", registers: newState.registers }));
   };
 
   return (

@@ -38,7 +38,7 @@ export const initialNodes = [
   {
     id: "4",
     type: "registers",
-    data: { label: "Registers" },
+    data: { registers: new Array(16).fill("-") },
     position: { x: 50, y: 350 },
   },
   {
@@ -56,6 +56,7 @@ export const initialNodes = [
 ];
 
 export const initialEdges = [
-  /*{ id: "e1-2", source: "1", target: "2" },
+  /*
+  { id: "e1-2", source: "1", target: "2" },
   { id: "e2-3", source: "3", target: "2", animated: true },*/
 ];

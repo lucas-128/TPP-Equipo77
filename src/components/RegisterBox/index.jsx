@@ -1,4 +1,5 @@
-import React, { useMemo } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 import {
   MainContainer,
   CustomHandle,
@@ -10,15 +11,8 @@ import {
   RegisterValue,
 } from "./styled.jsx";
 
-export const RegisterBox = () => {
-  const registerIds = useMemo(
-    () =>
-      Array.from(
-        { length: 16 },
-        (_, i) => `${i.toString(16).padStart(2, "0").toUpperCase()}`
-      ),
-    []
-  );
+export const RegisterBox = ({ id, data }) => {
+  const registers = useSelector((state) => state.application.registers);
 
   return (
     <>
@@ -27,10 +21,10 @@ export const RegisterBox = () => {
           <TitleText>Registros</TitleText>
         </TitleContainer>
         <RegistersContainer>
-          {registerIds.map((id) => (
-            <RegisterContainer key={id}>
-              <RegisterNumeration>{id}</RegisterNumeration>
-              <RegisterValue> -</RegisterValue>
+          {registers.map((value, i) => (
+            <RegisterContainer key={i}>
+              <RegisterNumeration>{i}</RegisterNumeration>
+              <RegisterValue> {value}</RegisterValue>
             </RegisterContainer>
           ))}
         </RegistersContainer>

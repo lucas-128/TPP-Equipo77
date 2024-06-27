@@ -74,7 +74,7 @@ export const LineNumber = styled.div`
   justify-content: center;
   width: 100%;
   color: black;
-  background-color: ${(props) => (props.isSelected ? "#d7d7d7" : "")};
+  background-color: ${(props) => (props.selected ? "#d7d7d7" : "")};
   margin-right: 5px;
 `;
 

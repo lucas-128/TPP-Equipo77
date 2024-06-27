@@ -5,7 +5,7 @@ import {
   MdArrowForwardIos,
 } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { processCode } from "../../interpreter/main";
+import { validateSyntax } from "../../interpreter/main";
 import {
   EditorText,
   EditorHeader,
@@ -69,11 +69,9 @@ export const TextEditor = ({
     }
   };
 
-  useEffect(() => console.log("Selected line: ", selectedLine), [selectedLine]);
-
   useEffect(() => {
-    console.log("Is simulating: ", isSimulating);
-    if (text && isSimulating) processCode(text);
+    if (!text || !isSimulating) return;
+    validateSyntax(text, selectedLine); //Levantar un error si no esta bien la sintaxis
   }, [isSimulating]);
 
   return show ? (
@@ -104,7 +102,7 @@ export const TextEditor = ({
               {getLineNumbers(text).map((lineNumber, i) => (
                 <LineNumber
                   key={lineNumber}
-                  isSelected={isSimulating && i == selectedLine}
+                  selected={isSimulating && i == selectedLine}
                 >
                   <LineCounterText>{lineNumber}</LineCounterText>
                 </LineNumber>

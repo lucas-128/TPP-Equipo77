@@ -1,55 +1,33 @@
 import React, { useMemo } from "react";
-import ReactFlow, {
-  addEdge,
-  applyEdgeChanges,
-  applyNodeChanges,
-} from "reactflow";
-import { useState, useCallback } from "react";
+import ReactFlow from "reactflow";
+import {
+  onNodesChange,
+  onEdgesChange,
+  onConnect,
+} from "../../slices/applicationSlice";
 
 import "reactflow/dist/style.css";
 import { Container } from "./styled";
-import { initialEdges, initialNodes, nodeTypes } from "./components";
+import { nodeTypes } from "./components";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 export const SimulatorContainer = () => {
-  const [nodes, setNodes] = useState(initialNodes);
-  const [edges, setEdges] = useState(initialEdges);
-
-  const onNodesChange = useCallback(
-    (changes) => {
-      setNodes((nds) => applyNodeChanges(changes, nds));
-    },
-    [setNodes]
-  );
-
-  const onEdgesChange = useCallback(
-    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
-    [setEdges]
-  );
-
-  const onConnect = useCallback(
-    (connection) =>
-      setEdges((eds) => addEdge({ ...connection, animated: true }, eds)),
-    [setEdges]
-  );
-
+  const nodes = useSelector((state) => state.application.nodes);
+  const edges = useSelector((state) => state.application.edges);
   const proOptions = { hideAttribution: true };
-
+  const dispatch = useDispatch();
   return (
     <Container>
       <ReactFlow
         nodes={nodes}
         edges={edges}
         nodeTypes={nodeTypes}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
+        onNodesChange={(changes) => dispatch(onNodesChange(changes))}
+        onEdgesChange={(changes) => dispatch(onEdgesChange(changes))}
+        onConnect={(connection) => dispatch(onConnect(connection))}
         proOptions={proOptions}
-        onConnect={onConnect}
         fitView
-        draggable={false}
-        panOnDrag={false}
-        zoomOnPinch={false}
-        zoomOnDoubleClick={false}
-        zoomOnScroll={false}
       />
     </Container>
   );
