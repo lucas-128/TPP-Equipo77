@@ -15,9 +15,18 @@ export const TextEditorButtons = ({
 }) => {
   const dispatch = useDispatch();
   const applicationState = useSelector((state) => state.application);
-  const handleButtonClick = () => {
+
+  const handleSimulateButtonClick = () => {
     setIsSimulating((prev) => !prev);
     setSelectedLine(0);
+  };
+
+  const handleEditCodeButtonClick = () => {
+    setIsSimulating((prev) => !prev);
+    setSelectedLine(0);
+    dispatch(
+      updateRegisters({ nodeId: "4", registers: new Array(16).fill("-") })
+    );
   };
 
   const setPrevLine = () => {
@@ -28,7 +37,7 @@ export const TextEditorButtons = ({
   };
 
   const setNextLine = () => {
-    if (selectedLine === text.split("\n").length - 1) return;
+    if (selectedLine === text.split("\n").length) return;
     const actualLine = text.split("\n")[selectedLine];
     setSelectedLine((prev) => prev + 1);
     const newState = getNewState(applicationState, actualLine);
@@ -51,10 +60,10 @@ export const TextEditorButtons = ({
           <Button onClick={() => setSelectedLine(text.split("\n").length - 1)}>
             <FaForward />
           </Button>
-          <Button onClick={handleButtonClick}> Editar código</Button>
+          <Button onClick={handleEditCodeButtonClick}> Editar código</Button>
         </>
       ) : (
-        <Button onClick={handleButtonClick}>Simular</Button>
+        <Button onClick={handleSimulateButtonClick}>Simular</Button>
       )}
     </Container>
   );

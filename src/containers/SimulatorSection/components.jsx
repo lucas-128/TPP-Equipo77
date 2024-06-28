@@ -21,12 +21,15 @@ export const initialNodes = [
     type: "CPU",
     data: { label: "CPU" },
     position: { x: 0, y: 0 },
+    selectable: false,
+    zIndex: -1,
   },
   {
     id: "2",
     type: "alu",
     data: { label: "ALU" },
     position: { x: 365, y: 800 },
+    selectable: false,
   },
 
   {
@@ -34,24 +37,28 @@ export const initialNodes = [
     type: "mainMemory",
     data: { label: "Main Memory" },
     position: { x: 900, y: 0 },
+    selectable: false,
   },
   {
     id: "4",
     type: "registers",
     data: { registers: new Array(16).fill("-") },
     position: { x: 50, y: 350 },
+    selectable: false,
   },
   {
     id: "5",
     type: "controlUnit",
     data: { label: "Control Unit" },
     position: { x: 100, y: 125 },
+    selectable: false,
   },
   {
     id: "6",
     type: "cacheMemory",
     data: { label: "Cache Memory" },
     position: { x: 350, y: 350 },
+    selectable: false,
   },
 ];
 

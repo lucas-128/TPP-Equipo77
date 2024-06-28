@@ -91,22 +91,18 @@ export const instructionCodes = [
   "c",
 ];
 
-export function getStateAfterInstruction(actualState, instruction, row) {
+export function getInstructionLog(actualState, instruction, row) {
   switch (instruction) {
     case "1":
       // 1RXY
       // Cargar en el registro R el contenido de la celda con dirección XY
-      /*return (
+      return (
         instructions[instruction][1] +
         row[1] +
         instructions[instruction][2] +
         row[2] +
         row[3]
-      );*/
-      let newState = { ...actualState };
-      newState.registers = [...actualState.registers];
-      newState.registers[row[1]] = row[2] + row[3];
-      return newState;
+      );
     case "2":
       // 2RXY
       // Cargar en el registro R el patrón XY
@@ -216,5 +212,67 @@ export function getStateAfterInstruction(actualState, instruction, row) {
       // C000
       // Parar la ejecución
       return instructions[instruction][0];
+  }
+}
+
+export function getStateAfterInstruction(actualState, instruction, row) {
+  let newState = { ...actualState };
+  switch (instruction) {
+    case "1":
+      newState.registers = [...actualState.registers];
+      newState.registers[parseInt(row[1], 16)] = row[2] + row[3]; //TODO: This should be Input Port value
+      return newState;
+    case "2":
+      newState.registers = [...actualState.registers];
+      newState.registers[parseInt(row[1], 16)] = row[2] + row[3];
+      return newState;
+    case "3":
+      // 3RXY
+      // Almacenar el contenido del registro R en la celda con dirección XY
+      newState.registers = [...actualState.registers];
+      //newState.memory[row[2] + row[3]] = actualState.registers[row[1]]; //TODO: Agregar la memoria
+      return newState;
+    case "4":
+      // 40RS
+      // Copiar el contenido del registro R en el registro S
+      newState.registers = [...actualState.registers];
+      newState.registers[row[3]] = actualState.registers[row[2]];
+      return newState;
+    case "5":
+    // 5RST
+    // Sumar en complemento a 2 los contenidos de los registros S y T y dejar el resultado en R
+
+    case "6":
+    //6RST
+    // Sumar en punto flotante los contenidos de los registros S y T y dejar el resultado en R
+
+    case "7":
+    //7RST
+    // Disyunción (OR) de los contenidos de los registros S y T con resultado en registro R
+
+    case "8":
+    // 8RST
+    // Conjunción (AND) de los contenidos de los registros S y T con resultado en registro R
+
+    case "9":
+    // 9RST
+    // Disyunción exc. (XOR) de los contenidos de los registros S y T con resultado en registro R
+
+    case "a":
+    // AR0X
+    // Rotar a derecha el contenido del registro R, X veces
+
+    case "b":
+    // BRXY
+    // Saltar a la instrucción con dirección XY si el contenido del registro R es igual al del reg. 0
+
+    case "c":
+      // C000
+      // Parar la ejecución
+      return instructions[instruction][0];
+
+    default:
+      //TODO: Handle Error
+      return actualState;
   }
 }

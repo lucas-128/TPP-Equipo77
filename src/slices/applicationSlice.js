@@ -46,10 +46,6 @@ export const applicationSlice = createSlice({
     updateRegisters(state, action) {
       const { nodeId, registers } = action.payload;
       state.registers = registers;
-      console.log("UPDATEANDO state", registers);
-      current(state).nodes.forEach((node) => {
-        console.log("NODE : ", node);
-      });
       state.nodes = current(state).nodes.map((node) => {
         let newNode = { ...node };
         if (node.id === nodeId) {

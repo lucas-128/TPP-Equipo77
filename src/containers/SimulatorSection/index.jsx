@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import ReactFlow from "reactflow";
+import ReactFlow, { Controls, Background } from "reactflow";
 import {
   onNodesChange,
   onEdgesChange,
@@ -28,7 +28,12 @@ export const SimulatorContainer = () => {
         onConnect={(connection) => dispatch(onConnect(connection))}
         proOptions={proOptions}
         fitView
-      />
+        nodesDraggable={false}
+        elementsSelectable={false}
+      >
+        <Controls />
+        <Background gap={10} size={1} />
+      </ReactFlow>
     </Container>
   );
 };
