@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Container } from "./styled";
 import { FaBackward, FaForward } from "react-icons/fa6";
 import { useSelector, useDispatch } from "react-redux";
 import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
 import { getNewState } from "../../../interpreter/main";
-import { updateRegisters } from "../../../slices/applicationSlice";
+import {
+  updateRegisters,
+  goToPreviousState,
+  updatePreviousState,
+  updateMainMemoryCells,
+} from "../../../slices/applicationSlice";
 
 export const TextEditorButtons = ({
   isSimulating,
@@ -31,9 +36,8 @@ export const TextEditorButtons = ({
 
   const setPrevLine = () => {
     if (selectedLine === 0) return;
-    const actualLine = text.split("\n")[selectedLine];
     setSelectedLine((prev) => Math.max(0, prev - 1));
-    //processInstruction(actualLine);
+    dispatch(goToPreviousState());
   };
 
   const setNextLine = () => {
@@ -41,7 +45,14 @@ export const TextEditorButtons = ({
     const actualLine = text.split("\n")[selectedLine];
     setSelectedLine((prev) => prev + 1);
     const newState = getNewState(applicationState, actualLine);
+    dispatch(updatePreviousState()); //TODO: Revisar esto porque creo que el primer estado guarda un previous state que no deberia
     dispatch(updateRegisters({ nodeId: "4", registers: newState.registers }));
+    dispatch(
+      updateMainMemoryCells({
+        nodeId: "3",
+        mainMemoryCells: newState.mainMemoryCells,
+      })
+    );
   };
 
   return (

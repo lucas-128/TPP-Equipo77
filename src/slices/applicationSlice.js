@@ -7,13 +7,13 @@ import { addEdge, applyNodeChanges, applyEdgeChanges } from "reactflow";
 
 const initialState = {
   registers: new Array(16).fill("-"),
+  mainMemoryCells: new Array(31).fill("x").concat("00001000"),
   programCounter: "-",
   instructionRegister: "-",
   nodes: initialNodes,
   edges: initialEdges,
+  previousState: null,
 };
-
-console.log("InitialNodes: ", initialNodes);
 
 export const applicationSlice = createSlice({
   name: "application",
@@ -54,22 +54,30 @@ export const applicationSlice = createSlice({
         return newNode;
       });
     },
+    updateMainMemoryCells(state, action) {
+      const { nodeId, mainMemoryCells } = action.payload;
+      state.mainMemoryCells = mainMemoryCells;
+      state.nodes = current(state).nodes.map((node) => {
+        let newNode = { ...node };
+        if (node.id === nodeId) {
+          newNode.data = { ...node.data, mainMemoryCells };
+        }
+        return newNode;
+      });
+    },
+    goToPreviousState(state) {
+      state.registers = current(state).previousState.registers;
+      state.nodes = current(state).previousState.nodes;
+      state.edges = current(state).previousState.edges;
+      state.programCounter = current(state).previousState.programCounter;
+      state.instructionRegister =
+        current(state).previousState.instructionRegister;
+      state.previousState = current(state).previousState.previousState;
+    },
+    updatePreviousState(state) {
+      state.previousState = current(state);
+    },
   },
-
-  // reducers: {
-  //   setRegisters: (state, action) => {
-  //     state.registers = action.payload;
-  //   },
-  //   setProgramCounter: (state, action) => {
-  //     state.programCounter = action.payload;
-  //   },
-  //   setInstructionRegister: (state, action) => {
-  //     state.instructionRegister = action.payload;
-  //   },
-  //   setNewState: (state, action) => {
-  //     state = action.payload;
-  //   },
-  // },
 });
 
 export const {
@@ -79,6 +87,9 @@ export const {
   onEdgesChange,
   onConnect,
   updateRegisters,
+  updateMainMemoryCells,
+  goToPreviousState,
+  updatePreviousState,
 } = applicationSlice.actions;
 
 export default applicationSlice.reducer;
