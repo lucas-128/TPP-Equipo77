@@ -21,17 +21,49 @@ export const TextEditorButtons = ({
   const dispatch = useDispatch();
   const applicationState = useSelector((state) => state.application);
 
+  const loadProgram = () => {
+    const lines = text.trim().split("\n");
+    const parsedCode = lines.join("");
+    let newMemory = new Array(32).fill("x");
+    if (parsedCode.length > 64) {
+      //64 Es porque tiene 32 celdas de memoria provisoria, deberia ser 512
+      //TODO: Levantar algun tipo de advertencia ya que el programa no entra en memoria
+    } else {
+      newMemory = Array.from(
+        { length: 32 },
+        (_, i) => parsedCode.slice(i * 2, i * 2 + 2) || "x"
+      );
+    }
+    dispatch(
+      updateMainMemoryCells({
+        nodeId: "3",
+        mainMemoryCells: newMemory,
+      })
+    );
+  };
+
   const handleSimulateButtonClick = () => {
+    loadProgram();
     setIsSimulating((prev) => !prev);
     setSelectedLine(0);
+  };
+
+  const resetState = () => {
+    dispatch(
+      updateRegisters({ nodeId: "4", registers: new Array(16).fill("-") })
+    );
+    dispatch(
+      updateMainMemoryCells({
+        nodeId: "3",
+        mainMemoryCells: new Array(31).fill("x").concat("00001000"), //Esto debe ser todo vacio, le puse el binario al final para hacer pruebas
+      })
+    );
   };
 
   const handleEditCodeButtonClick = () => {
     setIsSimulating((prev) => !prev);
     setSelectedLine(0);
-    dispatch(
-      updateRegisters({ nodeId: "4", registers: new Array(16).fill("-") })
-    );
+    resetState();
   };
 
   const setPrevLine = () => {

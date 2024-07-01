@@ -7,7 +7,7 @@ import { addEdge, applyNodeChanges, applyEdgeChanges } from "reactflow";
 
 const initialState = {
   registers: new Array(16).fill("-"),
-  mainMemoryCells: new Array(31).fill("x").concat("00001000"),
+  mainMemoryCells: new Array(31).fill("x").concat("00001000"), //Esto debe ser todo vacio, le puse el binario al final para hacer pruebas
   programCounter: "-",
   instructionRegister: "-",
   nodes: initialNodes,
@@ -33,15 +33,6 @@ export const applicationSlice = createSlice({
     },
     onConnect(state, action) {
       state.edges = addEdge(action.payload, state.edges);
-    },
-    updateNodeColor(state, action) {
-      const { nodeId, color } = action.payload;
-      state.nodes = state.nodes.map((node) => {
-        if (node.id === nodeId) {
-          node.data = { ...node.data, color };
-        }
-        return node;
-      });
     },
     updateRegisters(state, action) {
       const { nodeId, registers } = action.payload;

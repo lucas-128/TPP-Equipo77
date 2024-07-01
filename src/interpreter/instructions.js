@@ -261,7 +261,7 @@ export function getStateAfterInstruction(actualState, instruction, row) {
     case "5": {
       // 5RST
       // Sumar en complemento a 2 los contenidos de los registros S y T y dejar el resultado en R
-
+    }
     case "6":
     //6RST
     // Sumar en punto flotante los contenidos de los registros S y T y dejar el resultado en R
