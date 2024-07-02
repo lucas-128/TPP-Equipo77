@@ -215,52 +215,77 @@ export function getInstructionLog(actualState, instruction, row) {
   }
 }
 
+function applyBinaryOperation(operation, actualState, row) {
+  const newState = { ...actualState, registers: [...actualState.registers] };
+  const registerSIndex = parseInt(row[2], 16);
+  const registerTIndex = parseInt(row[3], 16);
+  const destinationIndex = parseInt(row[1], 16);
+  const registerS = parseInt(actualState.registers[registerSIndex], 2);
+  const registerT = parseInt(actualState.registers[registerTIndex], 2);
+  const operationResult = operation(registerS, registerT)
+    .toString(2)
+    .padStart(8, "0");
+  newState.registers[destinationIndex] = operationResult;
+  return newState;
+}
+
 export function getStateAfterInstruction(actualState, instruction, row) {
   let newState = { ...actualState };
+  newState.registers = [...actualState.registers];
+  newState.mainMemoryCells = [...actualState.mainMemoryCells];
   switch (instruction) {
-    case "1":
-      newState.registers = [...actualState.registers];
-      newState.registers[parseInt(row[1], 16)] = row[2] + row[3]; //TODO: This should be Input Port value
+    case "1": {
+      // 1RXY
+      // Cargar en el registro R el contenido de la celda con dirección XY
+      const memoryIndex = parseInt(row[2] + row[3], 16);
+      newState.registers[parseInt(row[1], 16)] =
+        actualState.mainMemoryCells[memoryIndex];
       return newState;
+    }
     case "2":
-      newState.registers = [...actualState.registers];
-      newState.registers[parseInt(row[1], 16)] = row[2] + row[3];
+      newState.registers[parseInt(row[1], 16)] = parseInt(row[2] + row[3], 16)
+        .toString(2)
+        .padStart(8, "0");
       return newState;
-    case "3":
-      // 3RXY
-      // Almacenar el contenido del registro R en la celda con dirección XY
-      newState.registers = [...actualState.registers];
-      //newState.memory[row[2] + row[3]] = actualState.registers[row[1]]; //TODO: Agregar la memoria
+    case "3": {
+      const memoryIndex = parseInt(row[2] + row[3], 16);
+      const registerIndex = parseInt(row[1], 16);
+      newState.mainMemoryCells[memoryIndex] =
+        actualState.registers[registerIndex];
       return newState;
+    }
     case "4":
-      // 40RS
-      // Copiar el contenido del registro R en el registro S
-      newState.registers = [...actualState.registers];
-      newState.registers[row[3]] = actualState.registers[row[2]];
+      newState.registers[parseInt(row[3], 16)] = actualState.registers[row[2]];
+      console.log("newState", newState);
       return newState;
-    case "5":
-    // 5RST
-    // Sumar en complemento a 2 los contenidos de los registros S y T y dejar el resultado en R
-
+    case "5": {
+      // 5RST
+      // Sumar en complemento a 2 los contenidos de los registros S y T y dejar el resultado en R
+    }
     case "6":
     //6RST
     // Sumar en punto flotante los contenidos de los registros S y T y dejar el resultado en R
-
-    case "7":
-    //7RST
-    // Disyunción (OR) de los contenidos de los registros S y T con resultado en registro R
-
-    case "8":
-    // 8RST
-    // Conjunción (AND) de los contenidos de los registros S y T con resultado en registro R
-
-    case "9":
-    // 9RST
-    // Disyunción exc. (XOR) de los contenidos de los registros S y T con resultado en registro R
-
-    case "a":
+    case "7": // OR
+      return applyBinaryOperation((s, t) => s | t, newState, row);
+    case "8": // AND
+      return applyBinaryOperation((s, t) => s & t, newState, row);
+    case "9": // XOR
+      return applyBinaryOperation((s, t) => s ^ t, newState, row);
     // AR0X
     // Rotar a derecha el contenido del registro R, X veces
+    case "a": {
+      const registerIndex = parseInt(row[1], 16);
+      const registerValue = newState.registers[registerIndex];
+      const length = registerValue.length;
+      const shift = parseInt(row[3], 16);
+      const rotations = shift % length;
+      const extendedPattern = registerValue + registerValue;
+      newState.registers[registerIndex] = extendedPattern.substring(
+        length - rotations,
+        2 * length - rotations
+      );
+      return newState; //Creo que se refiere a esto esta instruccion. Revisar
+    }
 
     case "b":
     // BRXY
