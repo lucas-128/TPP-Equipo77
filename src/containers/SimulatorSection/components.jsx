@@ -36,21 +36,21 @@ export const initialNodes = [
     id: "3",
     type: "mainMemory",
     data: { label: "Main Memory" },
-    position: { x: 900, y: 0 },
+    position: { x: 1200, y: 0 },
     selectable: false,
   },
   {
     id: "4",
     type: "registers",
     data: { registers: new Array(16).fill("-") },
-    position: { x: 50, y: 350 },
+    position: { x: 50, y: 120 },
     selectable: false,
   },
   {
     id: "5",
     type: "controlUnit",
     data: { label: "Control Unit" },
-    position: { x: 100, y: 125 },
+    position: { x: 550, y: 120 },
     selectable: false,
   },
   {
@@ -63,7 +63,6 @@ export const initialNodes = [
 ];
 
 export const initialEdges = [
-  /*
   { id: "e1-2", source: "1", target: "2" },
-  { id: "e2-3", source: "3", target: "2", animated: true },*/
+  { id: "e2-3", source: "3", target: "2", animated: true },
 ];

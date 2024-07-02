@@ -2,11 +2,11 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   align-self: center;
-  color: black;
+  color: var(--im-primary);
   display: flex;
   justify-content: center;
   padding-top: 20px;
-  background-color: #eeeded;
+  background-color: var(--im-white);
   border: 3px solid black;
   border-radius: 10px;
   width: 400px;

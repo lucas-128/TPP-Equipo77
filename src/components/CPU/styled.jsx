@@ -2,18 +2,17 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   align-self: center;
-  color: black;
+  color: var(--im-lightgray);
   display: flex;
   justify-content: center;
   padding-top: 20px;
-  background-color: #eeeded;
-  border: 3px solid black;
+  background-color: #000000;
+  border: 1px solid black;
   border-radius: 10px;
-  width: 600px;
+  width: 1000px;
   height: 1050px;
   overflow: hidden;
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
-    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 50px 100px -20px, rgba(139, 139, 139, 0.3) 0px 30px 60px -30px, rgba(186, 186, 186, 0.37) 0px -2px 6px 0px inset;
   cursor: pointer;
 
   &:hover {
@@ -21,3 +20,4 @@ export const Container = styled.div`
   }
   z-index: -1;
 `;
+  

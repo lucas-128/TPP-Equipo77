@@ -13,12 +13,16 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --im-gray: #565656;
-  --im-gray-lighter: #7f7f7f;
-  --im-lightgray: #d2d2d2;
+  --im-shadow: rgba(85, 85, 85, 0.25) 10px 20px 100px -20px, rgba(89, 89, 89, 0.3) 0px 30px 60px -30px, rgba(140, 140, 140, 0.37) 0px -3px 10px 0px inset;
+
+  --im-white: #dfdfdf;
+  --im-gray: #333333;
+  --im-gray-lighter: #848484;
+  --im-lightgray: #bcbcbc;
   --im-bluegray: #4f5d75;
-  --color-quaternary-im: #4f5d75cc;
-  --color-quinary-im: #eb6859;
+  --im-secondary: #153f53; 
+  --im-primary: #002734;
+  --im-purple: #29274C;
 }
 
 /* SCROLLBARS */

@@ -14,6 +14,7 @@ export const Button = styled.div`
   border: none;
   text-align: center;
   font-size: 14px;
+  height: 30px;
   cursor: pointer;
   border-radius: 5px;
   display: flex;
@@ -21,11 +22,12 @@ export const Button = styled.div`
   user-select: none;
   padding: 5px 8px;
   color: var(--im-lightgray);
+  background-color: var(--im-primary);
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   transition: all 0.15s;
 
   &:hover {
-    background-color: var(--im-gray-lighter);
+    background-color: var(--im-secondary);
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   }
 `;

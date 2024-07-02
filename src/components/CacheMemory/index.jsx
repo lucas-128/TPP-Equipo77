@@ -4,16 +4,15 @@ import {
   TableRow,
   TableHeader,
   TableCell,
+  TableTitle,
 } from "./styled";
 
 export const CacheMemory = () => {
   return (
     <TableContainer>
+      <TableTitle>Memoria Cache</TableTitle>
       <Table>
         <thead>
-          <TableRow>
-            <TableHeader colSpan="2">Memoria Cache</TableHeader>
-          </TableRow>
           <TableRow>
             <TableHeader>Direccion</TableHeader>
             <TableHeader>Contenido</TableHeader>
