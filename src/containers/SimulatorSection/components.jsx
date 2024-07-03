@@ -15,6 +15,12 @@ export const nodeTypes = {
   CPU: CPU,
 };
 
+export const aluId = "2";
+export const mainMemoryId = "3";
+export const registersId = "4";
+export const controlUnitId = "5";
+export const cacheMemoryId = "6";
+
 export const initialNodes = [
   {
     id: "1",
@@ -63,6 +69,6 @@ export const initialNodes = [
 ];
 
 export const initialEdges = [
-  { id: "e1-2", source: "1", target: "2" },
-  { id: "e2-3", source: "3", target: "2", animated: true },
+  { id: "registers-cache", source: registersId, target: cacheMemoryId, type: "straight" }, // REGISTERS -> CACHE
+  // { id: "e2-3", source: "3", target: "2", animated: true },
 ];

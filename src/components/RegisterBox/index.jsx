@@ -32,7 +32,6 @@ export const RegisterBox = ({ id, data }) => {
       <CustomHandle
         type="source"
         position="bottom"
-        id="3"
         style={{ background: "#555" }}
       />
     </>

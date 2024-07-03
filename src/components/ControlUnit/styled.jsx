@@ -11,6 +11,12 @@ export const MainContainer = styled.div`
   padding: 25px;
   overflow: hidden;
   box-shadow: var(--im-shadow);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--im-primary-hover);
+    box-shadow: var(--im-shadow-hover);
+  }
 `;
 
 export const BodyContainer = styled.div`

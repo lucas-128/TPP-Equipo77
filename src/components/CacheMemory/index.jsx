@@ -1,3 +1,4 @@
+import { cacheMemoryId } from "../../containers/SimulatorSection/components";
 import {
   TableContainer,
   Table,
@@ -5,6 +6,7 @@ import {
   TableHeader,
   TableCell,
   TableTitle,
+  CustomHandle,
 } from "./styled";
 
 export const CacheMemory = () => {
@@ -27,6 +29,12 @@ export const CacheMemory = () => {
           ))}
         </tbody>
       </Table>
+      <CustomHandle
+        type="target"
+        position="left"
+        id={cacheMemoryId}
+        style={{ background: "#555" }}
+      />
     </TableContainer>
   );
 };

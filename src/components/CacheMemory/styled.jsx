@@ -1,4 +1,13 @@
+import { Handle } from "reactflow";
 import styled from "styled-components";
+
+export const TableHeader = styled.th`
+  background-color: var(--im-primary);
+  color: var(--im-white);
+  padding: 8px;
+  text-align: center;  
+`;
+
 
 export const TableContainer = styled.div`
   width: fit-content;
@@ -7,6 +16,16 @@ export const TableContainer = styled.div`
   border-radius: 10px;
   text-align: center;
   box-shadow: var(--im-shadow);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--im-primary-hover);
+    box-shadow: var(--im-shadow-hover);
+
+    ${TableHeader} {
+      background-color: var(--im-primary-hover);
+    }
+  }
 `;
 
 export const TableTitle = styled.div`
@@ -26,17 +45,16 @@ export const Table = styled.table`
 
 export const TableRow = styled.tr``;
 
-export const TableHeader = styled.th`
-  background-color: var(--im-primary);
-  color: var(--im-white);
-  padding: 8px;
-  text-align: center;  
-`;
-
 export const TableCell = styled.td`
   padding: 8px;
   border: 1px solid black;
   text-align: center;
   color: black;
   background-color: var(--im-white);
+`;
+
+export const CustomHandle = styled(Handle)`
+  background-color: transparent !important;
+  border: none;
+  pointer-events: none;
 `;

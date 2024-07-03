@@ -12,6 +12,11 @@ export const MainContainer = styled.div`
   box-shadow: var(--im-shadow);
   background-color: var(--im-primary);
   border-radius: 10px;
+
+  &:hover {
+    background-color: var(--im-primary-hover);
+    box-shadow: var(--im-shadow-hover);
+  }
 `;
 
 export const TitleContainer = styled.div`
@@ -69,7 +74,7 @@ export const RegisterValue = styled.div`
 `;
 
 export const CustomHandle = styled(Handle)`
-  background-color: black !important;
+  background-color: transparent !important;
   border: none;
   pointer-events: none;
 `;
