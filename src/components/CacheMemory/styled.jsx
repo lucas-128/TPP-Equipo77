@@ -12,7 +12,7 @@ export const TableContainer = styled.div`
 export const TableTitle = styled.div`
   color: var(--im-white);
   font-weight: bold;
-  font-size: 20px;
+  font-size: 22px;
   padding: 10px 0px 10px 00px;
 `;
 

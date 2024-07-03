@@ -14,6 +14,7 @@ export const Button = styled.div`
   border: none;
   text-align: center;
   font-size: 14px;
+  font-weight: 600;
   height: 30px;
   cursor: pointer;
   border-radius: 5px;

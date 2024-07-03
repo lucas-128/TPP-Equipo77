@@ -28,7 +28,7 @@ export const initialNodes = [
     id: "2",
     type: "alu",
     data: { label: "ALU" },
-    position: { x: 365, y: 800 },
+    position: { x: 400, y: 400 },
     selectable: false,
   },
 
@@ -50,14 +50,14 @@ export const initialNodes = [
     id: "5",
     type: "controlUnit",
     data: { label: "Control Unit" },
-    position: { x: 550, y: 120 },
+    position: { x: 650, y: 120 },
     selectable: false,
   },
   {
     id: "6",
     type: "cacheMemory",
     data: { label: "Cache Memory" },
-    position: { x: 350, y: 350 },
+    position: { x: 670, y: 500 },
     selectable: false,
   },
 ];

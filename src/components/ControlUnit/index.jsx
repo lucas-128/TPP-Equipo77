@@ -10,7 +10,7 @@ import {
 export const ControlUnit = () => {
   return (
     <MainContainer>
-      <HeaderText>Control Unit</HeaderText>
+      <HeaderText>Unidad de Control</HeaderText>
       <BodyContainer>
         <SpecialRegisterContainer>
           <CustomText>Program Counter</CustomText>

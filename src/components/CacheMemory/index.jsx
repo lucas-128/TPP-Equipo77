@@ -14,7 +14,7 @@ export const CacheMemory = () => {
       <Table>
         <thead>
           <TableRow>
-            <TableHeader>Direccion</TableHeader>
+            <TableHeader>Dirección</TableHeader>
             <TableHeader>Contenido</TableHeader>
           </TableRow>
         </thead>

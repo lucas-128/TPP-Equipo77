@@ -8,16 +8,16 @@ export const MainContainer = styled.div`
   align-items: center;
   background-color: var(--im-primary);
   border-radius: 10px;
-  width: 400px;
-  height: 150px;
+  padding: 25px;
   overflow: hidden;
   box-shadow: var(--im-shadow);
 `;
 
 export const BodyContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 100%;
+  gap: 10px;
 `;
 
 export const SpecialRegisterContainer = styled.div`
@@ -49,7 +49,7 @@ export const CustomText = styled.p`
 
 export const HeaderText = styled.p`
   color: var(--im-white);
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
-  margin: 0px;
+  margin: 0px 0px 10px 0px;
 `;
