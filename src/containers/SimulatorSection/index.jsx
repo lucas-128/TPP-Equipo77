@@ -31,7 +31,7 @@ export const SimulatorContainer = () => {
         nodesDraggable={false}
         elementsSelectable={false}
       >
-        <Controls />
+        <Controls showInteractive={false} />
         <Background gap={10} size={1} />
       </ReactFlow>
     </Container>

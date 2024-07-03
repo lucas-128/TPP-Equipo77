@@ -1,28 +1,55 @@
 import { useState } from "react";
-import { Container } from "./styled";
+import {
+  Container,
+  TableContainer,
+  Table,
+  TableRow,
+  TableHeader,
+  TableCell,
+  TitleText,
+  HeaderCellText,
+} from "./styled";
 import { Handle } from "reactflow";
+import { useSelector } from "react-redux";
 
 export const MainMemory = () => {
-  const initialRegisters = Array(256).fill("");
-  const [registers, setRegisters] = useState(initialRegisters);
+  const mainMemoryCells = useSelector(
+    (state) => state.application.mainMemoryCells
+  );
 
   return (
     <>
       <Container>
-        <h1 style={{ margin: "0px" }}>Memoria principal</h1>
         <Handle type="target" position="top" style={{ background: "#555" }} />
-        {/* <div>
-        <tbody>
-          {Array.from({ length: 8 }).map((_, rowIndex) => (
-            <tr key={rowIndex}>
-              {Array.from({ length: 32 }).map((_, colIndex) => {
-                const cellIndex = rowIndex * 32 + colIndex;
-                return <td key={cellIndex}></td>;
-              })}
-            </tr>
-          ))}
-        </tbody>
-      </div> */}
+        <TableContainer>
+          <Table>
+            <thead>
+              <TableRow>
+                <TableHeader colSpan="2">
+                  <TitleText>Memoria Principal</TitleText>
+                </TableHeader>
+              </TableRow>
+              <TableRow>
+                <TableHeader>
+                  <HeaderCellText>Direccion</HeaderCellText>
+                </TableHeader>
+                <TableHeader>
+                  <HeaderCellText>Contenido</HeaderCellText>
+                </TableHeader>
+              </TableRow>
+            </thead>
+            <tbody>
+              {mainMemoryCells.map((cellValue, index) => (
+                <TableRow key={index} colSpan="2">
+                  <TableCell>
+                    {index.toString(16).toUpperCase().padStart(2, "0")}
+                  </TableCell>
+                  <TableCell>{cellValue}</TableCell>
+                </TableRow>
+              ))}
+            </tbody>
+          </Table>
+        </TableContainer>
       </Container>
     </>
   );
