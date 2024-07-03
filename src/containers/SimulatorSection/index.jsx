@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 export const SimulatorContainer = () => {
   const nodes = useSelector((state) => state.application.nodes);
   const edges = useSelector((state) => state.application.edges);
-  const proOptions = { hideAttribution: true };
+  const proOptions = { hideAttribution: true  };
   const dispatch = useDispatch();
   return (
     <Container>
@@ -29,7 +29,8 @@ export const SimulatorContainer = () => {
         proOptions={proOptions}
         fitView
         nodesDraggable={false}
-        elementsSelectable={false}
+        onNodeClick={(e)=>console.log(e)}
+        elementsSelectable={true}
       >
         <Controls showInteractive={false} />
         <Background gap={10} size={1} />

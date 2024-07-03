@@ -6,7 +6,7 @@ import {
   TableRow,
   TableHeader,
   TableCell,
-  TitleText,
+  Title,
   HeaderCellText,
 } from "./styled";
 import { Handle } from "reactflow";
@@ -21,14 +21,10 @@ export const MainMemory = () => {
     <>
       <Container>
         <Handle type="target" position="top" style={{ background: "#555" }} />
+        <Title>Memoria principal</Title>
         <TableContainer>
           <Table>
             <thead>
-              <TableRow>
-                <TableHeader colSpan="2">
-                  <TitleText>Memoria Principal</TitleText>
-                </TableHeader>
-              </TableRow>
               <TableRow>
                 <TableHeader>
                   <HeaderCellText>Direccion</HeaderCellText>

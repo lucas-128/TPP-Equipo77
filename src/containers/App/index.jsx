@@ -3,7 +3,6 @@ import { AppContainer, MainContainer } from "./styled";
 import { EditorSection } from "../EditorSection";
 import { SimulatorContainer } from "../SimulatorSection";
 import { Header } from "../../components/Header";
-import { CloseBar } from "../../components/CloseBar";
 import { HelpButton } from "../../components/HelpButton";
 
 export const App = () => {
@@ -12,7 +11,6 @@ export const App = () => {
       <Header />
       <AppContainer>
         <EditorSection />
-        {/* <CloseBar /> */}
         <SimulatorContainer />
       </AppContainer>
       <HelpButton />

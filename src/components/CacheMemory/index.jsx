@@ -1,21 +1,22 @@
+import { cacheMemoryId } from "../../containers/SimulatorSection/components";
 import {
   TableContainer,
   Table,
   TableRow,
   TableHeader,
   TableCell,
+  TableTitle,
+  CustomHandle,
 } from "./styled";
 
 export const CacheMemory = () => {
   return (
     <TableContainer>
+      <TableTitle>Memoria Cache</TableTitle>
       <Table>
         <thead>
           <TableRow>
-            <TableHeader colSpan="2">Memoria Cache</TableHeader>
-          </TableRow>
-          <TableRow>
-            <TableHeader>Direccion</TableHeader>
+            <TableHeader>Dirección</TableHeader>
             <TableHeader>Contenido</TableHeader>
           </TableRow>
         </thead>
@@ -28,6 +29,12 @@ export const CacheMemory = () => {
           ))}
         </tbody>
       </Table>
+      <CustomHandle
+        type="target"
+        position="left"
+        id={cacheMemoryId}
+        style={{ background: "#555" }}
+      />
     </TableContainer>
   );
 };

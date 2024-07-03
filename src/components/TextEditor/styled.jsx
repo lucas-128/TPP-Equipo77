@@ -42,7 +42,7 @@ export const EditorHeaderText = styled.p`
 export const EditorTextWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  background-color: #eeeded;
+  background-color: var(--im-white);
   padding: 2px;
   margin: 0px 5px;
   border-radius: 10px;
@@ -83,7 +83,7 @@ export const EditorText = styled.textarea`
   width: 100%;
   height: calc(100vh - 100px);
   border: none;
-  background-color: #eeeded;
+  background-color: var(--im-white);
   padding: 0px;
   border-radius: 0 0 10px 0;
   color: black;
@@ -116,7 +116,7 @@ export const Button = styled.label`
   transition: all 0.15s;
 
   &:hover {
-    background-color: var(--im-gray-lighter);
+    background-color: var(--im-primary);
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   }
 `;

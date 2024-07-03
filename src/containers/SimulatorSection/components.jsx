@@ -15,6 +15,12 @@ export const nodeTypes = {
   CPU: CPU,
 };
 
+export const aluId = "2";
+export const mainMemoryId = "3";
+export const registersId = "4";
+export const controlUnitId = "5";
+export const cacheMemoryId = "6";
+
 export const initialNodes = [
   {
     id: "1",
@@ -28,7 +34,7 @@ export const initialNodes = [
     id: "2",
     type: "alu",
     data: { label: "ALU" },
-    position: { x: 365, y: 800 },
+    position: { x: 400, y: 400 },
     selectable: false,
   },
 
@@ -36,34 +42,33 @@ export const initialNodes = [
     id: "3",
     type: "mainMemory",
     data: { label: "Main Memory" },
-    position: { x: 900, y: 0 },
+    position: { x: 1200, y: 0 },
     selectable: false,
   },
   {
     id: "4",
     type: "registers",
     data: { registers: new Array(16).fill("-") },
-    position: { x: 50, y: 350 },
+    position: { x: 50, y: 120 },
     selectable: false,
   },
   {
     id: "5",
     type: "controlUnit",
     data: { label: "Control Unit" },
-    position: { x: 100, y: 125 },
+    position: { x: 650, y: 120 },
     selectable: false,
   },
   {
     id: "6",
     type: "cacheMemory",
     data: { label: "Cache Memory" },
-    position: { x: 350, y: 350 },
+    position: { x: 670, y: 500 },
     selectable: false,
   },
 ];
 
 export const initialEdges = [
-  /*
-  { id: "e1-2", source: "1", target: "2" },
-  { id: "e2-3", source: "3", target: "2", animated: true },*/
+  { id: "registers-cache", source: registersId, target: cacheMemoryId, type: "straight" }, // REGISTERS -> CACHE
+  // { id: "e2-3", source: "3", target: "2", animated: true },
 ];
