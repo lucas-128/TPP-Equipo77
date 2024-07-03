@@ -40,7 +40,7 @@ export const RegistersContainer = styled.div`
 
 export const RegisterContainer = styled.div`
   display: flex;
-  background-color: white;
+  background-color: var(--im-white);
   color: black;
   padding: 2px;
   width: 100%;

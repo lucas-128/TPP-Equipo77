@@ -21,7 +21,7 @@ export const Button = styled.div`
   display: flex;
   align-items: center;
   user-select: none;
-  padding: 5px 8px;
+  padding: 4px 10px;
   color: var(--im-lightgray);
   background-color: var(--im-primary);
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;

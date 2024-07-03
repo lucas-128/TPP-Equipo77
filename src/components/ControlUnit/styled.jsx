@@ -30,7 +30,7 @@ export const SpecialRegisterContainer = styled.div`
 `;
 
 export const SpecialRegisterValue = styled.div`
-  background-color: white;
+  background-color: var(--im-white);
   border-radius: 5px;
   padding: 5px;
   color: var(--im-white);

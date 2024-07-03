@@ -30,7 +30,7 @@ export const TableHeader = styled.th`
   background-color: var(--im-primary);
   color: var(--im-white);
   padding: 8px;
-  text-align: center;
+  text-align: center;  
 `;
 
 export const TableCell = styled.td`
@@ -38,5 +38,5 @@ export const TableCell = styled.td`
   border: 1px solid black;
   text-align: center;
   color: black;
-  background-color: white;
+  background-color: var(--im-white);
 `;

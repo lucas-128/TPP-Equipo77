@@ -6,7 +6,7 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   padding-top: 20px;
-  background-color: #646464;
+  background-color: var(--im-gray);
   border: 1px solid black;
   border-radius: 10px;
   width: 1000px;

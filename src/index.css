@@ -15,10 +15,10 @@
 
   --im-shadow: rgba(48, 48, 48, 0.25) 10px 20px 100px -20px, rgba(0, 0, 0, 0.596) 0px 30px 60px -30px, rgba(162, 162, 162, 0.37) 0px -3px 10px 0px inset;
 
-  --im-white: #e6e6e6;
-  --im-gray: #545454;
+  --im-white: #f4f4f4;
+  --im-gray: #626262;
   --im-gray-lighter: #848484;
-  --im-lightgray: #bcbcbc;
+  --im-lightgray: #c2c2c2;
   --im-bluegray: #4f5d75;
   --im-primary: #17455a; 
   --im-secondary: #023445;

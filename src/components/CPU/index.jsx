@@ -9,7 +9,7 @@ export const CPU = () => {
   return (
     <>
       <Container>
-        <h1 style={{ margin: "0px" }}>CPU</h1>
+        <h1 style={{ margin: "0px", fontSize: '45px' }}>CPU</h1>
       </Container>
     </>
   );
