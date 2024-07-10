@@ -15,6 +15,7 @@ export const nodeTypes = {
   CPU: CPU,
 };
 
+export const CPUId = "1";
 export const aluId = "2";
 export const mainMemoryId = "3";
 export const registersId = "4";
@@ -23,7 +24,7 @@ export const cacheMemoryId = "6";
 
 export const initialNodes = [
   {
-    id: "1",
+    id: CPUId,
     type: "CPU",
     data: { label: "CPU" },
     position: { x: 0, y: 0 },
@@ -31,7 +32,7 @@ export const initialNodes = [
     zIndex: -1,
   },
   {
-    id: "2",
+    id: aluId,
     type: "alu",
     data: { label: "ALU" },
     position: { x: 400, y: 400 },
@@ -39,28 +40,28 @@ export const initialNodes = [
   },
 
   {
-    id: "3",
+    id: mainMemoryId,
     type: "mainMemory",
     data: { label: "Main Memory" },
     position: { x: 1200, y: 0 },
     selectable: false,
   },
   {
-    id: "4",
+    id: registersId,
     type: "registers",
     data: { registers: new Array(16).fill("-") },
     position: { x: 50, y: 120 },
     selectable: false,
   },
   {
-    id: "5",
+    id: controlUnitId,
     type: "controlUnit",
     data: { label: "Control Unit" },
     position: { x: 650, y: 120 },
     selectable: false,
   },
   {
-    id: "6",
+    id: cacheMemoryId,
     type: "cacheMemory",
     data: { label: "Cache Memory" },
     position: { x: 670, y: 500 },
@@ -69,6 +70,18 @@ export const initialNodes = [
 ];
 
 export const initialEdges = [
-  { id: "registers-cache", source: registersId, target: cacheMemoryId, type: "straight" }, // REGISTERS -> CACHE
+  {
+    id: "registers-cache",
+    source: registersId,
+    target: cacheMemoryId,
+    type: "smoothstep",
+    animated: true,
+    style: {
+      // use 0.2s to speed up the animation
+      animation: "dashdraw 0.5s linear infinite",
+      strokeDasharray: 6,
+      strokeWidth: 7,
+    },
+  }, // REGISTERS -> CACHE
   // { id: "e2-3", source: "3", target: "2", animated: true },
 ];
