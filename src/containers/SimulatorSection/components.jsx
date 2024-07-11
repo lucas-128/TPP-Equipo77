@@ -5,6 +5,7 @@ import { ALU } from "../../components/ALU";
 import { ControlUnit } from "../../components/ControlUnit";
 import { CacheMemory } from "../../components/CacheMemory";
 import { CPU } from "../../components/CPU";
+import { RegistersCacheBus } from "../../components/RegistersCacheBus";
 
 export const nodeTypes = {
   registers: RegisterBox,
@@ -69,19 +70,29 @@ export const initialNodes = [
   },
 ];
 
+export const edgeTypes = {
+  "registers-cache": RegistersCacheBus,
+};
+
 export const initialEdges = [
   {
     id: "registers-cache",
     source: registersId,
     target: cacheMemoryId,
-    type: "smoothstep",
-    animated: true,
-    style: {
-      // use 0.2s to speed up the animation
-      animation: "dashdraw 0.5s linear infinite",
-      strokeDasharray: 6,
-      strokeWidth: 7,
-    },
-  }, // REGISTERS -> CACHE
+    type: "registers-cache",
+  },
+  // {
+  //   id: "cache-registers",
+  //   source: cacheMemoryId,
+  //   target: registersId,
+  //   type: "smoothstep",
+  //   animated: true,
+  //   style: {
+  //     // use 0.2s to speed up the animation
+  //     animation: "dashdraw 0.5s linear infinite",
+  //     strokeDasharray: 6,
+  //     strokeWidth: 7,
+  //   },
+  // }
   // { id: "e2-3", source: "3", target: "2", animated: true },
 ];

@@ -10,13 +10,14 @@ import {
   RegisterNumeration,
   RegisterValue,
 } from "./styled.jsx";
+import { registersId } from "../../containers/SimulatorSection/components.jsx";
 
 export const RegisterBox = ({ id, data }) => {
   const registers = useSelector((state) => state.application.registers);
 
   return (
     <>
-      <MainContainer>
+      <MainContainer id={registersId}>
         <TitleContainer>
           <TitleText>Registros</TitleText>
         </TitleContainer>
@@ -31,6 +32,11 @@ export const RegisterBox = ({ id, data }) => {
       </MainContainer>
       <CustomHandle
         type="source"
+        position="bottom"
+        style={{ background: "#555" }}
+      />
+      <CustomHandle
+        type="target"
         position="bottom"
         style={{ background: "#555" }}
       />

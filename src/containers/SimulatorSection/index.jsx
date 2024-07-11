@@ -8,7 +8,7 @@ import {
 
 import "reactflow/dist/style.css";
 import { Container } from "./styled";
-import { nodeTypes } from "./components";
+import { nodeTypes, edgeTypes } from "./components";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
@@ -17,12 +17,14 @@ export const SimulatorContainer = () => {
   const edges = useSelector((state) => state.application.edges);
   const proOptions = { hideAttribution: true  };
   const dispatch = useDispatch();
+
   return (
     <Container>
       <ReactFlow
         nodes={nodes}
         edges={edges}
         nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
         onNodesChange={(changes) => dispatch(onNodesChange(changes))}
         onEdgesChange={(changes) => dispatch(onEdgesChange(changes))}
         onConnect={(connection) => dispatch(onConnect(connection))}

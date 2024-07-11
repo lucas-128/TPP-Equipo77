@@ -7,7 +7,6 @@ export const Container = styled.div`
   font-weight: bold;
   color: var(--im-white);
   background: var(--im-primary);
-  border: 1px solid black;
   width: 150px;
   height: 150px;
   clip-path: polygon(0 0, 100% 29%, 100% 67%, 0 100%, 0% 69%, 24% 48%, 0 29%);

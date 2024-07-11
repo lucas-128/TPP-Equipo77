@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Button, Container } from "./styled";
+import { Container } from "./styled";
 import { FaBackward, FaForward } from "react-icons/fa6";
 import { useSelector, useDispatch } from "react-redux";
 import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
@@ -10,6 +10,7 @@ import {
   updatePreviousState,
   updateMainMemoryCells,
 } from "../../../slices/applicationSlice";
+import { Button } from "../../Button";
 
 export const TextEditorButtons = ({
   isSimulating,

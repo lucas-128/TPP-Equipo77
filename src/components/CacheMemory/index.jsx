@@ -11,8 +11,8 @@ import {
 
 export const CacheMemory = () => {
   return (
-    <TableContainer>
-      <TableTitle>Memoria Cache</TableTitle>
+    <TableContainer id={cacheMemoryId}>
+      <TableTitle>Memoria Caché</TableTitle>
       <Table>
         <thead>
           <TableRow>
@@ -31,8 +31,12 @@ export const CacheMemory = () => {
       </Table>
       <CustomHandle
         type="target"
-        position="left"
-        id={cacheMemoryId}
+        position="bottom"
+        style={{ background: "#555" }}
+      />
+      <CustomHandle
+        type="source"
+        position="bottom"
         style={{ background: "#555" }}
       />
     </TableContainer>
