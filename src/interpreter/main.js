@@ -2,13 +2,15 @@ import { getStateAfterInstruction } from "./instructions.js";
 import { instructionCodes } from "./instructions.js";
 
 export function validateSyntax(code) {
-  let rows = splitCode(code);
-  return validateCode(rows);
+  let rows = splitCode(code).filter((row) => row.length > 0);
+  return isValidCode(rows);
 }
 
 function splitCode(text) {
   return text.split("\n").map((row) => {
-    return row.trim.length > 0 ? row.trim() : row;
+    return row.trim.length > 0
+      ? row.trim().substring(0, 4)
+      : row.substring(0, 4);
   });
 }
 
@@ -23,7 +25,8 @@ export const getNewState = (actualState, line) => {
   return newState;
 };
 
-function validateCode(rows) {
+//cambiar qu eesta funcion tiene que devolver true si esta todo bien, no false,
+function isValidCode(rows) {
   return rows.every((row) => {
     return (
       validateLength(row) &&
@@ -34,21 +37,13 @@ function validateCode(rows) {
 }
 
 function validateLength(row) {
-  if (row.length !== 4) {
-    throwError("Invalid instruction length for " + row);
-    return false;
-  }
-  return true;
+  return row.length === 4;
 }
 
 function validateInstructionCode(row) {
   const rowSplit = row.split("");
   const instruction = rowSplit[0].toLowerCase();
-  if (!instructionCodes.includes(instruction)) {
-    throwError("Invalid instruction code in " + instruction);
-    return false;
-  }
-  return true;
+  return instructionCodes.includes(instruction);
 }
 
 function validatePattern(row) {
@@ -101,8 +96,4 @@ function validateIfHexa(register) {
     "e",
     "f",
   ].includes(register);
-}
-
-function throwError(message) {
-  alert(message);
 }

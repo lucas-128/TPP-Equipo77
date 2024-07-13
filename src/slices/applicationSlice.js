@@ -81,6 +81,7 @@ export const {
   updateMainMemoryCells,
   goToPreviousState,
   updatePreviousState,
+  updateError,
 } = applicationSlice.actions;
 
 export default applicationSlice.reducer;

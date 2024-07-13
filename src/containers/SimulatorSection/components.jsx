@@ -1,4 +1,3 @@
-import React from "react";
 import { RegisterBox } from "../../components/RegisterBox";
 import { MainMemory } from "../../components/MainMemory";
 import { ALU } from "../../components/ALU";
@@ -41,7 +40,6 @@ export const initialNodes = [
     position: { x: 470, y: 400 },
     selectable: false,
   },
-
   {
     id: mainMemoryId,
     type: "mainMemory",

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   MdOutlineFileUpload,
   MdArrowBackIosNew,
@@ -10,7 +10,6 @@ import {
   EditorText,
   EditorHeader,
   EditorHeaderIconContainer,
-  EditorHeaderText,
   EditorWrapper,
   EditorTextWrapper,
   LineCounter,
@@ -22,6 +21,7 @@ import {
   HiddenEditorContainer,
 } from "./styled";
 import { setShowEditor } from "../../slices/editorTextSlice";
+import { setError } from "../../slices/modalsSlice";
 
 export const TextEditor = ({
   children,
@@ -71,7 +71,13 @@ export const TextEditor = ({
 
   useEffect(() => {
     if (!text || !isSimulating) return;
-    validateSyntax(text, selectedLine); //Levantar un error si no esta bien la sintaxis
+    if (!validateSyntax(text, selectedLine) && isSimulating) {
+      dispatch(
+        setError(
+          "El código contiene errores de sintáxis, por favor modifíquelo e intente de nuevo"
+        )
+      );
+    }
   }, [isSimulating]);
 
   return show ? (

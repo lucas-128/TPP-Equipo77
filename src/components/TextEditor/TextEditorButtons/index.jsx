@@ -104,7 +104,7 @@ export const TextEditorButtons = ({
           <Button onClick={() => setSelectedLine(text.split("\n").length - 1)}>
             <FaForward />
           </Button>
-          <Button onClick={handleEditCodeButtonClick}> Editar código</Button>
+          <Button onClick={handleEditCodeButtonClick}> Editar</Button>
         </>
       ) : (
         <Button onClick={handleSimulateButtonClick}>Simular</Button>

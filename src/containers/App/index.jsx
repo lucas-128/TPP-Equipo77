@@ -4,6 +4,7 @@ import { EditorSection } from "../EditorSection";
 import { SimulatorContainer } from "../SimulatorSection";
 import { Header } from "../../components/Header";
 import { HelpButton } from "../../components/HelpButton";
+import { ErrorModal } from "../../components/ErrorModal";
 
 export const App = () => {
   return (
@@ -14,6 +15,7 @@ export const App = () => {
         <SimulatorContainer />
       </AppContainer>
       <HelpButton />
+      <ErrorModal />
     </MainContainer>
   );
 };
