@@ -13,7 +13,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --im-shadow: rgba(0, 0, 0, 0.25) 10px 20px 100px -20px, rgba(50, 50, 50, 0.596) 0px 30px 60px -30px, rgba(114, 114, 114, 0.37) 0px -3px 10px 0px inset;
+  --im-shadow: rgba(0, 0, 0, 0.25) 10px 20px 100px -20px,
+    rgba(50, 50, 50, 0.596) 0px 30px 60px -30px,
+    rgba(114, 114, 114, 0.37) 0px -3px 10px 0px inset;
 
   --im-white: #f4f4f4;
   --im-darkgray: #202020;
@@ -21,12 +23,14 @@
   --im-gray-lighter: #848484;
   --im-lightgray: #c2c2c2;
   --im-bluegray: #4f5d75;
-  --im-primary: #17455a; 
+  --im-primary: #17455a;
   --im-secondary: #023445;
-  --im-purple: #29274C;
+  --im-purple: #29274c;
 
   --im-primary-hover: #1a516c;
-  --im-shadow-hover: rgba(101, 101, 101, 0.25) 0px 10px 20px -10px, rgba(128, 128, 128, 0.596) 0px 30px 60px -30px, rgba(83, 83, 83, 0.37) 0px -3px 10px 0px inset;
+  --im-shadow-hover: rgba(101, 101, 101, 0.25) 0px 10px 20px -10px,
+    rgba(128, 128, 128, 0.596) 0px 30px 60px -30px,
+    rgba(83, 83, 83, 0.37) 0px -3px 10px 0px inset;
 }
 
 /* SCROLLBARS */
@@ -82,4 +86,9 @@ h1 {
   button {
     background-color: #f9f9f9;
   }
+}
+.react-flow__edge {
+  pointer-events: none !important;
+  padding: 10px !important;
+  cursor: none;
 }

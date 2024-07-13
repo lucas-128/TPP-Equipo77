@@ -1,9 +1,5 @@
 import { useSelector } from "react-redux";
-import {
-  BaseEdge,
-  getSmoothStepPath,
-  Position,
-} from "reactflow";
+import { BaseEdge, getSmoothStepPath, Position } from "reactflow";
 import {
   aluId,
   registersId,
@@ -11,7 +7,6 @@ import {
 import { getComponentInfo } from "../../containers/SimulatorSection/utils";
 
 export const RegistersALUBus = ({ data, source }) => {
-
   const nodes = useSelector((state) => state.application.nodes);
   const registersInfo = getComponentInfo(registersId, nodes);
   const aluInfo = getComponentInfo(aluId, nodes);
@@ -23,7 +18,7 @@ export const RegistersALUBus = ({ data, source }) => {
         sourceY: aluInfo.position.y + aluInfo.height / 2,
         targetX: registersInfo.position.x + registersInfo.width / 2,
         targetY: registersInfo.position.y + registersInfo.height,
-        offset: 40, 
+        offset: 40,
         sourcePosition: Position.Right,
         targetPosition: Position.Bottom,
       };
@@ -34,7 +29,7 @@ export const RegistersALUBus = ({ data, source }) => {
       targetX: aluInfo.position.x,
       targetY:
         aluInfo.position.y +
-        (data.position == "top" ? aluInfo.height / 6 : aluInfo.height / 1.2),
+        (data.position === "top" ? aluInfo.height / 6 : aluInfo.height / 1.2),
       sourcePosition: Position.Right,
       targetPosition: Position.Left,
     };
@@ -52,17 +47,44 @@ export const RegistersALUBus = ({ data, source }) => {
   });
 
   return (
-    <>
+    <g>
+      <defs>
+        <pattern
+          id="animated-pattern"
+          patternUnits="userSpaceOnUse"
+          width="10"
+          height="10"
+        >
+          <line x1="0" y1="0" x2="10" y2="10" stroke="blue" strokeWidth="15">
+            <animate
+              attributeName="stroke-dashoffset"
+              from="0"
+              to="10"
+              dur="1s"
+              repeatCount="indefinite"
+            />
+          </line>
+        </pattern>
+      </defs>
       <BaseEdge
-        id={"registers-alu"}
         path={edgePath}
+        interactionWidth={20}
+        animated={true}
         style={{
-          // use 0.2s to speed up the animation
-          // animation: "dashdraw 0.5s linear infinite",
-          //   strokeDasharray: 6,
+          stroke: "grey",
           strokeWidth: 20,
         }}
       />
-    </>
+      <BaseEdge
+        path={edgePath}
+        interactionWidth={20}
+        style={{
+          stroke: "url(#animated-pattern)",
+          strokeWidth: 10,
+          animation: "dashdraw 0.5s linear infinite",
+          strokeDasharray: 6,
+        }}
+      />
+    </g>
   );
 };

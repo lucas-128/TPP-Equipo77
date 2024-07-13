@@ -37,7 +37,7 @@ export const initialNodes = [
     id: aluId,
     type: "alu",
     data: { label: "ALU" },
-    position: { x: 470, y: 400 },
+    position: { x: 470, y: 420 },
     selectable: false,
   },
   {
@@ -88,8 +88,6 @@ export const initialEdges = [
     target: aluId,
     type: "registers-alu",
     data: { position: "top" },
-    sourcePosition: Position.Right,
-    targetPosition: Position.Left,
   },
   {
     id: "registers-alu-bottom",
@@ -97,8 +95,6 @@ export const initialEdges = [
     target: aluId,
     type: "registers-alu",
     data: { position: "bottom" },
-    sourcePosition: Position.Right,
-    targetPosition: Position.Left,
   },
   {
     id: "alu-registers",
