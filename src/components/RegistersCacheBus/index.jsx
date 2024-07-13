@@ -35,8 +35,6 @@ export const RegistersCacheBus = () => {
     targetPosition: Position.Bottom,
   });
 
-  console.log(edgePath);
-
   return (
     <>
       <BaseEdge
@@ -45,7 +43,7 @@ export const RegistersCacheBus = () => {
         style={{
           // use 0.2s to speed up the animation
           // animation: "dashdraw 0.5s linear infinite",
-          strokeDasharray: 6,
+          // strokeDasharray: 6,
           strokeWidth: 20,
 
         }}

@@ -6,6 +6,8 @@ import { ControlUnit } from "../../components/ControlUnit";
 import { CacheMemory } from "../../components/CacheMemory";
 import { CPU } from "../../components/CPU";
 import { RegistersCacheBus } from "../../components/RegistersCacheBus";
+import { RegistersALUBus } from "../../components/RegistersALUBus";
+import { Position } from "reactflow";
 
 export const nodeTypes = {
   registers: RegisterBox,
@@ -36,7 +38,7 @@ export const initialNodes = [
     id: aluId,
     type: "alu",
     data: { label: "ALU" },
-    position: { x: 400, y: 400 },
+    position: { x: 470, y: 400 },
     selectable: false,
   },
 
@@ -44,7 +46,7 @@ export const initialNodes = [
     id: mainMemoryId,
     type: "mainMemory",
     data: { label: "Main Memory" },
-    position: { x: 1200, y: 0 },
+    position: { x: 1300, y: 0 },
     selectable: false,
   },
   {
@@ -58,20 +60,21 @@ export const initialNodes = [
     id: controlUnitId,
     type: "controlUnit",
     data: { label: "Control Unit" },
-    position: { x: 650, y: 120 },
+    position: { x: 750, y: 120 },
     selectable: false,
   },
   {
     id: cacheMemoryId,
     type: "cacheMemory",
     data: { label: "Cache Memory" },
-    position: { x: 670, y: 500 },
+    position: { x: 770, y: 500 },
     selectable: false,
   },
 ];
 
 export const edgeTypes = {
   "registers-cache": RegistersCacheBus,
+  "registers-alu": RegistersALUBus,
 };
 
 export const initialEdges = [
@@ -80,6 +83,32 @@ export const initialEdges = [
     source: registersId,
     target: cacheMemoryId,
     type: "registers-cache",
+  },
+  {
+    id: "registers-alu-top",
+    source: registersId,
+    target: aluId,
+    type: "registers-alu",
+    data: { position: "top" },
+    sourcePosition: Position.Right,
+    targetPosition: Position.Left,
+  },
+  {
+    id: "registers-alu-bottom",
+    source: registersId,
+    target: aluId,
+    type: "registers-alu",
+    data: { position: "bottom" },
+    sourcePosition: Position.Right,
+    targetPosition: Position.Left,
+  },
+  {
+    id: "alu-registers",
+    source: aluId,
+    target: registersId,
+    type: "registers-alu",
+    sourcePosition: Position.Bottom,
+    targetPosition: Position.Bottom,
   },
   // {
   //   id: "cache-registers",
@@ -94,5 +123,4 @@ export const initialEdges = [
   //     strokeWidth: 7,
   //   },
   // }
-  // { id: "e2-3", source: "3", target: "2", animated: true },
 ];

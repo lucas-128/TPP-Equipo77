@@ -40,6 +40,11 @@ export const RegisterBox = ({ id, data }) => {
         position="bottom"
         style={{ background: "#555" }}
       />
+      <CustomHandle
+        type="target"
+        position="right"
+        style={{ background: "#555" }}
+      />
     </>
   );
 };

@@ -7,7 +7,7 @@ export const HeaderContainer = styled.div`
   height: 30px;
   padding: 5px;
   background-color: #272727;
-  border-bottom: 2px solid var(--im-primary);
+  border-bottom: 5px solid var(--im-primary);
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
 `;
 

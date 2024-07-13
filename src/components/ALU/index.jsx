@@ -1,5 +1,5 @@
-import { Handle } from "reactflow";
-import { Container } from "./styled";
+import { aluId } from "../../containers/SimulatorSection/components";
+import { Container, CustomHandle } from "./styled";
 
 export const ALU = () => {
   let input1 = "num1";
@@ -7,11 +7,11 @@ export const ALU = () => {
   let output = "num3";
 
   return (
-    <Container>
-      <Handle type="target" position="left" style={{ background: "#555" }} />
-      <Handle type="target" position="right" style={{ background: "#555" }} />
+    <Container id={aluId}>
+      <CustomHandle type="target" position="left" style={{ background: "#555" }} />
+      <CustomHandle type="target" position="left" style={{ background: "#555" }} />
       ALU
-      <Handle type="source" position="bottom" style={{ background: "#555" }} />
+      <CustomHandle type="source" position="right" style={{ background: "#555" }} />
     </Container>
   );
 };
