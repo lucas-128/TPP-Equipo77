@@ -4,7 +4,6 @@ export const Container = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  border-right: 2px solid var(--im-gray);
 `;
 
 export const EditorWrapper = styled.div`
@@ -12,7 +11,7 @@ export const EditorWrapper = styled.div`
   flex-direction: column;
   flex-grow: 0;
   height: 100%;
-  background-color: var(--im-gray);
+  background-color: var(--im-darkgray);
   transition: all 0.15s;
 `;
 
