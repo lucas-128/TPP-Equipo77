@@ -1,7 +1,10 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 import {
+  aluId,
   initialEdges,
   initialNodes,
+  mainMemoryId,
+  registersId,
 } from "../containers/SimulatorSection/components";
 import { addEdge, applyNodeChanges, applyEdgeChanges } from "reactflow";
 
@@ -13,6 +16,7 @@ const initialState = {
   nodes: initialNodes,
   edges: initialEdges,
   previousState: null,
+  aluOperation: null,
 };
 
 export const applicationSlice = createSlice({
@@ -35,24 +39,22 @@ export const applicationSlice = createSlice({
       state.edges = addEdge(action.payload, state.edges);
     },
     updateRegisters(state, action) {
-      const { nodeId, registers } = action.payload;
+      const { registers } = action.payload;
       state.registers = registers;
-      state.nodes = current(state).nodes.map((node) => {
-        let newNode = { ...node };
-        if (node.id === nodeId) {
-          newNode.data = { ...node.data, registers };
-        }
-        return newNode;
-      });
     },
     updateMainMemoryCells(state, action) {
-      const { nodeId, mainMemoryCells } = action.payload;
+      const { mainMemoryCells } = action.payload;
       state.mainMemoryCells = mainMemoryCells;
+    },
+    updateAluOperation(state, action) {
+      const { aluOperation } = action.payload;
+      state.aluOperation = aluOperation;
+    },
+    updateNodes(state, action) {
+      const { data } = action.payload;
       state.nodes = current(state).nodes.map((node) => {
         let newNode = { ...node };
-        if (node.id === nodeId) {
-          newNode.data = { ...node.data, mainMemoryCells };
-        }
+        newNode.data = { ...node.data, ...data };
         return newNode;
       });
     },
@@ -79,9 +81,21 @@ export const {
   onConnect,
   updateRegisters,
   updateMainMemoryCells,
+  updateAluOperation,
+  updateNodes,
   goToPreviousState,
   updatePreviousState,
   updateError,
 } = applicationSlice.actions;
+
+// Thunk para manejar la actualización del estado actual
+export const updateCurrentState = (newState) => (dispatch) => {
+  console.log("actualizo todos los estados");
+  const { registers, mainMemoryCells, aluOperation } = newState;
+  dispatch(updateRegisters({ registers }));
+  dispatch(updateMainMemoryCells({ mainMemoryCells }));
+  dispatch(updateAluOperation({ aluOperation }));
+  dispatch(updateNodes({ data: newState }));
+};
 
 export default applicationSlice.reducer;

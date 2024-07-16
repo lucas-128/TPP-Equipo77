@@ -3,14 +3,16 @@ import { Container } from "./styled";
 import { FaBackward, FaForward } from "react-icons/fa6";
 import { useSelector, useDispatch } from "react-redux";
 import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
-import { getNewState } from "../../../interpreter/main";
+import { getNewState, splitCode } from "../../../interpreter/main";
 import {
   updateRegisters,
   goToPreviousState,
   updatePreviousState,
   updateMainMemoryCells,
+  updateCurrentState,
 } from "../../../slices/applicationSlice";
 import { Button } from "../../Button";
+import { mainMemoryId } from "../../../containers/SimulatorSection/components";
 
 export const TextEditorButtons = ({
   isSimulating,
@@ -23,8 +25,7 @@ export const TextEditorButtons = ({
   const applicationState = useSelector((state) => state.application);
 
   const loadProgram = () => {
-    const lines = text.trim().split("\n");
-    const parsedCode = lines.join("");
+    const parsedCode = splitCode(text);
     let newMemory = new Array(32).fill("x");
     if (parsedCode.length > 64) {
       //64 Es porque tiene 32 celdas de memoria provisoria, deberia ser 512
@@ -32,12 +33,12 @@ export const TextEditorButtons = ({
     } else {
       newMemory = Array.from(
         { length: 32 },
-        (_, i) => parsedCode.slice(i * 2, i * 2 + 2) || "x"
+        (_, i) => parsedCode[i] || "x"
       );
     }
     dispatch(
       updateMainMemoryCells({
-        nodeId: "3",
+        nodeId: mainMemoryId,
         mainMemoryCells: newMemory,
       })
     );
@@ -79,13 +80,7 @@ export const TextEditorButtons = ({
     setSelectedLine((prev) => prev + 1);
     const newState = getNewState(applicationState, actualLine);
     dispatch(updatePreviousState()); //TODO: Revisar esto porque creo que el primer estado guarda un previous state que no deberia
-    dispatch(updateRegisters({ nodeId: "4", registers: newState.registers }));
-    dispatch(
-      updateMainMemoryCells({
-        nodeId: "3",
-        mainMemoryCells: newState.mainMemoryCells,
-      })
-    );
+    dispatch(updateCurrentState(newState));
   };
 
   return (

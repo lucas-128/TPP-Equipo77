@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
-  flex: 1;
+  flex: 2;
   flex-direction: column;
 `;
 
@@ -11,7 +11,7 @@ export const EditorWrapper = styled.div`
   flex-direction: column;
   flex-grow: 0;
   height: 100%;
-  background-color: var(--im-darkgray);
+  background-color: var(--im-gray);
   transition: all 0.15s;
 `;
 
