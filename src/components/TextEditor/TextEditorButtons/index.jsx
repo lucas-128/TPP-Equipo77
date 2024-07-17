@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Container } from "./styled";
 import { FaBackward, FaForward } from "react-icons/fa6";
 import { useSelector, useDispatch } from "react-redux";
