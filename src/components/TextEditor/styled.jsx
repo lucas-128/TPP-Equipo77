@@ -11,7 +11,7 @@ export const EditorWrapper = styled.div`
   flex-direction: column;
   flex-grow: 0;
   height: 100%;
-  background-color: var(--im-darkgray);
+  background-color: var(--im-gray);
   transition: all 0.15s;
 `;
 

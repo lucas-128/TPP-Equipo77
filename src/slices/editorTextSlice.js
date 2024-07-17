@@ -10,7 +10,6 @@ export const editorTextSlice = createSlice({
   initialState,
   reducers: {
     setNewInstruction: (state, action) => {
-      console.log("action", action.payload);
       state.instruction = action.payload;
     },
     setShowEditor: (state, action) => {

@@ -7,7 +7,8 @@ export const Container = styled.div`
   justify-content: center;
   font-weight: bold;
   color: var(--im-white);
-  background: var(--im-primary);
+  background: ${(props) =>
+    props.operating ? "red" : "var(--im-primary)"};
   width: 150px;
   height: 180px;
   clip-path: polygon(0 0, 100% 29%, 100% 67%, 0 100%, 0% 69%, 24% 48%, 0 29%);
@@ -25,4 +26,3 @@ export const CustomHandle = styled(Handle)`
   border: none;
   pointer-events: none;
 `;
-
