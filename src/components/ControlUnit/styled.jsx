@@ -40,7 +40,7 @@ export const SpecialRegisterValue = styled.div`
   border-radius: 5px;
   padding: 5px;
   color: var(--im-white);
-  width: 50%;
+  min-width: ${(props) => props.id == "PC" ? "50px" : "100px"};
   display: flex;
   justify-content: center;
   border: 1px solid black;

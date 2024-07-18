@@ -1,12 +1,12 @@
 import { getStateAfterInstruction } from "./instructions.js";
-import { instructionCodes } from "./instructions.js";
+import { instructionCodes } from "./constants.js";
 
 export function validateSyntax(code) {
   let rows = splitCode(code).filter((row) => row.length > 0);
   return isValidCode(rows);
 }
 
-function splitCode(text) {
+export function splitCode(text) {
   return text.split("\n").map((row) => {
     return row.trim.length > 0
       ? row.trim().substring(0, 4)

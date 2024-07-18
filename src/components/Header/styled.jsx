@@ -3,11 +3,12 @@ import styled from "styled-components";
 export const HeaderContainer = styled.div`
   display: flex;
   justify-content: flex-start;
+  flex-direction: row;
   align-items: center;
   height: 30px;
   padding: 5px;
-  background-color: #272727;
-  border-bottom: 5px solid var(--im-primary);
+  background-color: var(--im-darkgray);
+  border-bottom: 4px solid var(--im-primary);
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
 `;
 
