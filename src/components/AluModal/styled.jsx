@@ -1,4 +1,3 @@
-import { IoClose } from "react-icons/io5";
 import styled, { keyframes } from "styled-components";
 
 const fadeIn = keyframes`
@@ -26,7 +25,10 @@ export const ModalBoxSetup = styled.div`
   position: absolute;
   left: 0;
   right: 0;
-  display: block;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   margin: 0 auto;
   overflow-y: hidden;
   overflow-x: hidden;
@@ -40,7 +42,6 @@ export const AluContainer = styled.div`
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04);
   border: 0.5px solid var(--im-gray);
   border-radius: 5px;
-  box-shadow: 0 0 20px 0 rgba(10, 27, 45, 0.15);
   background: var(--im-primary);
   clip-path: polygon(0 0, 100% 29%, 100% 67%, 0 100%, 0% 69%, 24% 48%, 0 29%);
   width: 550px;
@@ -69,15 +70,26 @@ export const ModalBg = styled.div`
 
 export const InfoContainer = styled.div`
   display: flex;
-  width: 300px;
+  flex-direction: column;
+  width: 70%;
   align-items: center;
-  flex-direction: row;
   padding: 30px;
-  margin-right: 30px;
+  margin-right: 20px;
+  justify-content: center;
+  color: var(--im-lightgray);
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+`;
+
+export const OperationName = styled.div`
+  border-radius: 15px;
   background-color: var(--im-white);
-  color: var(--im-darkgray);
-  border-radius: 5px;
-  filter: drop-shadow(1px 1px 15px rgba(112, 135, 165, 0.39));
+  padding: 5px 10px;
+  color: var(--im-primary);
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
 `;
 
 export const Info = styled.div`
@@ -88,26 +100,48 @@ export const Info = styled.div`
   text-overflow: ellipsis;
 `;
 
-export const Icon = styled(IoClose)`
+export const CloseButton = styled.div`
   cursor: pointer;
   right: 0;
-  width: 18px;
-  height: 18px;
-  margin-left: auto;
-  text-align: right;
   color: var(--im-lightgray);
+  background-color: var(--im-red);
+  border-radius: 5px;
+  width: fit-content;
+  padding: 5px 10px;
+  font-weight: 600;
+  font-size: 15px;
+  margin: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.1s;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 export const Line = styled.div`
-  background-color: #f8f8fa;
+  background-color: var(--im-lightgray);
   height: 2px;
-  margin: 10px 0 0 0;
+  margin: 10px 0;
+  width: 50%;
 `;
 
 export const Bus = styled.div`
-  height: 130px;
+  height: 110px;
   width: 200px;
   background-color: var(--im-gray);
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  box-shadow: rgba(60, 60, 60, 0.17) 0px -23px 25px 0px inset,
+    rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset,
+    rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px,
+    rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px,
+    rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
 
   &:nth-child(1) {
     margin-top: 20px;
@@ -138,4 +172,24 @@ export const EndBusContainer = styled.div`
   ${Bus} {
     margin: 0px 0px 20px 0px;
   }
+`;
+
+export const CircledNumber = styled.div`
+  color: var(--im-primary);
+  background-color: var(--im-white);
+  padding: 5px;
+  height: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 15px;
+  border-radius: 50%;
+`;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px;
 `;

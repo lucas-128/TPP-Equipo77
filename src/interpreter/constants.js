@@ -12,3 +12,11 @@ export const instructionCodes = [
   "b",
   "c",
 ];
+
+export const operationNames = {
+  "5": "Suma en complemento a 2",
+  "6": "Suma en punto flotante",
+  "7": "OR",
+  "8": "AND",
+  "9": "XOR",
+};

@@ -1,9 +1,5 @@
 import { useSelector } from "react-redux";
-import {
-  BaseEdge,
-  getSmoothStepPath,
-  Position,
-} from "reactflow";
+import { BaseEdge, getSmoothStepPath, Position } from "reactflow";
 import {
   aluId,
   registersId,
@@ -11,7 +7,6 @@ import {
 import { getComponentInfo } from "../../containers/SimulatorSection/utils";
 
 export const RegistersALUBus = ({ data, source }) => {
-
   const nodes = useSelector((state) => state.application.nodes);
   const registersInfo = getComponentInfo(registersId, nodes);
   const aluInfo = getComponentInfo(aluId, nodes);
@@ -23,7 +18,7 @@ export const RegistersALUBus = ({ data, source }) => {
         sourceY: aluInfo.position.y + aluInfo.height / 2,
         targetX: registersInfo.position.x + registersInfo.width / 2,
         targetY: registersInfo.position.y + registersInfo.height,
-        offset: 40, 
+        offset: 40,
         sourcePosition: Position.Right,
         targetPosition: Position.Bottom,
       };
