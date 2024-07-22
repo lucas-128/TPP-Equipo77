@@ -119,7 +119,6 @@ export const {
 
 // Thunk para manejar la actualización del estado actual
 export const updateCurrentState = (newState) => (dispatch) => {
-  console.log("actualizo todos los estados");
   const { registers, mainMemoryCells, aluOperation, edgeAnimation } = newState;
   dispatch(updateRegisters({ registers }));
   dispatch(updateMainMemoryCells({ mainMemoryCells }));

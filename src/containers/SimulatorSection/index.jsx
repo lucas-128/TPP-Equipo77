@@ -28,6 +28,7 @@ export const SimulatorContainer = () => {
         onNodesChange={(changes) => dispatch(onNodesChange(changes))}
         onEdgesChange={(changes) => dispatch(onEdgesChange(changes))}
         onConnect={(connection) => dispatch(onConnect(connection))}
+        onNodeClick={() => {}} // permite que se pueda hacer click al nodo
         proOptions={proOptions}
         fitView
         nodesDraggable={false}

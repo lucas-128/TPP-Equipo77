@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import { BaseEdge } from "reactflow";
 import {
   registerCacheId,

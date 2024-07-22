@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Container } from "./styled";
-import { Handle } from "reactflow";
 
 export const CPU = () => {
   const initialRegisters = Array(256).fill("");
