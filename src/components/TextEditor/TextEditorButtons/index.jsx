@@ -6,6 +6,7 @@ import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
 import { getNewState, splitCode } from "../../../interpreter/main";
 import {
   updateRegisters,
+  updateEdgeAnimation,
   goToPreviousState,
   updatePreviousState,
   updateMainMemoryCells,
@@ -31,10 +32,7 @@ export const TextEditorButtons = ({
       //64 Es porque tiene 32 celdas de memoria provisoria, deberia ser 512
       //TODO: Levantar algun tipo de advertencia ya que el programa no entra en memoria
     } else {
-      newMemory = Array.from(
-        { length: 32 },
-        (_, i) => parsedCode[i] || "x"
-      );
+      newMemory = Array.from({ length: 32 }, (_, i) => parsedCode[i] || "x");
     }
     dispatch(
       updateMainMemoryCells({
@@ -48,11 +46,26 @@ export const TextEditorButtons = ({
     loadProgram();
     setIsSimulating((prev) => !prev);
     setSelectedLine(0);
+    const actualLine = text.split("\n")[selectedLine];
+    const newState = getNewState(applicationState, actualLine);
+    dispatch(updatePreviousState()); //TODO: Revisar esto porque creo que el primer estado guarda un previous state que no deberia
+    dispatch(updateCurrentState(newState));
   };
 
   const resetState = () => {
     dispatch(
       updateRegisters({ nodeId: "4", registers: new Array(16).fill("-") })
+    );
+    dispatch(
+      updateEdgeAnimation({
+        edgeAnimation: {
+          registerAluTop: false,
+          registerAluBottom: false,
+          registerCache: false,
+          aluRegisters: false,
+          cacheRegisters: false,
+        },
+      })
     );
     dispatch(
       updateMainMemoryCells({
@@ -76,7 +89,7 @@ export const TextEditorButtons = ({
 
   const setNextLine = () => {
     if (selectedLine === text.split("\n").length) return;
-    const actualLine = text.split("\n")[selectedLine];
+    const actualLine = text.split("\n")[selectedLine + 1];
     setSelectedLine((prev) => prev + 1);
     const newState = getNewState(applicationState, actualLine);
     dispatch(updatePreviousState()); //TODO: Revisar esto porque creo que el primer estado guarda un previous state que no deberia

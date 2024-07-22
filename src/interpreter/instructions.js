@@ -13,7 +13,7 @@ function applyBinaryOperation(operation, actualState, row) {
     registerS: registerS,
     registerT: registerT,
     result: operationResult,
-  }
+  };
   newState.registers[destinationIndex] = operationResult;
   return newState;
 }
@@ -23,6 +23,7 @@ export function getStateAfterInstruction(actualState, instruction, row) {
   newState.registers = [...actualState.registers];
   newState.mainMemoryCells = [...actualState.mainMemoryCells];
   newState.aluOperation = null;
+  newState.edgeAnimation = { ...actualState.edgeAnimation };
   switch (instruction) {
     case "1": {
       // 1RXY
@@ -30,12 +31,17 @@ export function getStateAfterInstruction(actualState, instruction, row) {
       const memoryIndex = parseInt(row[2] + row[3], 16);
       newState.registers[parseInt(row[1], 16)] =
         actualState.mainMemoryCells[memoryIndex];
+      newState.edgeAnimation.registerAluTop = true;
+      newState.edgeAnimation.registerAluBottom = true;
+      newState.edgeAnimation.aluRegisters = true;
       return newState;
     }
     case "2":
       newState.registers[parseInt(row[1], 16)] = parseInt(row[2] + row[3], 16)
         .toString(2)
         .padStart(8, "0");
+      newState.edgeAnimation.registerAluTop = false;
+      newState.edgeAnimation.registerAluBottom = false;
       return newState;
     case "3": {
       const memoryIndex = parseInt(row[2] + row[3], 16);
