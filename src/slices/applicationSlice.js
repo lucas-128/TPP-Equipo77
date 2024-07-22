@@ -5,6 +5,9 @@ import {
   initialNodes,
   mainMemoryId,
   registersId,
+  registerAluTopId,
+  registerAluBottomId,
+  aluRegistersId,
 } from "../containers/SimulatorSection/components";
 import { addEdge, applyNodeChanges, applyEdgeChanges } from "reactflow";
 
@@ -17,6 +20,13 @@ const initialState = {
   edges: initialEdges,
   previousState: null,
   aluOperation: null,
+  edgeAnimation: {
+    registerAluTop: false,
+    registerAluBottom: false,
+    registerCache: false,
+    aluRegisters: false,
+    cacheRegisters: false,
+  },
 };
 
 export const applicationSlice = createSlice({
@@ -46,9 +56,23 @@ export const applicationSlice = createSlice({
       const { mainMemoryCells } = action.payload;
       state.mainMemoryCells = mainMemoryCells;
     },
+    updateEdgeAnimation(state, action) {
+      const { edgeAnimation } = action.payload;
+      state.edgeAnimation = edgeAnimation;
+    },
     updateAluOperation(state, action) {
       const { aluOperation } = action.payload;
       state.aluOperation = aluOperation;
+    },
+    updateEdges(state, action) {
+      const { edgeId, data } = action.payload;
+      state.edges = current(state).edges.map((edge) => {
+        let newEdge = { ...edge };
+        if (edge.id === edgeId) {
+          newEdge.data = data;
+        }
+        return newEdge;
+      });
     },
     updateNodes(state, action) {
       const { nodeId, data } = action.payload;
@@ -65,6 +89,7 @@ export const applicationSlice = createSlice({
       state.nodes = current(state).previousState.nodes;
       state.edges = current(state).previousState.edges;
       state.programCounter = current(state).previousState.programCounter;
+      state.edgeAnimation = current(state).previousState.edgeAnimation;
       state.instructionRegister =
         current(state).previousState.instructionRegister;
       state.previousState = current(state).previousState.previousState;
@@ -82,9 +107,11 @@ export const {
   onEdgesChange,
   onConnect,
   updateRegisters,
+  updateEdgeAnimation,
   updateMainMemoryCells,
   updateAluOperation,
   updateNodes,
+  updateEdges,
   goToPreviousState,
   updatePreviousState,
   updateError,
@@ -92,14 +119,32 @@ export const {
 
 // Thunk para manejar la actualización del estado actual
 export const updateCurrentState = (newState) => (dispatch) => {
-  console.log("actualizo todos los estados");
-  const { registers, mainMemoryCells, aluOperation } = newState;
+  const { registers, mainMemoryCells, aluOperation, edgeAnimation } = newState;
   dispatch(updateRegisters({ registers }));
   dispatch(updateMainMemoryCells({ mainMemoryCells }));
   dispatch(updateAluOperation({ aluOperation }));
   dispatch(updateNodes({ nodeId: registersId, data: registers }));
   dispatch(updateNodes({ nodeId: mainMemoryId, data: mainMemoryCells }));
   dispatch(updateNodes({ nodeId: aluId, data: aluOperation }));
+  dispatch(updateEdgeAnimation({ edgeAnimation }));
+  dispatch(
+    updateEdges({
+      edgeId: registerAluTopId,
+      data: { position: "top", animated: edgeAnimation.registerAluTop },
+    })
+  );
+  dispatch(
+    updateEdges({
+      edgeId: registerAluBottomId,
+      data: { position: "bottom", animated: edgeAnimation.registerAluBottom },
+    })
+  );
+  dispatch(
+    updateEdges({
+      edgeId: aluRegistersId,
+      data: { position: "bottom", animated: edgeAnimation.aluRegisters },
+    })
+  );
 };
 
 export default applicationSlice.reducer;
