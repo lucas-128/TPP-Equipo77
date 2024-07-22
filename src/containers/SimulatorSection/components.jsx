@@ -5,7 +5,8 @@ import { ControlUnit } from "../../components/ControlUnit";
 import { CacheMemory } from "../../components/CacheMemory";
 import { CPU } from "../../components/CPU";
 import { RegistersCacheBus } from "../../components/RegistersCacheBus";
-import { RegistersALUBus } from "../../components/RegistersALUBus";
+import { RegistersToALUBus } from "../../components/RegistersToALUBus";
+import { ALUToRegistersBus } from "../../components/ALUToRegistersBus";
 import { Position } from "reactflow";
 
 export const nodeTypes = {
@@ -37,7 +38,7 @@ export const initialNodes = [
     id: aluId,
     type: "alu",
     data: { label: "ALU" },
-    position: { x: 470, y: 400 },
+    position: { x: 470, y: 420 },
     selectable: false,
   },
   {
@@ -71,42 +72,44 @@ export const initialNodes = [
 ];
 
 export const edgeTypes = {
-  "registers-cache": RegistersCacheBus,
-  "registers-alu": RegistersALUBus,
+  registersCache: RegistersCacheBus,
+  registerToAlu: RegistersToALUBus,
+  AluToRegisters: ALUToRegistersBus,
 };
+
+export const registerCacheId = "registers-cache";
+export const registerAluTopId = "registers-alu-top";
+export const registerAluBottomId = "registers-alu-bottom";
+export const aluRegistersId = "alu-registers";
+export const cacheRegistersId = "cache-registers";
 
 export const initialEdges = [
   {
-    id: "registers-cache",
+    id: registerCacheId,
     source: registersId,
     target: cacheMemoryId,
-    type: "registers-cache",
+    type: "registersCache",
   },
   {
-    id: "registers-alu-top",
+    id: registerAluTopId,
     source: registersId,
     target: aluId,
-    type: "registers-alu",
-    data: { position: "top" },
-    sourcePosition: Position.Right,
-    targetPosition: Position.Left,
+    type: "registerToAlu",
+    data: { position: "top", animated: false },
   },
   {
-    id: "registers-alu-bottom",
+    id: registerAluBottomId,
     source: registersId,
     target: aluId,
-    type: "registers-alu",
-    data: { position: "bottom" },
-    sourcePosition: Position.Right,
-    targetPosition: Position.Left,
+    type: "registerToAlu",
+    data: { position: "bottom", animated: false },
   },
   {
-    id: "alu-registers",
+    id: aluRegistersId,
     source: aluId,
     target: registersId,
-    type: "registers-alu",
-    sourcePosition: Position.Bottom,
-    targetPosition: Position.Bottom,
+    type: "AluToRegisters",
+    data: { position: "bottom", animated: false },
   },
   // {
   //   id: "cache-registers",
