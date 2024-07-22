@@ -51,10 +51,12 @@ export const applicationSlice = createSlice({
       state.aluOperation = aluOperation;
     },
     updateNodes(state, action) {
-      const { data } = action.payload;
+      const { nodeId, data } = action.payload;
       state.nodes = current(state).nodes.map((node) => {
         let newNode = { ...node };
-        newNode.data = { ...node.data, ...data };
+        if (node.id === nodeId) {
+          newNode.data = { data };
+        }
         return newNode;
       });
     },
@@ -94,7 +96,9 @@ export const updateCurrentState = (newState) => (dispatch) => {
   dispatch(updateRegisters({ registers }));
   dispatch(updateMainMemoryCells({ mainMemoryCells }));
   dispatch(updateAluOperation({ aluOperation }));
-  dispatch(updateNodes({ data: newState }));
+  dispatch(updateNodes({ nodeId: registersId, data: registers }));
+  dispatch(updateNodes({ nodeId: mainMemoryId, data: mainMemoryCells }));
+  dispatch(updateNodes({ nodeId: aluId, data: aluOperation }));
 };
 
 export default applicationSlice.reducer;
