@@ -11,6 +11,7 @@ import { Container } from "./styled";
 import { nodeTypes, edgeTypes } from "./components";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { AluModal } from "../../components/AluModal";
 
 export const SimulatorContainer = () => {
   const nodes = useSelector((state) => state.application.nodes);
@@ -37,6 +38,7 @@ export const SimulatorContainer = () => {
         <Controls showInteractive={false} />
         <Background gap={10} size={1} />
       </ReactFlow>
+      <AluModal />
     </Container>
   );
 };

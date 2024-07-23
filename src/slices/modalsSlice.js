@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   error: false,
   errorMessage: "",
+  aluZoom: false,
 };
 
 export const modalsSlice = createSlice({
@@ -17,9 +18,12 @@ export const modalsSlice = createSlice({
       state.error = false;
       state.errorMessage = "";
     },
+    setOpenAluZoom(state, action) {
+      state.aluZoom = action.payload;
+    }
   },
 });
 
-export const { setError, closeError } = modalsSlice.actions;
+export const { setError, closeError, setOpenAluZoom } = modalsSlice.actions;
 
 export default modalsSlice.reducer;

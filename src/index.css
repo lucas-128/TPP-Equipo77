@@ -25,6 +25,9 @@
   --im-bluegray: #4f5d75;
   --im-primary: #17455a;
   --im-secondary: #023445;
+  --im-terciary: #496675;
+  --im-purple: #29274c;
+  --im-red: rgb(187, 78, 78);
   --im-purple: #29274c;
 
   --im-primary-hover: #1a516c;
@@ -60,6 +63,21 @@ a {
   color: #646cff;
   text-decoration: inherit;
 }
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
 a:hover {
   color: #535bf2;
 }

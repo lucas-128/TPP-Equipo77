@@ -1,3 +1,5 @@
+import { operationNames } from "./constants.js";
+
 function applyBinaryOperation(operation, actualState, row) {
   const newState = { ...actualState, registers: [...actualState.registers] };
   const registerSIndex = parseInt(row[2], 16);
@@ -9,9 +11,12 @@ function applyBinaryOperation(operation, actualState, row) {
     .toString(2)
     .padStart(8, "0");
   newState.aluOperation = {
-    operation: operation.name,
-    registerS: registerS,
-    registerT: registerT,
+    operation: operationNames[row[0]],
+    registerS: actualState.registers[registerSIndex],
+    registerT: actualState.registers[registerTIndex],
+    registerSIndex: registerSIndex,
+    registerTIndex: registerTIndex,
+    destinationIndex: destinationIndex,
     result: operationResult,
   };
   newState.registers[destinationIndex] = operationResult;
@@ -52,7 +57,6 @@ export function getStateAfterInstruction(actualState, instruction, row) {
     }
     case "4":
       newState.registers[parseInt(row[3], 16)] = actualState.registers[row[2]];
-      console.log("newState", newState);
       return newState;
     case "5": {
       // 5RST
