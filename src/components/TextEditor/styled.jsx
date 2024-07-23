@@ -4,6 +4,14 @@ export const Container = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
+  position: ${(props) => (props.fullscreen ? "fixed" : "relative")};
+  top: 0;
+  left: 0;
+  width: ${(props) => (props.fullscreen ? "100%" : "auto")};
+  height: ${(props) => (props.fullscreen ? "100%" : "auto")};
+  z-index: ${(props) => (props.fullscreen ? "1000" : "auto")};
+  background-color: ${(props) =>
+    props.fullscreen ? "var(--im-white)" : "auto"};
 `;
 
 export const EditorWrapper = styled.div`

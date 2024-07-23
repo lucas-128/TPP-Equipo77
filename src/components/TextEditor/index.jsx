@@ -1,8 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   MdOutlineFileUpload,
   MdArrowBackIosNew,
   MdArrowForwardIos,
+  MdDelete,
+  MdFullscreen,
+  MdFullscreenExit,
+  MdUndo,
+  MdDownload,
 } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { validateSyntax } from "../../interpreter/main";
@@ -30,6 +35,9 @@ export const TextEditor = ({
   text,
   setText,
 }) => {
+  const [isFullScreen, setIsFullScreen] = useState(false);
+  const [history, setHistory] = useState([]);
+  //const [fontSize, setFontSize] = useState(16);
   const show = useSelector((state) => state.editorText.show);
   const dispatch = useDispatch();
 
@@ -49,24 +57,57 @@ export const TextEditor = ({
         "\t" +
         value.substring(selectionEnd);
       setText(newValue);
+    } else if (e.ctrlKey && e.key === "z") {
+      handleUndo();
     }
   };
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
-    try {
-      if (file && file.type === "text/plain") {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          setText(e.target.result);
-        };
-        reader.readAsText(file);
-      } else {
-        alert("Please select a valid .txt file");
-      }
-    } catch (error) {
-      console.log(error);
+    if (file && file.type === "text/plain") {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setText(e.target.result);
+        setHistory((prevHistory) => [...prevHistory, e.target.result]);
+        event.target.value = null;
+      };
+      reader.onerror = () => {
+        dispatch(setError("Error reading file."));
+      };
+      reader.readAsText(file);
+    } else {
+      dispatch(setError("Please select a valid .txt file."));
     }
+  };
+
+  const handleClearText = () => {
+    setHistory((prevHistory) => [...prevHistory, text]);
+    setText("");
+  };
+
+  const handleFullScreenToggle = () => {
+    setIsFullScreen(!isFullScreen);
+  };
+
+  const handleUndo = () => {
+    setHistory((prevHistory) => {
+      if (prevHistory.length > 1) {
+        const previousText = prevHistory[prevHistory.length - 2];
+        setText(previousText);
+        return prevHistory.slice(0, -2);
+      }
+      return prevHistory;
+    });
+  };
+
+  const handleDownload = () => {
+    const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "programa.txt";
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   useEffect(() => {
@@ -78,17 +119,23 @@ export const TextEditor = ({
         )
       );
     }
-  }, [isSimulating]);
+  }, [isSimulating, text, selectedLine, dispatch]);
+
+  useEffect(() => {
+    if (text !== history[history.length - 1]) {
+      setHistory((prevHistory) => [...prevHistory, text]);
+    }
+  }, [text]);
 
   return show ? (
-    <Container>
+    <Container fullscreen={isFullScreen}>
       <EditorWrapper>
         <EditorHeader>
-          {/* <EditorHeaderText>Editor de texto</EditorHeaderText> */}
           <EditorHeaderIconContainer>
-            <Button htmlFor="file-upload">
+            <Button htmlFor="file-upload" title="Subir archivo">
               <MdOutlineFileUpload size={20} />
             </Button>
+
             <input
               id="file-upload"
               type="file"
@@ -97,6 +144,22 @@ export const TextEditor = ({
               onChange={handleFileUpload}
               disabled={isSimulating}
             />
+            <Button onClick={handleClearText} title="Borrar">
+              <MdDelete size={20} />
+            </Button>
+            <Button onClick={handleFullScreenToggle} title="Pantalla completa">
+              {isFullScreen ? (
+                <MdFullscreenExit size={20} />
+              ) : (
+                <MdFullscreen size={20} />
+              )}
+            </Button>
+            <Button onClick={handleUndo} title="Deshacer">
+              <MdUndo size={20} />
+            </Button>
+            <Button onClick={handleDownload} title="Descargar">
+              <MdDownload size={20} />
+            </Button>
             <Button onClick={() => dispatch(setShowEditor(!show))}>
               <MdArrowBackIosNew size={15} />
             </Button>
@@ -108,7 +171,7 @@ export const TextEditor = ({
               {getLineNumbers(text).map((lineNumber, i) => (
                 <LineNumber
                   key={lineNumber}
-                  selected={isSimulating && i == selectedLine}
+                  selected={isSimulating && i === selectedLine}
                 >
                   <LineCounterText>{lineNumber}</LineCounterText>
                 </LineNumber>
@@ -120,6 +183,7 @@ export const TextEditor = ({
               onChange={(e) => setText(e.target.value)}
               onKeyDown={handleKeyDown}
               readOnly={isSimulating}
+              //style={{ fontSize: `${fontSize}px` }}
             />
           </EditorTextContainer>
         </EditorTextWrapper>
