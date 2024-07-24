@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   BodyContainer,
   CustomText,
@@ -23,11 +24,17 @@ export const ControlUnit = () => {
       <BodyContainer>
         <SpecialRegisterContainer>
           <CustomText>Program Counter</CustomText>
-          <SpecialRegisterValue  id="PC"> {programCounter} </SpecialRegisterValue>
+          <SpecialRegisterValue id="PC">
+            {" "}
+            {programCounter}{" "}
+          </SpecialRegisterValue>
         </SpecialRegisterContainer>
         <SpecialRegisterContainer>
           <CustomText>Instruction Register</CustomText>
-          <SpecialRegisterValue id="IR"> {instructionRegister} </SpecialRegisterValue>
+          <SpecialRegisterValue id="IR">
+            {" "}
+            {instructionRegister}{" "}
+          </SpecialRegisterValue>
         </SpecialRegisterContainer>
       </BodyContainer>
     </MainContainer>
