@@ -17,6 +17,16 @@ export const MainMemory = () => {
     (state) => state.application.mainMemoryCells
   );
 
+  // paginado
+  const rowsPerPage = 32;
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(mainMemoryCells.length / rowsPerPage);
+  const currentData = mainMemoryCells.slice(
+    (currentPage - 1) * rowsPerPage,
+    currentPage * rowsPerPage
+  );
+  const currentDataLength = currentData.length;
+  const offset = currentDataLength * (currentPage - 1);
   return (
     <>
       <Container>
@@ -35,10 +45,13 @@ export const MainMemory = () => {
               </TableRow>
             </thead>
             <tbody>
-              {mainMemoryCells.map((cellValue, index) => (
-                <TableRow key={index} colSpan="2">
+              {currentData.map((cellValue, index) => (
+                <TableRow key={index + offset} colSpan="2">
                   <TableCell>
-                    {index.toString(16).toUpperCase().padStart(2, "0")}
+                    {(index + offset)
+                      .toString(16)
+                      .toUpperCase()
+                      .padStart(2, "0")}
                   </TableCell>
                   <TableCell>{cellValue}</TableCell>
                 </TableRow>
@@ -46,6 +59,25 @@ export const MainMemory = () => {
             </tbody>
           </Table>
         </TableContainer>
+        <Container>
+          <div>
+            <button
+              onClick={() => setCurrentPage(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              Anterior
+            </button>
+            <span>
+              Página {currentPage} de {totalPages}
+            </span>
+            <button
+              onClick={() => setCurrentPage(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
+              Siguiente
+            </button>
+          </div>
+        </Container>
       </Container>
     </>
   );

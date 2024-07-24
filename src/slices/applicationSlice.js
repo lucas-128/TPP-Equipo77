@@ -14,7 +14,10 @@ import { addEdge, applyNodeChanges, applyEdgeChanges } from "reactflow";
 
 const initialState = {
   registers: new Array(16).fill("-"),
-  mainMemoryCells: new Array(31).fill("x").concat("00001000"), //Esto debe ser todo vacio, le puse el binario al final para hacer pruebas
+  mainMemoryCells: new Array(31)
+    .fill("x")
+    .concat("00001000") //Esto debe ser todo vacio, le puse el binario al final para hacer pruebas
+    .concat(new Array(224).fill("x")),
   programCounter: "-",
   instructionRegister: "-",
   nodes: initialNodes,
