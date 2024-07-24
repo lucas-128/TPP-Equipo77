@@ -25,14 +25,14 @@ export const ControlUnit = () => {
       <HeaderText>Unidad de Control</HeaderText>
       <BodyContainer>
         <SpecialRegisterContainer>
-          <CustomText>Program Counter</CustomText>
+          <CustomText>Contador de programa</CustomText>
           <SpecialRegisterValue id="PC">
             {" "}
             {programCounter}{" "}
           </SpecialRegisterValue>
         </SpecialRegisterContainer>
         <SpecialRegisterContainer>
-          <CustomText>Instruction Register</CustomText>
+          <CustomText>Registro de instrucción</CustomText>
           <SpecialRegisterValue id="IR">
             {" "}
             {instructionRegister}{" "}
