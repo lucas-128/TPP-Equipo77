@@ -24,7 +24,7 @@ export const ControlToMainMemAddrBus = ({ id }) => {
         path={edgePath}
         interactionWidth={20}
         style={{
-          stroke: 'var(--im-purple)',
+          stroke: 'var(--im-light-purple)',
           strokeWidth: 20,
         }}
       />
