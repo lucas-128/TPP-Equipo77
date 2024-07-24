@@ -81,23 +81,33 @@ export const TextEditor = ({
   };
 
   const handleClearText = () => {
-    setHistory((prevHistory) => [...prevHistory, text]);
-    setText("");
+    if (!isSimulating) {
+      setHistory((prevHistory) => [...prevHistory, text]);
+      setText("");
+    } else {
+      // no se puede editar el codigo mientras se simula
+    }
   };
 
   const handleFullScreenToggle = () => {
-    setIsFullScreen(!isFullScreen);
+    if (!isSimulating) {
+      setIsFullScreen(!isFullScreen);
+    }
   };
 
   const handleUndo = () => {
-    setHistory((prevHistory) => {
-      if (prevHistory.length > 1) {
-        const previousText = prevHistory[prevHistory.length - 2];
-        setText(previousText);
-        return prevHistory.slice(0, -2);
-      }
-      return prevHistory;
-    });
+    if (!isSimulating) {
+      setHistory((prevHistory) => {
+        if (prevHistory.length > 1) {
+          const previousText = prevHistory[prevHistory.length - 2];
+          setText(previousText);
+          return prevHistory.slice(0, -2);
+        }
+        return prevHistory;
+      });
+    } else {
+      // no se puede editar el codigo mientras se simula
+    }
   };
 
   const handleDownload = () => {
@@ -118,6 +128,10 @@ export const TextEditor = ({
           "El código contiene errores de sintáxis, por favor modifíquelo e intente de nuevo"
         )
       );
+    }
+
+    if (isSimulating) {
+      setIsFullScreen(false);
     }
   }, [isSimulating, text, selectedLine, dispatch]);
 
