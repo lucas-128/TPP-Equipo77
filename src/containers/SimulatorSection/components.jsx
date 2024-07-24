@@ -122,19 +122,19 @@ export const initialEdges = [
     id: mainMemControlUnitDataId,
     source: mainMemoryId,
     target: controlUnitId,
-    type: "memoryControlUnitData"
+    type: "memoryControlUnitData",
   },
   {
     id: controlUnitMainMemDataId,
     source: controlUnitId,
     target: mainMemoryId,
-    type: "memoryControlUnitData"
+    type: "memoryControlUnitData",
   },
   // bus de direcciones del control a la memoria principal
   {
     id: controlUnitMainMemAddrId,
     source: controlUnitId,
     target: mainMemoryId,
-    type: "controlUnitToMainMemory"
-  }
+    type: "controlUnitToMainMemory",
+  },
 ];

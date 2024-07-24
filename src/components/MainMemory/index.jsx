@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Container,
   TableContainer,
@@ -8,6 +8,8 @@ import {
   TableCell,
   Title,
   HeaderCellText,
+  ButtonsContainer,
+  PaginationButton,
   CustomHandle,
 } from "./styled";
 import { useSelector } from "react-redux";
@@ -18,16 +20,24 @@ export const MainMemory = () => {
     (state) => state.application.mainMemoryCells
   );
 
-  // paginado
   const rowsPerPage = 32;
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(mainMemoryCells.length / rowsPerPage);
-  const currentData = mainMemoryCells.slice(
-    (currentPage - 1) * rowsPerPage,
-    currentPage * rowsPerPage
+  const totalPages = useMemo(
+    () => Math.ceil(mainMemoryCells.length / rowsPerPage),
+    [mainMemoryCells.length, rowsPerPage]
   );
-  const currentDataLength = currentData.length;
-  const offset = currentDataLength * (currentPage - 1);
+  const currentData = useMemo(
+    () =>
+      mainMemoryCells.slice(
+        (currentPage - 1) * rowsPerPage,
+        currentPage * rowsPerPage
+      ),
+    [mainMemoryCells, currentPage, rowsPerPage]
+  );
+  const offset = useMemo(
+    () => currentData.length * (currentPage - 1),
+    [currentData.length, currentPage]
+  );
   return (
     <>
       <Container id={mainMemoryId}>
@@ -59,25 +69,25 @@ export const MainMemory = () => {
             </tbody>
           </Table>
         </TableContainer>
-        <Container>
+        <ButtonsContainer>
+          <span>
+            Página {currentPage} de {totalPages}
+          </span>
           <div>
-            <button
+            <PaginationButton
               onClick={() => setCurrentPage(currentPage - 1)}
               disabled={currentPage === 1}
             >
               Anterior
-            </button>
-            <span>
-              Página {currentPage} de {totalPages}
-            </span>
-            <button
+            </PaginationButton>
+            <PaginationButton
               onClick={() => setCurrentPage(currentPage + 1)}
               disabled={currentPage === totalPages}
             >
               Siguiente
-            </button>
+            </PaginationButton>
           </div>
-        </Container>
+        </ButtonsContainer>
 
         <CustomHandle type="source" position="left" />
         <CustomHandle type="target" position="left" />
