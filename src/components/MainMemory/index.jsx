@@ -8,9 +8,11 @@ import {
   TableCell,
   Title,
   HeaderCellText,
+  CustomHandle,
 } from "./styled";
 import { Handle } from "reactflow";
 import { useSelector } from "react-redux";
+import { mainMemoryId } from "../../containers/SimulatorSection/components";
 
 export const MainMemory = () => {
   const mainMemoryCells = useSelector(
@@ -19,8 +21,7 @@ export const MainMemory = () => {
 
   return (
     <>
-      <Container>
-        <Handle type="target" position="top" style={{ background: "#555" }} />
+      <Container id={mainMemoryId}>
         <Title>Memoria principal</Title>
         <TableContainer>
           <Table>
@@ -46,6 +47,9 @@ export const MainMemory = () => {
             </tbody>
           </Table>
         </TableContainer>
+        <CustomHandle type="source" position="left" />
+        <CustomHandle type="target" position="left" />
+        <CustomHandle type="target" position="left" />
       </Container>
     </>
   );

@@ -1,3 +1,4 @@
+import { Handle } from "reactflow";
 import styled from "styled-components";
 
 export const MainContainer = styled.div`
@@ -58,4 +59,11 @@ export const HeaderText = styled.p`
   font-size: 22px;
   font-weight: bold;
   margin: 0px 0px 10px 0px;
+`;
+
+
+export const CustomHandle = styled(Handle)`
+  background-color: transparent !important;
+  border: none;
+  pointer-events: none;
 `;

@@ -1,3 +1,4 @@
+import { Handle } from "reactflow";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -64,4 +65,10 @@ export const HeaderCellText = styled.p`
   font-size: 18px;
   color: var(--im-white);
   margin: 0;
+`;
+
+export const CustomHandle = styled(Handle)`
+  background-color: transparent !important;
+  border: none;
+  pointer-events: none;
 `;

@@ -1,5 +1,7 @@
+import { controlUnitId } from "../../containers/SimulatorSection/components";
 import {
   BodyContainer,
+  CustomHandle,
   CustomText,
   HeaderText,
   MainContainer,
@@ -18,18 +20,23 @@ export const ControlUnit = () => {
   );
 
   return (
-    <MainContainer>
+    <MainContainer id={controlUnitId}>
       <HeaderText>Unidad de Control</HeaderText>
       <BodyContainer>
         <SpecialRegisterContainer>
           <CustomText>Program Counter</CustomText>
-          <SpecialRegisterValue  id="PC"> {programCounter} </SpecialRegisterValue>
+          <SpecialRegisterValue id="PC">{programCounter}</SpecialRegisterValue>
         </SpecialRegisterContainer>
         <SpecialRegisterContainer>
           <CustomText>Instruction Register</CustomText>
-          <SpecialRegisterValue id="IR"> {instructionRegister} </SpecialRegisterValue>
+          <SpecialRegisterValue id="IR">
+            {instructionRegister}{" "}
+          </SpecialRegisterValue>
         </SpecialRegisterContainer>
       </BodyContainer>
+      <CustomHandle type="target" position="right" />
+      <CustomHandle type="source" position="bottom" />
+      <CustomHandle type="source" position="right" />
     </MainContainer>
   );
 };
