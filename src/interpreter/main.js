@@ -14,7 +14,7 @@ export function splitCode(text) {
   });
 }
 
-export const getNewState = (actualState, line) => {
+export const getNewState = (actualState, line, selectedLine) => {
   const lineSplit = line.split("");
   const instruction = lineSplit[0].toLowerCase();
   const newState = getStateAfterInstruction(
@@ -22,10 +22,11 @@ export const getNewState = (actualState, line) => {
     instruction,
     lineSplit
   );
+  newState.programCounter = (selectedLine * 2).toString(16).padStart(2, "0");
   return newState;
 };
 
-//cambiar qu eesta funcion tiene que devolver true si esta todo bien, no false,
+//cambiar que esta funcion tiene que devolver true si esta todo bien, no false,
 function isValidCode(rows) {
   return rows.every((row) => {
     return (

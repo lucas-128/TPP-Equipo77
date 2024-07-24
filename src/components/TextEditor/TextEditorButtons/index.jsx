@@ -11,6 +11,8 @@ import {
   updatePreviousState,
   updateMainMemoryCells,
   updateCurrentState,
+  updateInstructionRegister,
+  updateNodes,
 } from "../../../slices/applicationSlice";
 import { Button } from "../../Button";
 
@@ -25,13 +27,19 @@ export const TextEditorButtons = ({
   const applicationState = useSelector((state) => state.application);
 
   const getProgramInMemory = () => {
-    const parsedCode = splitCode(text);
+    const parsedCode = splitCode(text).join("");
+    console.log("parsedCode", parsedCode);
     let newMemory = new Array(32).fill("x");
     if (parsedCode.length > 64) {
       //64 Es porque tiene 32 celdas de memoria provisoria, deberia ser 512
       //TODO: Levantar algun tipo de advertencia ya que el programa no entra en memoria
     } else {
-      newMemory = Array.from({ length: 32 }, (_, i) => parsedCode[i] || "x");
+      //newMemory = Array.from({ length: 32 }, (_, i) => parsedCode[i] || "x");
+      newMemory = Array.from(
+        { length: 32 },
+        (_, i) => parsedCode.slice(i * 2, i * 2 + 2) || "x"
+      );
+      console.log(newMemory);
     }
     return newMemory;
   };
@@ -39,11 +47,15 @@ export const TextEditorButtons = ({
   const handleSimulateButtonClick = () => {
     const newMemory = getProgramInMemory();
     setIsSimulating((prev) => !prev);
-    setSelectedLine(0);
+    //setSelectedLine(0);
     const actualLine = text.split("\n")[selectedLine];
     const newState = getNewState(
-      { ...applicationState, mainMemoryCells: newMemory },
-      actualLine
+      {
+        ...applicationState,
+        mainMemoryCells: newMemory,
+      },
+      actualLine,
+      selectedLine
     );
     dispatch(updatePreviousState()); //TODO: Revisar esto porque creo que el primer estado guarda un previous state que no deberia
     dispatch(updateCurrentState(newState));
@@ -86,9 +98,10 @@ export const TextEditorButtons = ({
 
   const setNextLine = () => {
     if (selectedLine === text.split("\n").length) return;
-    const actualLine = text.split("\n")[selectedLine + 1];
+    const nextLine = selectedLine + 1;
+    const actualLine = text.split("\n")[nextLine];
     setSelectedLine((prev) => prev + 1);
-    const newState = getNewState(applicationState, actualLine);
+    const newState = getNewState(applicationState, actualLine, nextLine);
     dispatch(updatePreviousState()); //TODO: Revisar esto porque creo que el primer estado guarda un previous state que no deberia
     dispatch(updateCurrentState(newState));
   };
