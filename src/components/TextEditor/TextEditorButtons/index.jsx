@@ -15,7 +15,6 @@ import {
   updateNodes,
 } from "../../../slices/applicationSlice";
 import { Button } from "../../Button";
-import { mainMemoryId } from "../../../containers/SimulatorSection/components";
 
 export const TextEditorButtons = ({
   isSimulating,
@@ -27,11 +26,8 @@ export const TextEditorButtons = ({
   const dispatch = useDispatch();
   const applicationState = useSelector((state) => state.application);
 
-  const loadProgram = () => {
-    ///const lines = text.trim().split("\n");
-    const lines = splitCode(text);
-    const parsedCode = lines.join("");
-    console.log(parsedCode);
+  const getProgramInMemory = () => {
+    const parsedCode = splitCode(text);
     let newMemory = new Array(32).fill("x");
     if (parsedCode.length > 64) {
       //64 Es porque tiene 32 celdas de memoria provisoria, deberia ser 512
@@ -43,21 +39,18 @@ export const TextEditorButtons = ({
       );
       console.log("new memory", newMemory);
     }
-    dispatch(
-      updateMainMemoryCells({
-        nodeId: mainMemoryId,
-        mainMemoryCells: newMemory,
-      })
-    );
-    dispatch(updateNodes({ nodeId: mainMemoryId, data: newMemory }));
+    return newMemory;
   };
 
   const handleSimulateButtonClick = () => {
-    loadProgram();
+    const newMemory = getProgramInMemory();
     setIsSimulating((prev) => !prev);
     setSelectedLine(0);
     const actualLine = text.split("\n")[selectedLine];
-    const newState = getNewState(applicationState, actualLine);
+    const newState = getNewState(
+      { ...applicationState, mainMemoryCells: newMemory },
+      actualLine
+    );
     dispatch(updatePreviousState()); //TODO: Revisar esto porque creo que el primer estado guarda un previous state que no deberia
     dispatch(updateCurrentState(newState));
   };
