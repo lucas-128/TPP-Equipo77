@@ -1,6 +1,7 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 import {
   aluId,
+  controlUnitId,
   initialEdges,
   initialNodes,
   mainMemoryId,
@@ -13,7 +14,10 @@ import { addEdge, applyNodeChanges, applyEdgeChanges } from "reactflow";
 
 const initialState = {
   registers: new Array(16).fill("-"),
-  mainMemoryCells: new Array(31).fill("x").concat("00001000"), //Esto debe ser todo vacio, le puse el binario al final para hacer pruebas
+  mainMemoryCells: new Array(31)
+    .fill("-")
+    .concat("00001000") //Esto debe ser todo vacio, le puse el binario al final para hacer pruebas
+    .concat(new Array(224).fill("-")),
   programCounter: "-",
   instructionRegister: "-",
   nodes: initialNodes,
@@ -84,6 +88,14 @@ export const applicationSlice = createSlice({
         return newNode;
       });
     },
+    updateInstructionRegister(state, action) {
+      const { instructionRegister } = action.payload;
+      state.instructionRegister = instructionRegister;
+    },
+    updateProgramCounter(state, action) {
+      const { programCounter } = action.payload;
+      state.programCounter = programCounter;
+    },
     goToPreviousState(state) {
       state.registers = current(state).previousState.registers;
       state.nodes = current(state).previousState.nodes;
@@ -112,6 +124,8 @@ export const {
   updateAluOperation,
   updateNodes,
   updateEdges,
+  updateInstructionRegister,
+  updateProgramCounter,
   goToPreviousState,
   updatePreviousState,
   updateError,
@@ -119,7 +133,15 @@ export const {
 
 // Thunk para manejar la actualización del estado actual
 export const updateCurrentState = (newState) => (dispatch) => {
-  const { registers, mainMemoryCells, aluOperation, edgeAnimation } = newState;
+  console.log("actualizo todos los estados");
+  const {
+    registers,
+    mainMemoryCells,
+    aluOperation,
+    instructionRegister,
+    programCounter,
+    edgeAnimation,
+  } = newState;
   dispatch(updateRegisters({ registers }));
   dispatch(updateMainMemoryCells({ mainMemoryCells }));
   dispatch(updateAluOperation({ aluOperation }));
@@ -143,6 +165,12 @@ export const updateCurrentState = (newState) => (dispatch) => {
     updateEdges({
       edgeId: aluRegistersId,
       data: { position: "bottom", animated: edgeAnimation.aluRegisters },
+    })
+  );
+  dispatch(updateProgramCounter({ programCounter: programCounter }));
+  dispatch(
+    updateInstructionRegister({
+      instructionRegister: instructionRegister,
     })
   );
 };

@@ -1,4 +1,5 @@
 import { controlUnitId } from "../../containers/SimulatorSection/components";
+import { useEffect } from "react";
 import {
   BodyContainer,
   CustomHandle,
@@ -25,11 +26,15 @@ export const ControlUnit = () => {
       <BodyContainer>
         <SpecialRegisterContainer>
           <CustomText>Program Counter</CustomText>
-          <SpecialRegisterValue id="PC">{programCounter}</SpecialRegisterValue>
+          <SpecialRegisterValue id="PC">
+            {" "}
+            {programCounter}{" "}
+          </SpecialRegisterValue>
         </SpecialRegisterContainer>
         <SpecialRegisterContainer>
           <CustomText>Instruction Register</CustomText>
           <SpecialRegisterValue id="IR">
+            {" "}
             {instructionRegister}{" "}
           </SpecialRegisterValue>
         </SpecialRegisterContainer>
