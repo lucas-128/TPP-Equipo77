@@ -34,6 +34,8 @@ export const SimulatorContainer = () => {
         fitView
         nodesDraggable={false}
         elementsSelectable={true}
+        zoomOnPinch={false}
+        zoomOnDoubleClick={false}
       >
         <Controls showInteractive={false} />
         <Background gap={10} size={1} />

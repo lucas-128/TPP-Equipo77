@@ -13,6 +13,7 @@ import {
   updateCurrentState,
   updateInstructionRegister,
   updateNodes,
+  updateProgramCounter,
 } from "../../../slices/applicationSlice";
 import { Button } from "../../Button";
 
@@ -72,9 +73,11 @@ export const TextEditorButtons = ({
     dispatch(
       updateMainMemoryCells({
         nodeId: "3",
-        mainMemoryCells: new Array(31).fill("x").concat("00001000"), //Esto debe ser todo vacio, le puse el binario al final para hacer pruebas
+        mainMemoryCells: new Array(255).fill("x").concat("00001000"), //Esto debe ser todo vacio, le puse el binario al final para hacer pruebas
       })
     );
+    dispatch(updateInstructionRegister({ instructionRegister: "-" }));
+    dispatch(updateProgramCounter({ programCounter: "-" }));
   };
 
   const handleEditCodeButtonClick = () => {
