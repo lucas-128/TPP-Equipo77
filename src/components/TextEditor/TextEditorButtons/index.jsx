@@ -28,20 +28,13 @@ export const TextEditorButtons = ({
 
   const getProgramInMemory = () => {
     const parsedCode = splitCode(text).join("");
-    console.log("parsedCode", parsedCode);
-    let newMemory = new Array(32).fill("x");
-    if (parsedCode.length > 64) {
-      //64 Es porque tiene 32 celdas de memoria provisoria, deberia ser 512
-      //TODO: Levantar algun tipo de advertencia ya que el programa no entra en memoria
-    } else {
-      //newMemory = Array.from({ length: 32 }, (_, i) => parsedCode[i] || "x");
-      newMemory = Array.from(
-        { length: 32 },
-        (_, i) => parsedCode.slice(i * 2, i * 2 + 2) || "x"
-      );
-      console.log(newMemory);
+    if (parsedCode.length > 512) {
+      // TODO: ERROR => el programa no entra en memoria
     }
-    return newMemory;
+    return Array.from(
+      { length: 256 },
+      (_, i) => parsedCode.slice(i * 2, i * 2 + 2) || "x"
+    );
   };
 
   const handleSimulateButtonClick = () => {

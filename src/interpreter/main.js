@@ -20,9 +20,9 @@ export const getNewState = (actualState, line, selectedLine) => {
   const newState = getStateAfterInstruction(
     actualState,
     instruction,
-    lineSplit
+    lineSplit,
+    selectedLine,
   );
-  newState.programCounter = (selectedLine * 2).toString(16).padStart(2, "0");
   return newState;
 };
 
