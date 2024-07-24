@@ -1,6 +1,8 @@
+import { controlUnitId } from "../../containers/SimulatorSection/components";
 import { useEffect } from "react";
 import {
   BodyContainer,
+  CustomHandle,
   CustomText,
   HeaderText,
   MainContainer,
@@ -19,7 +21,7 @@ export const ControlUnit = () => {
   );
 
   return (
-    <MainContainer>
+    <MainContainer id={controlUnitId}>
       <HeaderText>Unidad de Control</HeaderText>
       <BodyContainer>
         <SpecialRegisterContainer>
@@ -37,6 +39,9 @@ export const ControlUnit = () => {
           </SpecialRegisterValue>
         </SpecialRegisterContainer>
       </BodyContainer>
+      <CustomHandle type="target" position="right" />
+      <CustomHandle type="source" position="bottom" />
+      <CustomHandle type="source" position="right" />
     </MainContainer>
   );
 };

@@ -1,3 +1,4 @@
+import { Handle } from "reactflow";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -79,4 +80,10 @@ export const PaginationButton = styled.button`
   border: none;
   border-radius: 5px;
   cursor: pointer;
+`;
+
+export const CustomHandle = styled(Handle)`
+  background-color: transparent !important;
+  border: none;
+  pointer-events: none;
 `;

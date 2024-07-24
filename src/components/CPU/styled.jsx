@@ -9,9 +9,10 @@ export const Container = styled.div`
   background-color: var(--im-gray);
   border-radius: 10px;
   width: 1100px;
-  height: 1050px;
+  height: 1070px;
   overflow: hidden;
-  box-shadow: rgba(118, 148, 148, 0.25) 10px 50px 50px -90px, rgba(139, 139, 139, 0.3) 0px 30px 60px -30px, rgba(186, 186, 186, 0.37) 0px -2px 6px 0px inset;
+  box-shadow: rgba(118, 148, 148, 0.25) 10px 50px 50px -90px,
+    rgba(139, 139, 139, 0.3) 0px 30px 60px -30px,
+    rgba(186, 186, 186, 0.37) 0px -2px 6px 0px inset;
   z-index: -1;
 `;
-  

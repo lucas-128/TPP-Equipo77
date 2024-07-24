@@ -25,10 +25,11 @@
   --im-bluegray: #4f5d75;
   --im-primary: #17455a;
   --im-secondary: #023445;
+  --im-terciary: #4a8a9f;
+  --im-light-purple: #6a6792;
   --im-terciary: #496675;
   --im-purple: #29274c;
   --im-red: rgb(187, 78, 78);
-  --im-purple: #29274c;
 
   --im-primary-hover: #1a516c;
   --im-shadow-hover: rgba(101, 101, 101, 0.25) 0px 10px 20px -10px,
