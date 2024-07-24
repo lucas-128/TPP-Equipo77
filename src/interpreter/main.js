@@ -17,13 +17,12 @@ export function splitCode(text) {
 export const getNewState = (actualState, line, selectedLine) => {
   const lineSplit = line.split("");
   const instruction = lineSplit[0].toLowerCase();
-  const selectedLineHexa = (selectedLine * 2).toString(16).padStart(2, "0");
   const newState = getStateAfterInstruction(
     actualState,
     instruction,
     lineSplit
   );
-  newState.programCounter = selectedLineHexa;
+  newState.programCounter = (selectedLine * 2).toString(16).padStart(2, "0");
   return newState;
 };
 
