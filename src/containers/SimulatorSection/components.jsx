@@ -7,7 +7,8 @@ import { CPU } from "../../components/CPU";
 import { RegistersCacheBus } from "../../components/RegistersCacheBus";
 import { RegistersToALUBus } from "../../components/RegistersToALUBus";
 import { ALUToRegistersBus } from "../../components/ALUToRegistersBus";
-import { Position } from "reactflow";
+import { MainMemControlDataBus } from "../../components/MainMemControlDataBus";
+import { ControlToMainMemAddrBus } from "../../components/ControlToMainMemAddrBus";
 
 export const nodeTypes = {
   registers: RegisterBox,
@@ -75,6 +76,8 @@ export const edgeTypes = {
   registersCache: RegistersCacheBus,
   registerToAlu: RegistersToALUBus,
   AluToRegisters: ALUToRegistersBus,
+  memoryControlUnitData: MainMemControlDataBus,
+  controlUnitToMainMemory: ControlToMainMemAddrBus,
 };
 
 export const registerCacheId = "registers-cache";
@@ -82,6 +85,9 @@ export const registerAluTopId = "registers-alu-top";
 export const registerAluBottomId = "registers-alu-bottom";
 export const aluRegistersId = "alu-registers";
 export const cacheRegistersId = "cache-registers";
+export const mainMemControlUnitDataId = "main-mem-control-unit-data";
+export const controlUnitMainMemDataId = "control-unit-main-mem-data";
+export const controlUnitMainMemAddrId = "control-unit-main-mem-addr";
 
 export const initialEdges = [
   {
@@ -111,17 +117,24 @@ export const initialEdges = [
     type: "AluToRegisters",
     data: { position: "bottom", animated: false },
   },
-  // {
-  //   id: "cache-registers",
-  //   source: cacheMemoryId,
-  //   target: registersId,
-  //   type: "smoothstep",
-  //   animated: true,
-  //   style: {
-  //     // use 0.2s to speed up the animation
-  //     animation: "dashdraw 0.5s linear infinite",
-  //     strokeDasharray: 6,
-  //     strokeWidth: 7,
-  //   },
-  // }
+  // los dos buses de data de la memoria principal al control y viceversa
+  {
+    id: mainMemControlUnitDataId,
+    source: mainMemoryId,
+    target: controlUnitId,
+    type: "memoryControlUnitData",
+  },
+  {
+    id: controlUnitMainMemDataId,
+    source: controlUnitId,
+    target: mainMemoryId,
+    type: "memoryControlUnitData",
+  },
+  // bus de direcciones del control a la memoria principal
+  {
+    id: controlUnitMainMemAddrId,
+    source: controlUnitId,
+    target: mainMemoryId,
+    type: "controlUnitToMainMemory",
+  },
 ];

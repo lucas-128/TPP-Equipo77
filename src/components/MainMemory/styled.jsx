@@ -1,3 +1,4 @@
+import { Handle } from "reactflow";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -5,11 +6,12 @@ export const Container = styled.div`
   color: var(--im-lightgray);
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  padding-top: 20px;
   background-color: var(--im-gray);
   border-radius: 10px;
   width: 350px;
+  gap: 5px;
   height: 1050px;
   padding: 20px 15px;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
@@ -18,7 +20,6 @@ export const Container = styled.div`
   &:hover {
     box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.1);
   }
-  gap: 20px;
 `;
 
 export const Title = styled.h1`
@@ -32,6 +33,7 @@ export const TableContainer = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
+  margin-top: 10px;
 `;
 
 export const Table = styled.table`
@@ -64,4 +66,24 @@ export const HeaderCellText = styled.p`
   font-size: 18px;
   color: var(--im-white);
   margin: 0;
+`;
+
+export const ButtonsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const PaginationButton = styled.button`
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+`;
+
+export const CustomHandle = styled(Handle)`
+  background-color: transparent !important;
+  border: none;
+  pointer-events: none;
 `;

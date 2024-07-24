@@ -19,6 +19,7 @@ export const RegistersCacheBus = () => {
         id={"registers-cache"}
         path={edgePath}
         style={{
+          stroke: "grey",
           strokeWidth: 20,
         }}
       />
