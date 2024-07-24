@@ -39,8 +39,8 @@ export const SpecialRegisterValue = styled.div`
   background-color: var(--im-white);
   border-radius: 5px;
   padding: 5px;
-  color: var(--im-white);
-  min-width: ${(props) => props.id == "PC" ? "50px" : "100px"};
+  color: var(--im-darkgray);
+  min-width: ${(props) => (props.id == "PC" ? "50px" : "100px")};
   display: flex;
   justify-content: center;
   border: 1px solid black;

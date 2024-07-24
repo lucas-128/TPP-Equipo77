@@ -29,6 +29,7 @@ export function getStateAfterInstruction(actualState, instruction, row) {
   newState.mainMemoryCells = [...actualState.mainMemoryCells];
   newState.aluOperation = null;
   newState.edgeAnimation = { ...actualState.edgeAnimation };
+  newState.instructionRegister = row.slice(0, 4).join("");
   switch (instruction) {
     case "1": {
       // 1RXY
