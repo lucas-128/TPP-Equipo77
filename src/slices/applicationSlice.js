@@ -78,16 +78,16 @@ export const applicationSlice = createSlice({
         return newEdge;
       });
     },
-    updateNodes(state, action) {
-      const { nodeId, data } = action.payload;
-      state.nodes = current(state).nodes.map((node) => {
-        let newNode = { ...node };
-        if (node.id === nodeId) {
-          newNode.data = { data };
-        }
-        return newNode;
-      });
-    },
+    // updateNodes(state, action) {
+    //   const { nodeId, data } = action.payload;
+    //   state.nodes = current(state).nodes.map((node) => {
+    //     let newNode = { ...node };
+    //     if (node.id === nodeId) {
+    //       newNode.data = { data };
+    //     }
+    //     return newNode;
+    //   });
+    // },
     updateInstructionRegister(state, action) {
       const { instructionRegister } = action.payload;
       state.instructionRegister = instructionRegister;
@@ -145,9 +145,9 @@ export const updateCurrentState = (newState) => (dispatch) => {
   dispatch(updateRegisters({ registers }));
   dispatch(updateMainMemoryCells({ mainMemoryCells }));
   dispatch(updateAluOperation({ aluOperation }));
-  dispatch(updateNodes({ nodeId: registersId, data: registers }));
-  dispatch(updateNodes({ nodeId: mainMemoryId, data: mainMemoryCells }));
-  dispatch(updateNodes({ nodeId: aluId, data: aluOperation }));
+  // dispatch(updateNodes({ nodeId: registersId, data: registers }));
+  // dispatch(updateNodes({ nodeId: mainMemoryId, data: mainMemoryCells }));
+  // dispatch(updateNodes({ nodeId: aluId, data: aluOperation }));
   dispatch(updateEdgeAnimation({ edgeAnimation }));
   dispatch(
     updateEdges({

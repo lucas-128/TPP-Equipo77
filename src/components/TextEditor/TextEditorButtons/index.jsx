@@ -16,6 +16,7 @@ import {
   updateProgramCounter,
 } from "../../../slices/applicationSlice";
 import { Button } from "../../Button";
+import Program from "../../../interpreter/Program";
 
 export const TextEditorButtons = ({
   isSimulating,
@@ -27,6 +28,7 @@ export const TextEditorButtons = ({
   const dispatch = useDispatch();
   const applicationState = useSelector((state) => state.application);
 
+  // TODO: Esto se puede pasar al state directamente (dispatchear memory)
   const getProgramInMemory = () => {
     const parsedCode = splitCode(text).join("");
     if (parsedCode.length > 512) {
@@ -41,6 +43,7 @@ export const TextEditorButtons = ({
   const handleSimulateButtonClick = () => {
     const newMemory = getProgramInMemory();
     setIsSimulating((prev) => !prev);
+    const program = new Program(text);
     //setSelectedLine(0);
     const actualLine = text.split("\n")[selectedLine];
     const newState = getNewState(
