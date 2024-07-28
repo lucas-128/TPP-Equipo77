@@ -13,12 +13,12 @@ import {
 import { addEdge, applyNodeChanges, applyEdgeChanges } from "reactflow";
 
 const initialState = {
-  registers: new Array(16).fill("-"),
+  registers: new Array(16).fill(null),
   mainMemoryCells: new Array(31)
     .fill("-")
     .concat("00001000") //Esto debe ser todo vacio, le puse el binario al final para hacer pruebas
     .concat(new Array(224).fill("-")),
-  programCounter: "-",
+  programCounter: null,
   instructionRegister: "-",
   nodes: initialNodes,
   edges: initialEdges,
@@ -51,6 +51,17 @@ export const applicationSlice = createSlice({
     },
     onConnect(state, action) {
       state.edges = addEdge(action.payload, state.edges);
+    },
+    getProgramInMemory(state, action){
+      const text = action.payload;
+      const parsedCode = splitCode(text).join("");
+      if (parsedCode.length > 512) {
+        // TODO: ERROR => el programa no entra en memoria
+      }
+      state.mainMemoryCells =  Array.from(
+        { length: 256 },
+        (_, i) => parsedCode.slice(i * 2, i * 2 + 2) || "x"
+      );
     },
     updateRegisters(state, action) {
       const { registers } = action.payload;
@@ -109,6 +120,15 @@ export const applicationSlice = createSlice({
     updatePreviousState(state) {
       state.previousState = current(state);
     },
+    clearApplication(state) {
+      state.registers = initialState.registers;
+      state.mainMemoryCells = initialState.mainMemoryCells;
+      state.programCounter = initialState.programCounter;
+      state.instructionRegister = initialState.instructionRegister;
+      state.previousState = initialState.previousState;
+      state.aluOperation = initialState.aluOperation;
+      state.edgeAnimation = initialState.edgeAnimation;
+    }
   },
 });
 
@@ -118,6 +138,7 @@ export const {
   onNodesChange,
   onEdgesChange,
   onConnect,
+  getProgramInMemory,
   updateRegisters,
   updateEdgeAnimation,
   updateMainMemoryCells,
@@ -129,6 +150,7 @@ export const {
   goToPreviousState,
   updatePreviousState,
   updateError,
+  clearApplication
 } = applicationSlice.actions;
 
 // Thunk para manejar la actualización del estado actual

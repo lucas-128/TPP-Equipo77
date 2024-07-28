@@ -27,15 +27,13 @@ export const ControlUnit = () => {
         <SpecialRegisterContainer>
           <CustomText>Contador de programa</CustomText>
           <SpecialRegisterValue id="PC">
-            {" "}
-            {programCounter}{" "}
+            {programCounter !== null ? programCounter.toString(16).padStart(2, "0") : " - "}
           </SpecialRegisterValue>
         </SpecialRegisterContainer>
         <SpecialRegisterContainer>
           <CustomText>Registro de instrucción</CustomText>
           <SpecialRegisterValue id="IR">
-            {" "}
-            {instructionRegister}{" "}
+            {instructionRegister}
           </SpecialRegisterValue>
         </SpecialRegisterContainer>
       </BodyContainer>

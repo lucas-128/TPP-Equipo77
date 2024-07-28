@@ -1,18 +1,3 @@
-export const instructionCodes = [
-  LOAD_REGISTER_FROM_MEM,
-  LOAD_REGISTER_FROM_PATTERN,
-  STORE_MEM_FROM_REGISTER,
-  COPY_REGISTER_TO_REGISTER,
-  ADDITION_TWO_COMPLEMENT,
-  FLOATING_POINT_SUM,
-  OR,
-  AND,
-  XOR,
-  ROTATE_RIGHT,
-  JUMP_TO,
-  END,
-];
-
 // Data Tranfer Instructions
 export const LOAD_REGISTER_FROM_MEM = "1";
 export const LOAD_REGISTER_FROM_PATTERN = "2";
@@ -64,3 +49,18 @@ export const typeSimulations = {
   CYCLES: "cycles",
   PIPELINING: "pipelining",
 };
+
+export const instructionCodes = [
+  LOAD_REGISTER_FROM_MEM,
+  LOAD_REGISTER_FROM_PATTERN,
+  STORE_MEM_FROM_REGISTER,
+  COPY_REGISTER_TO_REGISTER,
+  ADDITION_TWO_COMPLEMENT,
+  FLOATING_POINT_SUM,
+  OR,
+  AND,
+  XOR,
+  ROTATE_RIGHT,
+  JUMP_TO,
+  END,
+];

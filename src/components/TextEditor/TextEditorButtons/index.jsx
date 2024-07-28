@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container } from "./styled";
 import { FaBackward, FaForward } from "react-icons/fa6";
 import { useSelector, useDispatch } from "react-redux";
@@ -12,8 +12,8 @@ import {
   updateMainMemoryCells,
   updateCurrentState,
   updateInstructionRegister,
-  updateNodes,
   updateProgramCounter,
+  clearApplication,
 } from "../../../slices/applicationSlice";
 import { Button } from "../../Button";
 import Program from "../../../interpreter/Program";
@@ -21,10 +21,11 @@ import Program from "../../../interpreter/Program";
 export const TextEditorButtons = ({
   isSimulating,
   setIsSimulating,
-  setSelectedLine,
-  selectedLine,
+  // setSelectedLine,
+  // selectedLine,
   text,
 }) => {
+  const [program, setProgram] = useState(null);
   const dispatch = useDispatch();
   const applicationState = useSelector((state) => state.application);
 
@@ -41,75 +42,71 @@ export const TextEditorButtons = ({
   };
 
   const handleSimulateButtonClick = () => {
-    const newMemory = getProgramInMemory();
     setIsSimulating((prev) => !prev);
-    const program = new Program(text);
-    //setSelectedLine(0);
-    const actualLine = text.split("\n")[selectedLine];
-    const newState = getNewState(
-      {
-        ...applicationState,
-        mainMemoryCells: newMemory,
-      },
-      actualLine,
-      selectedLine
-    );
+    const newMemory = getProgramInMemory();
+    const newProgram = new Program(text);
+    setProgram(newProgram);
+    const newState = newProgram.getNewState({
+      ...applicationState,
+      mainMemoryCells: newMemory,
+      programCounter: 0,
+    });
     dispatch(updatePreviousState()); //TODO: Revisar esto porque creo que el primer estado guarda un previous state que no deberia
     dispatch(updateCurrentState(newState));
   };
 
-  const resetState = () => {
-    dispatch(
-      updateRegisters({ nodeId: "4", registers: new Array(16).fill("-") })
-    );
-    dispatch(
-      updateEdgeAnimation({
-        edgeAnimation: {
-          registerAluTop: false,
-          registerAluBottom: false,
-          registerCache: false,
-          aluRegisters: false,
-          cacheRegisters: false,
-        },
-      })
-    );
-    dispatch(
-      updateMainMemoryCells({
-        nodeId: "3",
-        mainMemoryCells: new Array(255).fill("x").concat("00001000"), //Esto debe ser todo vacio, le puse el binario al final para hacer pruebas
-      })
-    );
-    dispatch(updateInstructionRegister({ instructionRegister: "-" }));
-    dispatch(updateProgramCounter({ programCounter: "-" }));
-  };
+  // const resetState = () => {
+  //   dispatch(
+  //     updateRegisters({ nodeId: "4", registers: new Array(16).fill("-") })
+  //   );
+  //   dispatch(
+  //     updateEdgeAnimation({
+  //       edgeAnimation: {
+  //         registerAluTop: false,
+  //         registerAluBottom: false,
+  //         registerCache: false,
+  //         aluRegisters: false,
+  //         cacheRegisters: false,
+  //       },
+  //     })
+  //   );
+  //   dispatch(
+  //     updateMainMemoryCells({
+  //       nodeId: "3",
+  //       mainMemoryCells: new Array(255).fill("x").concat("00001000"), //Esto debe ser todo vacio, le puse el binario al final para hacer pruebas
+  //     })
+  //   );
+  //   dispatch(updateInstructionRegister({ instructionRegister: "-" }));
+  //   dispatch(updateProgramCounter({ programCounter: 0 }));
+  // };
 
   const handleEditCodeButtonClick = () => {
     setIsSimulating((prev) => !prev);
-    setSelectedLine(0);
-    resetState();
+    // setSelectedLine(0);
+    dispatch(clearApplication());
   };
 
   const setPrevLine = () => {
-    if (selectedLine === 0) return;
-    setSelectedLine((prev) => Math.max(0, prev - 1));
+    // setSelectedLine((prev) => Math.max(0, prev - 1));
     dispatch(goToPreviousState());
   };
 
   const setNextLine = () => {
-    if (selectedLine === text.split("\n").length) return;
-    const nextLine = selectedLine + 1;
-    const actualLine = text.split("\n")[nextLine];
-    setSelectedLine((prev) => prev + 1);
-    const newState = getNewState(applicationState, actualLine, nextLine);
+    // if (selectedLine === text.split("\n").length) return;
+    // const nextLine = selectedLine + 1;
+    // const actualLine = text.split("\n")[nextLine];
+    // setSelectedLine((prev) => prev + 1);
+    //const newState = getNewState(applicationState, actualLine, nextLine);
     dispatch(updatePreviousState()); //TODO: Revisar esto porque creo que el primer estado guarda un previous state que no deberia
-    dispatch(updateCurrentState(newState));
+    dispatch(updateCurrentState(program.getNewState(applicationState)));
   };
 
   return (
     <Container>
       {isSimulating ? (
         <>
-          <Button onClick={() => setSelectedLine(0)}>
+          {/* TODO> ver forma de volver al principio de todo, primera inst. De ultima sacar flecha */}
+          <Button onClick={() => {}}>
             <FaBackward />
           </Button>
           <Button onClick={setPrevLine}>
@@ -118,7 +115,8 @@ export const TextEditorButtons = ({
           <Button onClick={setNextLine}>
             <BiSolidRightArrow />
           </Button>
-          <Button onClick={() => setSelectedLine(text.split("\n").length - 1)}>
+          {/* TODO> ver forma de ir al final de todo, estado de ultima inst. De ultima sacar flecha */}
+          <Button onClick={() => {}}>
             <FaForward />
           </Button>
           <Button onClick={handleEditCodeButtonClick}> Editar</Button>

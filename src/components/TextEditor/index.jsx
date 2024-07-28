@@ -26,11 +26,12 @@ import { setError } from "../../slices/modalsSlice";
 export const TextEditor = ({
   children,
   isSimulating,
-  selectedLine,
+  // selectedLine,
   text,
   setText,
 }) => {
   const show = useSelector((state) => state.editorText.show);
+  const programCounter = useSelector((state) => state.application.programCounter);
   const dispatch = useDispatch();
 
   const getLineNumbers = (text) => {
@@ -71,7 +72,7 @@ export const TextEditor = ({
 
   useEffect(() => {
     if (!text || !isSimulating) return;
-    if (!validateSyntax(text, selectedLine) && isSimulating) {
+    if (!validateSyntax(text) && isSimulating) {
       dispatch(
         setError(
           "El código contiene errores de sintáxis, por favor modifíquelo e intente de nuevo"
@@ -108,7 +109,7 @@ export const TextEditor = ({
               {getLineNumbers(text).map((lineNumber, i) => (
                 <LineNumber
                   key={lineNumber}
-                  selected={isSimulating && i == selectedLine}
+                  selected={isSimulating && i == programCounter}
                 >
                   <LineCounterText>{lineNumber}</LineCounterText>
                 </LineNumber>

@@ -2,6 +2,7 @@ import {
   ADDITION_TWO_COMPLEMENT,
   AND,
   FLOATING_POINT_SUM,
+  operationNames,
   OR,
   ROTATE_RIGHT,
   typeSimulations,
@@ -43,7 +44,7 @@ export default class ALInstruction {
 
   nextStep(oldState, typeSimulation) {
     if (typeSimulation === typeSimulations.SIMPLE) {
-      return this.resolve(oldState);
+      return this.execute(oldState);
     }
   }
 
@@ -51,34 +52,31 @@ export default class ALInstruction {
     const newState = { ...actualState, registers: [...actualState.registers] };
     const registerS = parseInt(actualState.registers[this.registerSIndex], 2);
     const registerT = parseInt(actualState.registers[this.registerTIndex], 2);
-    const operationResult = operation(registerS, registerT)
-      .toString(2)
-      .padStart(8, "0");
+    const operationResult = operation(registerS, registerT);
     newState.aluOperation = {
       operation: operationNames[this.type],
-      registerS: actualState.registers[registerSIndex],
-      registerT: actualState.registers[registerTIndex],
-      registerSIndex: registerSIndex,
-      registerTIndex: registerTIndex,
-      destinationIndex: destinationIndex,
+      registerS: actualState.registers[this.registerSIndex],
+      registerT: actualState.registers[this.registerTIndex],
+      registerSIndex: this.registerSIndex,
+      registerTIndex: this.registerTIndex,
+      destinationIndex: this.destinationIndex,
       result: operationResult,
     };
-    newState.registers[destinationIndex] = operationResult;
+    newState.registers[this.destinationIndex] = operationResult;
     return newState;
   }
 
   // TODO: Implementar una clase para cada instrucción.
-  resolve(oldState) {
-    let newState = { ...actualState };
+  execute(oldState) {
+    let newState = { ...oldState };
+    newState.programCounter += 1;
 
     switch (this.type) {
       case ADDITION_TWO_COMPLEMENT: {
         const registerS = parseInt(oldState.registers[this.registerSIndex], 2);
         const registerT = parseInt(oldState.registers[this.registerTIndex], 2);
         const operationResult = (registerS + registerT) & 0xff;
-        newState.registers[this.destinationIndex] = operationResult
-          .toString(2)
-          .padStart(8, "0");
+        newState.registers[this.destinationIndex] = operationResult;
         return newState;
       }
       case FLOATING_POINT_SUM: {
@@ -86,11 +84,11 @@ export default class ALInstruction {
         return newState;
       }
       case OR:
-        return this.applyBinaryOperation((a, b) => a | b, oldState);
+        return this.applyBinaryOperation((a, b) => a | b, newState);
       case AND:
-        return this.applyBinaryOperation((a, b) => a & b, oldState);
+        return this.applyBinaryOperation((a, b) => a & b, newState);
       case XOR:
-        return this.applyBinaryOperation((a, b) => a ^ b, oldState);
+        return this.applyBinaryOperation((a, b) => a ^ b, newState);
       case ROTATE_RIGHT:
         // TODO: Rotar a derecha el contenido del registro R, X veces
         const registerValue = newState.registers[this.destinationIndex];
@@ -105,5 +103,4 @@ export default class ALInstruction {
         return newState;
     }
   }
-
 }
