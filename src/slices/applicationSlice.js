@@ -24,13 +24,7 @@ const initialState = {
   edges: initialEdges,
   previousState: null,
   aluOperation: null,
-  edgeAnimation: {
-    registerAluTop: false,
-    registerAluBottom: false,
-    registerCache: false,
-    aluRegisters: false,
-    cacheRegisters: false,
-  },
+  edgeAnimation: [],
 };
 
 export const applicationSlice = createSlice({
@@ -52,13 +46,13 @@ export const applicationSlice = createSlice({
     onConnect(state, action) {
       state.edges = addEdge(action.payload, state.edges);
     },
-    getProgramInMemory(state, action){
+    getProgramInMemory(state, action) {
       const text = action.payload;
       const parsedCode = splitCode(text).join("");
       if (parsedCode.length > 512) {
         // TODO: ERROR => el programa no entra en memoria
       }
-      state.mainMemoryCells =  Array.from(
+      state.mainMemoryCells = Array.from(
         { length: 256 },
         (_, i) => parsedCode.slice(i * 2, i * 2 + 2) || "x"
       );
@@ -128,7 +122,7 @@ export const applicationSlice = createSlice({
       state.previousState = initialState.previousState;
       state.aluOperation = initialState.aluOperation;
       state.edgeAnimation = initialState.edgeAnimation;
-    }
+    },
   },
 });
 
@@ -150,7 +144,7 @@ export const {
   goToPreviousState,
   updatePreviousState,
   updateError,
-  clearApplication
+  clearApplication,
 } = applicationSlice.actions;
 
 // Thunk para manejar la actualización del estado actual
@@ -171,7 +165,7 @@ export const updateCurrentState = (newState) => (dispatch) => {
   // dispatch(updateNodes({ nodeId: mainMemoryId, data: mainMemoryCells }));
   // dispatch(updateNodes({ nodeId: aluId, data: aluOperation }));
   dispatch(updateEdgeAnimation({ edgeAnimation }));
-  dispatch(
+  /*dispatch(
     updateEdges({
       edgeId: registerAluTopId,
       data: { position: "top", animated: edgeAnimation.registerAluTop },
@@ -188,7 +182,7 @@ export const updateCurrentState = (newState) => (dispatch) => {
       edgeId: aluRegistersId,
       data: { position: "bottom", animated: edgeAnimation.aluRegisters },
     })
-  );
+  );*/
   dispatch(updateProgramCounter({ programCounter: programCounter }));
   dispatch(
     updateInstructionRegister({

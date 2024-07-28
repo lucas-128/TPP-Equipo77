@@ -3,17 +3,23 @@ import { BaseEdge } from "reactflow";
 import {
   aluId,
   registerAluTopId,
+  registerAluBottomId,
   registersId,
 } from "../../containers/SimulatorSection/components";
 import { usePosition } from "../../hooks/usePosition";
+import { useMemo } from "react";
 
 export const RegistersToALUBus = ({ id, data }) => {
-  const edgeAnimationAluTop = useSelector(
-    (state) => state.application.edgeAnimation.registerAluTop
+  const animations = useSelector((state) => state.application.edgeAnimation);
+
+  const edgeAnimationAluBottom = useMemo(
+    () => animations.includes(registerAluTopId),
+    [animations, registerAluTopId]
   );
 
-  const edgeAnimationAluBottom = useSelector(
-    (state) => state.application.edgeAnimation.registerAluBottom
+  const edgeAnimationAluTop = useMemo(
+    () => animations.includes(registerAluBottomId),
+    [animations, registerAluBottomId]
   );
 
   const [edgePath] = usePosition({

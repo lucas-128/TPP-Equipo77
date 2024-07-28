@@ -1,4 +1,9 @@
 import {
+  registerAluBottomId,
+  registerAluTopId,
+  registersId,
+} from "../../../containers/SimulatorSection/components";
+import {
   ADDITION_TWO_COMPLEMENT,
   AND,
   FLOATING_POINT_SUM,
@@ -70,13 +75,15 @@ export default class ALInstruction {
   execute(oldState) {
     let newState = { ...oldState };
     newState.programCounter += 1;
-
+    const newAnimation = [registerAluBottomId, registerAluTopId, registersId];
+    newState.edgeAnimation = newAnimation;
+    const newRegisters = [...newState.registers];
     switch (this.type) {
       case ADDITION_TWO_COMPLEMENT: {
         const registerS = parseInt(oldState.registers[this.registerSIndex], 2);
         const registerT = parseInt(oldState.registers[this.registerTIndex], 2);
         const operationResult = (registerS + registerT) & 0xff;
-        newState.registers[this.destinationIndex] = operationResult;
+        newRegisters[this.destinationIndex] = operationResult;
         return newState;
       }
       case FLOATING_POINT_SUM: {
