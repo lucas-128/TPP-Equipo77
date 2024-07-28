@@ -47,7 +47,7 @@ export const MainMemory = () => {
             <thead>
               <TableRow>
                 <TableHeader>
-                  <HeaderCellText>Direccion</HeaderCellText>
+                  <HeaderCellText>Dirección</HeaderCellText>
                 </TableHeader>
                 <TableHeader>
                   <HeaderCellText>Contenido</HeaderCellText>
@@ -88,9 +88,7 @@ export const MainMemory = () => {
             </PaginationButton>
           </div>
         </ButtonsContainer>
-
         <CustomHandle type="source" position="left" />
-        <CustomHandle type="target" position="left" />
         <CustomHandle type="target" position="left" />
       </Container>
     </>

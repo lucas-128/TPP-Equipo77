@@ -9,6 +9,7 @@ const shine = keyframes`
                 0 0 20px rgba(255, 255, 255, 0.2),
                 0 0 30px rgba(255, 255, 255, 0.2),
                 0 0 40px rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
   }
 `;
 
