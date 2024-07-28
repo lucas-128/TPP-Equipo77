@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
+export const Container = styled.div.withConfig({
+  shouldForwardProp: (prop) => !["fullscreen"].includes(prop),
+})`
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -59,8 +61,8 @@ export const EditorTextWrapper = styled.div`
   height: 100%;
 `;
 
-export const LineCounter = styled.div`
-  width: 30px;
+export const ArrowColumn = styled.div`
+  width: 20px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -69,6 +71,33 @@ export const LineCounter = styled.div`
   height: 100%;
 `;
 
+export const Arrow = styled.div.withConfig({
+  shouldForwardProp: (prop) => !["next", "selected"].includes(prop),
+})`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  color: ${(props) => {
+    if (props.selected) return "green";
+    if (props.next) return "red"; // Color for the next line arrow
+    return "transparent";
+  }};
+  font-weight: bold;
+  margin-right: 5px;
+  font-size: 20px;
+  margin-left: 50%;
+`;
+
+export const LineCounter = styled.div`
+  width: 40px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  line-height: 20px;
+  user-select: none;
+  height: 100%;
+`;
 export const LineCounterText = styled.p`
   font-size: 10px;
   color: black;
@@ -81,12 +110,11 @@ export const LineNumber = styled.div`
   justify-content: center;
   width: 100%;
   color: black;
-  background-color: ${(props) => (props.selected ? "#d7d7d7" : "")};
   margin-right: 5px;
 `;
 
 export const EditorText = styled.textarea`
-  font-size: 12px;
+  font-size: 16px;
   width: 100%;
   height: calc(100vh - 100px);
   border: none;
@@ -102,12 +130,11 @@ export const EditorText = styled.textarea`
   tab-size: 4;
   white-space: pre;
   overflow-y: hidden;
+  margin-top: 1.5px;
 `;
 
 export const EditorTextContainer = styled.div`
-  display: flex;
-  width: 100%;
-  height: fit-content;
+  flex: 1;
 `;
 
 export const Button = styled.label`

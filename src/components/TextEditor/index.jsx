@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import {
   MdOutlineFileUpload,
@@ -9,6 +10,8 @@ import {
   MdUndo,
   MdDownload,
 } from "react-icons/md";
+import { TiArrowRightThick } from "react-icons/ti";
+
 import { useDispatch, useSelector } from "react-redux";
 import { validateSyntax } from "../../interpreter/main";
 import {
@@ -19,11 +22,12 @@ import {
   EditorTextWrapper,
   LineCounter,
   LineNumber,
-  LineCounterText,
   EditorTextContainer,
   Button,
   Container,
   HiddenEditorContainer,
+  Arrow,
+  ArrowColumn,
 } from "./styled";
 import { setShowEditor } from "../../slices/editorTextSlice";
 import { setError } from "../../slices/modalsSlice";
@@ -37,13 +41,12 @@ export const TextEditor = ({
 }) => {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [history, setHistory] = useState([]);
-  //const [fontSize, setFontSize] = useState(16);
   const show = useSelector((state) => state.editorText.show);
   const dispatch = useDispatch();
+  const [lines, setLines] = useState([]);
 
-  const getLineNumbers = (text) => {
-    const lines = text.split("\n").length;
-    return Array.from({ length: lines }, (_, i) =>
+  const getLineNumbers = () => {
+    return Array.from({ length: 128 }, (_, i) =>
       (i * 2).toString(16).padStart(2, "0")
     );
   };
@@ -136,6 +139,7 @@ export const TextEditor = ({
   }, [isSimulating, text, selectedLine, dispatch]);
 
   useEffect(() => {
+    setLines(text.split("\n"));
     if (text !== history[history.length - 1]) {
       setHistory((prevHistory) => [...prevHistory, text]);
     }
@@ -149,7 +153,6 @@ export const TextEditor = ({
             <Button htmlFor="file-upload" title="Subir archivo">
               <MdOutlineFileUpload size={20} />
             </Button>
-
             <input
               id="file-upload"
               type="file"
@@ -180,24 +183,37 @@ export const TextEditor = ({
           </EditorHeaderIconContainer>
         </EditorHeader>
         <EditorTextWrapper>
+          <ArrowColumn>
+            {getLineNumbers().map((_, i) => {
+              return (
+                <React.Fragment key={i}>
+                  <Arrow selected={isSimulating && i === selectedLine}>
+                    <TiArrowRightThick size={20} />
+                  </Arrow>
+                  {i === selectedLine &&
+                    isSimulating &&
+                    lines[i] &&
+                    !/^C/i.test(lines[i]) && (
+                      <Arrow next>
+                        <TiArrowRightThick size={20} />
+                      </Arrow>
+                    )}
+                </React.Fragment>
+              );
+            })}
+          </ArrowColumn>
+          <LineCounter>
+            {getLineNumbers().map((lineNumber, i) => (
+              <LineNumber key={lineNumber}>{lineNumber}</LineNumber>
+            ))}
+          </LineCounter>
           <EditorTextContainer>
-            <LineCounter>
-              {getLineNumbers(text).map((lineNumber, i) => (
-                <LineNumber
-                  key={lineNumber}
-                  selected={isSimulating && i === selectedLine}
-                >
-                  <LineCounterText>{lineNumber}</LineCounterText>
-                </LineNumber>
-              ))}
-            </LineCounter>
             <EditorText
               disabled={isSimulating}
               value={text}
               onChange={(e) => setText(e.target.value)}
               onKeyDown={handleKeyDown}
               readOnly={isSimulating}
-              //style={{ fontSize: `${fontSize}px` }}
             />
           </EditorTextContainer>
         </EditorTextWrapper>
