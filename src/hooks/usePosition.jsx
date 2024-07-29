@@ -4,7 +4,8 @@ import {
   aluRegistersId,
   registerAluTopId,
   registerAluBottomId,
-  registerCacheId,
+  //registerCacheId,
+  controlUnitCacheId,
   mainMemControlUnitDataId,
   controlUnitMainMemAddrId,
   controlUnitMainMemDataId,
@@ -62,7 +63,7 @@ export const usePosition = ({
           sourcePosition: Position.Right,
           targetPosition: Position.Left,
         };
-      case registerCacheId:
+      /*case registerCacheId:
         return {
           sourceX: sourceComponent.position.x + sourceComponent.width / 2,
           sourceY: sourceComponent.position.y + sourceComponent.height,
@@ -70,6 +71,15 @@ export const usePosition = ({
           targetY: targetComponent.position.y + targetComponent.height,
           offset: 50,
           sourcePosition: Position.Bottom,
+          targetPosition: Position.Bottom,
+        };*/
+      case controlUnitCacheId:
+        return {
+          sourceX: sourceComponent.position.x + sourceComponent.width / 2,
+          sourceY: sourceComponent.position.y,
+          targetX: targetComponent.position.x + targetComponent.width / 2,
+          targetY: targetComponent.position.y + targetComponent.height,
+          sourcePosition: Position.Top,
           targetPosition: Position.Bottom,
         };
       case mainMemControlUnitDataId:
