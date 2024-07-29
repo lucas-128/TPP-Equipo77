@@ -6,17 +6,13 @@ Copy the content of register R1 to register R2
 */
 
 import { typeSimulations } from "../../constants";
+import DataTransferInstruction from "./DataTransferInstruction";
 
-export default class CopyRegisterToRegister {
+export default class CopyRegisterToRegister extends DataTransferInstruction {
   constructor(sourceRegister, destinationRegister) {
+    super();
     this.sourceRegister = sourceRegister;
     this.destinationRegister = destinationRegister;
-  }
-
-  nextStep(oldState, typeSimulation) {
-    if (typeSimulation === typeSimulations.SIMPLE) {
-      return this.execute(oldState);
-    }
   }
 
   execute(oldState) {

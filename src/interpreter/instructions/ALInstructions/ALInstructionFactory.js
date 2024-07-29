@@ -13,6 +13,12 @@ import {
   typeSimulations,
   XOR,
 } from "../../constants";
+import AdditionTwoComplement from "./AdditionTwoComplement";
+import FloatingPointSum from "./FloatingPointSum";
+import ORInstruction from "./ORInstruction";
+import RotateRight from "./RotateRight";
+import XORInstruction from "./XORInstruction";
+import ANDInstruction from "./ANDInstruction";
 
 /*
   Class for Arithmetic and Logic instructions
@@ -33,16 +39,54 @@ import {
     - [a]: Rotar a la izquierda el contenido del registro R, X veces
 */
 
-export default class ALInstruction {
-  constructor(instruction) {
-    this.type = instruction[0];
-    this.registerSIndex = parseInt(instruction[2], 16);
-    this.registerTIndex = parseInt(instruction[3], 16);
-    this.destinationIndex = parseInt(instruction[1], 16);
-    this.cycle = "";
+export class ALInstructionFactory {
+  static createALInstruction(instruction) {
+    const type = instruction[0];
+    const registerSIndex = parseInt(instruction[2], 16);
+    const registerTIndex = parseInt(instruction[3], 16);
+    const destinationIndex = parseInt(instruction[1], 16);
+    const cycle = "";
+    switch (type) {
+      case ADDITION_TWO_COMPLEMENT:
+        return new AdditionTwoComplement(
+          registerSIndex,
+          registerTIndex,
+          destinationIndex
+        );
+      case FLOATING_POINT_SUM:
+        return new FloatingPointSum(
+          registerSIndex,
+          registerTIndex,
+          destinationIndex
+        );
+      case ROTATE_RIGHT:
+        return new RotateRight(
+          registerSIndex,
+          registerTIndex,
+          destinationIndex
+        );
+      case OR:
+        return new ORInstruction(
+          registerSIndex,
+          registerTIndex,
+          destinationIndex
+        );
+      case AND:
+        return new ANDInstruction(
+          registerSIndex,
+          registerTIndex,
+          destinationIndex
+        );
+      case XOR:
+        return new XORInstruction(
+          registerSIndex,
+          registerTIndex,
+          destinationIndex
+        );
+    }
   }
 
-  getDescription() {
+  /*getDescription() {
     // TODO: acá podemos usar el logger (instruction_descriptor.js)
     return "";
   }
@@ -109,5 +153,5 @@ export default class ALInstruction {
         );
         return newState;
     }
-  }
+  }*/
 }

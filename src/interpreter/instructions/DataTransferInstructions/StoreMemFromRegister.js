@@ -6,17 +6,13 @@ Store the content of register R in the memory cell with address XY
 */
 
 import { typeSimulations } from "../../constants";
+import DataTransferInstruction from "./DataTransferInstruction";
 
-export default class StoreMemFromRegister {
+export default class StoreMemFromRegister extends DataTransferInstruction {
   constructor(register, memoryCell) {
+    super();
     this.register = register;
     this.memoryCell = memoryCell;
-  }
-
-  nextStep(oldState, typeSimulation) {
-    if (typeSimulation === typeSimulations.SIMPLE) {
-      return this.execute(oldState);
-    }
   }
 
   execute(oldState) {

@@ -6,17 +6,13 @@ Load the register R with the pattern XY
 */
 
 import { typeSimulations } from "../../constants";
+import DataTransferInstruction from "./DataTransferInstruction";
 
-export default class LoadRegisterFromPattern {
+export default class LoadRegisterFromPattern extends DataTransferInstruction {
   constructor(register, pattern) {
+    super();
     this.register = register;
     this.pattern = pattern;
-  }
-
-  nextStep(oldState, typeSimulation) {
-    if (typeSimulation === typeSimulations.SIMPLE) {
-      return this.execute(oldState);
-    }
   }
 
   execute(oldState) {

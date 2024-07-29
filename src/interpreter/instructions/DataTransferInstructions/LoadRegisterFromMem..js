@@ -6,18 +6,14 @@ Load the content of the memory cell with address XY into register R
 */
 
 import { typeSimulations } from "../../constants";
+import DataTransferInstruction from "./DataTransferInstruction";
 
-export default class LoadRegisterFromMem{
+export default class LoadRegisterFromMem extends DataTransferInstruction {
   constructor(register, memoryAddress) {
+    super();
     this.register = register;
     this.memoryAddress = memoryAddress;
     this.cycle = "fetch";
-  }
-
-  nextStep(oldState, typeSimulation) {
-    if (typeSimulation === typeSimulations.SIMPLE) {
-      return this.execute(oldState);
-    }
   }
 
   execute(oldState) {

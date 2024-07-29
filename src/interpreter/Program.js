@@ -4,9 +4,9 @@ import {
   DataTransferInstructions,
   typeSimulations,
 } from "./constants";
-import ALInstruction from "./instructions/ALInstructions/ALInstruction";
+import { ALInstructionFactory } from "./instructions/ALInstructions/ALInstructionFactory";
 import { ControlInstruction } from "./instructions/ControlInstruction";
-import { DataTransferInstruction } from "./instructions/DataTransferInstructions/DataTransferInstruction";
+import { DataTransferInstructionFactory } from "./instructions/DataTransferInstructions/DataTransferInstructionFactory";
 import { splitCode, validateSyntax } from "./main";
 
 export default class Program {
@@ -32,9 +32,11 @@ export default class Program {
   getInstruction(instruction) {
     const instructionType = instruction[0].toLowerCase();
     if (AlInstructions.includes(instructionType)) {
-      return new ALInstruction(instruction);
+      return ALInstructionFactory.createALInstruction(instruction);
     } else if (DataTransferInstructions.includes(instructionType)) {
-      return new DataTransferInstruction(instruction);
+      return DataTransferInstructionFactory.createDataTransferInstruction(
+        instruction
+      );
     } else if (ControlInstructions.includes(instructionType)) {
       return new ControlInstruction(instruction);
     } else {
