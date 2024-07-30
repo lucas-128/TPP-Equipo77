@@ -16,12 +16,6 @@ export default class FloatingPointSum extends Instruction{
     this.destinationIndex = destinationIndex;
   }
 
-  // nextStep(oldState, typeSimulation) {
-  //   if (typeSimulation === typeSimulations.SIMPLE) {
-  //     return this.execute(oldState);
-  //   }
-  // }
-
   execute(oldState) {
     const newState = { ...oldState };
     //TODO: Definicion punto flotante como el libro

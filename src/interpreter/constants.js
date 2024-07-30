@@ -40,6 +40,12 @@ export const typeSimulations = {
   PIPELINING: "pipelining",
 };
 
+export const cyclesSimulations = {
+  FETCH: "fetch",
+  DECODE: "decode",
+  EXECUTE: "execute",
+};
+
 export const instructionCodes = [
   LOAD_REGISTER_FROM_MEM,
   LOAD_REGISTER_FROM_PATTERN,

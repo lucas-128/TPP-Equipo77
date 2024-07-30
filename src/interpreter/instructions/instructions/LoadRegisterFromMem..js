@@ -14,7 +14,6 @@ export default class LoadRegisterFromMem extends Instruction {
     super();
     this.register = register;
     this.memoryAddress = memoryAddress;
-    this.cycle = "fetch";
   }
 
   execute(oldState) {

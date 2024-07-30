@@ -26,7 +26,6 @@ import { setError } from "../../slices/modalsSlice";
 export const TextEditor = ({
   children,
   isSimulating,
-  // selectedLine,
   text,
   setText,
 }) => {
@@ -85,7 +84,6 @@ export const TextEditor = ({
     <Container>
       <EditorWrapper>
         <EditorHeader>
-          {/* <EditorHeaderText>Editor de texto</EditorHeaderText> */}
           <EditorHeaderIconContainer>
             <Button htmlFor="file-upload">
               <MdOutlineFileUpload size={20} />
@@ -109,7 +107,7 @@ export const TextEditor = ({
               {getLineNumbers(text).map((lineNumber, i) => (
                 <LineNumber
                   key={lineNumber}
-                  selected={isSimulating && i == programCounter}
+                  selected={isSimulating && i == (programCounter && programCounter - 1)}
                 >
                   <LineCounterText>{lineNumber}</LineCounterText>
                 </LineNumber>

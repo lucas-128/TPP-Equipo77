@@ -1,9 +1,11 @@
 // aca tener una clase que tenga updateProgram counter, load y fetch. Después cada inst tiene su execute
 
-import { typeSimulations } from "../constants";
+import { cyclesSimulations, typeSimulations } from "../constants";
 
 export default class Instruction {
-  constructor() {}
+  constructor() {
+    this.cycle = cyclesSimulations.FETCH;
+  }
 
   updateProgramCounter(oldState) {
     const newState = { ...oldState };
@@ -13,15 +15,23 @@ export default class Instruction {
 
   nextStep(oldState, typeSimulation) {
     if (typeSimulation === typeSimulations.SIMPLE) {
-      console.log('llega a ejecutarse');
       return this.execute(oldState);
+    }
+    else if (typeSimulation === typeSimulations.CYCLES) {
+      if(this.cycle === cyclesSimulations.FETCH) {
+        this.cycle = cyclesSimulations.DECODE;
+        return this.fetch(oldState);
+      }
     }
   }
 
-  //TODO: hacer el fetch y el load
-  // fetch(oldState) {
-  // }
+  //TODO: hacer el fetch
+  fetch(oldState) {
+    return;
+  }
 
-  // load(oldState) {
-  // }
+  // TODO: hacer el decode
+  decode(oldState) {
+    return;
+  }
 }

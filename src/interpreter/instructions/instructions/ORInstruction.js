@@ -1,5 +1,6 @@
 import { typeSimulations } from "../../constants";
 import Instruction from "../Instruction";
+import { applyBinaryOperation } from "../utils";
 
 /* 
 
@@ -16,16 +17,9 @@ export default class ORInstruction extends Instruction{
     this.destinationIndex = destinationIndex;
   }
 
-  // nextStep(oldState, typeSimulation) {
-  //   if (typeSimulation === typeSimulations.SIMPLE) {
-  //     return this.execute(oldState);
-  //   }
-  // }
-
   execute(oldState) {
-    //Agregar
     const newState = { ...oldState };
     newState.programCounter += 1;
-    return newState;
+    return applyBinaryOperation(this, (a, b) => a | b, newState);
   }
 }

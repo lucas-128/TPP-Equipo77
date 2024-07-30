@@ -15,12 +15,6 @@ export class Branch extends Instruction {
     this.cycle = "";
   }
 
-  // nextStep(oldState, typeSimulation) {
-  //   if (typeSimulation === typeSimulations.SIMPLE) {
-  //     return this.resolve(oldState);
-  //   }
-  // }
-
   resolve(oldState) {
     const newState = { ...oldState };
     // TODO: cambiarlo para la instrucción branch
