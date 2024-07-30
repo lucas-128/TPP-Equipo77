@@ -3,7 +3,7 @@ import { Container } from "./styled";
 import { FaBackward, FaForward } from "react-icons/fa6";
 import { useSelector, useDispatch } from "react-redux";
 import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
-import { getNewState, splitCode } from "../../../interpreter/main";
+import { splitCode } from "../../../interpreter/main";
 import {
   updateRegisters,
   updateEdgeAnimation,
