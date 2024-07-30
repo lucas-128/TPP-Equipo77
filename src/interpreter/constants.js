@@ -34,16 +34,6 @@ export const END = "c";
 
 export const ControlInstructions = [JUMP_TO, END];
 
-
-export const operationNames = {
-  "5": "Suma en complemento a 2",
-  "6": "Suma en punto flotante",
-  "7": "OR",
-  "8": "AND",
-  "9": "XOR",
-  "a": "Rotar a la derecha",
-};
-
 export const typeSimulations = {
   SIMPLE: "simple",
   CYCLES: "cycles",
@@ -64,3 +54,12 @@ export const instructionCodes = [
   JUMP_TO,
   END,
 ];
+
+export const operationNames = {
+  ADDITION_TWO_COMPLEMENT: "Suma en complemento a 2",
+  FLOATING_POINT_SUM: "Suma en punto flotante",
+  OR: "OR",
+  AND: "AND",
+  XOR: "XOR",
+  ROTATE_RIGHT: "Rotar a la derecha",
+};

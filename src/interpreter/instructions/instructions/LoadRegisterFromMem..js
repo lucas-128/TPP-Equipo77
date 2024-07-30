@@ -1,3 +1,6 @@
+import { typeSimulations } from "../../constants";
+import Instruction from "../Instruction";
+
 /* 
 
 Instruction: 1
@@ -5,10 +8,8 @@ Load the content of the memory cell with address XY into register R
 
 */
 
-import { typeSimulations } from "../../constants";
-import DataTransferInstruction from "./DataTransferInstruction";
 
-export default class LoadRegisterFromMem extends DataTransferInstruction {
+export default class LoadRegisterFromMem extends Instruction {
   constructor(register, memoryAddress) {
     super();
     this.register = register;

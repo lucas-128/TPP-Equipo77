@@ -1,3 +1,6 @@
+import { typeSimulations } from "../../constants";
+import Instruction from "../Instruction";
+
 /* 
 
 Instruction: 4
@@ -5,10 +8,7 @@ Copy the content of register R1 to register R2
 
 */
 
-import { typeSimulations } from "../../constants";
-import DataTransferInstruction from "./DataTransferInstruction";
-
-export default class CopyRegisterToRegister extends DataTransferInstruction {
+export default class CopyRegisterToRegister extends Instruction {
   constructor(sourceRegister, destinationRegister) {
     super();
     this.sourceRegister = sourceRegister;

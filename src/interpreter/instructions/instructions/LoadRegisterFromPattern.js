@@ -1,3 +1,5 @@
+import Instruction from "../Instruction";
+
 /* 
 
 Instruction: 2
@@ -5,10 +7,7 @@ Load the register R with the pattern XY
 
 */
 
-import { typeSimulations } from "../../constants";
-import DataTransferInstruction from "./DataTransferInstruction";
-
-export default class LoadRegisterFromPattern extends DataTransferInstruction {
+export default class LoadRegisterFromPattern extends Instruction {
   constructor(register, pattern) {
     super();
     this.register = register;

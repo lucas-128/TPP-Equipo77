@@ -1,3 +1,6 @@
+import { typeSimulations } from "../../constants";
+import Instruction from "../Instruction";
+
 /* 
 
 Instruction: 4
@@ -5,20 +8,19 @@ Copy the content of register R1 to register R2
 
 */
 
-import { typeSimulations } from "../../constants";
-
-export default class AdditionTwoComplement {
+export default class AdditionTwoComplement extends Instruction {
   constructor(registerSIndex, registerTIndex, destinationIndex) {
+    super();
     this.registerSIndex = registerSIndex;
     this.registerTIndex = registerTIndex;
     this.destinationIndex = destinationIndex;
   }
 
-  nextStep(oldState, typeSimulation) {
-    if (typeSimulation === typeSimulations.SIMPLE) {
-      return this.execute(oldState);
-    }
-  }
+  // nextStep(oldState, typeSimulation) {
+  //   if (typeSimulation === typeSimulations.SIMPLE) {
+  //     return this.execute(oldState);
+  //   }
+  // }
 
   execute(oldState) {
     const newState = { ...oldState };

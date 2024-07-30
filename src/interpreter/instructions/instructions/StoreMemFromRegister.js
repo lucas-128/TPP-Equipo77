@@ -1,3 +1,5 @@
+import Instruction from "../Instruction";
+
 /* 
 
 Instruction: 3
@@ -5,10 +7,7 @@ Store the content of register R in the memory cell with address XY
 
 */
 
-import { typeSimulations } from "../../constants";
-import DataTransferInstruction from "./DataTransferInstruction";
-
-export default class StoreMemFromRegister extends DataTransferInstruction {
+export default class StoreMemFromRegister extends Instruction {
   constructor(register, memoryCell) {
     super();
     this.register = register;
