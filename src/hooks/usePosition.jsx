@@ -4,7 +4,8 @@ import {
   aluRegistersId,
   registerAluTopId,
   registerAluBottomId,
-  registerCacheId,
+  //registerCacheId,
+  controlUnitCacheId,
   mainMemControlUnitDataId,
   controlUnitMainMemAddrId,
   controlUnitMainMemDataId,
@@ -62,43 +63,41 @@ export const usePosition = ({
           sourcePosition: Position.Right,
           targetPosition: Position.Left,
         };
-      case registerCacheId:
+      case controlUnitCacheId:
         return {
-          sourceX: sourceComponent.position.x + sourceComponent.width / 2,
-          sourceY: sourceComponent.position.y + sourceComponent.height,
+          sourceX: targetComponent.position.x + targetComponent.width / 2,
+          sourceY: sourceComponent.position.y,
           targetX: targetComponent.position.x + targetComponent.width / 2,
           targetY: targetComponent.position.y + targetComponent.height,
-          offset: 50,
-          sourcePosition: Position.Bottom,
+          sourcePosition: Position.Top,
           targetPosition: Position.Bottom,
         };
       case mainMemControlUnitDataId:
         return {
           sourceX: sourceComponent.position.x,
-          sourceY: targetComponent.position.y + targetComponent.height / 1.5,
+          sourceY: targetComponent.position.y + targetComponent.height / 2,
           targetX: targetComponent.position.x + targetComponent.width,
-          targetY: targetComponent.position.y + targetComponent.height / 1.5,
+          targetY: targetComponent.position.y + targetComponent.height / 2,
           sourcePosition: Position.Left,
           targetPosition: Position.Right,
         };
       case controlUnitMainMemDataId:
         return {
           sourceX: sourceComponent.position.x,
-          sourceY: sourceComponent.position.y + sourceComponent.height / 3,
+          sourceY: sourceComponent.position.y + sourceComponent.height / 2,
           targetX: targetComponent.position.x + targetComponent.width,
-          targetY: sourceComponent.position.y + sourceComponent.height / 3,
+          targetY: sourceComponent.position.y + sourceComponent.height / 2,
           offset: 100,
           sourcePosition: Position.Right,
           targetPosition: Position.Left,
         };
       case controlUnitMainMemAddrId:
         return {
-          sourceX: sourceComponent.position.x + sourceComponent.width / 2,
-          sourceY: sourceComponent.position.y + sourceComponent.height,
+          sourceX: sourceComponent.position.x + sourceComponent.width,
+          sourceY: sourceComponent.position.y + sourceComponent.height / 1.5,
           targetX: targetComponent.position.x,
-          targetY: targetComponent.position.y + targetComponent.height / 2.6,
-          offset: 50,
-          sourcePosition: Position.Bottom,
+          targetY:  sourceComponent.position.y + sourceComponent.height / 1.5,
+          sourcePosition: Position.Right,
           targetPosition: Position.Left,
         };
       default:

@@ -4,11 +4,12 @@ import { ALU } from "../../components/ALU";
 import { ControlUnit } from "../../components/ControlUnit";
 import { CacheMemory } from "../../components/CacheMemory";
 import { CPU } from "../../components/CPU";
-import { RegistersCacheBus } from "../../components/RegistersCacheBus";
+//import { RegistersCacheBus } from "../../components/RegistersCacheBus";
 import { RegistersToALUBus } from "../../components/RegistersToALUBus";
 import { ALUToRegistersBus } from "../../components/ALUToRegistersBus";
 import { MainMemControlDataBus } from "../../components/MainMemControlDataBus";
 import { ControlToMainMemAddrBus } from "../../components/ControlToMainMemAddrBus";
+import { CacheToControlUnitBus } from "../../components/CacheToControlUnitBus";
 
 export const nodeTypes = {
   registers: RegisterBox,
@@ -73,28 +74,36 @@ export const initialNodes = [
 ];
 
 export const edgeTypes = {
-  registersCache: RegistersCacheBus,
+  //registersCache: RegistersCacheBus,
+  controlUnitCache: CacheToControlUnitBus,
   registerToAlu: RegistersToALUBus,
   AluToRegisters: ALUToRegistersBus,
   memoryControlUnitData: MainMemControlDataBus,
   controlUnitToMainMemory: ControlToMainMemAddrBus,
 };
 
-export const registerCacheId = "registers-cache";
+//export const registerCacheId = "registers-cache";
+//export const cacheRegistersId = "cache-registers";
+export const controlUnitCacheId = "control-unit-cache";
 export const registerAluTopId = "registers-alu-top";
 export const registerAluBottomId = "registers-alu-bottom";
 export const aluRegistersId = "alu-registers";
-export const cacheRegistersId = "cache-registers";
 export const mainMemControlUnitDataId = "main-mem-control-unit-data";
 export const controlUnitMainMemDataId = "control-unit-main-mem-data";
 export const controlUnitMainMemAddrId = "control-unit-main-mem-addr";
 
 export const initialEdges = [
-  {
+  /*{
     id: registerCacheId,
     source: registersId,
     target: cacheMemoryId,
     type: "registersCache",
+  },*/
+  {
+    id: controlUnitCacheId,
+    source: cacheMemoryId,
+    target: controlUnitId,
+    type: "controlUnitCache",
   },
   {
     id: registerAluTopId,
