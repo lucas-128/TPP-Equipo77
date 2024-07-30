@@ -37,9 +37,14 @@ export const ControlUnit = () => {
           </SpecialRegisterValue>
         </SpecialRegisterContainer>
       </BodyContainer>
+      {/* main memory to control unit*/}
       <CustomHandle type="target" position="right" />
+      {/* main memory to control unit*/}
       <CustomHandle type="source" position="bottom" />
+      {/* main memory to control unit*/}
       <CustomHandle type="source" position="right" />
+      {/* cache to control unit */}
+      <CustomHandle type="target" position="bottom" />
     </MainContainer>
   );
 };

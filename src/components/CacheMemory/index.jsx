@@ -30,6 +30,11 @@ export const CacheMemory = () => {
         </tbody>
       </Table>
       <CustomHandle
+        type="source"
+        position="top"
+        style={{ background: "#555" }}
+      />
+      {/*<CustomHandle
         type="target"
         position="bottom"
         style={{ background: "#555" }}
@@ -38,7 +43,7 @@ export const CacheMemory = () => {
         type="source"
         position="bottom"
         style={{ background: "#555" }}
-      />
+      />*/}
     </TableContainer>
   );
 };

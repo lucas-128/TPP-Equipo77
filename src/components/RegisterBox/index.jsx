@@ -33,20 +33,20 @@ export const RegisterBox = ({ id, data }) => {
         </RegistersContainer>
       </MainContainer>
       <CustomHandle
-        type="source"
-        position="bottom"
-        style={{ background: "#555" }}
-      />
-      <CustomHandle
-        type="target"
-        position="bottom"
-        style={{ background: "#555" }}
-      />
-      <CustomHandle
         type="target"
         position="right"
         style={{ background: "#555" }}
       />
+      <CustomHandle
+        type="source"
+        position="bottom"
+        style={{ background: "#555" }}
+      />
+      {/*<CustomHandle
+        type="target"
+        position="bottom"
+        style={{ background: "#555" }}
+      />*/}
     </>
   );
 };
