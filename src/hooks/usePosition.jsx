@@ -9,6 +9,7 @@ import {
   mainMemControlUnitDataId,
   controlUnitMainMemAddrId,
   controlUnitMainMemDataId,
+  registersControlUnitId,
 } from "../containers/SimulatorSection/components";
 import { useMemo } from "react";
 
@@ -96,7 +97,16 @@ export const usePosition = ({
           sourceX: sourceComponent.position.x + sourceComponent.width,
           sourceY: sourceComponent.position.y + sourceComponent.height / 1.5,
           targetX: targetComponent.position.x,
-          targetY:  sourceComponent.position.y + sourceComponent.height / 1.5,
+          targetY: sourceComponent.position.y + sourceComponent.height / 1.5,
+          sourcePosition: Position.Right,
+          targetPosition: Position.Left,
+        };
+      case registersControlUnitId:
+        return {
+          sourceX: sourceComponent.position.x,
+          sourceY: sourceComponent.height / 3.1,
+          targetX: targetComponent.position.x,
+          targetY: sourceComponent.height / 3.1,
           sourcePosition: Position.Right,
           targetPosition: Position.Left,
         };
