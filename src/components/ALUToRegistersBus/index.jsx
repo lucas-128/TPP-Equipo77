@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
-import { BaseEdge, getSmoothStepPath, Position } from "reactflow";
+import { useMemo } from "react";
+import { BaseEdge } from "reactflow";
 import {
   aluId,
   registersId,
@@ -7,10 +8,12 @@ import {
 import { usePosition } from "../../hooks/usePosition";
 
 export const ALUToRegistersBus = ({ id }) => {
-  const edgeAnimation = useSelector(
-    (state) => state.application.edgeAnimation.aluRegisters
-  );
+  const animations = useSelector((state) => state.application.edgeAnimation);
 
+  const edgeAnimation = useMemo(
+    () => animations.includes(registersId),
+    [animations, registersId]
+  );
   const [edgePath] = usePosition({
     edgeId: id,
     sourceComponentId: aluId,

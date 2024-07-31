@@ -1,4 +1,4 @@
-import { getStateAfterInstruction } from "./instructions.js";
+// import { getStateAfterInstruction } from "./instructions.js";
 import { instructionCodes } from "./constants.js";
 
 export function validateSyntax(code) {
@@ -14,17 +14,17 @@ export function splitCode(text) {
   });
 }
 
-export const getNewState = (actualState, line, selectedLine) => {
-  const lineSplit = line.split("");
-  const instruction = lineSplit[0].toLowerCase();
-  const newState = getStateAfterInstruction(
-    actualState,
-    instruction,
-    lineSplit,
-    selectedLine,
-  );
-  return newState;
-};
+// export const getNewState = (actualState, line, selectedLine) => {
+//   const lineSplit = line.split("");
+//   const instruction = lineSplit[0].toLowerCase();
+//   const newState = getStateAfterInstruction(
+//     actualState,
+//     instruction,
+//     lineSplit,
+//     selectedLine,
+//   );
+//   return newState;
+// };
 
 //cambiar que esta funcion tiene que devolver true si esta todo bien, no false,
 function isValidCode(rows) {
