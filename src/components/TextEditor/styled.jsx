@@ -159,3 +159,19 @@ export const HiddenEditorContainer = styled.div`
   padding: 2px;
   transition: all 0.15s;
 `;
+
+export const SpinnerContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const SpinnerText = styled.span`
+  margin-right: 20px;
+  color: #ffffff;
+`;
+
+export const Spinner = styled.div`
+  width: 15px;
+  height: 15px;
+  animation: spin 1s linear infinite;
+`;

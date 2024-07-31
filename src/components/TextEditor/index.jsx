@@ -1,4 +1,5 @@
 import React from "react";
+import { ClipLoader } from "react-spinners";
 import { useEffect, useState } from "react";
 import {
   MdOutlineFileUpload,
@@ -11,7 +12,7 @@ import {
   MdDownload,
 } from "react-icons/md";
 import { TiArrowRightThick } from "react-icons/ti";
-
+import { SpinnerContainer, SpinnerText } from "./styled"; // Adjust the path as needed
 import { useDispatch, useSelector } from "react-redux";
 import { validateSyntax } from "../../interpreter/main";
 import {
@@ -113,7 +114,7 @@ export const TextEditor = ({
     }
   };
 
-  const handleDownload = () => {
+  const handleFileDownload = () => {
     const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -159,38 +160,51 @@ export const TextEditor = ({
       <EditorWrapper>
         <EditorHeader>
           <EditorHeaderIconContainer>
-            <Button htmlFor="file-upload" title="Subir archivo">
-              <MdOutlineFileUpload size={20} />
-            </Button>
-            <input
-              id="file-upload"
-              type="file"
-              style={{ display: "none" }}
-              accept=".txt"
-              onChange={handleFileUpload}
-              disabled={isSimulating}
-            />
-            <Button onClick={handleClearText} title="Borrar">
-              <MdDelete size={20} />
-            </Button>
-            <Button onClick={handleFullScreenToggle} title="Pantalla completa">
-              {isFullScreen ? (
-                <MdFullscreenExit size={20} />
-              ) : (
-                <MdFullscreen size={20} />
-              )}
-            </Button>
-            <Button onClick={handleUndo} title="Deshacer">
-              <MdUndo size={20} />
-            </Button>
-            <Button onClick={handleDownload} title="Descargar">
-              <MdDownload size={20} />
-            </Button>
+            {isSimulating ? (
+              <SpinnerContainer>
+                <SpinnerText>Ejecutando código...</SpinnerText>
+                <ClipLoader size={16} color={"#FFFFFF"} />
+              </SpinnerContainer>
+            ) : (
+              <>
+                <Button htmlFor="file-upload" title="Subir archivo">
+                  <MdOutlineFileUpload size={20} />
+                </Button>
+                <input
+                  id="file-upload"
+                  type="file"
+                  style={{ display: "none" }}
+                  accept=".txt"
+                  onChange={handleFileUpload}
+                  disabled={isSimulating}
+                />
+                <Button onClick={handleClearText} title="Borrar">
+                  <MdDelete size={20} />
+                </Button>
+                <Button
+                  onClick={handleFullScreenToggle}
+                  title="Pantalla completa"
+                >
+                  {isFullScreen ? (
+                    <MdFullscreenExit size={20} />
+                  ) : (
+                    <MdFullscreen size={20} />
+                  )}
+                </Button>
+                <Button onClick={handleUndo} title="Deshacer">
+                  <MdUndo size={20} />
+                </Button>
+                <Button onClick={handleFileDownload} title="Descargar">
+                  <MdDownload size={20} />
+                </Button>
+              </>
+            )}
             <Button onClick={() => dispatch(setShowEditor(!show))}>
               <MdArrowBackIosNew size={15} />
             </Button>
           </EditorHeaderIconContainer>
         </EditorHeader>
+
         <EditorTextWrapper>
           <ArrowColumn>
             {getLineNumbers().map((_, i) => {
