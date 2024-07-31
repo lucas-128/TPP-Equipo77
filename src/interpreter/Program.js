@@ -22,25 +22,9 @@ export default class Program {
     });
   }
 
-  // getInstruction(instruction) {
-  //   const instructionType = instruction[0].toLowerCase();
-  //   if (AlInstructions.includes(instructionType)) {
-  //     return ALInstructionFactory.createALInstruction(instruction);
-  //   } else if (DataTransferInstructions.includes(instructionType)) {
-  //     return DataTransferInstructionFactory.createDataTransferInstruction(
-  //       instruction
-  //     );
-  //   } else if (ControlInstructions.includes(instructionType)) {
-  //     return new ControlInstruction(instruction);
-  //   } else {
-  //     // TODO: tiro error
-  //   }
-  // }
-
   getNewState(oldState) {
     const actualLine = oldState.programCounter;
     const actualInstruction = this.instructions[actualLine];
-    console.log("la actual instruction es ", actualInstruction);
     const newState = actualInstruction.nextStep(oldState, this.typeSimulation);
     return newState;
   }
