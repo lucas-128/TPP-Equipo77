@@ -49,6 +49,8 @@ export const EditorHeaderText = styled.p`
 `;
 
 export const EditorTextWrapper = styled.div`
+  overflow: hidden;
+
   display: flex;
   flex-direction: row;
   background-color: var(--im-white);
@@ -114,6 +116,8 @@ export const LineNumber = styled.div`
 `;
 
 export const EditorText = styled.textarea`
+  overflow-x: hidden;
+  white-space: nowrap;
   font-size: 16px;
   width: 100%;
   height: calc(100vh - 100px);
