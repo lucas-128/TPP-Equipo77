@@ -146,6 +146,13 @@ export const TextEditor = ({
   }, [text]);
 
   const branchLinesMap = new Map();
+  getLineNumbers().forEach((_, i) => {
+    if (/^B/i.test(lines[i])) {
+      let hexLineNumber = lines[i].slice(2, 4);
+      let targetLine = parseInt(hexLineNumber, 16);
+      branchLinesMap.set(i, targetLine / 2);
+    }
+  });
 
   return show ? (
     <Container fullscreen={isFullScreen}>
@@ -187,19 +194,31 @@ export const TextEditor = ({
         <EditorTextWrapper>
           <ArrowColumn>
             {getLineNumbers().map((_, i) => {
-              if (/^B/i.test(lines[i])) {
-                let hexLineNumber = lines[i].slice(2, 4);
-                let targetLine = parseInt(hexLineNumber, 16);
-                branchLinesMap.set(i, targetLine / 2);
+              const isBranchTarget =
+                isSimulating &&
+                branchLinesMap.has(selectedLine) &&
+                ((i < selectedLine &&
+                  i === branchLinesMap.get(selectedLine) - 1) ||
+                  (i >= selectedLine &&
+                    i === branchLinesMap.get(selectedLine) - 2));
+
+              let isSelected = isSimulating && i === selectedLine;
+
+              if (
+                lines[selectedLine] &&
+                /^B/i.test(lines[selectedLine]) &&
+                branchLinesMap.get(selectedLine) < selectedLine
+              ) {
+                isSelected = isSimulating && i === selectedLine - 1;
               }
 
               return (
                 <React.Fragment key={i}>
-                  <Arrow selected={isSimulating && i === selectedLine}>
+                  <Arrow selected={isSelected}>
                     <TiArrowRightThick size={20} />
                   </Arrow>
 
-                  {i === selectedLine &&
+                  {isSelected &&
                     isSimulating &&
                     lines[i] &&
                     !/^C/i.test(lines[i]) && (
@@ -208,13 +227,11 @@ export const TextEditor = ({
                       </Arrow>
                     )}
 
-                  {isSimulating &&
-                    branchLinesMap.has(selectedLine) &&
-                    i === branchLinesMap.get(selectedLine) - 2 && (
-                      <Arrow next>
-                        <TiArrowRightThick size={20} />
-                      </Arrow>
-                    )}
+                  {isBranchTarget && (
+                    <Arrow next>
+                      <TiArrowRightThick size={20} />
+                    </Arrow>
+                  )}
                 </React.Fragment>
               );
             })}

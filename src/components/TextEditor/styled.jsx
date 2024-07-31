@@ -64,15 +64,15 @@ export const EditorTextWrapper = styled.div`
 export const ArrowColumn = styled.div`
   width: 20px;
   display: flex;
-  align-items: center;
   flex-direction: column;
-  line-height: 20px;
-  user-select: none;
   height: 100%;
+  line-height: 20px;
+  position: relative;
 `;
 
 export const Arrow = styled.div.withConfig({
-  shouldForwardProp: (prop) => !["next", "selected"].includes(prop),
+  shouldForwardProp: (prop) =>
+    !["next", "selected", "lineIndex"].includes(prop),
 })`
   display: flex;
   align-items: center;
@@ -80,13 +80,13 @@ export const Arrow = styled.div.withConfig({
   width: 100%;
   color: ${(props) => {
     if (props.selected) return "green";
-    if (props.next) return "red"; // Color for the next line arrow
+    if (props.next) return "red";
     return "transparent";
   }};
   font-weight: bold;
-  margin-right: 5px;
   font-size: 20px;
-  margin-left: 50%;
+  position: relative;
+  top: ${(props) => props.lineIndex * 20}px;
 `;
 
 export const LineCounter = styled.div`
