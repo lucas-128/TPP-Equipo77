@@ -5,9 +5,8 @@ export const TableHeader = styled.th`
   background-color: var(--im-primary);
   color: var(--im-white);
   padding: 8px;
-  text-align: center;  
+  text-align: center;
 `;
-
 
 export const TableContainer = styled.div`
   width: fit-content;
