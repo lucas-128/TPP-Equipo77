@@ -27,7 +27,9 @@ export const ControlUnit = () => {
         <SpecialRegisterContainer>
           <CustomText>Contador de programa</CustomText>
           <SpecialRegisterValue id="PC">
-            {programCounter !== null ? programCounter.toString(16).padStart(2, "0") : " - "}
+            {programCounter !== null
+              ? (programCounter * 2).toString(16).padStart(2, "0")
+              : " - "}
           </SpecialRegisterValue>
         </SpecialRegisterContainer>
         <SpecialRegisterContainer>
