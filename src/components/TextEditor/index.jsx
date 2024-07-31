@@ -145,6 +145,8 @@ export const TextEditor = ({
     }
   }, [text]);
 
+  const branchLinesMap = new Map();
+
   return show ? (
     <Container fullscreen={isFullScreen}>
       <EditorWrapper>
@@ -185,15 +187,30 @@ export const TextEditor = ({
         <EditorTextWrapper>
           <ArrowColumn>
             {getLineNumbers().map((_, i) => {
+              if (/^B/i.test(lines[i])) {
+                let hexLineNumber = lines[i].slice(2, 4);
+                let targetLine = parseInt(hexLineNumber, 16);
+                branchLinesMap.set(i, targetLine / 2);
+              }
+
               return (
                 <React.Fragment key={i}>
                   <Arrow selected={isSimulating && i === selectedLine}>
                     <TiArrowRightThick size={20} />
                   </Arrow>
+
                   {i === selectedLine &&
                     isSimulating &&
                     lines[i] &&
                     !/^C/i.test(lines[i]) && (
+                      <Arrow next>
+                        <TiArrowRightThick size={20} />
+                      </Arrow>
+                    )}
+
+                  {isSimulating &&
+                    branchLinesMap.has(selectedLine) &&
+                    i === branchLinesMap.get(selectedLine) - 2 && (
                       <Arrow next>
                         <TiArrowRightThick size={20} />
                       </Arrow>
