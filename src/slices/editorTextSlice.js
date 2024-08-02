@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   instruction: "",
   show: true,
+  program: {},
 };
 
 export const editorTextSlice = createSlice({

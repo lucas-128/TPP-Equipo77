@@ -25,7 +25,9 @@ export const RegisterBox = ({ id, data }) => {
           {registers.map((value, i) => (
             <RegisterContainer key={i}>
               <RegisterNumeration>{i}</RegisterNumeration>
-              <RegisterValue> {value}</RegisterValue>
+              <RegisterValue>
+                {value != null ? value.toString(2).padStart(8, "0") : "-"}
+              </RegisterValue>
             </RegisterContainer>
           ))}
         </RegistersContainer>

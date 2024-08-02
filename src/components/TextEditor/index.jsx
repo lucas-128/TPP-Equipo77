@@ -33,16 +33,13 @@ import {
 import { setShowEditor } from "../../slices/editorTextSlice";
 import { setError } from "../../slices/modalsSlice";
 
-export const TextEditor = ({
-  children,
-  isSimulating,
-  selectedLine,
-  text,
-  setText,
-}) => {
+export const TextEditor = ({ children, isSimulating, text, setText }) => {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [history, setHistory] = useState([]);
   const show = useSelector((state) => state.editorText.show);
+  const programCounter = useSelector(
+    (state) => state.application.programCounter
+  );
   const dispatch = useDispatch();
   const [lines, setLines] = useState([]);
 
@@ -126,7 +123,7 @@ export const TextEditor = ({
 
   useEffect(() => {
     if (!text || !isSimulating) return;
-    if (!validateSyntax(text, selectedLine) && isSimulating) {
+    if (!validateSyntax(text) && isSimulating) {
       dispatch(
         setError(
           "El código contiene errores de sintáxis, por favor modifíquelo e intente de nuevo"
