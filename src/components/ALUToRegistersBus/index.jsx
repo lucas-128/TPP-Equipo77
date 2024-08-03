@@ -4,6 +4,7 @@ import { BaseEdge } from "reactflow";
 import {
   aluId,
   registersId,
+  aluRegistersId,
 } from "../../containers/SimulatorSection/components";
 import { usePosition } from "../../hooks/usePosition";
 
@@ -11,8 +12,8 @@ export const ALUToRegistersBus = ({ id }) => {
   const animations = useSelector((state) => state.application.edgeAnimation);
 
   const edgeAnimation = useMemo(
-    () => animations.includes(registersId),
-    [animations, registersId]
+    () => animations.includes(aluRegistersId),
+    [animations, aluRegistersId]
   );
   const [edgePath] = usePosition({
     edgeId: id,
@@ -28,6 +29,7 @@ export const ALUToRegistersBus = ({ id }) => {
         style={{
           stroke: "grey",
           strokeWidth: 20,
+          filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5))",
         }}
       />
       {edgeAnimation && (
@@ -54,7 +56,7 @@ export const ALUToRegistersBus = ({ id }) => {
                   repeatCount="indefinite"
                   path={edgePath}
                   rotate="auto"
-                  begin={`${Math.floor(i / 3) * 3 + 0.2 * i}s`} //Acomodar tiempos para que quede bien
+                  begin={`${Math.floor(i / 3) * 3 + 0.2 * i}s`}
                 />
               </rect>
             ))}

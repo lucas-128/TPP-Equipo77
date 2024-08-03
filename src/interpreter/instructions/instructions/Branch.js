@@ -1,5 +1,10 @@
 import { typeSimulations } from "../../constants";
 import Instruction from "../../Instruction";
+import {
+  registerAluBottomId,
+  registerAluTopId,
+  aluRegistersId,
+} from "../../../containers/SimulatorSection/components";
 
 /*
 
@@ -16,8 +21,13 @@ export class Branch extends Instruction {
   }
 
   resolve(oldState) {
-    const newState = { ...oldState };
     // TODO: cambiarlo para la instrucción branch
+    const newState = { ...oldState };
+    newState.edgeAnimation = [
+      registerAluBottomId,
+      registerAluTopId,
+      aluRegistersId,
+    ];
     newState.programCounter += 1;
     return newState;
   }

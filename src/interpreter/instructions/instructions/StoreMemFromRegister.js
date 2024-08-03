@@ -1,3 +1,4 @@
+import { STORE_MEM_FROM_REGISTER } from "../../constants";
 import Instruction from "../Instruction";
 
 /* 
@@ -20,6 +21,7 @@ export default class StoreMemFromRegister extends Instruction {
     const value = registers[this.register];
     newState.mainMemoryCells[this.memoryCell] = value;
     newState.programCounter += 1;
+    newState.edgeAnimation = [];
     return newState;
   }
 }

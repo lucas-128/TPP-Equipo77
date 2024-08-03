@@ -1,3 +1,4 @@
+import { LOAD_REGISTER_FROM_PATTERN } from "../../constants";
 import Instruction from "../Instruction";
 
 /* 
@@ -19,6 +20,7 @@ export default class LoadRegisterFromPattern extends Instruction {
     newState.registers = [...oldState.registers];
     newState.registers[this.register] = this.pattern;
     newState.programCounter += 1;
+    newState.edgeAnimation = []; //Actualizar las aristas correspondientes
     return newState;
   }
 }

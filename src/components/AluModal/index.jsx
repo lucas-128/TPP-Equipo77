@@ -24,6 +24,7 @@ export const AluModal = () => {
   const dispatch = useDispatch();
   const [showResult, setShowResult] = useState(false);
   const showModal = useSelector((state) => state.modals.aluZoom);
+
   const aluOperation = useSelector((state) => state.application.aluOperation);
 
   useEffect(() => {
@@ -51,11 +52,17 @@ export const AluModal = () => {
                   Operación
                   <OperationName>{aluOperation.operation}</OperationName>
                 </div>
-                <div className="row">{aluOperation.registerS.toString(2).padStart(8, "0")}</div>
-                <div className="row">{aluOperation.registerT.toString(2).padStart(8, "0")}</div>
+                <div className="row">
+                  {aluOperation.registerS.toString(2).padStart(8, "0")}
+                </div>
+                <div className="row">
+                  {aluOperation.registerT.toString(2).padStart(8, "0")}
+                </div>
                 <Line />
                 {showResult ? (
-                  <div className="row">{aluOperation.result.toString(2).padStart(8, "0")}</div>
+                  <div className="row">
+                    {aluOperation.result.toString(2).padStart(8, "0")}
+                  </div>
                 ) : (
                   <ButtonContainer>
                     <Button
