@@ -14,21 +14,26 @@ export const Container = styled.div.withConfig({
   z-index: ${(props) => (props.fullscreen ? "1000" : "auto")};
   background-color: ${(props) =>
     props.fullscreen ? "var(--im-white)" : "auto"};
+  overflow: ${(props) => (props.fullscreen ? "hidden" : "auto")};
 `;
 
 export const EditorWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  flex-grow: 0;
+  flex-grow: 1;
+
   height: 100%;
   background-color: var(--im-gray);
+
   transition: all 0.15s;
+  overflow: hidden;
 `;
 
 export const EditorHeader = styled.div`
   display: flex;
   padding: 5px;
   align-items: center;
+
   justify-content: flex-end;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
     rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
@@ -49,18 +54,15 @@ export const EditorHeaderText = styled.p`
 `;
 
 export const EditorTextWrapper = styled.div`
-  overflow: hidden;
-
   display: flex;
   flex-direction: row;
   background-color: var(--im-white);
   padding: 2px;
   margin: 0px 5px;
   border-radius: 10px;
-  flex: 20;
-  overflow-y: scroll;
-  max-height: 100%;
+  flex: 1;
   height: 100%;
+  overflow-y: auto;
 `;
 
 export const ArrowColumn = styled.div`
@@ -70,11 +72,12 @@ export const ArrowColumn = styled.div`
   height: 100%;
   line-height: 20px;
   position: relative;
+  overflow-y: hidden;
 `;
 
 export const Arrow = styled.div.withConfig({
   shouldForwardProp: (prop) =>
-    !["next", "selected", "lineIndex"].includes(prop),
+    !["next", "selected", "target", "lineIndex"].includes(prop),
 })`
   display: flex;
   align-items: center;
@@ -83,6 +86,7 @@ export const Arrow = styled.div.withConfig({
   color: ${(props) => {
     if (props.selected) return "green";
     if (props.next) return "red";
+    if (props.target) return "orange";
     return "transparent";
   }};
   font-weight: bold;
@@ -117,10 +121,9 @@ export const LineNumber = styled.div`
 
 export const EditorText = styled.textarea`
   overflow-x: hidden;
-  white-space: nowrap;
   font-size: 16px;
   width: 100%;
-  height: calc(100vh - 100px);
+  height: 100%;
   border: none;
   background-color: var(--im-white);
   padding: 0px;
@@ -133,8 +136,6 @@ export const EditorText = styled.textarea`
   line-height: 20px;
   tab-size: 4;
   white-space: pre;
-  overflow-y: hidden;
-  margin-top: 1.5px;
 `;
 
 export const EditorTextContainer = styled.div`
@@ -162,20 +163,4 @@ export const Button = styled.label`
 export const HiddenEditorContainer = styled.div`
   padding: 2px;
   transition: all 0.15s;
-`;
-
-export const SpinnerContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-export const SpinnerText = styled.span`
-  margin-right: 20px;
-  color: #ffffff;
-`;
-
-export const Spinner = styled.div`
-  width: 15px;
-  height: 15px;
-  animation: spin 1s linear infinite;
 `;

@@ -12,7 +12,6 @@ import {
   MdDownload,
 } from "react-icons/md";
 import { TiArrowRightThick } from "react-icons/ti";
-import { SpinnerContainer, SpinnerText } from "./styled"; // Adjust the path as needed
 import { useDispatch, useSelector } from "react-redux";
 import { validateSyntax } from "../../interpreter/main";
 import {
@@ -33,7 +32,13 @@ import {
 import { setShowEditor } from "../../slices/editorTextSlice";
 import { setError } from "../../slices/modalsSlice";
 
-export const TextEditor = ({ children, isSimulating, text, setText }) => {
+export const TextEditor = ({
+  children,
+  isSimulating,
+  text,
+  setText,
+  selectedLine,
+}) => {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [history, setHistory] = useState([]);
   const show = useSelector((state) => state.editorText.show);
@@ -158,10 +163,7 @@ export const TextEditor = ({ children, isSimulating, text, setText }) => {
         <EditorHeader>
           <EditorHeaderIconContainer>
             {isSimulating ? (
-              <SpinnerContainer>
-                <SpinnerText>Ejecutando código...</SpinnerText>
-                <ClipLoader size={16} color={"#FFFFFF"} />
-              </SpinnerContainer>
+              <></>
             ) : (
               <>
                 <Button htmlFor="file-upload" title="Subir archivo">
@@ -239,7 +241,7 @@ export const TextEditor = ({ children, isSimulating, text, setText }) => {
                     )}
 
                   {isBranchTarget && (
-                    <Arrow next>
+                    <Arrow target>
                       <TiArrowRightThick size={20} />
                     </Arrow>
                   )}
