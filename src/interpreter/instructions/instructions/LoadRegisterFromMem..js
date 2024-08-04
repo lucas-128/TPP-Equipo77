@@ -8,7 +8,6 @@ Load the content of the memory cell with address XY into register R
 
 */
 
-
 export default class LoadRegisterFromMem extends Instruction {
   constructor(register, memoryAddress) {
     super();
@@ -19,10 +18,14 @@ export default class LoadRegisterFromMem extends Instruction {
   execute(oldState) {
     const newState = { ...oldState };
     newState.registers = [...oldState.registers];
+    newState.programCounter += 1;
+    if (this.memoryAddress === 254) {
+      newState.showOutputPort = true;
+      return newState;
+    }
     const { mainMemoryCells } = newState;
     const value = mainMemoryCells[this.memoryAddress];
     newState.registers[this.register] = value;
-    newState.programCounter += 1;
     return newState;
   }
 }

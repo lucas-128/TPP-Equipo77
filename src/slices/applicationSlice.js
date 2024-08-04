@@ -25,6 +25,7 @@ const initialState = {
   previousState: null,
   aluOperation: null,
   edgeAnimation: [],
+  showOutputPort: false,
 };
 
 export const applicationSlice = createSlice({
@@ -83,6 +84,9 @@ export const applicationSlice = createSlice({
         return newEdge;
       });
     },
+    setShowOutputPort(state, action) {
+      state.showOutputPort = action.payload;
+    },
     // updateNodes(state, action) {
     //   const { nodeId, data } = action.payload;
     //   state.nodes = current(state).nodes.map((node) => {
@@ -122,6 +126,7 @@ export const applicationSlice = createSlice({
       state.previousState = initialState.previousState;
       state.aluOperation = initialState.aluOperation;
       state.edgeAnimation = initialState.edgeAnimation;
+      state.showOutputPort = initialState.showOutputPort;
     },
   },
 });
@@ -145,11 +150,11 @@ export const {
   updatePreviousState,
   updateError,
   clearApplication,
+  setShowOutputPort,
 } = applicationSlice.actions;
 
 // Thunk para manejar la actualización del estado actual
 export const updateCurrentState = (newState) => (dispatch) => {
-  console.log("actualizo todos los estados");
   const {
     registers,
     mainMemoryCells,
@@ -157,33 +162,14 @@ export const updateCurrentState = (newState) => (dispatch) => {
     instructionRegister,
     programCounter,
     edgeAnimation,
+    showOutputPort,
   } = newState;
   dispatch(updateRegisters({ registers }));
   dispatch(updateMainMemoryCells({ mainMemoryCells }));
   dispatch(updateAluOperation({ aluOperation }));
-  // dispatch(updateNodes({ nodeId: registersId, data: registers }));
-  // dispatch(updateNodes({ nodeId: mainMemoryId, data: mainMemoryCells }));
-  // dispatch(updateNodes({ nodeId: aluId, data: aluOperation }));
   dispatch(updateEdgeAnimation({ edgeAnimation }));
-  /*dispatch(
-    updateEdges({
-      edgeId: registerAluTopId,
-      data: { position: "top", animated: edgeAnimation.registerAluTop },
-    })
-  );
-  dispatch(
-    updateEdges({
-      edgeId: registerAluBottomId,
-      data: { position: "bottom", animated: edgeAnimation.registerAluBottom },
-    })
-  );
-  dispatch(
-    updateEdges({
-      edgeId: aluRegistersId,
-      data: { position: "bottom", animated: edgeAnimation.aluRegisters },
-    })
-  );*/
   dispatch(updateProgramCounter({ programCounter: programCounter }));
+  dispatch(setShowOutputPort(showOutputPort));
   dispatch(
     updateInstructionRegister({
       instructionRegister: instructionRegister,

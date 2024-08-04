@@ -20,10 +20,9 @@ export const modalsSlice = createSlice({
     },
     setOpenAluZoom(state, action) {
       state.aluZoom = action.payload;
-    }
+    },
   },
 });
 
 export const { setError, closeError, setOpenAluZoom } = modalsSlice.actions;
-
 export default modalsSlice.reducer;
