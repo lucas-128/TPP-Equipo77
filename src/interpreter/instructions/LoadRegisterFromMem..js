@@ -1,5 +1,6 @@
-import { typeSimulations } from "../../constants";
+import { typeSimulations } from "../../interpreter/constants";
 import Instruction from "../Instruction";
+import { updateCache } from "../utils";
 
 /* 
 
@@ -19,8 +20,22 @@ export default class LoadRegisterFromMem extends Instruction {
   execute(oldState) {
     const newState = { ...oldState };
     newState.registers = [...oldState.registers];
-    const { mainMemoryCells } = newState;
+    const { cacheMemoryCells } = oldState;
+    const { mainMemoryCells } = oldState;
+
+    const cell = cacheMemoryCells.find((cell) => cell ? cell.address === this.memoryAddress : false);
+    if(cell){
+      newState.registers[this.register] = cell.content;
+      newState.programCounter += 1;
+      return newState;
+    }
+    else{
+      newState.cacheMemoryCells = [...oldState.cacheMemoryCells];
+      newState.cacheMemoryCells = updateCache(newState, this.memoryAddress);
+    }
+    
     const value = mainMemoryCells[this.memoryAddress];
+
     newState.registers[this.register] = value;
     newState.programCounter += 1;
     return newState;

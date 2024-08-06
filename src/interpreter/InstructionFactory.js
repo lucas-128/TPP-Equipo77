@@ -1,7 +1,9 @@
-import * as constants from "../constants";
+import * as constants from "./constants";
 import AdditionTwoComplement from "./instructions/AdditionTwoComplement";
 import ANDInstruction from "./instructions/ANDInstruction";
+import Branch from "./instructions/Branch";
 import CopyRegisterToRegister from "./instructions/CopyRegisterToRegister";
+import End from "./instructions/EndIntruction";
 import FloatingPointSum from "./instructions/FloatingPointSum";
 import LoadRegisterFromMem from "./instructions/LoadRegisterFromMem.";
 import LoadRegisterFromPattern from "./instructions/LoadRegisterFromPattern";
@@ -59,6 +61,10 @@ export class InstructionFactory {
         return new ANDInstruction(registerSIndex, registerTIndex, register);
       case constants.XOR:
         return new XORInstruction(registerSIndex, registerTIndex, register);
+      case constants.JUMP_TO:
+        return new Branch(instruction);
+      case constants.END:
+        return new End(instruction);
     }
   }
 }

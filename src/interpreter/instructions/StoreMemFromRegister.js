@@ -1,4 +1,5 @@
 import Instruction from "../Instruction";
+import { updateCache } from "../utils";
 
 /* 
 
@@ -18,7 +19,9 @@ export default class StoreMemFromRegister extends Instruction {
     const newState = { ...oldState };
     const { registers } = newState;
     const value = registers[this.register];
+
     newState.mainMemoryCells[this.memoryCell] = value;
+    newState.cacheMemoryCells = updateCache(newState, this.memoryCell);  
     newState.programCounter += 1;
     return newState;
   }

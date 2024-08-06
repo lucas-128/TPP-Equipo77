@@ -1,5 +1,4 @@
-import { typeSimulations } from "../../constants";
-import Instruction from "../../Instruction";
+import Instruction from "../Instruction";
 
 /*
 
@@ -8,14 +7,14 @@ Jumps to the instruction at address XY if the content of register R is equal to 
 
 */
 
-export class Branch extends Instruction {
+export default class End extends Instruction {
   constructor(instruction) {
     super();
     this.type = instruction[0];
     this.cycle = "";
   }
 
-  resolve(oldState) {
+  execute(oldState) {
     const newState = { ...oldState };
     // TODO: cambiarlo para la instrucción branch
     newState.programCounter += 1;

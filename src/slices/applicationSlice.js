@@ -1,23 +1,22 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 import {
-  aluId,
-  controlUnitId,
+  // aluId,
+  // controlUnitId,
   initialEdges,
   initialNodes,
-  mainMemoryId,
-  registersId,
-  registerAluTopId,
-  registerAluBottomId,
-  aluRegistersId,
+  // mainMemoryId,
+  // registersId,
+  // registerAluTopId,
+  // registerAluBottomId,
+  // aluRegistersId,
 } from "../containers/SimulatorSection/components";
 import { addEdge, applyNodeChanges, applyEdgeChanges } from "reactflow";
+import { CACHE_SIZE } from "../interpreter/constants";
 
-const initialState = {
+export const initialState = {
   registers: new Array(16).fill(null),
-  mainMemoryCells: new Array(31)
-    .fill("-")
-    .concat("00001000") //Esto debe ser todo vacio, le puse el binario al final para hacer pruebas
-    .concat(new Array(224).fill("-")),
+  mainMemoryCells: new Array(256).fill("-"),
+  cacheMemoryCells: new Array(CACHE_SIZE).fill(null),
   programCounter: null,
   instructionRegister: "-",
   nodes: initialNodes,
@@ -73,6 +72,10 @@ export const applicationSlice = createSlice({
       const { aluOperation } = action.payload;
       state.aluOperation = aluOperation;
     },
+    updateCacheMemoryCells(state, action) {
+      const { cacheMemoryCells } = action.payload;
+      state.cacheMemoryCells = cacheMemoryCells;
+    },
     updateEdges(state, action) {
       const { edgeId, data } = action.payload;
       state.edges = current(state).edges.map((edge) => {
@@ -122,6 +125,7 @@ export const applicationSlice = createSlice({
       state.previousState = initialState.previousState;
       state.aluOperation = initialState.aluOperation;
       state.edgeAnimation = initialState.edgeAnimation;
+      state.cacheMemoryCells = initialState.cacheMemoryCells;
     },
   },
 });
@@ -137,6 +141,7 @@ export const {
   updateEdgeAnimation,
   updateMainMemoryCells,
   updateAluOperation,
+  updateCacheMemoryCells,
   updateNodes,
   updateEdges,
   updateInstructionRegister,
@@ -157,6 +162,7 @@ export const updateCurrentState = (newState) => (dispatch) => {
     instructionRegister,
     programCounter,
     edgeAnimation,
+    cacheMemoryCells,
   } = newState;
   dispatch(updateRegisters({ registers }));
   dispatch(updateMainMemoryCells({ mainMemoryCells }));
@@ -183,12 +189,9 @@ export const updateCurrentState = (newState) => (dispatch) => {
       data: { position: "bottom", animated: edgeAnimation.aluRegisters },
     })
   );*/
-  dispatch(updateProgramCounter({ programCounter: programCounter }));
-  dispatch(
-    updateInstructionRegister({
-      instructionRegister: instructionRegister,
-    })
-  );
+  dispatch(updateProgramCounter({ programCounter }));
+  dispatch(updateInstructionRegister({ instructionRegister }));
+  dispatch(updateCacheMemoryCells({ cacheMemoryCells }));
 };
 
 export default applicationSlice.reducer;

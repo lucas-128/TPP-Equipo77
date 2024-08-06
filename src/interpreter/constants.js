@@ -69,3 +69,6 @@ export const operationNames = {
   XOR: "XOR",
   ROTATE_RIGHT: "Rotar a la derecha",
 };
+
+
+export const CACHE_SIZE = 16;

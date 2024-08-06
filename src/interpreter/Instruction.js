@@ -1,6 +1,6 @@
 // aca tener una clase que tenga updateProgram counter, load y fetch. Después cada inst tiene su execute
 
-import { cyclesSimulations, typeSimulations } from "../constants";
+import { cyclesSimulations, typeSimulations } from "./constants";
 
 export default class Instruction {
   constructor() {

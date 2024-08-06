@@ -1,6 +1,6 @@
 import { typeSimulations } from "./constants";
 import { splitCode, validateSyntax } from "./main";
-import { InstructionFactory } from "./instructions/InstructionFactory";
+import { InstructionFactory } from "./InstructionFactory";
 
 export default class Program {
   constructor(program) {

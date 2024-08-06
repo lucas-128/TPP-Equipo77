@@ -1,4 +1,4 @@
-import { operationNames, typeSimulations } from "../../constants";
+import { operationNames, typeSimulations } from "../../interpreter/constants";
 import Instruction from "../Instruction";
 import { applyBinaryOperation } from "../utils";
 
