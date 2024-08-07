@@ -12,6 +12,7 @@ import { nodeTypes, edgeTypes } from "./components";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { AluModal } from "../../components/AluModal";
+import { MainMemoryModal } from "../../components/MainMemoryModal";
 
 export const SimulatorContainer = () => {
   const nodes = useSelector((state) => state.application.nodes);
@@ -41,6 +42,7 @@ export const SimulatorContainer = () => {
         <Background gap={10} size={1} />
       </ReactFlow>
       <AluModal />
+      <MainMemoryModal />
     </Container>
   );
 };
