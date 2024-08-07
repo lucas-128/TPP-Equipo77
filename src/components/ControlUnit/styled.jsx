@@ -1,5 +1,5 @@
 import { Handle } from "reactflow";
-import styled from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 
 export const MainContainer = styled.div`
   align-self: center;
@@ -58,9 +58,37 @@ export const HeaderText = styled.p`
   color: var(--im-white);
   font-size: 22px;
   font-weight: bold;
-  margin: 0px 0px 10px 0px;
+  margin: 0px 0px 20px 0px;
 `;
 
+const pulse = keyframes`
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+`;
+
+export const IndicatorText = styled.p.withConfig({
+  shouldForwardProp: (prop) => !["animate"].includes(prop),
+})`
+  color: var(--im-white);
+  font-size: 14px;
+  font-weight: bold;
+  margin: 20px 0px 0px 0px;
+  ${({ animate }) =>
+    animate &&
+    css`
+      animation: ${pulse} 1s infinite;
+    `}
+`;
 
 export const CustomHandle = styled(Handle)`
   background-color: transparent !important;
