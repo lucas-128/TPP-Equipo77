@@ -10,6 +10,7 @@ import { ALUToRegistersBus } from "../../components/ALUToRegistersBus";
 import { MainMemControlDataBus } from "../../components/MainMemControlDataBus";
 import { ControlToMainMemAddrBus } from "../../components/ControlToMainMemAddrBus";
 import { CacheToControlUnitBus } from "../../components/CacheToControlUnitBus";
+import { RegistersToUCBus } from "../../components/RegistersToUCBus";
 
 export const nodeTypes = {
   registers: RegisterBox,
@@ -80,10 +81,12 @@ export const edgeTypes = {
   AluToRegisters: ALUToRegistersBus,
   memoryControlUnitData: MainMemControlDataBus,
   controlUnitToMainMemory: ControlToMainMemAddrBus,
+  registersToControlUnit: RegistersToUCBus,
 };
 
 //export const registerCacheId = "registers-cache";
 //export const cacheRegistersId = "cache-registers";
+export const registersControlUnitId = "registers-control-unit";
 export const controlUnitCacheId = "control-unit-cache";
 export const registerAluTopId = "registers-alu-top";
 export const registerAluBottomId = "registers-alu-bottom";
@@ -145,5 +148,11 @@ export const initialEdges = [
     source: controlUnitId,
     target: mainMemoryId,
     type: "controlUnitToMainMemory",
+  },
+  {
+    id: registersControlUnitId,
+    source: registersId,
+    target: controlUnitId,
+    type: "registersToControlUnit",
   },
 ];
