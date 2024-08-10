@@ -19,12 +19,12 @@ export function applyBinaryOperation(instruction, operation, actualState) {
   }
 
 
-export function updateCache(oldState, memoryAddress) {
-  const { cacheMemoryCells }  = oldState;
+export function updateCache(oldExecuteState, memoryAddress) {
+  const { cacheMemoryCells }  = oldExecuteState;
   let newCacheMemoryCells = [...cacheMemoryCells];
 
   newCacheMemoryCells.pop();
-  newCacheMemoryCells.unshift({ address: memoryAddress, content: oldState.mainMemoryCells[memoryAddress] });   
+  newCacheMemoryCells.unshift({ address: memoryAddress, content: oldExecuteState.mainMemoryCells[memoryAddress] });   
 
   return newCacheMemoryCells;
 }

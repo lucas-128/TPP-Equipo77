@@ -18,8 +18,11 @@ export default class ANDInstruction extends Instruction {
   }
 
   execute(oldState) {
-    const newState = { ...oldState };
-    newState.programCounter += 1;
-    return applyBinaryOperation(this, (a, b) => a & b, newState);
+    const newExecuteState = { ...oldState.execute };
+    newExecuteState.programCounter += 1;
+    return {
+      ...oldState,
+      execute: applyBinaryOperation(this, (a, b) => a & b, newExecuteState),
+    };
   }
 }

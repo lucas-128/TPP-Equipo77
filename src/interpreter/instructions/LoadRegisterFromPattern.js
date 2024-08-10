@@ -15,10 +15,10 @@ export default class LoadRegisterFromPattern extends Instruction {
   }
 
   execute(oldState) {
-    const newState = { ...oldState };
-    newState.registers = [...oldState.registers];
-    newState.registers[this.register] = this.pattern;
-    newState.programCounter += 1;
-    return newState;
+    const newExecuteState = { ...oldState.execute };
+    newExecuteState.registers = [...oldState.execute.registers];
+    newExecuteState.registers[this.register] = this.pattern;
+    newExecuteState.programCounter += 1;
+    return {...oldState, execute: newExecuteState};
   }
 }

@@ -17,7 +17,7 @@ import { mainMemoryId } from "../../containers/SimulatorSection/components";
 
 export const MainMemory = () => {
   const mainMemoryCells = useSelector(
-    (state) => state.application.mainMemoryCells
+    (state) => state.application.execute.mainMemoryCells
   );
 
   const rowsPerPage = 32;

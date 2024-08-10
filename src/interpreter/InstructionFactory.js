@@ -40,7 +40,8 @@ export class InstructionFactory {
         return new LoadRegisterFromMem(register, payload);
       }
       case constants.LOAD_REGISTER_FROM_PATTERN: {
-        return new LoadRegisterFromPattern(register, payload);
+        // sin parsear, guardo todo como hexa
+        return new LoadRegisterFromPattern(register, instruction[2] + instruction[3]);
       }
       case constants.STORE_MEM_FROM_REGISTER: {
         return new StoreMemFromRegister(register, payload);

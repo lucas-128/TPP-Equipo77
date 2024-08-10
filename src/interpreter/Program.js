@@ -23,7 +23,7 @@ export default class Program {
   }
 
   getNewState(oldState) {
-    const actualLine = oldState.programCounter;
+    const actualLine = oldState.execute.programCounter;
     const actualInstruction = this.instructions[actualLine];
     const newState = actualInstruction.nextStep(oldState, this.typeSimulation);
     return newState;

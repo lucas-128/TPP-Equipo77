@@ -15,7 +15,7 @@ import { useMemo, useState } from "react";
 
 export const CacheMemory = () => {
   const cacheMemoryCells = useSelector(
-    (state) => state.application.cacheMemoryCells
+    (state) => state.application.execute.cacheMemoryCells
   );
 
   const rowsPerPage = 8;

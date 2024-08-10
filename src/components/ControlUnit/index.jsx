@@ -13,11 +13,11 @@ import { useSelector } from "react-redux";
 
 export const ControlUnit = () => {
   const programCounter = useSelector(
-    (state) => state.application.programCounter
+    (state) => state.application.execute.programCounter
   );
 
   const instructionRegister = useSelector(
-    (state) => state.application.instructionRegister
+    (state) => state.application.execute.instructionRegister
   );
 
   return (

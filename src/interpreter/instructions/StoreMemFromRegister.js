@@ -16,13 +16,14 @@ export default class StoreMemFromRegister extends Instruction {
   }
 
   execute(oldState) {
-    const newState = { ...oldState };
-    const { registers } = newState;
+    const newExecuteState = { ...oldState.execute };
+    const { registers } = newExecuteState;
+    newExecuteState.mainMemoryCells = [...oldState.execute.mainMemoryCells];
     const value = registers[this.register];
 
-    newState.mainMemoryCells[this.memoryCell] = value;
-    newState.cacheMemoryCells = updateCache(newState, this.memoryCell);  
-    newState.programCounter += 1;
-    return newState;
+    newExecuteState.mainMemoryCells[this.memoryCell] = value;
+    newExecuteState.cacheMemoryCells = updateCache(newExecuteState, this.memoryCell);  
+    newExecuteState.programCounter += 1;
+    return {...oldState, execute: newExecuteState};
   }
 }

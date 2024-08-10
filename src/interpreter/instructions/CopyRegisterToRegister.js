@@ -16,11 +16,11 @@ export default class CopyRegisterToRegister extends Instruction {
   }
 
   execute(oldState) {
-    const newState = { ...oldState };
-    const { registers } = newState;
+    const newExecuteState = { ...oldState.execute };
+    const { registers } = newExecuteState;
     const value = registers[this.sourceRegister];
-    newState.registers[this.destinationRegister] = value;
-    newState.programCounter += 1;
-    return newState;
+    newExecuteState.registers[this.destinationRegister] = value;
+    newExecuteState.programCounter += 1;
+    return {...oldState, execute: newExecuteState};
   }
 }
