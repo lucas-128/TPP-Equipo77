@@ -3,12 +3,17 @@ import { BaseEdge } from "reactflow";
 import {
   controlUnitId,
   mainMemoryId,
+  aluRegistersId,
 } from "../../containers/SimulatorSection/components";
+import { useMemo } from "react";
 import { usePosition } from "../../hooks/usePosition";
 
 export const ControlToMainMemAddrBus = ({ id }) => {
-  const edgeAnimation = useSelector(
-    (state) => state.application.edgeAnimation.aluRegisters
+  const animations = useSelector((state) => state.application.edgeAnimation);
+
+  const edgeAnimationAluRegistersId = useMemo(
+    () => animations.includes(aluRegistersId),
+    [animations, aluRegistersId]
   );
 
   const [edgePath] = usePosition({
@@ -24,11 +29,11 @@ export const ControlToMainMemAddrBus = ({ id }) => {
         path={edgePath}
         interactionWidth={20}
         style={{
-          stroke: 'var(--im-light-purple)',
+          stroke: "var(--im-light-purple)",
           strokeWidth: 20,
         }}
       />
-      {edgeAnimation && (
+      {edgeAnimationAluRegistersId && (
         <>
           <BaseEdge
             path={edgePath}

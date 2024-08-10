@@ -1,5 +1,10 @@
-import { typeSimulations } from "../../constants";
+import { ROTATE_RIGHT, typeSimulations } from "../../constants";
 import Instruction from "../Instruction";
+import {
+  registerAluBottomId,
+  registerAluTopId,
+  aluRegistersId,
+} from "../../../containers/SimulatorSection/components";
 
 /* 
 
@@ -8,7 +13,7 @@ Copy the content of register R1 to register R2
 
 */
 
-export default class RotateRight extends Instruction{
+export default class RotateRight extends Instruction {
   constructor(register, rotations) {
     super();
     this.rotations = rotations;
@@ -23,6 +28,11 @@ export default class RotateRight extends Instruction{
 
   execute(oldState) {
     const newState = { ...oldState };
+    newState.edgeAnimation = [
+      registerAluBottomId,
+      registerAluTopId,
+      aluRegistersId,
+    ];
     const registerValue = newState.registers[this.register];
     const length = registerValue.length;
     const registerT = newState.registers[this.rotations];

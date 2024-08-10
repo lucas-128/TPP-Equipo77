@@ -1,7 +1,10 @@
-import { typeSimulations } from "../../constants";
 import Instruction from "../Instruction";
 import { applyBinaryOperation } from "../utils";
-
+import {
+  registerAluBottomId,
+  registerAluTopId,
+  aluRegistersId,
+} from "../../../containers/SimulatorSection/components";
 /* 
 
 Instruction: 4
@@ -9,17 +12,23 @@ Copy the content of register R1 to register R2
 
 */
 
-export default class ORInstruction extends Instruction{
-  constructor(registerS, registerT, destinationIndex) {
+export default class ORInstruction extends Instruction {
+  constructor(registerSIndex, registerTIndex, destinationIndex) {
     super();
-    this.registerS = registerS;
-    this.registerT = registerT;
+    this.registerSIndex = registerSIndex;
+    this.registerTIndex = registerTIndex;
     this.destinationIndex = destinationIndex;
   }
 
   execute(oldState) {
     const newState = { ...oldState };
+    newState.edgeAnimation = [
+      registerAluBottomId,
+      registerAluTopId,
+      aluRegistersId,
+    ];
     newState.programCounter += 1;
+    console.log("El newState es: ", newState);
     return applyBinaryOperation(this, (a, b) => a | b, newState);
   }
 }
