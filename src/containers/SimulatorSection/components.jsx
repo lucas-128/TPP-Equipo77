@@ -116,18 +116,10 @@ export const initialEdges = [
     data: { position: "top", animated: false },
   },
   {
-    id: registerAluBottomId,
-    source: registersId,
-    target: aluId,
-    type: "registerToAlu",
-    data: { position: "bottom", animated: false },
-  },
-  {
     id: aluRegistersId,
     source: aluId,
     target: registersId,
     type: "AluToRegisters",
-    data: { position: "bottom", animated: false },
   },
   // los dos buses de data de la memoria principal al control y viceversa
   {

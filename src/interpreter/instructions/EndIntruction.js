@@ -18,6 +18,11 @@ export default class End extends Instruction {
     const newExecuteState = { ...oldState.execute };
     // TODO: cambiarlo para la instrucción branch
     newExecuteState.programCounter += 1;
+    newExecuteState.edgeAnimation = [
+      registerAluBottomId,
+      registerAluTopId,
+      aluRegistersId,
+    ];
     return {...oldState, execute: newExecuteState};
   }
 }

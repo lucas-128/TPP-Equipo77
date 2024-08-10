@@ -16,9 +16,8 @@ export default class Instruction {
   nextStep(oldState, typeSimulation) {
     if (typeSimulation === typeSimulations.SIMPLE) {
       return this.execute(oldState);
-    }
-    else if (typeSimulation === typeSimulations.CYCLES) {
-      if(this.cycle === cyclesSimulations.FETCH) {
+    } else if (typeSimulation === typeSimulations.CYCLES) {
+      if (this.cycle === cyclesSimulations.FETCH) {
         this.cycle = cyclesSimulations.DECODE;
         return this.fetch(oldState);
       }

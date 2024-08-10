@@ -19,6 +19,7 @@ export default class LoadRegisterFromPattern extends Instruction {
     newExecuteState.registers = [...oldState.execute.registers];
     newExecuteState.registers[this.register] = this.pattern;
     newExecuteState.programCounter += 1;
+    newExecuteState.edgeAnimation = []; //Actualizar las aristas correspondientes
     return {...oldState, execute: newExecuteState};
   }
 }

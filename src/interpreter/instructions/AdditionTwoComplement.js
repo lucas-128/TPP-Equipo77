@@ -1,6 +1,9 @@
-import { typeSimulations } from "../../interpreter/constants";
 import Instruction from "../Instruction";
-
+import {
+  registerAluBottomId,
+  registerAluTopId,
+  aluRegistersId,
+} from "../../containers/SimulatorSection/components";
 /* 
 
 Instruction: 4
@@ -30,6 +33,12 @@ export default class AdditionTwoComplement extends Instruction {
     const operationResult = (registerS + registerT) & 0xff;
     newExecuteState.registers[this.destinationIndex] = operationResult;
     newExecuteState.programCounter += 1;
+    newExecuteState.edgeAnimation = [
+      registerAluTopId,
+      registerAluBottomId,
+      aluRegistersId,
+    ];
+    
     return {...oldState, execute: newExecuteState};
   }
 }

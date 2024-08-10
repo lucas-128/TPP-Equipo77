@@ -1,5 +1,10 @@
-import { typeSimulations } from "../../interpreter/constants";
+import { ROTATE_RIGHT, typeSimulations } from "../constants";
 import Instruction from "../Instruction";
+import {
+  registerAluBottomId,
+  registerAluTopId,
+  aluRegistersId,
+} from "../../containers/SimulatorSection/components";
 
 /* 
 
@@ -24,6 +29,11 @@ export default class RotateRight extends Instruction {
   execute(oldState) {
     const newExecuteState = { ...oldState.state };
     const registerValue = newExecuteState.registers[this.register];
+    newExecuteState.edgeAnimation = [
+      registerAluBottomId,
+      registerAluTopId,
+      aluRegistersId,
+    ];
     const length = registerValue.length;
     const registerT = newExecuteState.registers[this.rotations];
     const shift = registerT;
