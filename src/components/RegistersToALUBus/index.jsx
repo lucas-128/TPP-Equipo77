@@ -26,52 +26,99 @@ export const RegistersToALUBus = ({ id, data }) => {
     edgeId: id,
     sourceComponentId: registersId,
     targetComponentId: aluId,
-    position: data.position,
+    position: "top",
+  });
+
+  const [secondEdgePath] = usePosition({
+    edgeId: id,
+    sourceComponentId: registersId,
+    targetComponentId: aluId,
+    position: "bottom",
   });
 
   return (
-    <g>
-      <BaseEdge
-        path={edgePath}
-        interactionWidth={20}
-        style={{
-          zIndex: -1,
-          stroke: "grey",
-          strokeWidth: 20,
-        }}
-      />
-      {edgeAnimationAluTop && edgeAnimationAluBottom && (
-        <>
-          <BaseEdge
-            path={edgePath}
-            style={{
-              stroke: "var(--im-secondary-hover)",
-              animation: "dashdraw 0.5s linear infinite",
-            }}
+    <>
+      <defs>
+        {/* Filtro para la arista inferior */}
+        <filter
+          id="drop-shadow-bottom"
+          x="-10%"
+          y="0%"
+          width="140%"
+          height="150%"
+        >
+          <feDropShadow
+            dx="-2"
+            dy="-2"
+            stdDeviation="4"
+            floodColor="rgba(0, 0, 0, 0.5)"
           />
-          <g>
-            {[...Array(6)].map((_, i) => (
-              <rect
-                key={i}
-                width={15}
-                height={5}
-                fill={"var(--im-primary-hover)"}
-                className="stripe"
-                x={-5}
-                y={-2.5}
-              >
-                <animateMotion
-                  dur="4s"
-                  repeatCount="indefinite"
-                  path={edgePath}
-                  rotate="auto"
-                  begin={`${1 + 0.3 * i + (i >= 3 ? 1 : 0)}s`}
-                />
-              </rect>
-            ))}
-          </g>
-        </>
-      )}
-    </g>
+        </filter>
+
+        {/* Filtro para la arista superior */}
+        <filter
+          id="drop-shadow-top"
+          x="-20%"
+          y="-50%"
+          width="140%"
+          height="150%"
+        >
+          <feDropShadow
+            dx="-2"
+            dy="-2"
+            stdDeviation="6"
+            floodColor="rgba(0, 0, 0, 0.5)"
+          />
+        </filter>
+      </defs>
+
+      <g>
+        {/* Background Edges */}
+        <BaseEdge
+          path={edgePath}
+          interactionWidth={20}
+          style={{
+            stroke: "grey",
+            strokeWidth: 20,
+            filter: "url(#drop-shadow-top)",
+          }}
+        />
+        <BaseEdge
+          path={secondEdgePath}
+          interactionWidth={20}
+          style={{
+            stroke: "grey",
+            strokeWidth: 20,
+            filter: "url(#drop-shadow-bottom)",
+          }}
+        />
+        {edgeAnimationAluTop && edgeAnimationAluBottom && (
+          <>
+            <path
+              d={edgePath}
+              stroke="var(--im-primary-hover)"
+              strokeWidth={4}
+              strokeDasharray="15,15"
+              strokeLinecap="round"
+              fill="none"
+              style={{
+                animation: "dash 20s linear infinite reverse",
+              }}
+            />
+            <path
+              d={secondEdgePath}
+              stroke="var(--im-primary-hover)"
+              strokeWidth={4}
+              strokeDasharray="15,15"
+              strokeLinecap="round"
+              fill="none"
+              style={{
+                animation: "dash 20s linear infinite reverse",
+              }}
+            />
+          </>
+        )}
+      </g>
+    </>
   );
 };

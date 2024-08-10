@@ -35,31 +35,25 @@ export const ALUToRegistersBus = ({ id }) => {
       {edgeAnimation && (
         <>
           <BaseEdge
+            id={id}
             path={edgePath}
             style={{
-              stroke: "var(--im-secondary-hover)",
+              stroke: "none",
             }}
           />
           <g>
-            {[...Array(9)].map((_, i) => (
-              <rect
-                key={i}
-                width={15}
-                height={5}
-                fill={"var(--im-primary-hover)"}
-                className="stripe"
-                x={-5}
-                y={-2.5}
-              >
-                <animateMotion
-                  dur="9s"
-                  repeatCount="indefinite"
-                  path={edgePath}
-                  rotate="auto"
-                  begin={`${Math.floor(i / 3) * 3 + 0.2 * i}s`}
-                />
-              </rect>
-            ))}
+            <path
+              d={edgePath}
+              stroke="var(--im-primary-hover)"
+              strokeWidth={4}
+              strokeDasharray="15,15"
+              strokeDashoffset="0"
+              strokeLinecap="round"
+              fill="none"
+              style={{
+                animation: "dash 15s linear infinite reverse",
+              }}
+            />
           </g>
         </>
       )}
