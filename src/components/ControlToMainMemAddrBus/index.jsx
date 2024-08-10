@@ -9,7 +9,7 @@ import { useMemo } from "react";
 import { usePosition } from "../../hooks/usePosition";
 
 export const ControlToMainMemAddrBus = ({ id }) => {
-  const animations = useSelector((state) => state.application.edgeAnimation);
+  const animations = useSelector((state) => state.application.execute.edgeAnimation);
 
   const edgeAnimationAluRegistersId = useMemo(
     () => animations.includes(aluRegistersId),

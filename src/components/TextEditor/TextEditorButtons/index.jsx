@@ -5,14 +5,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
 import { splitCode } from "../../../interpreter/main";
 import {
-  updateRegisters,
-  updateEdgeAnimation,
+  // updateRegisters,
+  // updateEdgeAnimation,
   goToPreviousState,
   updatePreviousState,
-  updateMainMemoryCells,
+  // updateMainMemoryCells,
   updateCurrentState,
-  updateInstructionRegister,
-  updateProgramCounter,
+  // updateInstructionRegister,
+  // updateProgramCounter,
   clearApplication,
 } from "../../../slices/applicationSlice";
 import { Button } from "../../Button";
@@ -40,10 +40,15 @@ export const TextEditorButtons = ({ isSimulating, setIsSimulating, text }) => {
     const newMemory = getProgramInMemory();
     const newProgram = new Program(text);
     setProgram(newProgram);
+    // TODO: por ahora se supone que la primera instruccion se ejecuta de una (después agregar el fetch y decode)
+    const newExecute = {
+      ...applicationState.execute,
+      programCounter: 0,
+      mainMemoryCells: newMemory,
+    };
     const newState = newProgram.getNewState({
       ...applicationState,
-      mainMemoryCells: newMemory,
-      programCounter: 0,
+      execute: newExecute,
     });
     dispatch(updatePreviousState()); //TODO: Revisar esto porque creo que el primer estado guarda un previous state que no deberia
     dispatch(updateCurrentState(newState));

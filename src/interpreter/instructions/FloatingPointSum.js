@@ -1,4 +1,3 @@
-import { typeSimulations } from "../../constants";
 import Instruction from "../Instruction";
 
 /* 

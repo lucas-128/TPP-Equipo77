@@ -9,7 +9,7 @@ import {
 import { usePosition } from "../../hooks/usePosition";
 
 export const ALUToRegistersBus = ({ id }) => {
-  const animations = useSelector((state) => state.application.edgeAnimation);
+  const animations = useSelector((state) => state.application.execute.edgeAnimation);
 
   const edgeAnimation = useMemo(
     () => animations.includes(aluRegistersId),

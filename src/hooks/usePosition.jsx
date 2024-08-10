@@ -19,7 +19,7 @@ export const usePosition = ({
   targetComponentId,
   position,
 }) => {
-  const nodes = useSelector((state) => state.application.nodes);
+  const nodes = useSelector((state) => state.application.execute.nodes);
 
   const getComponentInfo = (id) => {
     return {

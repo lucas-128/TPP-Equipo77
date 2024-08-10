@@ -8,7 +8,7 @@ import { usePosition } from "../../hooks/usePosition";
 
 export const MainMemControlDataBus = ({ id, source, target }) => {
   const edgeAnimation = useSelector(
-    (state) => state.application.edgeAnimation.aluRegisters
+    (state) => state.application.execute.edgeAnimation.aluRegisters
   );
 
   const [edgePath] = usePosition({

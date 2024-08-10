@@ -1,11 +1,10 @@
-import { typeSimulations, XOR } from "../../constants";
 import Instruction from "../Instruction";
 import { applyBinaryOperation } from "../utils";
 import {
   registerAluBottomId,
   registerAluTopId,
   aluRegistersId,
-} from "../../../containers/SimulatorSection/components";
+} from "../../containers/SimulatorSection/components";
 
 /* 
 
@@ -23,13 +22,13 @@ export default class XORInstruction extends Instruction {
   }
 
   execute(oldState) {
-    const newState = { ...oldState };
-    newState.edgeAnimation = [
+    const newExecuteState = { ...oldState.execute };
+    newExecuteState.edgeAnimation = [
       registerAluBottomId,
       registerAluTopId,
       aluRegistersId,
     ];
-    newState.programCounter += 1;
-    return applyBinaryOperation(this, (a, b) => a ^ b, newState);
+    newExecuteState.programCounter += 1;
+    return {...oldState, execute: applyBinaryOperation(this, (a, b) => a ^ b, newExecuteState)};
   }
 }
