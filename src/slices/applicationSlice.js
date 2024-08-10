@@ -50,6 +50,8 @@ export const applicationSlice = createSlice({
       state.execute.edges = addEdge(action.payload, state.execute.edges);
     },
     updateExecuteState(state, action) {
+      console.log("actualizo todo el estado");
+      console.log(action.payload);
       state.execute = action.payload;
     },
     getProgramInMemory(state, action) {

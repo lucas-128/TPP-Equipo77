@@ -27,7 +27,7 @@ export default class LoadRegisterFromMem extends Instruction {
     if(cell){
       newExecuteState.registers[this.register] = cell.content;
       newExecuteState.programCounter += 1;
-      return newExecuteState;
+      return {...oldState, execute: newExecuteState};
     }
     else{
       newExecuteState.cacheMemoryCells = [...oldState.execute.cacheMemoryCells];
@@ -38,6 +38,7 @@ export default class LoadRegisterFromMem extends Instruction {
 
     newExecuteState.registers[this.register] = value;
     newExecuteState.programCounter += 1;
+    console.log("LoadRegisterFromMem", newExecuteState);
     return {...oldState, execute: newExecuteState};
   }
 }
