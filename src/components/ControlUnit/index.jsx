@@ -14,11 +14,11 @@ import { useSelector } from "react-redux";
 
 export const ControlUnit = () => {
   const programCounter = useSelector(
-    (state) => state.application.execute.programCounter
+    (state) => state.application.fetch.programCounter
   );
 
   const instructionRegister = useSelector(
-    (state) => state.application.execute.instructionRegister
+    (state) => state.application.fetch.instructionRegister
   );
 
   // TODO: en que ciclo de ejecucion estamos? Fetch, decode, execute.

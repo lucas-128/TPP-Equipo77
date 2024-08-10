@@ -17,7 +17,7 @@ export default class Branch extends Instruction {
   execute(oldState) {
     const newExecuteState = { ...oldState.execute };
     // TODO: cambiarlo para la instrucción branch
-    newExecuteState.programCounter += 1;
+    // newExecuteState.programCounter += 1;
     return {...oldState, execute: newExecuteState};
   }
 }

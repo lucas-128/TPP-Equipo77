@@ -20,7 +20,7 @@ export default class CopyRegisterToRegister extends Instruction {
     const { registers } = newExecuteState;
     const value = registers[this.sourceRegister];
     newExecuteState.registers[this.destinationRegister] = value;
-    newExecuteState.programCounter += 1;
+    // newExecuteState.programCounter += 1;
     newExecuteState.edgeAnimation = []; //Actualizar las aristas correspondientes
     return {...oldState, execute: newExecuteState};
   }

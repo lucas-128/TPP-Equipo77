@@ -22,7 +22,7 @@ export default class ORInstruction extends Instruction {
 
   execute(oldState) {
     const newExecuteState = { ...oldState.execute };
-    newExecuteState.programCounter += 1;
+    // newExecuteState.programCounter += 1;
     newExecuteState.edgeAnimation = [
       registerAluBottomId,
       registerAluTopId,

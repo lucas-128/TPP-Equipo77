@@ -11,7 +11,6 @@ import { useMemo } from "react";
 
 export const RegistersToALUBus = ({ id, data }) => {
   const animations = useSelector((state) => state.application.execute.edgeAnimation);
-  console.log('animations', animations);
 
   const edgeAnimationAluBottom = useMemo(
     () => animations.includes(registerAluTopId),

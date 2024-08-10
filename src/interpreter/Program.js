@@ -5,7 +5,7 @@ import { InstructionFactory } from "./InstructionFactory";
 export default class Program {
   constructor(program) {
     this.program = program;
-    this.typeSimulation = typeSimulations.SIMPLE;
+    this.typeSimulation = typeSimulations.CYCLES;
     if (!validateSyntax(program)) {
       return;
     }
@@ -23,7 +23,7 @@ export default class Program {
   }
 
   getNewState(oldState) {
-    const actualLine = oldState.execute.programCounter;
+    const actualLine = oldState.fetch.programCounter;
     const actualInstruction = this.instructions[actualLine];
     const newState = actualInstruction.nextStep(oldState, this.typeSimulation);
     return newState;

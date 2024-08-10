@@ -30,7 +30,7 @@ export const TextEditor = ({
   setText,
 }) => {
   const show = useSelector((state) => state.editorText.show);
-  const programCounter = useSelector((state) => state.application.execute.programCounter);
+  const programCounter = useSelector((state) => state.application.fetch.programCounter);
   const dispatch = useDispatch();
 
   const getLineNumbers = (text) => {

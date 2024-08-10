@@ -28,7 +28,7 @@ export default class XORInstruction extends Instruction {
       registerAluTopId,
       aluRegistersId,
     ];
-    newExecuteState.programCounter += 1;
+    // newExecuteState.programCounter += 1;
     return {...oldState, execute: applyBinaryOperation(this, (a, b) => a ^ b, newExecuteState)};
   }
 }

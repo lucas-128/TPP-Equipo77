@@ -15,19 +15,24 @@ import { CACHE_SIZE } from "../interpreter/constants";
 
 // LOS VALORES SE GUARDAN EN HEXADECIMAL
 export const initialState = {
-  execute: {
-    registers: new Array(16).fill(null),
-    mainMemoryCells: new Array(256).fill("-"),
-    cacheMemoryCells: new Array(CACHE_SIZE).fill(null),
+  fetch: {
+    address: null,
+    edgeAnimation: [],
     programCounter: null,
     instructionRegister: "-",
+  },
+  decode: { },
+  execute: {
+    registers: new Array(16).fill(null),
+    //TODO: capaz la memoria se puede mover afuera
+    mainMemoryCells: new Array(256).fill("-"),
+    cacheMemoryCells: new Array(CACHE_SIZE).fill(null),
     nodes: initialNodes,
     edges: initialEdges,
-    previousState: null,
     aluOperation: null,
     edgeAnimation: [],
   },
-  
+  previousState: null,
 };
 
 export const applicationSlice = createSlice({
@@ -41,16 +46,28 @@ export const applicationSlice = createSlice({
       state.execute.edges = action.payload;
     },
     onNodesChange(state, action) {
-      state.execute.nodes = applyNodeChanges(action.payload, state.execute.nodes);
+      state.execute.nodes = applyNodeChanges(
+        action.payload,
+        state.execute.nodes
+      );
     },
     onEdgesChange(state, action) {
-      state.execute.edges = applyEdgeChanges(action.payload, state.execute.edges);
+      state.execute.edges = applyEdgeChanges(
+        action.payload,
+        state.execute.edges
+      );
     },
     onConnect(state, action) {
       state.execute.edges = addEdge(action.payload, state.execute.edges);
     },
     updateExecuteState(state, action) {
       state.execute = action.payload;
+    },
+    updateDecodeState(state, action) {
+      state.decode = action.payload;
+    },
+    updateFetchState(state, action) {
+      state.fetch = action.payload;
     },
     getProgramInMemory(state, action) {
       const text = action.payload;
@@ -72,10 +89,10 @@ export const applicationSlice = createSlice({
     //   const { mainMemoryCells } = action.payload;
     //   state.execute.mainMemoryCells = mainMemoryCells;
     // },
-    updateEdgeAnimation(state, action) {
-      const { edgeAnimation } = action.payload;
-      state.execute.edgeAnimation = edgeAnimation;
-    },
+    // updateEdgeAnimation(state, action) {
+    //   const { edgeAnimation } = action.payload;
+    //   state.execute.edgeAnimation = edgeAnimation;
+    // },
     // updateAluOperation(state, action) {
     //   const { aluOperation } = action.payload;
     //   state.execute.aluOperation = aluOperation;
@@ -104,29 +121,26 @@ export const applicationSlice = createSlice({
     //     return newNode;
     //   });
     // },
-    updateInstructionRegister(state, action) {
-      const { instructionRegister } = action.payload;
-      state.execute.instructionRegister = instructionRegister;
-    },
-    updateProgramCounter(state, action) {
-      const { programCounter } = action.payload;
-      state.execute.programCounter = programCounter;
-    },
+    // updateInstructionRegister(state, action) {
+    //   const { instructionRegister } = action.payload;
+    //   state.execute.instructionRegister = instructionRegister;
+    // },
+    // updateProgramCounter(state, action) {
+    //   const { programCounter } = action.payload;
+    //   state.execute.programCounter = programCounter;
+    // },
     goToPreviousState(state) {
-      state.execute.registers = current(state).previousstate.execute.registers;
-      state.execute.nodes = current(state).previousstate.execute.nodes;
-      state.execute.edges = current(state).previousstate.execute.edges;
-      state.execute.programCounter = current(state).previousstate.execute.programCounter;
-      state.execute.edgeAnimation = current(state).previousstate.execute.edgeAnimation;
-      state.execute.instructionRegister =
-        current(state).previousstate.execute.instructionRegister;
-      state.execute.previousState = current(state).previousstate.execute.previousState;
+      state.execute = current(state).previousstate.execute;
+      state.decode = current(state).previousstate.decode;
+      state.fetch = current(state).previousstate.fetch;
     },
     updatePreviousState(state) {
       state.previousState = current(state);
     },
     clearApplication(state) {
       state.execute = initialState.execute;
+      state.decode = initialState.decode;
+      state.fetch = initialState.fetch;
     },
   },
 });
@@ -137,10 +151,12 @@ export const {
   onNodesChange,
   onEdgesChange,
   onConnect,
-  updateExecuteState, 
+  updateExecuteState,
+  updateDecodeState,
+  updateFetchState,
   getProgramInMemory,
   // updateRegisters,
-  updateEdgeAnimation,
+  // updateEdgeAnimation,
   // updateMainMemoryCells,
   // updateAluOperation,
   // updateCacheMemoryCells,
@@ -196,6 +212,8 @@ export const updateCurrentState = (newState) => (dispatch) => {
   // dispatch(updateCacheMemoryCells({ cacheMemoryCells }));
 
   dispatch(updateExecuteState(newState.execute));
+  dispatch(updateDecodeState(newState.decode));
+  dispatch(updateFetchState(newState.fetch));
 };
 
 export default applicationSlice.reducer;

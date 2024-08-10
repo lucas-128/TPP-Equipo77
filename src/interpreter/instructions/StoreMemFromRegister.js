@@ -23,7 +23,7 @@ export default class StoreMemFromRegister extends Instruction {
 
     newExecuteState.mainMemoryCells[this.memoryCell] = value;
     newExecuteState.cacheMemoryCells = updateCache(newExecuteState, this.memoryCell);  
-    newExecuteState.programCounter += 1;
+    // newExecuteState.programCounter += 1;
     return {...oldState, execute: newExecuteState};
   }
 }
