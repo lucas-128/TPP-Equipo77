@@ -15,8 +15,8 @@ import { AluModal } from "../../components/AluModal";
 import { MainMemoryModal } from "../../components/MainMemoryModal";
 
 export const SimulatorContainer = () => {
-  const nodes = useSelector((state) => state.application.nodes);
-  const edges = useSelector((state) => state.application.edges);
+  const nodes = useSelector((state) => state.application.execute.nodes);
+  const edges = useSelector((state) => state.application.execute.edges);
   const proOptions = { hideAttribution: true };
   const dispatch = useDispatch();
 

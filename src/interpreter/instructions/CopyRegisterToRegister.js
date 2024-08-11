@@ -1,4 +1,4 @@
-import { typeSimulations } from "../../constants";
+import { COPY_REGISTER_TO_REGISTER, typeSimulations } from "../constants";
 import Instruction from "../Instruction";
 
 /* 
@@ -16,11 +16,12 @@ export default class CopyRegisterToRegister extends Instruction {
   }
 
   execute(oldState) {
-    const newState = { ...oldState };
-    const { registers } = newState;
+    const newExecuteState = { ...oldState.execute };
+    const { registers } = newExecuteState;
     const value = registers[this.sourceRegister];
-    newState.registers[this.destinationRegister] = value;
-    newState.programCounter += 1;
-    return newState;
+    newExecuteState.registers[this.destinationRegister] = value;
+    newExecuteState.programCounter += 1;
+    newExecuteState.edgeAnimation = []; //Actualizar las aristas correspondientes
+    return {...oldState, execute: newExecuteState};
   }
 }

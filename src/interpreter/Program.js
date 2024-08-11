@@ -1,6 +1,6 @@
 import { typeSimulations } from "./constants";
 import { splitCode, validateSyntax } from "./main";
-import { InstructionFactory } from "./instructions/InstructionFactory";
+import { InstructionFactory } from "./InstructionFactory";
 
 export default class Program {
   constructor(program) {
@@ -23,7 +23,7 @@ export default class Program {
   }
 
   getNewState(oldState) {
-    const actualLine = oldState.programCounter;
+    const actualLine = oldState.execute.programCounter;
     const actualInstruction = this.instructions[actualLine];
     const newState = actualInstruction.nextStep(oldState, this.typeSimulation);
     return newState;

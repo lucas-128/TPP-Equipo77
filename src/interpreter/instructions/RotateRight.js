@@ -1,5 +1,6 @@
-import { typeSimulations } from "../../constants";
+import { ROTATE_RIGHT, typeSimulations } from "../constants";
 import Instruction from "../Instruction";
+import { animationsAlu } from "../constants";
 
 /* 
 
@@ -8,7 +9,7 @@ Copy the content of register R1 to register R2
 
 */
 
-export default class RotateRight extends Instruction{
+export default class RotateRight extends Instruction {
   constructor(register, rotations) {
     super();
     this.rotations = rotations;
@@ -22,17 +23,18 @@ export default class RotateRight extends Instruction{
   // }
 
   execute(oldState) {
-    const newState = { ...oldState };
-    const registerValue = newState.registers[this.register];
+    const newExecuteState = { ...oldState.state };
+    const registerValue = newExecuteState.registers[this.register];
+    newExecuteState.edgeAnimation = animationsAlu;
     const length = registerValue.length;
-    const registerT = newState.registers[this.rotations];
+    const registerT = newExecuteState.registers[this.rotations];
     const shift = registerT;
     const rotations = shift % length;
     const extendedPattern = registerValue + registerValue;
-    newState.registers[this.register] = extendedPattern.substring(
+    newExecuteState.registers[this.register] = extendedPattern.substring(
       length - rotations,
       2 * length - rotations
     );
-    return newState;
+    return { ...oldState, execute: newExecuteState };
   }
 }

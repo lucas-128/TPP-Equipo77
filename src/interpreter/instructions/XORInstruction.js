@@ -1,6 +1,6 @@
-import { typeSimulations } from "../../constants";
 import Instruction from "../Instruction";
 import { applyBinaryOperation } from "../utils";
+import { animationsAlu } from "../constants";
 
 /* 
 
@@ -9,7 +9,7 @@ Copy the content of register R1 to register R2
 
 */
 
-export default class ORInstruction extends Instruction{
+export default class XORInstruction extends Instruction {
   constructor(registerS, registerT, destinationIndex) {
     super();
     this.registerS = registerS;
@@ -18,8 +18,12 @@ export default class ORInstruction extends Instruction{
   }
 
   execute(oldState) {
-    const newState = { ...oldState };
-    newState.programCounter += 1;
-    return applyBinaryOperation(this, (a, b) => a | b, newState);
+    const newExecuteState = { ...oldState.execute };
+    newExecuteState.edgeAnimation = animationsAlu;
+    newExecuteState.programCounter += 1;
+    return {
+      ...oldState,
+      execute: applyBinaryOperation(this, (a, b) => a ^ b, newExecuteState),
+    };
   }
 }

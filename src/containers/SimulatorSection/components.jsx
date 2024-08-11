@@ -4,12 +4,13 @@ import { ALU } from "../../components/ALU";
 import { ControlUnit } from "../../components/ControlUnit";
 import { CacheMemory } from "../../components/CacheMemory";
 import { CPU } from "../../components/CPU";
-//import { RegistersCacheBus } from "../../components/RegistersCacheBus";
-import { RegistersToALUBus } from "../../components/RegistersToALUBus";
-import { ALUToRegistersBus } from "../../components/ALUToRegistersBus";
-import { MainMemControlDataBus } from "../../components/MainMemControlDataBus";
-import { ControlToMainMemAddrBus } from "../../components/ControlToMainMemAddrBus";
-import { CacheToControlUnitBus } from "../../components/CacheToControlUnitBus";
+
+import { ALUToRegistersBus } from "../../components/Buses/ALUToRegistersBus";
+import { MainMemControlDataBus } from "../../components/Buses/MainMemControlDataBus";
+import { ControlToMainMemAddrBus } from "../../components/Buses/ControlToMainMemAddrBus";
+import { CacheToControlUnitBus } from "../../components/Buses/CacheToControlUnitBus";
+import { RegistersToUCBus } from "../../components/Buses/RegistersToUCBus";
+import { RegistersToALUBus } from "../../components/Buses/RegistersToALUBus";
 
 export const nodeTypes = {
   registers: RegisterBox,
@@ -74,16 +75,17 @@ export const initialNodes = [
 ];
 
 export const edgeTypes = {
-  //registersCache: RegistersCacheBus,
   controlUnitCache: CacheToControlUnitBus,
   registerToAlu: RegistersToALUBus,
   AluToRegisters: ALUToRegistersBus,
   memoryControlUnitData: MainMemControlDataBus,
   controlUnitToMainMemory: ControlToMainMemAddrBus,
+  registersToControlUnit: RegistersToUCBus,
 };
 
 //export const registerCacheId = "registers-cache";
 //export const cacheRegistersId = "cache-registers";
+export const registersControlUnitId = "registers-control-unit";
 export const controlUnitCacheId = "control-unit-cache";
 export const registerAluTopId = "registers-alu-top";
 export const registerAluBottomId = "registers-alu-bottom";
@@ -113,18 +115,10 @@ export const initialEdges = [
     data: { position: "top", animated: false },
   },
   {
-    id: registerAluBottomId,
-    source: registersId,
-    target: aluId,
-    type: "registerToAlu",
-    data: { position: "bottom", animated: false },
-  },
-  {
     id: aluRegistersId,
     source: aluId,
     target: registersId,
     type: "AluToRegisters",
-    data: { position: "bottom", animated: false },
   },
   // los dos buses de data de la memoria principal al control y viceversa
   {
@@ -145,5 +139,11 @@ export const initialEdges = [
     source: controlUnitId,
     target: mainMemoryId,
     type: "controlUnitToMainMemory",
+  },
+  {
+    id: registersControlUnitId,
+    source: registersId,
+    target: controlUnitId,
+    type: "registersToControlUnit",
   },
 ];

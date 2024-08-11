@@ -111,3 +111,12 @@ h1 {
   padding: 10px !important;
   cursor: none;
 }
+
+@keyframes dash {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: 1000;
+  }
+}

@@ -1,10 +1,11 @@
 import { controlUnitId } from "../../containers/SimulatorSection/components";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   BodyContainer,
   CustomHandle,
   CustomText,
   HeaderText,
+  IndicatorText,
   MainContainer,
   SpecialRegisterContainer,
   SpecialRegisterValue,
@@ -13,12 +14,17 @@ import { useSelector } from "react-redux";
 
 export const ControlUnit = () => {
   const programCounter = useSelector(
-    (state) => state.application.programCounter
+    (state) => state.application.execute.programCounter
   );
 
   const instructionRegister = useSelector(
-    (state) => state.application.instructionRegister
+    (state) => state.application.execute.instructionRegister
   );
+
+  // TODO: en que ciclo de ejecucion estamos? Fetch, decode, execute.
+  // const status = useSelector() ....
+  let statusText = "Decodificando Instrucción"; //Decodificando Instrucción -  Ejecutando Instrucción
+  const [shouldAnimateText, setShouldAnimateText] = useState(true);
 
   return (
     <MainContainer id={controlUnitId}>
@@ -47,6 +53,7 @@ export const ControlUnit = () => {
       <CustomHandle type="source" position="right" />
       {/* cache to control unit */}
       <CustomHandle type="target" position="bottom" />
+      <IndicatorText animate={shouldAnimateText}>{statusText}</IndicatorText>
     </MainContainer>
   );
 };

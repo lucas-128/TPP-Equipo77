@@ -20,7 +20,7 @@ export const MainMemory = () => {
   const dispatch = useDispatch();
 
   const mainMemoryCells = useSelector(
-    (state) => state.application.mainMemoryCells
+    (state) => state.application.execute.mainMemoryCells
   );
 
   const rowsPerPage = 32;
