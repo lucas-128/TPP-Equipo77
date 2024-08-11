@@ -31,6 +31,7 @@ export const SimulatorContainer = () => {
         onEdgesChange={(changes) => dispatch(onEdgesChange(changes))}
         onConnect={(connection) => dispatch(onConnect(connection))}
         onNodeClick={() => {}} // permite que se pueda hacer click al nodo
+        onEdgeMouseEnter={()=>{}}
         proOptions={proOptions}
         fitView
         nodesDraggable={false}
@@ -39,7 +40,7 @@ export const SimulatorContainer = () => {
         zoomOnDoubleClick={false}
       >
         <Controls showInteractive={false} />
-        <Background gap={10} size={1} />
+        {/* <Background gap={10} size={1} /> */}
       </ReactFlow>
       <AluModal />
       <MainMemoryModal />

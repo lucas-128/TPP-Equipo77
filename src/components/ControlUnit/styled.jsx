@@ -1,6 +1,14 @@
 import { Handle } from "reactflow";
 import styled, { keyframes, css } from "styled-components";
 
+const shine = keyframes`
+  100% {
+    background-color: #2c5d75;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+  }
+`;
+
 export const MainContainer = styled.div`
   align-self: center;
   display: flex;
@@ -13,6 +21,12 @@ export const MainContainer = styled.div`
   overflow: hidden;
   box-shadow: var(--im-shadow);
   cursor: pointer;
+  animation: ${(props) =>
+    props.$operating
+      ? css`
+          ${shine} 0.7s infinite alternate
+        `
+      : "none"};
 
   &:hover {
     background-color: var(--im-primary-hover);

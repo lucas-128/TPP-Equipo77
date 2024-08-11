@@ -2,6 +2,9 @@ import {
   aluRegistersId,
   registerAluBottomId,
   registerAluTopId,
+  controlUnitMainMemAddrId,
+  // controlUnitMainMemDataId,
+  mainMemControlUnitDataId,
 } from "../containers/SimulatorSection/components";
 
 // Data Tranfer Instructions
@@ -76,10 +79,15 @@ export const operationNames = {
   ROTATE_RIGHT: "Rotar a la derecha",
 };
 
+export const CACHE_SIZE = 16;
+
+export const animationsFetch = [
+  controlUnitMainMemAddrId,
+  mainMemControlUnitDataId,
+];
+
 export const animationsAlu = [
   registerAluTopId,
   registerAluBottomId,
   aluRegistersId,
 ];
-
-export const CACHE_SIZE = 16;

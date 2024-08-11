@@ -2,17 +2,17 @@ import { useSelector } from "react-redux";
 import { useMemo } from "react";
 import { BaseEdge } from "reactflow";
 import { usePosition } from "../../../hooks/usePosition";
-import { aluRegistersId } from "../../../containers/SimulatorSection/components";
+import { mainMemControlUnitDataId } from "../../../containers/SimulatorSection/components";
 import { BusAnimation } from "../BusAnimation";
 
 export const MainMemControlDataBus = ({ id, source, target }) => {
   const animations = useSelector(
-    (state) => state.application.execute.edgeAnimation //Cambiar a que sea fetch
+    (state) => state.application.fetch.edgeAnimation
   );
 
   const edgeAnimation = useMemo(
-    () => animations.includes(aluRegistersId),
-    [animations, aluRegistersId]
+    () => animations.includes(mainMemControlUnitDataId),
+    [animations, mainMemControlUnitDataId]
   );
   const [edgePath] = usePosition({
     edgeId: id,

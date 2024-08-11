@@ -9,8 +9,8 @@ Store the content of register R in the memory cell with address XY
 */
 
 export default class StoreMemFromRegister extends Instruction {
-  constructor(register, memoryCell) {
-    super();
+  constructor(register, memoryCell, id) {
+    super(id);
     this.register = register;
     this.memoryCell = memoryCell;
   }
@@ -22,8 +22,11 @@ export default class StoreMemFromRegister extends Instruction {
     const value = registers[this.register];
 
     newExecuteState.mainMemoryCells[this.memoryCell] = value;
-    newExecuteState.cacheMemoryCells = updateCache(newExecuteState, this.memoryCell);  
-    newExecuteState.programCounter += 1;
-    return {...oldState, execute: newExecuteState};
+    newExecuteState.cacheMemoryCells = updateCache(
+      newExecuteState,
+      this.memoryCell
+    );
+    newExecuteState.instructionId = this.id + 1;
+    return { ...oldState, execute: newExecuteState };
   }
 }

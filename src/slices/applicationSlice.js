@@ -8,18 +8,28 @@ import { CACHE_SIZE } from "../interpreter/constants";
 
 // LOS VALORES SE GUARDAN EN HEXADECIMAL
 export const initialState = {
-  execute: {
-    registers: new Array(16).fill(null),
-    mainMemoryCells: new Array(256).fill("-"),
-    cacheMemoryCells: new Array(CACHE_SIZE).fill(null),
+  fetch: {
+    instructionId: null,
+    address: null,
+    edgeAnimation: [],
     programCounter: null,
     instructionRegister: "-",
+  },
+  decode: {
+    instructionId: null,
+  },
+  execute: {
+    instructionId: null,
+    registers: new Array(16).fill(null),
+    //TODO: capaz la memoria se puede mover afuera
+    mainMemoryCells: new Array(256).fill("-"),
+    cacheMemoryCells: new Array(CACHE_SIZE).fill(null),
     nodes: initialNodes,
     edges: initialEdges,
-    previousState: null,
     aluOperation: null,
     edgeAnimation: [],
   },
+  previousState: null,
 };
 
 export const applicationSlice = createSlice({
@@ -49,6 +59,12 @@ export const applicationSlice = createSlice({
     },
     updateExecuteState(state, action) {
       state.execute = action.payload;
+    },
+    updateDecodeState(state, action) {
+      state.decode = action.payload;
+    },
+    updateFetchState(state, action) {
+      state.fetch = action.payload;
     },
     getProgramInMemory(state, action) {
       const text = action.payload;
@@ -87,6 +103,8 @@ export const applicationSlice = createSlice({
     },
     clearApplication(state) {
       state.execute = initialState.execute;
+      state.decode = initialState.decode;
+      state.fetch = initialState.fetch;
     },
   },
 });
@@ -98,6 +116,8 @@ export const {
   onEdgesChange,
   onConnect,
   updateExecuteState,
+  updateDecodeState,
+  updateFetchState,
   getProgramInMemory,
   goToPreviousState,
   updatePreviousState,
@@ -107,6 +127,8 @@ export const {
 // Thunk para manejar la actualización del estado actual
 export const updateCurrentState = (newState) => (dispatch) => {
   dispatch(updateExecuteState(newState.execute));
+  dispatch(updateDecodeState(newState.decode));
+  dispatch(updateFetchState(newState.fetch));
 };
 
 export default applicationSlice.reducer;
