@@ -1,16 +1,18 @@
 import { useSelector } from "react-redux";
 import { BaseEdge } from "reactflow";
+import { usePosition } from "../../../hooks/usePosition";
+import { useMemo } from "react";
 import {
   aluId,
   registerAluTopId,
   registerAluBottomId,
   registersId,
-} from "../../containers/SimulatorSection/components";
-import { usePosition } from "../../hooks/usePosition";
-import { useMemo } from "react";
+} from "../../../containers/SimulatorSection/components";
 
 export const RegistersToALUBus = ({ id, data }) => {
-  const animations = useSelector((state) => state.application.execute.edgeAnimation);
+  const animations = useSelector(
+    (state) => state.application.execute.edgeAnimation
+  );
 
   const edgeAnimationAluBottom = useMemo(
     () => animations.includes(registerAluTopId),

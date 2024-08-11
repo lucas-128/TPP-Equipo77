@@ -24,7 +24,9 @@ export const AluModal = () => {
   const dispatch = useDispatch();
   const [showResult, setShowResult] = useState(false);
   const showModal = useSelector((state) => state.modals.aluZoom);
-  const aluOperation = useSelector((state) => state.application.execute.aluOperation);
+  const aluOperation = useSelector(
+    (state) => state.application.execute.aluOperation
+  );
 
   useEffect(() => {
     setShowResult(false);

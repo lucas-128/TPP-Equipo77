@@ -1,4 +1,10 @@
-import { controlUnitMainMemAddrId, controlUnitMainMemDataId } from "../containers/SimulatorSection/components";
+import {
+  aluRegistersId,
+  registerAluBottomId,
+  registerAluTopId,
+  controlUnitMainMemAddrId,
+  controlUnitMainMemDataId,
+} from "../containers/SimulatorSection/components";
 
 // Data Tranfer Instructions
 export const LOAD_REGISTER_FROM_MEM = "1";
@@ -77,4 +83,10 @@ export const CACHE_SIZE = 16;
 export const animationsFetch = [
   controlUnitMainMemAddrId,
   controlUnitMainMemDataId,
+];
+
+export const animationsAlu = [
+  registerAluTopId,
+  registerAluBottomId,
+  aluRegistersId,
 ];
