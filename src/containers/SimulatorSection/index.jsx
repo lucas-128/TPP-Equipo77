@@ -12,7 +12,7 @@ import { nodeTypes, edgeTypes } from "./components";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { AluModal } from "../../components/AluModal";
-import { MainMemoryModal } from "../../components/MainMemoryModal";
+import MainMemoryModal from "../../components/MainMemoryModal";
 
 export const SimulatorContainer = () => {
   const nodes = useSelector((state) => state.application.execute.nodes);

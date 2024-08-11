@@ -15,11 +15,11 @@ import {
   Cell,
 } from "./styled";
 
-export const MainMemoryModal = () => {
+const MainMemoryModal = () => {
   const dispatch = useDispatch();
 
   const mainMemoryCells = useSelector(
-    (state) => state.application.mainMemoryCells
+    (state) => state.application.execute.mainMemoryCells
   );
   const showModal = useSelector((state) => state.modals.mainMemoryModal);
   const closeModal = () => dispatch(setOpenMainMemoryModal(false));
@@ -27,6 +27,8 @@ export const MainMemoryModal = () => {
   const toHexa = (value, offset) => {
     return (value + offset).toString(16).toUpperCase().padStart(2, "0");
   };
+
+  const columnsIndex = [0, 1, 2, 3, 4, 5, 6, 7];
 
   return (
     showModal && (
@@ -38,110 +40,33 @@ export const MainMemoryModal = () => {
               <IconContainer onClick={closeModal}></IconContainer>
             </InfoContainer>
             <Table>
-              <div style={{ background: "var(--im-lightgray)" }}>
-                <Column>
-                  <HeaderCell>Dirección</HeaderCell>
-                  {mainMemoryCells.slice(0, 32).map((_cell, index) => (
-                    <Cell>{toHexa(index, 0)}</Cell>
-                  ))}
-                </Column>
-                <Column>
-                  <HeaderCell>Contenido</HeaderCell>
-                  {mainMemoryCells.slice(0, 32).map((cell, _index) => (
-                    <Cell>{cell}</Cell>
-                  ))}
-                </Column>
-              </div>
-              <Column>
-                <HeaderCell>Dirección</HeaderCell>
-                {mainMemoryCells.slice(32, 64).map((_cell, index) => (
-                  <Cell>{toHexa(index, 32)}</Cell>
-                ))}
-              </Column>
-              <Column>
-                <HeaderCell>Contenido</HeaderCell>
-                {mainMemoryCells.slice(32, 64).map((cell, _index) => (
-                  <Cell>{cell}</Cell>
-                ))}
-              </Column>
-              <div style={{ background: "var(--im-lightgray)" }}>
-                <Column>
-                  <HeaderCell>Dirección</HeaderCell>
-                  {mainMemoryCells.slice(64, 96).map((_cell, index) => (
-                    <Cell>{toHexa(index, 64)}</Cell>
-                  ))}
-                </Column>
-                <Column>
-                  <HeaderCell>Contenido</HeaderCell>
-                  {mainMemoryCells.slice(64, 96).map((cell, _index) => (
-                    <Cell>{cell}</Cell>
-                  ))}
-                </Column>
-              </div>
-              <Column>
-                <HeaderCell>Dirección</HeaderCell>
-                {mainMemoryCells.slice(96, 128).map((_cell, index) => (
-                  <Cell>{toHexa(index, 96)}</Cell>
-                ))}
-              </Column>
-              <Column>
-                <HeaderCell>Contenido</HeaderCell>
-                {mainMemoryCells.slice(96, 128).map((cell, _index) => (
-                  <Cell>{cell}</Cell>
-                ))}
-              </Column>
-              <div style={{ background: "var(--im-lightgray)" }}>
-                <Column>
-                  <HeaderCell>Dirección</HeaderCell>
-                  {mainMemoryCells.slice(128, 160).map((_cell, index) => (
-                    <Cell>{toHexa(index, 128)}</Cell>
-                  ))}
-                </Column>
-                <Column>
-                  <HeaderCell>Contenido</HeaderCell>
-                  {mainMemoryCells.slice(128, 160).map((cell, _index) => (
-                    <Cell>{cell}</Cell>
-                  ))}
-                </Column>
-              </div>
-              <Column>
-                <HeaderCell>Dirección</HeaderCell>
-                {mainMemoryCells.slice(160, 192).map((_cell, index) => (
-                  <Cell>{toHexa(index, 160)}</Cell>
-                ))}
-              </Column>
-              <Column>
-                <HeaderCell>Contenido</HeaderCell>
-                {mainMemoryCells.slice(160, 192).map((cell, _index) => (
-                  <Cell>{cell}</Cell>
-                ))}
-              </Column>
-              <div style={{ background: "var(--im-lightgray)" }}>
-                <Column>
-                  <HeaderCell>Dirección</HeaderCell>
-                  {mainMemoryCells.slice(192, 224).map((_cell, index) => (
-                    <Cell>{toHexa(index, 192)}</Cell>
-                  ))}
-                </Column>
-                <Column>
-                  <HeaderCell>Contenido</HeaderCell>
-                  {mainMemoryCells.slice(192, 224).map((cell, _index) => (
-                    <Cell>{cell}</Cell>
-                  ))}
-                </Column>
-              </div>
-              <Column>
-                <HeaderCell>Dirección</HeaderCell>
-                {mainMemoryCells.slice(224, 256).map((_cell, index) => (
-                  <Cell>{toHexa(index, 224)}</Cell>
-                ))}
-              </Column>
-              <Column>
-                <HeaderCell>Contenido</HeaderCell>
-                {mainMemoryCells.slice(224, 256).map((cell, _index) => (
-                  <Cell>{cell}</Cell>
-                ))}
-              </Column>
+              {columnsIndex.map((i) => {
+                return (
+                  <div
+                    style={{
+                      background:
+                        i % 2 === 0 ? "var(--im-lightgray)" : "var(--im-white)",
+                    }}
+                  >
+                    <Column>
+                      <HeaderCell>Dirección</HeaderCell>
+                      {mainMemoryCells
+                        .slice(i * 32, (i + 1) * 32)
+                        .map((_value, index) => (
+                          <Cell>{toHexa(index, i * 32)}</Cell>
+                        ))}
+                    </Column>
+                    <Column>
+                      <HeaderCell>Contenido</HeaderCell>
+                      {mainMemoryCells
+                        .slice(i * 32, (i + 1) * 32)
+                        .map((value, _index) => (
+                          <Cell>{value}</Cell>
+                        ))}
+                    </Column>
+                  </div>
+                );
+              })}
             </Table>
           </ModalContainer>
         </ModalBoxSetup>

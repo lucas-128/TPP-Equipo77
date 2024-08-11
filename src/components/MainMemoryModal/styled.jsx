@@ -27,12 +27,12 @@ export const ModalBoxSetup = styled.div`
   left: 0;
   right: 0;
   display: block;
-  max-width: 99%;
+  max-width: 85%;
   max-height: 90%;
   margin: 0 auto;
   padding: 12px;
-  overflow-y: scroll;
-  overflow-x: scroll-x;
+  overflow-y: auto;
+  overflow-x: auto;
   text-align: center;
   box-sizing: border-box;
   z-index: 1;
@@ -50,7 +50,6 @@ export const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
   color: var(--im-darkgray);
-  overflow: hiden;
 `;
 
 export const ModalBg = styled.div`
@@ -74,7 +73,6 @@ export const Title = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  text-align: center;
   color: var(--im-lightgray);
 `;
 
@@ -89,19 +87,21 @@ export const IconContainer = styled(IoClose)`
 `;
 
 export const Table = styled.table`
-  margin: 10px 0 0 0;
-  border-radius: 10px;
+  display: flex;
+  justify-content: center;
   border-collapse: collapse;
-  text-align: center;
-  background-color: var(--im-white);
+  margin: 10px 0 0 0;
 `;
 
 export const Column = styled.td`
-  border-left: 1px solid black;
+  border-right: 1px solid var(--im-darkgray);
+  border-left: 1px solid var(--im-darkgray);
 `;
 
-export const HeaderCell = styled.th``;
+export const HeaderCell = styled.th`
+  border-bottom: 1px solid var(--im-darkgray);
+`;
 
 export const Cell = styled.tr`
-  border-top: 1px solid black;
+  border-top: 1px solid var(--im-darkgray);
 `;
