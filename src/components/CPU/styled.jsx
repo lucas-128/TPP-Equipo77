@@ -20,6 +20,6 @@ export const Container = styled.div`
   background-position: left bottom;
   box-shadow: rgba(118, 148, 148, 0.25) 10px 50px 50px -90px,
     rgba(139, 139, 139, 0.3) 0px 30px 60px -30px,
-    rgba(186, 186, 186, 0.37) 0px -2px 6px 0px inset;
+    rgba(186, 186, 186, 0.263) 0px 0px 20px 2px;
   z-index: -1;
 `;
