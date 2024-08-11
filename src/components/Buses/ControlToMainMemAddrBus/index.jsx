@@ -25,14 +25,14 @@ export const ControlToMainMemAddrBus = ({ id }) => {
     targetComponentId: mainMemoryId,
   });
 
-  // lo puse violeta para distinguir que es sólo de address
+  // Rojo para distinguir que es sólo de address
   return (
     <g>
       <BaseEdge
         path={edgePath}
         interactionWidth={20}
         style={{
-          stroke: "var(--im-light-purple)",
+          stroke: "hsl(0, 50%, 65%)",
           strokeWidth: 20,
           filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5))",
         }}
