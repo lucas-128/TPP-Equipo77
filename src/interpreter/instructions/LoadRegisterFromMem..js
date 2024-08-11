@@ -27,7 +27,7 @@ export default class LoadRegisterFromMem extends Instruction {
     if(cell){
       newExecuteState.registers[this.register] = cell.content;
       // newExecuteState.programCounter += 1;
-      return newExecuteState;
+      return {...oldState, execute: newExecuteState};
     }
     else{
       newExecuteState.cacheMemoryCells = [...oldState.execute.cacheMemoryCells];
