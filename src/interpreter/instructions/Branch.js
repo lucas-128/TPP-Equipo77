@@ -17,7 +17,6 @@ export default class Branch extends Instruction {
     const newExecuteState = { ...oldState.execute };
     // TODO: cambiarlo para la instrucción branch
     const { mainMemoryCells } = newExecuteState;
-    console.log(mainMemoryCells);
     newExecuteState.instructionId = this.id;
     return { ...oldState, execute: newExecuteState };
   }

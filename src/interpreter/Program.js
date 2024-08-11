@@ -23,9 +23,6 @@ export default class Program {
   }
 
   getCurrentInstructionId(state) {
-    // console.log("id del fetch", state.fetch.instructionId);
-    // console.log("id del decode", state.decode.instructionId);
-    // console.log("id del execute", state.execute.instructionId);
     if (state.fetch.instructionId !== null) {
       console.log("FETCH", state.fetch.instructionId);
       return state.fetch.instructionId;
@@ -40,7 +37,6 @@ export default class Program {
   getNewState(oldState) {
     const actualInstruction =
       this.instructions[this.getCurrentInstructionId(oldState)];
-    console.log("actual Instruction", actualInstruction);
     const newState = actualInstruction.nextStep(oldState, this.typeSimulation);
     return newState;
   }

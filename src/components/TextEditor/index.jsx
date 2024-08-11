@@ -32,7 +32,6 @@ export const TextEditor = ({ children, isSimulating, text, setText }) => {
       state.application.decode.instructionId
   );
 
-  // console.log('currentInstruction', currentInstruction);
   const dispatch = useDispatch();
 
 
