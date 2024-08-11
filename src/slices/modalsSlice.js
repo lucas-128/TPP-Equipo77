@@ -4,6 +4,7 @@ const initialState = {
   error: false,
   errorMessage: "",
   aluZoom: false,
+  mainMemoryModal: false,
 };
 
 export const modalsSlice = createSlice({
@@ -20,10 +21,13 @@ export const modalsSlice = createSlice({
     },
     setOpenAluZoom(state, action) {
       state.aluZoom = action.payload;
-    }
+    },
+    setOpenMainMemoryModal(state, action) {
+      state.mainMemoryModal = action.payload;
+    },
   },
 });
 
-export const { setError, closeError, setOpenAluZoom } = modalsSlice.actions;
+export const { setError, closeError, setOpenAluZoom , setOpenMainMemoryModal } = modalsSlice.actions;
 
 export default modalsSlice.reducer;
