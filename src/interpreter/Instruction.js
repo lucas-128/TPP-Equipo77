@@ -31,7 +31,8 @@ export default class Instruction {
     if (typeSimulation === typeSimulations.SIMPLE) {
       const stateAfterFetch = this.fetch(oldState);
       const stateAfterDecode = this.decode(stateAfterFetch);
-      return this.execute(stateAfterDecode);
+      const cleanState = this.cleanState(stateAfterDecode);
+      return this.execute(cleanState);
     } else if (typeSimulation === typeSimulations.CYCLES) {
       const cleanState = this.cleanState(oldState);
       if (this.cycle === cyclesSimulations.FETCH) {
