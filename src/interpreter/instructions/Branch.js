@@ -8,8 +8,8 @@ Jumps to the instruction at address XY if the content of register R is equal to 
 */
 
 export default class Branch extends Instruction {
-  constructor(instruction) {
-    super();
+  constructor(instruction, id) {
+    super(id);
     this.type = instruction[0];
     this.cycle = "";
   }
@@ -17,7 +17,7 @@ export default class Branch extends Instruction {
   execute(oldState) {
     const newExecuteState = { ...oldState.execute };
     // TODO: cambiarlo para la instrucción branch
-    // newExecuteState.programCounter += 1;
+    newExecuteState.instructionId = this.id;
     return {...oldState, execute: newExecuteState};
   }
 }

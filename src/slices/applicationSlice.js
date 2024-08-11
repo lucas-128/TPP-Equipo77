@@ -16,13 +16,17 @@ import { CACHE_SIZE } from "../interpreter/constants";
 // LOS VALORES SE GUARDAN EN HEXADECIMAL
 export const initialState = {
   fetch: {
+    instructionId: null,
     address: null,
     edgeAnimation: [],
     programCounter: null,
     instructionRegister: "-",
   },
-  decode: { },
+  decode: { 
+    instructionId: null,
+  },
   execute: {
+    instructionId: null,
     registers: new Array(16).fill(null),
     //TODO: capaz la memoria se puede mover afuera
     mainMemoryCells: new Array(256).fill("-"),
@@ -61,8 +65,6 @@ export const applicationSlice = createSlice({
       state.execute.edges = addEdge(action.payload, state.execute.edges);
     },
     updateExecuteState(state, action) {
-      console.log("actualizo todo el estado");
-      console.log(action.payload);
       state.execute = action.payload;
     },
     updateDecodeState(state, action) {
@@ -132,9 +134,9 @@ export const applicationSlice = createSlice({
     //   state.execute.programCounter = programCounter;
     // },
     goToPreviousState(state) {
-      state.execute = current(state).previousstate.execute;
-      state.decode = current(state).previousstate.decode;
-      state.fetch = current(state).previousstate.fetch;
+      state.execute = current(state).previousState.execute;
+      state.decode = current(state).previousState.decode;
+      state.fetch = current(state).previousState.fetch;
     },
     updatePreviousState(state) {
       state.previousState = current(state);
@@ -174,7 +176,6 @@ export const {
 
 // Thunk para manejar la actualización del estado actual
 export const updateCurrentState = (newState) => (dispatch) => {
-  console.log("actualizo todos los estados");
   // const {
   //   registers,
   //   mainMemoryCells,

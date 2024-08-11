@@ -14,8 +14,8 @@ Copy the content of register R1 to register R2
 */
 
 export default class RotateRight extends Instruction {
-  constructor(register, rotations) {
-    super();
+  constructor(register, rotations, id) {
+    super(id);
     this.rotations = rotations;
     this.register = register;
   }
@@ -34,6 +34,7 @@ export default class RotateRight extends Instruction {
       registerAluTopId,
       aluRegistersId,
     ];
+    newExecuteState.instructionId = this.id;
     const length = registerValue.length;
     const registerT = newExecuteState.registers[this.rotations];
     const shift = registerT;

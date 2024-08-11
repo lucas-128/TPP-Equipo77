@@ -17,14 +17,22 @@ export default class Program {
       (row) => row.length > 0
     );
 
-    return instructions.map((instruction) => {
-      return InstructionFactory.createInstruction(instruction);
+    return instructions.map((instruction, id) => {
+      return InstructionFactory.createInstruction(instruction, id);
     });
   }
 
+  getCurrentInstruction(state) {
+    if(state.fetch.instructionId !== null){
+      return this.instructions[state.fetch.instructionId];
+    }else if(state.decode.instructionId !== null){
+      return this.instructions[state.decode.instructionId];
+    }
+    return this.instructions[state.fetch.programCounter];
+  }
+
   getNewState(oldState) {
-    const actualLine = oldState.fetch.programCounter;
-    const actualInstruction = this.instructions[actualLine];
+    const actualInstruction = this.getCurrentInstruction(oldState);
     const newState = actualInstruction.nextStep(oldState, this.typeSimulation);
     return newState;
   }

@@ -1,3 +1,5 @@
+import { controlUnitMainMemAddrId, controlUnitMainMemDataId } from "../containers/SimulatorSection/components";
+
 // Data Tranfer Instructions
 export const LOAD_REGISTER_FROM_MEM = "1";
 export const LOAD_REGISTER_FROM_PATTERN = "2";
@@ -70,5 +72,9 @@ export const operationNames = {
   ROTATE_RIGHT: "Rotar a la derecha",
 };
 
-
 export const CACHE_SIZE = 16;
+
+export const animationsFetch = [
+  controlUnitMainMemAddrId,
+  controlUnitMainMemDataId,
+];

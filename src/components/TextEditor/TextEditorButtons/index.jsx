@@ -40,14 +40,9 @@ export const TextEditorButtons = ({ isSimulating, setIsSimulating, text }) => {
     const newMemory = getProgramInMemory();
     const newProgram = new Program(text);
     setProgram(newProgram);
-    // TODO: por ahora se supone que la primera instruccion se ejecuta de una (después agregar el fetch y decode)
-    // const newExecute = {
-    //   ...applicationState.execute,
-    //   mainMemoryCells: newMemory,
-    // };
     const newState = newProgram.getNewState({
       ...applicationState,
-      fetch: { ...applicationState.fetch, programCounter: 0 },
+      fetch: { ...applicationState.fetch, programCounter: 0, instructionId: 0 },
       execute: { ...applicationState.execute, mainMemoryCells: newMemory },
     });
     dispatch(updatePreviousState()); //TODO: Revisar esto porque creo que el primer estado guarda un previous state que no deberia

@@ -11,8 +11,8 @@ Load the content of the memory cell with address XY into register R
 
 
 export default class LoadRegisterFromMem extends Instruction {
-  constructor(register, memoryAddress) {
-    super();
+  constructor(register, memoryAddress, id) {
+    super(id);
     this.register = register;
     this.memoryAddress = memoryAddress;
   }
@@ -37,7 +37,7 @@ export default class LoadRegisterFromMem extends Instruction {
     const value = mainMemoryCells[this.memoryAddress];
 
     newExecuteState.registers[this.register] = value;
-    // newExecuteState.programCounter += 1;
+    newExecuteState.instructionId = this.id;
     return {...oldState, execute: newExecuteState};
   }
 }

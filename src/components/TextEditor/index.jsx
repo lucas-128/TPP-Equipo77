@@ -23,15 +23,17 @@ import {
 import { setShowEditor } from "../../slices/editorTextSlice";
 import { setError } from "../../slices/modalsSlice";
 
-export const TextEditor = ({
-  children,
-  isSimulating,
-  text,
-  setText,
-}) => {
+export const TextEditor = ({ children, isSimulating, text, setText }) => {
   const show = useSelector((state) => state.editorText.show);
-  const programCounter = useSelector((state) => state.application.fetch.programCounter);
+  const currentInstruction = useSelector(
+    (state) =>
+      state.application.execute.instructionId ||
+      state.application.fetch.instructionId ||
+      state.application.decode.instructionId
+  );
   const dispatch = useDispatch();
+
+  console.log("currentInstruction", currentInstruction);
 
   const getLineNumbers = (text) => {
     const lines = text.split("\n").length;
@@ -107,7 +109,7 @@ export const TextEditor = ({
               {getLineNumbers(text).map((lineNumber, i) => (
                 <LineNumber
                   key={lineNumber}
-                  selected={isSimulating && i == (programCounter && programCounter - 1)}
+                  selected={isSimulating && i == (currentInstruction || 0)}
                 >
                   <LineCounterText>{lineNumber}</LineCounterText>
                 </LineNumber>

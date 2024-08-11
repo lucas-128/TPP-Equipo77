@@ -14,8 +14,8 @@ Copy the content of register R1 to register R2
 */
 
 export default class XORInstruction extends Instruction {
-  constructor(registerS, registerT, destinationIndex) {
-    super();
+  constructor(registerS, registerT, destinationIndex, id) {
+    super(id);
     this.registerS = registerS;
     this.registerT = registerT;
     this.destinationIndex = destinationIndex;
@@ -28,7 +28,7 @@ export default class XORInstruction extends Instruction {
       registerAluTopId,
       aluRegistersId,
     ];
-    // newExecuteState.programCounter += 1;
+    newExecuteState.instructionId = this.id;
     return {...oldState, execute: applyBinaryOperation(this, (a, b) => a ^ b, newExecuteState)};
   }
 }
