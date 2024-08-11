@@ -1,10 +1,6 @@
 import Instruction from "../Instruction";
 import { applyBinaryOperation } from "../utils";
-import {
-  registerAluBottomId,
-  registerAluTopId,
-  aluRegistersId,
-} from "../../containers/SimulatorSection/components";
+import { animationsAlu } from "../constants";
 /* 
 
 Instruction: 4
@@ -23,11 +19,7 @@ export default class ANDInstruction extends Instruction {
   execute(oldState) {
     const newExecuteState = { ...oldState.execute };
     newExecuteState.programCounter += 1;
-    newExecuteState.edgeAnimation = [
-      registerAluTopId,
-      registerAluBottomId,
-      aluRegistersId,
-    ];
+    newExecuteState.edgeAnimation = animationsAlu;
     return {
       ...oldState,
       execute: applyBinaryOperation(this, (a, b) => a & b, newExecuteState),

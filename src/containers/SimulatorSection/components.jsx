@@ -4,13 +4,13 @@ import { ALU } from "../../components/ALU";
 import { ControlUnit } from "../../components/ControlUnit";
 import { CacheMemory } from "../../components/CacheMemory";
 import { CPU } from "../../components/CPU";
-//import { RegistersCacheBus } from "../../components/RegistersCacheBus";
-import { RegistersToALUBus } from "../../components/RegistersToALUBus";
-import { ALUToRegistersBus } from "../../components/ALUToRegistersBus";
-import { MainMemControlDataBus } from "../../components/MainMemControlDataBus";
-import { ControlToMainMemAddrBus } from "../../components/ControlToMainMemAddrBus";
-import { CacheToControlUnitBus } from "../../components/CacheToControlUnitBus";
-import { RegistersToUCBus } from "../../components/RegistersToUCBus";
+
+import { ALUToRegistersBus } from "../../components/Buses/ALUToRegistersBus";
+import { MainMemControlDataBus } from "../../components/Buses/MainMemControlDataBus";
+import { ControlToMainMemAddrBus } from "../../components/Buses/ControlToMainMemAddrBus";
+import { CacheToControlUnitBus } from "../../components/Buses/CacheToControlUnitBus";
+import { RegistersToUCBus } from "../../components/Buses/RegistersToUCBus";
+import { RegistersToALUBus } from "../../components/Buses/RegistersToALUBus";
 
 export const nodeTypes = {
   registers: RegisterBox,
@@ -75,7 +75,6 @@ export const initialNodes = [
 ];
 
 export const edgeTypes = {
-  //registersCache: RegistersCacheBus,
   controlUnitCache: CacheToControlUnitBus,
   registerToAlu: RegistersToALUBus,
   AluToRegisters: ALUToRegistersBus,
