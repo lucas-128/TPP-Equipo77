@@ -19,7 +19,7 @@ export default class XORInstruction extends Instruction {
 
   execute(oldState) {
     const newExecuteState = { ...oldState.execute };
-    newExecuteState.instructionId = this.id;
+    newExecuteState.instructionId = this.id + 1;
     newExecuteState.edgeAnimation = animationsAlu;
     return {
       ...oldState,

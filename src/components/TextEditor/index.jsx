@@ -31,9 +31,10 @@ export const TextEditor = ({ children, isSimulating, text, setText }) => {
       state.application.fetch.instructionId ||
       state.application.decode.instructionId
   );
+
+  // console.log('currentInstruction', currentInstruction);
   const dispatch = useDispatch();
 
-  console.log("currentInstruction", currentInstruction);
 
   const getLineNumbers = (text) => {
     const lines = text.split("\n").length;

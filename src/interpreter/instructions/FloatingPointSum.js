@@ -17,7 +17,7 @@ export default class FloatingPointSum extends Instruction {
 
   execute(oldState) {
     const newExecuteState = { ...oldState.execute };
-    newExecuteState.instructionId = this.id;
+    newExecuteState.instructionId = this.id + 1;
     //TODO: Definicion punto flotante como el libro
     return {...oldState, execute: newExecuteState};
   }

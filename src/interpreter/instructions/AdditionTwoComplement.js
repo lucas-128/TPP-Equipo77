@@ -28,7 +28,7 @@ export default class AdditionTwoComplement extends Instruction {
     const registerT = newExecuteState.registers[this.registerT];
     const operationResult = (registerS + registerT) & 0xff;
     newExecuteState.registers[this.destinationIndex] = operationResult;
-    newExecuteState.programCounter += 1;
+    newExecuteState.instructionId = this.id + 1;
     newExecuteState.edgeAnimation = animationsAlu;
 
     return { ...oldState, execute: newExecuteState };

@@ -116,6 +116,8 @@ export const {
   onEdgesChange,
   onConnect,
   updateExecuteState,
+  updateDecodeState,
+  updateFetchState,
   getProgramInMemory,
   goToPreviousState,
   updatePreviousState,

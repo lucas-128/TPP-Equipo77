@@ -21,10 +21,15 @@ export const ControlUnit = () => {
     (state) => state.application.fetch.instructionRegister
   );
 
+  // const fetchId = useSelector((state) => state.application.fetch.instructionId);
+  const decodeId = useSelector(
+    (state) => state.application.decode.instructionId
+  );
+
   // TODO: en que ciclo de ejecucion estamos? Fetch, decode, execute.
   // const status = useSelector() ....
   let statusText = "Decodificando Instrucción"; //Decodificando Instrucción -  Ejecutando Instrucción
-  const [shouldAnimateText, setShouldAnimateText] = useState(true);
+  const [shouldAnimateText, setShouldAnimateText] = useState(decodeId != null);
 
   return (
     <MainContainer id={controlUnitId}>
@@ -34,7 +39,7 @@ export const ControlUnit = () => {
           <CustomText>Contador de programa</CustomText>
           <SpecialRegisterValue id="PC">
             {programCounter !== null
-              ? (programCounter * 2).toString(16).padStart(2, "0")
+              ? programCounter.toString(16).padStart(2, "0")
               : " - "}
           </SpecialRegisterValue>
         </SpecialRegisterContainer>
@@ -53,7 +58,9 @@ export const ControlUnit = () => {
       <CustomHandle type="source" position="right" />
       {/* cache to control unit */}
       <CustomHandle type="target" position="bottom" />
-      <IndicatorText animate={shouldAnimateText}>{statusText}</IndicatorText>
+      <IndicatorText animate={shouldAnimateText}>
+        {decodeId !== null ? statusText : ""}
+      </IndicatorText>
     </MainContainer>
   );
 };

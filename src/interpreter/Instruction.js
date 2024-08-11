@@ -12,27 +12,34 @@ export default class Instruction {
     this.id = id;
   }
 
+  cleanState(oldState) {
+    const cleanState = {
+      fetch: { ...oldState.fetch },
+      decode: { ...oldState.decode },
+      execute: { ...oldState.execute },
+    };
+    cleanState.fetch.instructionId = null;
+    cleanState.fetch.edgeAnimation = [];
+    cleanState.decode.instructionId = null;
+    cleanState.execute.instructionId = null;
+    cleanState.execute.edgeAnimation = [];
+    cleanState.execute.aluOperation = null;
+    return cleanState;
+  }
+
   nextStep(oldState, typeSimulation) {
-    console.log(this.cycle);
+    console.log("la instruction esta en ", this.cycle);
     if (typeSimulation === typeSimulations.SIMPLE) {
       const stateAfterFetch = this.fetch(oldState);
       const stateAfterDecode = this.decode(stateAfterFetch);
-      const stateAfterExecute = this.execute(stateAfterDecode);
       return this.execute(stateAfterDecode);
     } else if (typeSimulation === typeSimulations.CYCLES) {
-      const cleanState = {
-        fetch: { ...oldState.fetch },
-        decode: { ...oldState.decode },
-        execute: { ...oldState.execute },
-      };
-      cleanState.fetch.instructionId = null;
-      cleanState.decode.instructionId = null;
-      cleanState.execute.instructionId = null;
+      const cleanState = this.cleanState(oldState);
       if (this.cycle === cyclesSimulations.FETCH) {
         this.cycle = cyclesSimulations.DECODE;
         return this.fetch(cleanState);
       } else if (this.cycle === cyclesSimulations.DECODE) {
-        console.log("decode");
+        console.log("entra al decode");
         this.cycle = cyclesSimulations.EXECUTE;
         return this.decode(cleanState);
       } else if (this.cycle === cyclesSimulations.EXECUTE) {
@@ -43,7 +50,6 @@ export default class Instruction {
           fetch: stateAfterExecute.fetch,
           decode: stateAfterExecute.decode,
         };
-        newState.execute.instructionId = this.id;
         return newState;
       }
     }
@@ -55,11 +61,16 @@ export default class Instruction {
     const newFetchState = { ...oldState.fetch };
     const mainMemoryCells = oldState.execute.mainMemoryCells;
     newFetchState.address = oldState.fetch.programCounter;
+
     newFetchState.instructionRegister =
-      mainMemoryCells[oldState.fetch.programCounter];
-    newFetchState.edgeAnimations = animationsFetch;
+      mainMemoryCells[oldState.fetch.programCounter] +
+      mainMemoryCells[oldState.fetch.programCounter + 1];
+    newFetchState.programCounter += 2;
+
+    newFetchState.edgeAnimation = animationsFetch;
     newFetchState.instructionId = this.id;
-    newFetchState.programCounter += 1;
+
+    console.log("fetch mandando", newFetchState);
     return { ...oldState, fetch: newFetchState };
   }
 

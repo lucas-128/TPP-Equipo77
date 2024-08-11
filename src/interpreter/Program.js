@@ -22,17 +22,25 @@ export default class Program {
     });
   }
 
-  getCurrentInstruction(state) {
-    if(state.fetch.instructionId !== null){
-      return this.instructions[state.fetch.instructionId];
-    }else if(state.decode.instructionId !== null){
-      return this.instructions[state.decode.instructionId];
+  getCurrentInstructionId(state) {
+    // console.log("id del fetch", state.fetch.instructionId);
+    // console.log("id del decode", state.decode.instructionId);
+    // console.log("id del execute", state.execute.instructionId);
+    if (state.fetch.instructionId !== null) {
+      console.log("FETCH", state.fetch.instructionId);
+      return state.fetch.instructionId;
+    } else if (state.decode.instructionId !== null) {
+      console.log("DECODE", state.decode.instructionId);
+      return state.decode.instructionId;
     }
-    return this.instructions[state.fetch.programCounter];
+    console.log("EXECUTE ", state.execute.instructionId);
+    return state.execute.instructionId;
   }
 
   getNewState(oldState) {
-    const actualInstruction = this.getCurrentInstruction(oldState);
+    const actualInstruction =
+      this.instructions[this.getCurrentInstructionId(oldState)];
+    console.log("actual Instruction", actualInstruction);
     const newState = actualInstruction.nextStep(oldState, this.typeSimulation);
     return newState;
   }

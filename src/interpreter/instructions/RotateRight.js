@@ -35,9 +35,9 @@ export default class RotateRight extends Instruction {
       2 * length - rotations
     );
 
-    newExecuteState.instructionId = this.id;
+    newExecuteState.instructionId = this.id + 1;
     newExecuteState.edgeAnimation = animationsAlu;
-    
+
     return { ...oldState, execute: newExecuteState };
   }
 }

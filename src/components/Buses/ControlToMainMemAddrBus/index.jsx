@@ -3,7 +3,7 @@ import { BaseEdge } from "reactflow";
 import {
   controlUnitId,
   mainMemoryId,
-  aluRegistersId,
+  controlUnitMainMemAddrId,
 } from "../../../containers/SimulatorSection/components";
 import { useMemo } from "react";
 import { usePosition } from "../../../hooks/usePosition";
@@ -11,12 +11,11 @@ import { BusAnimation } from "../BusAnimation";
 
 export const ControlToMainMemAddrBus = ({ id }) => {
   const animations = useSelector(
-    (state) => state.application.execute.edgeAnimation
+    (state) => state.application.fetch.edgeAnimation
   );
-
   const edgeAnimation = useMemo(
-    () => animations.includes(aluRegistersId),
-    [animations, aluRegistersId]
+    () => animations.includes(controlUnitMainMemAddrId),
+    [animations, controlUnitMainMemAddrId]
   );
 
   const [edgePath] = usePosition({

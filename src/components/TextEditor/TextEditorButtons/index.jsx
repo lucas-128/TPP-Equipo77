@@ -5,14 +5,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
 import { splitCode } from "../../../interpreter/main";
 import {
-  // updateRegisters,
-  // updateEdgeAnimation,
   goToPreviousState,
   updatePreviousState,
-  // updateMainMemoryCells,
   updateCurrentState,
-  // updateInstructionRegister,
-  // updateProgramCounter,
   clearApplication,
 } from "../../../slices/applicationSlice";
 import { Button } from "../../Button";

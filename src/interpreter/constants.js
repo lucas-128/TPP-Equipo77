@@ -3,7 +3,8 @@ import {
   registerAluBottomId,
   registerAluTopId,
   controlUnitMainMemAddrId,
-  controlUnitMainMemDataId,
+  // controlUnitMainMemDataId,
+  mainMemControlUnitDataId,
 } from "../containers/SimulatorSection/components";
 
 // Data Tranfer Instructions
@@ -82,7 +83,7 @@ export const CACHE_SIZE = 16;
 
 export const animationsFetch = [
   controlUnitMainMemAddrId,
-  controlUnitMainMemDataId,
+  mainMemControlUnitDataId,
 ];
 
 export const animationsAlu = [

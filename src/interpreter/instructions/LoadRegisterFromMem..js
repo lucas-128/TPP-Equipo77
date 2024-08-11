@@ -26,7 +26,6 @@ export default class LoadRegisterFromMem extends Instruction {
     const cell = cacheMemoryCells.find((cell) => cell ? cell.address === this.memoryAddress : false);
     if(cell){
       newExecuteState.registers[this.register] = cell.content;
-      // newExecuteState.programCounter += 1;
       return {...oldState, execute: newExecuteState};
     }
     else{
@@ -37,7 +36,8 @@ export default class LoadRegisterFromMem extends Instruction {
     const value = mainMemoryCells[this.memoryAddress];
 
     newExecuteState.registers[this.register] = value;
-    newExecuteState.instructionId = this.id;
+    newExecuteState.instructionId = this.id + 1;
+
     return {...oldState, execute: newExecuteState};
   }
 }
