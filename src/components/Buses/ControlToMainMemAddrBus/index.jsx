@@ -13,6 +13,7 @@ export const ControlToMainMemAddrBus = ({ id }) => {
   const animations = useSelector(
     (state) => state.application.fetch.edgeAnimation
   );
+  const address = useSelector((state) => state.application.fetch.address);
   const edgeAnimation = useMemo(
     () => animations.includes(controlUnitMainMemAddrId),
     [animations, controlUnitMainMemAddrId]
@@ -26,7 +27,7 @@ export const ControlToMainMemAddrBus = ({ id }) => {
 
   // lo puse violeta para distinguir que es sólo de address
   return (
-    <g>
+    <g onClick={() => console.log(address)}>
       <BaseEdge
         path={edgePath}
         interactionWidth={20}

@@ -21,18 +21,22 @@ export const ControlUnit = () => {
     (state) => state.application.fetch.instructionRegister
   );
 
-  // const fetchId = useSelector((state) => state.application.fetch.instructionId);
+  const fetchId = useSelector((state) => state.application.fetch.instructionId);
   const decodeId = useSelector(
     (state) => state.application.decode.instructionId
   );
+  const executeId = useSelector(
+    (state) => state.application.execute.instructionId
+  );
 
-  // TODO: en que ciclo de ejecucion estamos? Fetch, decode, execute.
-  // const status = useSelector() ....
-  let statusText = "Decodificando Instrucción"; //Decodificando Instrucción -  Ejecutando Instrucción
-  const [shouldAnimateText, setShouldAnimateText] = useState(decodeId != null);
+  const texts = {
+    fetch: "Buscando instrucción",
+    decode: "Decodificando instrucción",
+    execute: "Ejecutando instrucción",
+  };
 
   return (
-    <MainContainer id={controlUnitId}>
+    <MainContainer id={controlUnitId} $operating={decodeId !== null}>
       <HeaderText>Unidad de Control</HeaderText>
       <BodyContainer>
         <SpecialRegisterContainer>
@@ -58,8 +62,10 @@ export const ControlUnit = () => {
       <CustomHandle type="source" position="right" />
       {/* cache to control unit */}
       <CustomHandle type="target" position="bottom" />
-      <IndicatorText animate={shouldAnimateText}>
-        {decodeId !== null ? statusText : ""}
+      <IndicatorText animate={false}>
+        {decodeId !== null ? texts.decode : ""}
+        {fetchId !== null ? texts.fetch : ""}
+        {executeId !== null ? texts.execute : ""}
       </IndicatorText>
     </MainContainer>
   );

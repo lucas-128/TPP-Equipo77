@@ -28,7 +28,6 @@ export default class Instruction {
   }
 
   nextStep(oldState, typeSimulation) {
-    console.log("la instruction esta en ", this.cycle);
     if (typeSimulation === typeSimulations.SIMPLE) {
       const stateAfterFetch = this.fetch(oldState);
       const stateAfterDecode = this.decode(stateAfterFetch);
@@ -39,7 +38,6 @@ export default class Instruction {
         this.cycle = cyclesSimulations.DECODE;
         return this.fetch(cleanState);
       } else if (this.cycle === cyclesSimulations.DECODE) {
-        console.log("entra al decode");
         this.cycle = cyclesSimulations.EXECUTE;
         return this.decode(cleanState);
       } else if (this.cycle === cyclesSimulations.EXECUTE) {
@@ -55,8 +53,6 @@ export default class Instruction {
     }
   }
 
-  //TODO: hacer el fetch
-  //si va  de a una la dirección de memoria y la instruccion son dos direcciones de memoria esto se repite?,
   fetch(oldState) {
     const newFetchState = { ...oldState.fetch };
     const mainMemoryCells = oldState.execute.mainMemoryCells;
@@ -70,15 +66,12 @@ export default class Instruction {
     newFetchState.edgeAnimation = animationsFetch;
     newFetchState.instructionId = this.id;
 
-    console.log("fetch mandando", newFetchState);
     return { ...oldState, fetch: newFetchState };
   }
 
-  // TODO: hacer el decode
   decode(oldState) {
     const newDecodeState = { ...oldState.decode };
     newDecodeState.instructionId = this.id;
-    console.log("decode mandando", newDecodeState);
     return { ...oldState, decode: newDecodeState };
   }
 }
