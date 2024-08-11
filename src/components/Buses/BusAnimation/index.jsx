@@ -1,16 +1,10 @@
 import React from "react";
 import { BaseEdge } from "reactflow";
 
-export const BusAnimation = ({ edgePath, id }) => {
+export const BusAnimation = ({ edgePath, id, onClick }) => {
   return (
     <>
-      <BaseEdge
-        id={id}
-        path={edgePath}
-        style={{
-          stroke: "none",
-        }}
-      />
+      <BaseEdge id={id} path={edgePath} style={{ stroke: "none" }} />
       <g>
         <path
           d={edgePath}

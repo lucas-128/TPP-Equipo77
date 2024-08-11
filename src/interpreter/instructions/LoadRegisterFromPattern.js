@@ -8,8 +8,8 @@ Load the register R with the pattern XY
 */
 
 export default class LoadRegisterFromPattern extends Instruction {
-  constructor(register, pattern) {
-    super();
+  constructor(register, pattern, id) {
+    super(id);
     this.register = register;
     this.pattern = pattern;
   }
@@ -18,7 +18,7 @@ export default class LoadRegisterFromPattern extends Instruction {
     const newExecuteState = { ...oldState.execute };
     newExecuteState.registers = [...oldState.execute.registers];
     newExecuteState.registers[this.register] = this.pattern;
-    newExecuteState.programCounter += 1;
+    newExecuteState.instructionId = this.id + 1;
     newExecuteState.edgeAnimation = []; //Actualizar las aristas correspondientes
     return {...oldState, execute: newExecuteState};
   }

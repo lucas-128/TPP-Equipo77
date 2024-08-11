@@ -5,7 +5,7 @@ import { InstructionFactory } from "./InstructionFactory";
 export default class Program {
   constructor(program) {
     this.program = program;
-    this.typeSimulation = typeSimulations.SIMPLE;
+    this.typeSimulation = typeSimulations.CYCLES;
     if (!validateSyntax(program)) {
       return;
     }
@@ -17,14 +17,26 @@ export default class Program {
       (row) => row.length > 0
     );
 
-    return instructions.map((instruction) => {
-      return InstructionFactory.createInstruction(instruction);
+    return instructions.map((instruction, id) => {
+      return InstructionFactory.createInstruction(instruction, id);
     });
   }
 
+  getCurrentInstructionId(state) {
+    if (state.fetch.instructionId !== null) {
+      console.log("FETCH", state.fetch.instructionId);
+      return state.fetch.instructionId;
+    } else if (state.decode.instructionId !== null) {
+      console.log("DECODE", state.decode.instructionId);
+      return state.decode.instructionId;
+    }
+    console.log("EXECUTE ", state.execute.instructionId);
+    return state.execute.instructionId;
+  }
+
   getNewState(oldState) {
-    const actualLine = oldState.execute.programCounter;
-    const actualInstruction = this.instructions[actualLine];
+    const actualInstruction =
+      this.instructions[this.getCurrentInstructionId(oldState)];
     const newState = actualInstruction.nextStep(oldState, this.typeSimulation);
     return newState;
   }

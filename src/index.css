@@ -107,7 +107,6 @@ h1 {
   }
 }
 .react-flow__edge {
-  pointer-events: none !important;
   padding: 10px !important;
   cursor: none;
 }

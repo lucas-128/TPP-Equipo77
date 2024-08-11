@@ -14,27 +14,36 @@ import { useSelector } from "react-redux";
 
 export const ControlUnit = () => {
   const programCounter = useSelector(
-    (state) => state.application.execute.programCounter
+    (state) => state.application.fetch.programCounter
   );
 
   const instructionRegister = useSelector(
-    (state) => state.application.execute.instructionRegister
+    (state) => state.application.fetch.instructionRegister
   );
 
-  // TODO: en que ciclo de ejecucion estamos? Fetch, decode, execute.
-  // const status = useSelector() ....
-  let statusText = "Decodificando Instrucción"; //Decodificando Instrucción -  Ejecutando Instrucción
-  const [shouldAnimateText, setShouldAnimateText] = useState(true);
+  const fetchId = useSelector((state) => state.application.fetch.instructionId);
+  const decodeId = useSelector(
+    (state) => state.application.decode.instructionId
+  );
+  const executeId = useSelector(
+    (state) => state.application.execute.instructionId
+  );
+
+  const texts = {
+    fetch: "Buscando instrucción",
+    decode: "Decodificando instrucción",
+    execute: "Ejecutando instrucción",
+  };
 
   return (
-    <MainContainer id={controlUnitId}>
+    <MainContainer id={controlUnitId} $operating={decodeId !== null}>
       <HeaderText>Unidad de Control</HeaderText>
       <BodyContainer>
         <SpecialRegisterContainer>
           <CustomText>Contador de programa</CustomText>
           <SpecialRegisterValue id="PC">
             {programCounter !== null
-              ? (programCounter * 2).toString(16).padStart(2, "0")
+              ? programCounter.toString(16).padStart(2, "0")
               : " - "}
           </SpecialRegisterValue>
         </SpecialRegisterContainer>
@@ -53,7 +62,11 @@ export const ControlUnit = () => {
       <CustomHandle type="source" position="right" />
       {/* cache to control unit */}
       <CustomHandle type="target" position="bottom" />
-      <IndicatorText animate={shouldAnimateText}>{statusText}</IndicatorText>
+      <IndicatorText animate={false}>
+        {decodeId !== null ? texts.decode : ""}
+        {fetchId !== null ? texts.fetch : ""}
+        {executeId !== null ? texts.execute : ""}
+      </IndicatorText>
     </MainContainer>
   );
 };
