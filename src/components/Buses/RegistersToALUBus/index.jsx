@@ -98,7 +98,7 @@ export const RegistersToALUBus = ({ id, data }) => {
           <>
             <path
               d={edgePath}
-              stroke="var(--im-primary-hover)"
+              stroke="black"
               strokeWidth={4}
               strokeDasharray="15,15"
               strokeLinecap="round"
@@ -109,7 +109,7 @@ export const RegistersToALUBus = ({ id, data }) => {
             />
             <path
               d={secondEdgePath}
-              stroke="var(--im-primary-hover)"
+              stroke="black"
               strokeWidth={4}
               strokeDasharray="15,15"
               strokeLinecap="round"

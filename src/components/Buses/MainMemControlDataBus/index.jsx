@@ -26,7 +26,7 @@ export const MainMemControlDataBus = ({ id, source, target }) => {
         path={edgePath}
         interactionWidth={20}
         style={{
-          stroke: "gray",
+          stroke: "var(--im-light-blue)",
           strokeWidth: 20,
           filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5))",
         }}

@@ -86,17 +86,10 @@ export const applicationSlice = createSlice({
       state.execute.programCounter = programCounter;
     },
     goToPreviousState(state) {
-      state.execute.registers = current(state).previousstate.execute.registers;
-      state.execute.nodes = current(state).previousstate.execute.nodes;
-      state.execute.edges = current(state).previousstate.execute.edges;
-      state.execute.programCounter =
-        current(state).previousstate.execute.programCounter;
-      state.execute.edgeAnimation =
-        current(state).previousstate.execute.edgeAnimation;
-      state.execute.instructionRegister =
-        current(state).previousstate.execute.instructionRegister;
-      state.execute.previousState =
-        current(state).previousstate.execute.previousState;
+      state.execute = state.previousState ? state.previousState.execute : initialState.execute;
+      state.decode = state.previousState ? state.previousState.decode : initialState.decode;
+      state.fetch = state.previousState ? state.previousState.fetch : initialState.fetch;
+      state.previousState = state.previousState ? state.previousState.previousState : null;
     },
     updatePreviousState(state) {
       state.previousState = current(state);
