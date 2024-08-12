@@ -40,6 +40,7 @@ export const SimulatorContainer = () => {
         zoomOnDoubleClick={false}
       >
         <Controls showInteractive={false} />
+        <Background gap={20} />
       </ReactFlow>
       <AluModal />
       <ControlUnitModal />
