@@ -107,7 +107,15 @@ h1 {
   }
 }
 .react-flow__edge {
-  pointer-events: none !important;
   padding: 10px !important;
   cursor: none;
+}
+
+@keyframes dash {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: 1000;
+  }
 }

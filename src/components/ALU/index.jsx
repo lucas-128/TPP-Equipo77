@@ -6,7 +6,7 @@ import { setOpenAluZoom } from "../../slices/modalsSlice";
 export const ALU = () => {
   const dispatch = useDispatch();
 
-  const aluOperation = useSelector((state) => state.application.aluOperation);
+  const aluOperation = useSelector((state) => state.application.execute.aluOperation);
 
   return (
     <Container

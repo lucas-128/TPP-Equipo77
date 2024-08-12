@@ -1,4 +1,3 @@
-import { typeSimulations } from "../../constants";
 import Instruction from "../Instruction";
 
 /* 
@@ -27,24 +26,26 @@ function getKeyForValue(value) {
 }
 
 export default class FloatingPointSum extends Instruction {
-  constructor(registerS, registerT, destinationIndex) {
-    super();
+  constructor(registerS, registerT, destinationIndex, id) {
+    super(id);
     this.registerS = registerS;
     this.registerT = registerT;
     this.destinationIndex = destinationIndex;
   }
 
   execute(oldState) {
-    const newState = { ...oldState };
-    newState.registers = [...oldState.registers];
-    // const registerS = newState.registers[this.registerS];
-    // const registerT = newState.registers[this.registerT];
-    // console.log("Contenido de registro S", registerS);
-    // console.log("Contenido de registro T", registerT);
+    const newExecuteState = { ...oldState.execute };
+    newExecuteState.registers = [...oldState.execute.registers];
+    const registerS = parseInt(newExecuteState.registers[this.registerS], 16)
+      .toString(2)
+      .padStart(8, "0");
+    const registerT = parseInt(newExecuteState.registers[this.registerT], 16)
+      .toString(2)
+      .padStart(8, "0");
 
-    // Test con valores en binario
-    const registerS = "01011010";
-    const registerT = "01011010";
+    // Test
+    // const registerS = "01101010";
+    // const registerT = "11001100";
 
     // Interpretar binarios
     const reg1SignBit = registerS[0];
@@ -91,12 +92,13 @@ export default class FloatingPointSum extends Instruction {
       getKeyForValue(normalizedMantissa.positionsMoved) +
       normalizedMantissa.adjustedValue;
 
-    //
-    console.log(operationResult);
+    //console.log(operationResult);
+    const hexResult = parseInt(operationResult, 2).toString(16).toUpperCase();
+    //console.log(hexResult);
 
-    newState.registers[this.destinationIndex] = operationResult; //TODO: almacenar binarios en registros en vez de decimales?
-    newState.programCounter += 1;
-    return newState;
+    newExecuteState.registers[this.destinationIndex] = hexResult;
+    newExecuteState.programCounter += 1;
+    return { ...oldState, execute: newExecuteState };
   }
 }
 

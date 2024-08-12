@@ -1,3 +1,12 @@
+import {
+  aluRegistersId,
+  registerAluBottomId,
+  registerAluTopId,
+  controlUnitMainMemAddrId,
+  // controlUnitMainMemDataId,
+  mainMemControlUnitDataId,
+} from "../containers/SimulatorSection/components";
+
 // Data Tranfer Instructions
 export const LOAD_REGISTER_FROM_MEM = "1";
 export const LOAD_REGISTER_FROM_PATTERN = "2";
@@ -69,3 +78,16 @@ export const operationNames = {
   XOR: "XOR",
   ROTATE_RIGHT: "Rotar a la derecha",
 };
+
+export const CACHE_SIZE = 16;
+
+export const animationsFetch = [
+  controlUnitMainMemAddrId,
+  mainMemControlUnitDataId,
+];
+
+export const animationsAlu = [
+  registerAluTopId,
+  registerAluBottomId,
+  aluRegistersId,
+];

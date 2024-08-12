@@ -1,4 +1,4 @@
-import { operationNames } from "../constants";
+import { operationNames } from "./constants";
 
 export function applyBinaryOperation(instruction, operation, actualState) {
     const newState = { ...actualState, registers: [...actualState.registers] };
@@ -17,3 +17,14 @@ export function applyBinaryOperation(instruction, operation, actualState) {
     newState.registers[instruction.destinationIndex] = operationResult;
     return newState;
   }
+
+
+export function updateCache(oldExecuteState, memoryAddress) {
+  const { cacheMemoryCells }  = oldExecuteState;
+  let newCacheMemoryCells = [...cacheMemoryCells];
+
+  newCacheMemoryCells.pop();
+  newCacheMemoryCells.unshift({ address: memoryAddress, content: oldExecuteState.mainMemoryCells[memoryAddress] });   
+
+  return newCacheMemoryCells;
+}
