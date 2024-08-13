@@ -13,10 +13,18 @@ export const ControlToMainMemAddrBus = ({ id }) => {
   const animations = useSelector(
     (state) => state.application.fetch.edgeAnimation
   );
+
+  const executeAnimations = useSelector(
+    (state) => state.application.execute.edgeAnimation
+  );
+
   const address = useSelector((state) => state.application.fetch.address);
+
   const edgeAnimation = useMemo(
-    () => animations.includes(controlUnitMainMemAddrId),
-    [animations, controlUnitMainMemAddrId]
+    () =>
+      animations.includes(controlUnitMainMemAddrId) ||
+      executeAnimations.includes(controlUnitMainMemAddrId),
+    [animations, executeAnimations, controlUnitMainMemAddrId]
   );
 
   const [edgePath] = usePosition({

@@ -1,6 +1,12 @@
 import { typeSimulations } from "../../interpreter/constants";
 import Instruction from "../Instruction";
 import { updateCache } from "../utils";
+import {
+  registersControlUnitId,
+  controlUnitCacheId,
+  controlUnitCacheAddrBusId,
+  aluRegistersId,
+} from "../../containers/SimulatorSection/components";
 
 /* 
 
@@ -8,7 +14,6 @@ Instruction: 1
 Load the content of the memory cell with address XY into register R
 
 */
-
 
 export default class LoadRegisterFromMem extends Instruction {
   constructor(register, memoryAddress, id) {
@@ -23,21 +28,30 @@ export default class LoadRegisterFromMem extends Instruction {
     const { cacheMemoryCells } = oldState.execute;
     const { mainMemoryCells } = oldState.execute;
 
-    const cell = cacheMemoryCells.find((cell) => cell ? cell.address === this.memoryAddress : false);
-    if(cell){
+    const cell = cacheMemoryCells.find((cell) =>
+      cell ? cell.address === this.memoryAddress : false
+    );
+    if (cell) {
       newExecuteState.registers[this.register] = cell.content;
-      return {...oldState, execute: newExecuteState};
-    }
-    else{
+      return { ...oldState, execute: newExecuteState };
+    } else {
       newExecuteState.cacheMemoryCells = [...oldState.execute.cacheMemoryCells];
-      newExecuteState.cacheMemoryCells = updateCache(newExecuteState, this.memoryAddress);
+      newExecuteState.cacheMemoryCells = updateCache(
+        newExecuteState,
+        this.memoryAddress
+      );
     }
-    
+
     const value = mainMemoryCells[this.memoryAddress];
 
     newExecuteState.registers[this.register] = value;
     newExecuteState.instructionId = this.id + 1;
+    newExecuteState.edgeAnimation = [
+      registersControlUnitId,
+      controlUnitCacheId,
+      controlUnitCacheAddrBusId,
+    ];
 
-    return {...oldState, execute: newExecuteState};
+    return { ...oldState, execute: newExecuteState };
   }
 }

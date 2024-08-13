@@ -10,10 +10,17 @@ export const MainMemControlDataBus = ({ id, source, target }) => {
     (state) => state.application.fetch.edgeAnimation
   );
 
-  const edgeAnimation = useMemo(
-    () => animations.includes(mainMemControlUnitDataId),
-    [animations, mainMemControlUnitDataId]
+  const executeAnimations = useSelector(
+    (state) => state.application.execute.edgeAnimation
   );
+
+  const edgeAnimation = useMemo(
+    () =>
+      animations.includes(mainMemControlUnitDataId) ||
+      executeAnimations.includes(mainMemControlUnitDataId),
+    [animations, executeAnimations, mainMemControlUnitDataId]
+  );
+
   const [edgePath] = usePosition({
     edgeId: id,
     sourceComponentId: source,

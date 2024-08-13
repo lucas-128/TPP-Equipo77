@@ -2,8 +2,7 @@ import { useSelector } from "react-redux";
 import { BaseEdge } from "reactflow";
 import {
   controlUnitId,
-  mainMemoryId,
-  aluRegistersId,
+  controlUnitCacheAddrBusId,
   cacheMemoryId,
 } from "../../../containers/SimulatorSection/components";
 import { useMemo } from "react";
@@ -16,8 +15,8 @@ export const ControlToCacheAddrBus = ({ id }) => {
   );
 
   const edgeAnimation = useMemo(
-    () => animations.includes(aluRegistersId),
-    [animations, aluRegistersId]
+    () => animations.includes(controlUnitCacheAddrBusId),
+    [animations, controlUnitCacheAddrBusId]
   );
 
   const [edgePath] = usePosition({

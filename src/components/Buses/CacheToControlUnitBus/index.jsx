@@ -9,9 +9,9 @@ import { useSelector } from "react-redux";
 import { useMemo } from "react";
 import { BusAnimation } from "../BusAnimation";
 
-export const CacheToControlUnitBus = () => {
+export const CacheToControlUnitBus = ({ id }) => {
   const animations = useSelector(
-    (state) => state.application.fetch.edgeAnimation
+    (state) => state.application.execute.edgeAnimation
   );
 
   const edgeAnimation = useMemo(
@@ -20,7 +20,7 @@ export const CacheToControlUnitBus = () => {
   );
 
   const [edgePath] = usePosition({
-    edgeId: controlUnitCacheId,
+    edgeId: id,
     sourceComponentId: cacheMemoryId,
     targetComponentId: controlUnitId,
   });

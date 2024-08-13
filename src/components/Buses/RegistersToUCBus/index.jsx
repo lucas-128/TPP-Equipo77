@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { useMemo } from "react";
 import { BusAnimation } from "../BusAnimation";
 
-export const RegistersToUCBus = () => {
+export const RegistersToUCBus = ({ id }) => {
   const animations = useSelector(
     (state) => state.application.execute.edgeAnimation
   );
