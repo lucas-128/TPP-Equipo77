@@ -1,4 +1,3 @@
-import { typeSimulations } from "../../interpreter/constants";
 import Instruction from "../Instruction";
 import { updateCache } from "../utils";
 
@@ -9,10 +8,9 @@ Load the content of the memory cell with address XY into register R
 
 */
 
-
 export default class LoadRegisterFromMem extends Instruction {
-  constructor(register, memoryAddress) {
-    super();
+  constructor(register, memoryAddress, id) {
+    super(id);
     this.register = register;
     this.memoryAddress = memoryAddress;
   }
@@ -20,25 +18,17 @@ export default class LoadRegisterFromMem extends Instruction {
   execute(oldState) {
     const newExecuteState = { ...oldState.execute };
     newExecuteState.registers = [...oldState.execute.registers];
-    const { cacheMemoryCells } = oldState.execute;
     const { mainMemoryCells } = oldState.execute;
+    newExecuteState.cacheMemoryCells = updateCache(
+      newExecuteState,
+      this.memoryAddress
+    );
 
-    const cell = cacheMemoryCells.find((cell) => cell ? cell.address === this.memoryAddress : false);
-    if(cell){
-      newExecuteState.registers[this.register] = cell.content;
-      newExecuteState.programCounter += 1;
-      return {...oldState, execute: newExecuteState};
-    }
-    else{
-      newExecuteState.cacheMemoryCells = [...oldState.execute.cacheMemoryCells];
-      newExecuteState.cacheMemoryCells = updateCache(newExecuteState, this.memoryAddress);
-    }
-    
     const value = mainMemoryCells[this.memoryAddress];
 
     newExecuteState.registers[this.register] = value;
-    newExecuteState.programCounter += 1;
-    console.log("LoadRegisterFromMem", newExecuteState);
-    return {...oldState, execute: newExecuteState};
+    newExecuteState.instructionId = this.id + 1;
+
+    return { ...oldState, execute: newExecuteState };
   }
 }

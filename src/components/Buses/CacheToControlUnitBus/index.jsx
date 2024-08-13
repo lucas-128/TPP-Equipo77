@@ -1,6 +1,5 @@
 import { BaseEdge } from "reactflow";
 import {
-  //  registerCacheId,
   cacheMemoryId,
   controlUnitId,
   controlUnitCacheId,
@@ -12,7 +11,7 @@ import { BusAnimation } from "../BusAnimation";
 
 export const CacheToControlUnitBus = () => {
   const animations = useSelector(
-    (state) => state.application.execute.edgeAnimation
+    (state) => state.application.fetch.edgeAnimation
   );
 
   const edgeAnimation = useMemo(

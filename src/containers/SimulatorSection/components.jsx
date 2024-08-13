@@ -91,7 +91,7 @@ export const registerAluTopId = "registers-alu-top";
 export const registerAluBottomId = "registers-alu-bottom";
 export const aluRegistersId = "alu-registers";
 export const mainMemControlUnitDataId = "main-mem-control-unit-data";
-export const controlUnitMainMemDataId = "control-unit-main-mem-data";
+// export const controlUnitMainMemDataId = "control-unit-main-mem-data";
 export const controlUnitMainMemAddrId = "control-unit-main-mem-addr";
 
 export const initialEdges = [
@@ -127,12 +127,12 @@ export const initialEdges = [
     target: controlUnitId,
     type: "memoryControlUnitData",
   },
-  {
-    id: controlUnitMainMemDataId,
-    source: controlUnitId,
-    target: mainMemoryId,
-    type: "memoryControlUnitData",
-  },
+  // {
+  //   id: controlUnitMainMemDataId,
+  //   source: controlUnitId,
+  //   target: mainMemoryId,
+  //   type: "memoryControlUnitData",
+  // },
   // bus de direcciones del control a la memoria principal
   {
     id: controlUnitMainMemAddrId,
