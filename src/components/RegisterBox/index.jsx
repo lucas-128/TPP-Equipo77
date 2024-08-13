@@ -13,7 +13,7 @@ import {
 import { registersId } from "../../containers/SimulatorSection/components.jsx";
 
 export const RegisterBox = ({ id, data }) => {
-  const registers = useSelector((state) => state.application.registers);
+  const registers = useSelector((state) => state.application.execute.registers);
 
   return (
     <>
@@ -24,9 +24,9 @@ export const RegisterBox = ({ id, data }) => {
         <RegistersContainer>
           {registers.map((value, i) => (
             <RegisterContainer key={i}>
-              <RegisterNumeration>{i}</RegisterNumeration>
+              <RegisterNumeration>{i.toString(16)}</RegisterNumeration>
               <RegisterValue>
-                {value != null ? value.toString(2).padStart(8, "0") : "-"}
+                {value != null ? parseInt(value, 16).toString(2).padStart(8, "0") : "-"}
               </RegisterValue>
             </RegisterContainer>
           ))}

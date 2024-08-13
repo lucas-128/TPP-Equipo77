@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
+export const Container = styled.button`
   border: none;
   text-align: center;
   font-size: 14px;
@@ -24,5 +24,10 @@ export const Container = styled.div`
     background-color: var(--im-secondary);
     color: var(--im-lightgray);
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+
+  &:disabled {
+    background-color: var(--im-gray);
+    cursor: not-allowed;
   }
 `;

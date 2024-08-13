@@ -12,12 +12,15 @@ import {
   PaginationButton,
   CustomHandle,
 } from "./styled";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { mainMemoryId } from "../../containers/SimulatorSection/components";
+import { setOpenMainMemoryModal } from "../../slices/modalsSlice";
 
 export const MainMemory = () => {
+  const dispatch = useDispatch();
+
   const mainMemoryCells = useSelector(
-    (state) => state.application.mainMemoryCells
+    (state) => state.application.execute.mainMemoryCells
   );
 
   const rowsPerPage = 32;
@@ -38,6 +41,9 @@ export const MainMemory = () => {
     () => currentData.length * (currentPage - 1),
     [currentData.length, currentPage]
   );
+
+  const openModal = () => dispatch(setOpenMainMemoryModal(true));
+
   return (
     <>
       <Container id={mainMemoryId}>
@@ -80,6 +86,7 @@ export const MainMemory = () => {
             >
               Anterior
             </PaginationButton>
+            <PaginationButton onClick={openModal}>Ver todo</PaginationButton>
             <PaginationButton
               onClick={() => setCurrentPage(currentPage + 1)}
               disabled={currentPage === totalPages}

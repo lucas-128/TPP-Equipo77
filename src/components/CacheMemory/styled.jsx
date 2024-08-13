@@ -52,6 +52,21 @@ export const TableCell = styled.td`
   background-color: var(--im-white);
 `;
 
+export const ButtonsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+`;
+
+export const PaginationButton = styled.button`
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+`;
+
 export const CustomHandle = styled(Handle)`
   background-color: transparent !important;
   border: none;

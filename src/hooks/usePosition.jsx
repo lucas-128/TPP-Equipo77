@@ -8,7 +8,8 @@ import {
   controlUnitCacheId,
   mainMemControlUnitDataId,
   controlUnitMainMemAddrId,
-  controlUnitMainMemDataId,
+  // controlUnitMainMemDataId,
+  registersControlUnitId,
 } from "../containers/SimulatorSection/components";
 import { useMemo } from "react";
 
@@ -18,7 +19,7 @@ export const usePosition = ({
   targetComponentId,
   position,
 }) => {
-  const nodes = useSelector((state) => state.application.nodes);
+  const nodes = useSelector((state) => state.application.execute.nodes);
 
   const getComponentInfo = (id) => {
     return {
@@ -81,22 +82,31 @@ export const usePosition = ({
           sourcePosition: Position.Left,
           targetPosition: Position.Right,
         };
-      case controlUnitMainMemDataId:
-        return {
-          sourceX: sourceComponent.position.x,
-          sourceY: sourceComponent.position.y + sourceComponent.height / 2,
-          targetX: targetComponent.position.x + targetComponent.width,
-          targetY: sourceComponent.position.y + sourceComponent.height / 2,
-          offset: 100,
-          sourcePosition: Position.Right,
-          targetPosition: Position.Left,
-        };
+      // case controlUnitMainMemDataId:
+      //   return {
+      //     sourceX: sourceComponent.position.x,
+      //     sourceY: sourceComponent.position.y + sourceComponent.height / 2,
+      //     targetX: targetComponent.position.x + targetComponent.width,
+      //     targetY: sourceComponent.position.y + sourceComponent.height / 2,
+      //     offset: 100,
+      //     sourcePosition: Position.Right,
+      //     targetPosition: Position.Left,
+      //   };
       case controlUnitMainMemAddrId:
         return {
           sourceX: sourceComponent.position.x + sourceComponent.width,
           sourceY: sourceComponent.position.y + sourceComponent.height / 1.5,
           targetX: targetComponent.position.x,
-          targetY:  sourceComponent.position.y + sourceComponent.height / 1.5,
+          targetY: sourceComponent.position.y + sourceComponent.height / 1.5,
+          sourcePosition: Position.Right,
+          targetPosition: Position.Left,
+        };
+      case registersControlUnitId:
+        return {
+          sourceX: sourceComponent.position.x,
+          sourceY: sourceComponent.height / 3.1,
+          targetX: targetComponent.position.x,
+          targetY: sourceComponent.height / 3.1,
           sourcePosition: Position.Right,
           targetPosition: Position.Left,
         };
