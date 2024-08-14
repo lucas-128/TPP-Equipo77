@@ -13,13 +13,7 @@ import {
 import { Button } from "../../Button";
 import Program from "../../../interpreter/Program";
 
-export const TextEditorButtons = ({
-  isSimulating,
-  setIsSimulating,
-  setSelectedLine,
-  selectedLine,
-  text,
-}) => {
+export const TextEditorButtons = ({ isSimulating, setIsSimulating, text }) => {
   const [program, setProgram] = useState(null);
   const dispatch = useDispatch();
   const applicationState = useSelector((state) => state.application);
@@ -38,7 +32,6 @@ export const TextEditorButtons = ({
 
   const handleSimulateButtonClick = () => {
     setIsSimulating((prev) => !prev);
-    setSelectedLine(0);
     const newMemory = getProgramInMemory();
     const newProgram = new Program(text);
     setProgram(newProgram);
@@ -57,14 +50,10 @@ export const TextEditorButtons = ({
   };
 
   const setPrevLine = () => {
-    if (selectedLine === 0) return;
-    setSelectedLine((prev) => Math.max(0, prev - 1));
     dispatch(goToPreviousState());
   };
 
   const setNextLine = () => {
-    if (selectedLine === text.split("\n").length - 1) return;
-    setSelectedLine((prev) => prev + 1); // TODO: Si estoy en modo "ciclo" entonces la linea se avanza solo despues del execute.
     dispatch(updatePreviousState()); //TODO: Revisar esto porque creo que el primer estado guarda un previous state que no deberia
     dispatch(updateCurrentState(program.getNewState(applicationState)));
   };
