@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal } from '../Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  setShowOutputPort,
-  updateMainMemoryCells,
-} from '../../slices/applicationSlice';
+import { updateCurrentState } from '../../slices/applicationSlice';
 import {
   BodyContainer,
   Container,
@@ -21,11 +18,9 @@ import { Button } from '../Button';
 
 export const OutputPortModal = () => {
   const dispatch = useDispatch();
+  const applicationState = useSelector((state) => state.application);
   const showModal = useSelector(
     (state) => state.application.execute.showOutputPort
-  );
-  const mainMemory = useSelector(
-    (state) => state.application.execute.mainMemoryCells
   );
   const [inputValue, setInputValue] = useState('');
   const [numericBase, setNumericBase] = useState('decimal');
@@ -122,16 +117,26 @@ export const OutputPortModal = () => {
 
   const handleSave = () => {
     if (!isValidInput()) return;
-    setError('');
-    const newValue = getHexaValue();
-    console.log('La mainMemory es: ', mainMemory);
-    const newMemory = [...mainMemory];
-    console.log('La newMemory es: ', newMemory);
-    newMemory[254] = newValue;
-    console.log('La newMomery final es: ', newMemory);
-    dispatch(updateMainMemoryCells(newMemory));
-    dispatch(setShowOutputPort(false));
     setInputValue('');
+    const {
+      execute: currentExecuteState,
+      fetch: { instructionRegister },
+    } = applicationState;
+    const newExecuteState = {
+      ...currentExecuteState,
+      registers: [...currentExecuteState.registers],
+      showOutputPort: false,
+    };
+
+    const newValue = getHexaValue();
+    const registerToUpdate = parseInt(instructionRegister.slice(1, 2), 16);
+    newExecuteState.registers[registerToUpdate] = newValue;
+    const newState = {
+      ...applicationState,
+      execute: newExecuteState,
+    };
+    dispatch(updateCurrentState(newState));
+    setError('');
   };
 
   return (
