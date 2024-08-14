@@ -21,8 +21,8 @@ export const ControlToCacheAddrBus = ({ id }) => {
 
   const [edgePath] = usePosition({
     edgeId: id,
-    sourceComponentId: cacheMemoryId,
-    targetComponentId: controlUnitId,
+    sourceComponentId: controlUnitId,
+    targetComponentId: cacheMemoryId,
   });
 
   // Roja para distinguir que es sólo de address

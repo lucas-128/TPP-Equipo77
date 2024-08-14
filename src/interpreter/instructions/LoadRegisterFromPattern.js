@@ -19,7 +19,9 @@ export default class LoadRegisterFromPattern extends Instruction {
     newExecuteState.registers = [...oldState.execute.registers];
     newExecuteState.registers[this.register] = this.pattern;
     newExecuteState.instructionId = this.id + 1;
-    newExecuteState.edgeAnimation = [registersControlUnitId];
+    newExecuteState.edgeAnimation = [
+      { id: registersControlUnitId, reverse: true },
+    ];
     return { ...oldState, execute: newExecuteState };
   }
 }

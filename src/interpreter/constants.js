@@ -83,7 +83,7 @@ export const CACHE_SIZE = 16;
 
 export const animationsFetch = [
   controlUnitMainMemAddrId,
-  mainMemControlUnitDataId,
+  { id: mainMemControlUnitDataId, reverse: false },
 ];
 
 export const animationsAlu = [

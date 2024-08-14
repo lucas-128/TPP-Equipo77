@@ -47,8 +47,8 @@ export default class LoadRegisterFromMem extends Instruction {
     newExecuteState.registers[this.register] = value;
     newExecuteState.instructionId = this.id + 1;
     newExecuteState.edgeAnimation = [
-      registersControlUnitId,
-      controlUnitCacheId,
+      { id: registersControlUnitId, reverse: true },
+      { id: controlUnitCacheId, reverse: true },
       controlUnitCacheAddrBusId,
     ];
 

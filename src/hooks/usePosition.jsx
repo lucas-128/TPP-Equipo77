@@ -114,9 +114,9 @@ export const usePosition = ({
       case controlUnitCacheAddrBusId:
         return {
           sourceX: targetComponent.position.x + targetComponent.width / 1.5,
-          sourceY: sourceComponent.position.y,
+          sourceY: sourceComponent.position.y + sourceComponent.height,
           targetX: targetComponent.position.x + targetComponent.width / 1.5,
-          targetY: targetComponent.position.y + targetComponent.height,
+          targetY: targetComponent.position.y,
           sourcePosition: Position.Top,
           targetPosition: Position.Bottom,
         };

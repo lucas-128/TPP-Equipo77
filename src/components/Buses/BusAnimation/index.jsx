@@ -1,7 +1,7 @@
 import React from "react";
 import { BaseEdge } from "reactflow";
 
-export const BusAnimation = ({ edgePath, id, onClick }) => {
+export const BusAnimation = ({ edgePath, id, reverse }) => {
   return (
     <>
       <BaseEdge id={id} path={edgePath} style={{ stroke: "none" }} />
@@ -15,7 +15,7 @@ export const BusAnimation = ({ edgePath, id, onClick }) => {
           strokeLinecap="round"
           fill="none"
           style={{
-            animation: "dash 15s linear infinite reverse",
+            animation: `dash 15s linear infinite ${reverse ? "" : "reverse"}`,
           }}
         />
       </g>
