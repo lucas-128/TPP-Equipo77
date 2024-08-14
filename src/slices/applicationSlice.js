@@ -28,11 +28,11 @@ export const initialState = {
     edges: initialEdges,
     aluOperation: null,
     edgeAnimation: [],
+    showOutputPort: false,
   },
   previousState: null,
   aluOperation: null,
   edgeAnimation: [],
-  showOutputPort: false,
 };
 
 export const applicationSlice = createSlice({
@@ -79,6 +79,12 @@ export const applicationSlice = createSlice({
         { length: 256 },
         (_, i) => parsedCode.slice(i * 2, i * 2 + 2) || 'x'
       );
+    },
+    updateMainMemoryCells(state, action) {
+      state.execute.mainMemoryCells = action.payload;
+    },
+    setShowOutputPort(state, action) {
+      state.execute.showOutputPort = action.payload;
     },
     updateInstructionRegister(state, action) {
       const { instructionRegister } = action.payload;
@@ -127,6 +133,7 @@ export const {
   updatePreviousState,
   clearApplication,
   setShowOutputPort,
+  updateMainMemoryCells,
 } = applicationSlice.actions;
 
 // Thunk para manejar la actualización del estado actual
