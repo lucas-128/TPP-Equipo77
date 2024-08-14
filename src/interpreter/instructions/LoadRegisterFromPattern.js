@@ -20,6 +20,6 @@ export default class LoadRegisterFromPattern extends Instruction {
     newExecuteState.registers[this.register] = this.pattern;
     newExecuteState.instructionId = this.id + 1;
     newExecuteState.edgeAnimation = []; //Actualizar las aristas correspondientes
-    return {...oldState, execute: newExecuteState};
+    return { ...oldState, execute: newExecuteState };
   }
 }

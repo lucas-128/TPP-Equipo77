@@ -1,30 +1,45 @@
-import { operationNames } from "./constants";
+import { operationNames, CACHE_SIZE } from "./constants";
 
 export function applyBinaryOperation(instruction, operation, actualState) {
-    const newState = { ...actualState, registers: [...actualState.registers] };
-    const registerS = parseInt(actualState.registers[instruction.registerSIndex], 2);
-    const registerT = parseInt(actualState.registers[instruction.registerTIndex], 2);
-    const operationResult = operation(registerS, registerT);
-    newState.aluOperation = {
-      operation: operationNames[instruction.type],
-      registerS: actualState.registers[instruction.registerSIndex],
-      registerT: actualState.registers[instruction.registerTIndex],
-      registerSIndex: instruction.registerSIndex,
-      registerTIndex: instruction.registerTIndex,
-      destinationIndex: instruction.destinationIndex,
-      result: operationResult,
-    };
-    newState.registers[instruction.destinationIndex] = operationResult;
-    return newState;
-  }
-
+  const newState = { ...actualState, registers: [...actualState.registers] };
+  const registerS = parseInt(
+    actualState.registers[instruction.registerSIndex],
+    2
+  );
+  const registerT = parseInt(
+    actualState.registers[instruction.registerTIndex],
+    2
+  );
+  const operationResult = operation(registerS, registerT);
+  newState.aluOperation = {
+    operation: operationNames[instruction.type],
+    registerS: actualState.registers[instruction.registerSIndex],
+    registerT: actualState.registers[instruction.registerTIndex],
+    registerSIndex: instruction.registerSIndex,
+    registerTIndex: instruction.registerTIndex,
+    destinationIndex: instruction.destinationIndex,
+    result: operationResult,
+  };
+  newState.registers[instruction.destinationIndex] = operationResult;
+  return newState;
+}
 
 export function updateCache(oldExecuteState, memoryAddress) {
-  const { cacheMemoryCells }  = oldExecuteState;
+  const { cacheMemoryCells } = oldExecuteState;
   let newCacheMemoryCells = [...cacheMemoryCells];
-
+  newCacheMemoryCells = cacheMemoryCells.filter((cell) =>
+    cell ? cell.address !== memoryAddress : true
+  );
+  while (newCacheMemoryCells.length < CACHE_SIZE) {
+    newCacheMemoryCells.push({
+      [newCacheMemoryCells.length]: null,
+    });
+  }
   newCacheMemoryCells.pop();
-  newCacheMemoryCells.unshift({ address: memoryAddress, content: oldExecuteState.mainMemoryCells[memoryAddress] });   
+  newCacheMemoryCells.unshift({
+    address: memoryAddress,
+    content: oldExecuteState.mainMemoryCells[memoryAddress],
+  });
 
   return newCacheMemoryCells;
 }
