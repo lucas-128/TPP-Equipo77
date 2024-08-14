@@ -1,11 +1,12 @@
-import { typeSimulations } from "../../interpreter/constants";
+import { animationsFetch, typeSimulations } from "../../interpreter/constants";
 import Instruction from "../Instruction";
 import { updateCache } from "../utils";
 import {
   registersControlUnitId,
   controlUnitCacheId,
   controlUnitCacheAddrBusId,
-  aluRegistersId,
+  controlUnitMainMemAddrId,
+  mainMemControlUnitDataId,
 } from "../../containers/SimulatorSection/components";
 
 /* 
@@ -50,6 +51,8 @@ export default class LoadRegisterFromMem extends Instruction {
       { id: registersControlUnitId, reverse: true },
       { id: controlUnitCacheId, reverse: true },
       controlUnitCacheAddrBusId,
+      controlUnitMainMemAddrId,
+      { id: mainMemControlUnitDataId, reverse: false },
     ];
 
     return { ...oldState, execute: newExecuteState };
