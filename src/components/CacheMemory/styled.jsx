@@ -31,7 +31,6 @@ export const TableTitle = styled.div`
   color: var(--im-white);
   font-weight: bold;
   font-size: 22px;
-  padding: 10px 0px 10px 00px;
 `;
 
 export const Table = styled.table`
@@ -45,7 +44,7 @@ export const Table = styled.table`
 export const TableRow = styled.tr``;
 
 export const TableCell = styled.td`
-  padding: 8px;
+  padding: 4 px;
   border: 1px solid black;
   text-align: center;
   color: black;

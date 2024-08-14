@@ -19,26 +19,16 @@ export default class LoadRegisterFromMem extends Instruction {
   execute(oldState) {
     const newExecuteState = { ...oldState.execute };
     newExecuteState.registers = [...oldState.execute.registers];
-    const { cacheMemoryCells } = oldState.execute;
     const { mainMemoryCells } = oldState.execute;
     if (this.memoryAddress === 254) {
       newExecuteState.showOutputPort = true;
       newExecuteState.instructionId = this.id + 1;
       return { ...oldState, execute: newExecuteState };
     }
-    const cell = cacheMemoryCells.find((cell) =>
-      cell ? cell.address === this.memoryAddress : false
+    newExecuteState.cacheMemoryCells = updateCache(
+      newExecuteState,
+      this.memoryAddress
     );
-    if (cell) {
-      newExecuteState.registers[this.register] = cell.content;
-      return { ...oldState, execute: newExecuteState };
-    } else {
-      newExecuteState.cacheMemoryCells = [...oldState.execute.cacheMemoryCells];
-      newExecuteState.cacheMemoryCells = updateCache(
-        newExecuteState,
-        this.memoryAddress
-      );
-    }
 
     const value = mainMemoryCells[this.memoryAddress];
 
