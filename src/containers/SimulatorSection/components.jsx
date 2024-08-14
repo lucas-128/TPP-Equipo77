@@ -9,6 +9,7 @@ import { ALUToRegistersBus } from "../../components/Buses/ALUToRegistersBus";
 import { MainMemControlDataBus } from "../../components/Buses/MainMemControlDataBus";
 import { ControlToMainMemAddrBus } from "../../components/Buses/ControlToMainMemAddrBus";
 import { CacheToControlUnitBus } from "../../components/Buses/CacheToControlUnitBus";
+import { ControlToCacheAddrBus } from "../../components/Buses/ControlToCacheAddrBus";
 import { RegistersToUCBus } from "../../components/Buses/RegistersToUCBus";
 import { RegistersToALUBus } from "../../components/Buses/RegistersToALUBus";
 
@@ -81,6 +82,7 @@ export const edgeTypes = {
   memoryControlUnitData: MainMemControlDataBus,
   controlUnitToMainMemory: ControlToMainMemAddrBus,
   registersToControlUnit: RegistersToUCBus,
+  controlUnitToCacheAddr: ControlToCacheAddrBus,
 };
 
 //export const registerCacheId = "registers-cache";
@@ -93,6 +95,7 @@ export const aluRegistersId = "alu-registers";
 export const mainMemControlUnitDataId = "main-mem-control-unit-data";
 // export const controlUnitMainMemDataId = "control-unit-main-mem-data";
 export const controlUnitMainMemAddrId = "control-unit-main-mem-addr";
+export const controlUnitCacheAddrBusId = "control-unit-cache-addr";
 
 export const initialEdges = [
   /*{
@@ -145,5 +148,11 @@ export const initialEdges = [
     source: registersId,
     target: controlUnitId,
     type: "registersToControlUnit",
+  },
+  {
+    id: controlUnitCacheAddrBusId,
+    source: registersId,
+    target: controlUnitId,
+    type: "controlUnitToCacheAddr",
   },
 ];

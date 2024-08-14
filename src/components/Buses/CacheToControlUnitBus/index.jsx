@@ -9,9 +9,9 @@ import { useSelector } from "react-redux";
 import { useMemo } from "react";
 import { BusAnimation } from "../BusAnimation";
 
-export const CacheToControlUnitBus = () => {
+export const CacheToControlUnitBus = ({ id }) => {
   const animations = useSelector(
-    (state) => state.application.fetch.edgeAnimation
+    (state) => state.application.execute.edgeAnimation
   );
 
   const edgeAnimation = useMemo(
@@ -20,18 +20,19 @@ export const CacheToControlUnitBus = () => {
   );
 
   const [edgePath] = usePosition({
-    edgeId: controlUnitCacheId,
+    edgeId: id,
     sourceComponentId: cacheMemoryId,
     targetComponentId: controlUnitId,
   });
 
+  // Verde para distinguir que es sólo de datos
   return (
     <g>
       <BaseEdge
         path={edgePath}
         interactionWidth={20}
         style={{
-          stroke: "var(--im-gray-lighter)",
+          stroke: "hsl(120, 50%, 70%)",
           strokeWidth: 20,
           filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5))",
         }}

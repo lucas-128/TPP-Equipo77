@@ -1,5 +1,5 @@
 import Instruction from "../Instruction";
-
+import { registersControlUnitId } from "../../containers/SimulatorSection/components";
 /* 
 
 Instruction: 2
@@ -19,7 +19,7 @@ export default class LoadRegisterFromPattern extends Instruction {
     newExecuteState.registers = [...oldState.execute.registers];
     newExecuteState.registers[this.register] = this.pattern;
     newExecuteState.instructionId = this.id + 1;
-    newExecuteState.edgeAnimation = []; //Actualizar las aristas correspondientes
-    return {...oldState, execute: newExecuteState};
+    newExecuteState.edgeAnimation = [registersControlUnitId];
+    return { ...oldState, execute: newExecuteState };
   }
 }

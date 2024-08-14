@@ -1,37 +1,38 @@
+import { useSelector } from "react-redux";
 import { BaseEdge } from "reactflow";
 import {
   controlUnitId,
-  registersControlUnitId,
-  registersId,
+  controlUnitCacheAddrBusId,
+  cacheMemoryId,
 } from "../../../containers/SimulatorSection/components";
-import { usePosition } from "../../../hooks/usePosition";
-import { useSelector } from "react-redux";
 import { useMemo } from "react";
+import { usePosition } from "../../../hooks/usePosition";
 import { BusAnimation } from "../BusAnimation";
 
-export const RegistersToUCBus = ({ id }) => {
+export const ControlToCacheAddrBus = ({ id }) => {
   const animations = useSelector(
     (state) => state.application.execute.edgeAnimation
   );
 
   const edgeAnimation = useMemo(
-    () => animations.includes(registersControlUnitId),
-    [animations, registersControlUnitId]
+    () => animations.includes(controlUnitCacheAddrBusId),
+    [animations, controlUnitCacheAddrBusId]
   );
 
   const [edgePath] = usePosition({
-    edgeId: registersControlUnitId,
-    sourceComponentId: registersId,
+    edgeId: id,
+    sourceComponentId: cacheMemoryId,
     targetComponentId: controlUnitId,
   });
 
+  // Roja para distinguir que es sólo de address
   return (
     <g>
       <BaseEdge
         path={edgePath}
         interactionWidth={20}
         style={{
-          stroke: "var(--im-gray-lighter)",
+          stroke: "hsl(0, 50%, 65%)",
           strokeWidth: 20,
           filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5))",
         }}
