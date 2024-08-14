@@ -5,14 +5,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
 import { splitCode } from "../../../interpreter/main";
 import {
-  updateRegisters,
-  updateEdgeAnimation,
   goToPreviousState,
   updatePreviousState,
-  updateMainMemoryCells,
   updateCurrentState,
-  updateInstructionRegister,
-  updateProgramCounter,
   clearApplication,
 } from "../../../slices/applicationSlice";
 import { Button } from "../../Button";
@@ -49,8 +44,8 @@ export const TextEditorButtons = ({
     setProgram(newProgram);
     const newState = newProgram.getNewState({
       ...applicationState,
-      mainMemoryCells: newMemory,
-      programCounter: 0,
+      fetch: { ...applicationState.fetch, programCounter: 0, instructionId: 0 },
+      execute: { ...applicationState.execute, mainMemoryCells: newMemory },
     });
     dispatch(updatePreviousState()); //TODO: Revisar esto porque creo que el primer estado guarda un previous state que no deberia
     dispatch(updateCurrentState(newState));
@@ -95,7 +90,9 @@ export const TextEditorButtons = ({
           <Button onClick={handleEditCodeButtonClick}> Editar</Button>
         </>
       ) : (
-        <Button onClick={handleSimulateButtonClick}>Simular</Button>
+        <Button disabled={text.length == 0} onClick={handleSimulateButtonClick}>
+          Simular
+        </Button>
       )}
     </Container>
   );

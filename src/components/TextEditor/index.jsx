@@ -1,5 +1,3 @@
-import React from "react";
-import { ClipLoader } from "react-spinners";
 import { useEffect, useState } from "react";
 import {
   MdOutlineFileUpload,
@@ -11,7 +9,6 @@ import {
   MdUndo,
   MdDownload,
 } from "react-icons/md";
-import { TiArrowRightThick } from "react-icons/ti";
 import { useDispatch, useSelector } from "react-redux";
 import { validateSyntax } from "../../interpreter/main";
 import {
@@ -22,34 +19,35 @@ import {
   EditorTextWrapper,
   LineCounter,
   LineNumber,
+  LineCounterText,
   EditorTextContainer,
   Button,
   Container,
   HiddenEditorContainer,
-  Arrow,
-  ArrowColumn,
 } from "./styled";
 import { setShowEditor } from "../../slices/editorTextSlice";
 import { setError } from "../../slices/modalsSlice";
 
-export const TextEditor = ({
-  children,
-  isSimulating,
-  text,
-  setText,
-  selectedLine,
-}) => {
+import MonacoEditor from "react-monaco-editor";
+import { MiniMap } from "reactflow";
+
+export const TextEditor = ({ children, isSimulating, text, setText }) => {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [history, setHistory] = useState([]);
-  const show = useSelector((state) => state.editorText.show);
-  const programCounter = useSelector(
-    (state) => state.application.programCounter
-  );
-  const dispatch = useDispatch();
-  const [lines, setLines] = useState([]);
 
-  const getLineNumbers = () => {
-    return Array.from({ length: 128 }, (_, i) =>
+  const show = useSelector((state) => state.editorText.show);
+  const currentInstruction = useSelector(
+    (state) =>
+      state.application.execute.instructionId ||
+      state.application.fetch.instructionId ||
+      state.application.decode.instructionId
+  );
+
+  const dispatch = useDispatch();
+
+  const getLineNumbers = (text) => {
+    const lines = text.split("\n").length;
+    return Array.from({ length: lines }, (_, i) =>
       (i * 2).toString(16).padStart(2, "0")
     );
   };
@@ -135,27 +133,16 @@ export const TextEditor = ({
         )
       );
     }
+  }, [isSimulating]);
 
-    if (isSimulating) {
-      setIsFullScreen(false);
-    }
-  }, [isSimulating, text, selectedLine, dispatch]);
-
-  useEffect(() => {
-    setLines(text.split("\n"));
-    if (text !== history[history.length - 1]) {
-      setHistory((prevHistory) => [...prevHistory, text]);
-    }
-  }, [text]);
-
-  const branchLinesMap = new Map();
-  getLineNumbers().forEach((_, i) => {
-    if (/^B/i.test(lines[i])) {
-      let hexLineNumber = lines[i].slice(2, 4);
-      let targetLine = parseInt(hexLineNumber, 16);
-      branchLinesMap.set(i, targetLine / 2);
-    }
-  });
+  const options = {
+    selectOnLineNumbers: true,
+    lineNumbers: (lineNumber) => {
+      let hexLineNumber = ((lineNumber - 1) * 2).toString(16).padStart(2, "0");
+      return hexLineNumber;
+    },
+    minimap: { enabled: false },
+  };
 
   return show ? (
     <Container fullscreen={isFullScreen}>
@@ -204,66 +191,13 @@ export const TextEditor = ({
           </EditorHeaderIconContainer>
         </EditorHeader>
 
-        <EditorTextWrapper>
-          <ArrowColumn>
-            {getLineNumbers().map((_, i) => {
-              const isBranchTarget =
-                isSimulating &&
-                branchLinesMap.has(selectedLine) &&
-                ((i < selectedLine &&
-                  i === branchLinesMap.get(selectedLine) - 1) ||
-                  (i >= selectedLine &&
-                    i === branchLinesMap.get(selectedLine) - 2));
+        <MonacoEditor
+          theme="vs-dark"
+          value={text}
+          onChange={setText}
+          options={options}
+        />
 
-              let isSelected = isSimulating && i === selectedLine;
-
-              if (
-                lines[selectedLine] &&
-                /^B/i.test(lines[selectedLine]) &&
-                branchLinesMap.get(selectedLine) < selectedLine
-              ) {
-                isSelected = isSimulating && i === selectedLine - 1;
-              }
-
-              return (
-                <React.Fragment key={i}>
-                  <Arrow selected={isSelected}>
-                    <TiArrowRightThick size={20} />
-                  </Arrow>
-
-                  {isSelected &&
-                    isSimulating &&
-                    lines[i] &&
-                    !/^C/i.test(lines[i]) && (
-                      <Arrow next>
-                        <TiArrowRightThick size={20} />
-                      </Arrow>
-                    )}
-
-                  {isBranchTarget && (
-                    <Arrow target>
-                      <TiArrowRightThick size={20} />
-                    </Arrow>
-                  )}
-                </React.Fragment>
-              );
-            })}
-          </ArrowColumn>
-          <LineCounter>
-            {getLineNumbers().map((lineNumber, i) => (
-              <LineNumber key={lineNumber}>{lineNumber}</LineNumber>
-            ))}
-          </LineCounter>
-          <EditorTextContainer>
-            <EditorText
-              disabled={isSimulating}
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              onKeyDown={handleKeyDown}
-              readOnly={isSimulating}
-            />
-          </EditorTextContainer>
-        </EditorTextWrapper>
         {children}
       </EditorWrapper>
     </Container>
