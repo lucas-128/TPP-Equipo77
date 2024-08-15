@@ -1,4 +1,3 @@
-import { Handle } from "reactflow";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -12,7 +11,7 @@ export const Container = styled.div`
   border-radius: 10px;
   width: 350px;
   gap: 5px;
-  height: 625px;
+  height: 150px;
   padding: 20px 15px;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
     rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
@@ -24,7 +23,7 @@ export const Container = styled.div`
 
 export const Title = styled.h1`
   margin: 0;
-  font-size: 40px;
+  font-size: 30px;
 `;
 
 export const TableContainer = styled.div`
@@ -66,24 +65,4 @@ export const HeaderCellText = styled.p`
   font-size: 18px;
   color: var(--im-white);
   margin: 0;
-`;
-
-export const ButtonsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const PaginationButton = styled.button`
-  padding: 5px 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-`;
-
-export const CustomHandle = styled(Handle)`
-  background-color: transparent !important;
-  border: none;
-  pointer-events: none;
 `;
