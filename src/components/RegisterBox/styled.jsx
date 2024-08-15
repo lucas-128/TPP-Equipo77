@@ -12,6 +12,7 @@ export const MainContainer = styled.div`
   box-shadow: var(--im-shadow);
   background-color: var(--im-primary);
   border-radius: 10px;
+  pointer-events: none;
 
   &:hover {
     background-color: var(--im-primary-hover);
@@ -51,7 +52,6 @@ export const RegisterContainer = styled.div`
   width: 100%;
   margin: 0px 10px;
   border-radius: 3px;
-  border: 1px solid var(--im-gray);
   align-items: center;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
     rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;

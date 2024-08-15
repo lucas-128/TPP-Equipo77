@@ -8,7 +8,7 @@ export const BusAnimation = ({ edgePath, id, reverse }) => {
       <g>
         <path
           d={edgePath}
-          stroke="var(--im-primary-hover)"
+          stroke="black"
           strokeWidth={4}
           strokeDasharray="15,15"
           strokeDashoffset="0"

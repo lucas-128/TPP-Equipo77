@@ -12,7 +12,7 @@ import { nodeTypes, edgeTypes } from "./components";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { AluModal } from "../../components/AluModal";
-import MainMemoryModal from "../../components/MainMemoryModal";
+import { ControlUnitModal } from "../../components/ControlUnitModal";
 
 export const SimulatorContainer = () => {
   const nodes = useSelector((state) => state.application.execute.nodes);
@@ -31,7 +31,7 @@ export const SimulatorContainer = () => {
         onEdgesChange={(changes) => dispatch(onEdgesChange(changes))}
         onConnect={(connection) => dispatch(onConnect(connection))}
         onNodeClick={() => {}} // permite que se pueda hacer click al nodo
-        onEdgeMouseEnter={()=>{}}
+        onEdgeMouseEnter={() => {}}
         proOptions={proOptions}
         fitView
         nodesDraggable={false}
@@ -40,10 +40,10 @@ export const SimulatorContainer = () => {
         zoomOnDoubleClick={false}
       >
         <Controls showInteractive={false} />
-        {/* <Background gap={10} size={1} /> */}
+        <Background gap={20} />
       </ReactFlow>
       <AluModal />
-      <MainMemoryModal />
+      <ControlUnitModal />
     </Container>
   );
 };
