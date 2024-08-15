@@ -167,7 +167,7 @@ export const TextEditor = ({ children, isSimulating, text, setText }) => {
                 <Button onClick={handleClearText} title="Borrar">
                   <MdDelete size={20} />
                 </Button>
-                <Button
+                {/* <Button
                   onClick={handleFullScreenToggle}
                   title="Pantalla completa"
                 >
@@ -176,10 +176,10 @@ export const TextEditor = ({ children, isSimulating, text, setText }) => {
                   ) : (
                     <MdFullscreen size={20} />
                   )}
-                </Button>
-                <Button onClick={handleUndo} title="Deshacer">
+                </Button> */}
+                {/* <Button onClick={handleUndo} title="Deshacer">
                   <MdUndo size={20} />
-                </Button>
+                </Button> */}
                 <Button onClick={handleFileDownload} title="Descargar">
                   <MdDownload size={20} />
                 </Button>
