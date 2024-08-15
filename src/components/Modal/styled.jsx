@@ -27,10 +27,9 @@ export const ModalBoxSetup = styled.div`
   left: 0;
   right: 0;
   display: block;
-  max-width: 400px;
-  max-height: 300px;
+  max-width: 300px;
+  max-height: 200px;
   margin: 0 auto;
-  padding: 12px;
   overflow-y: hidden;
   overflow-x: hidden;
   text-align: center;
@@ -62,13 +61,15 @@ export const ModalBg = styled.div`
 
 export const InfoContainer = styled.div`
   display: flex;
-  width: 100%;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   align-items: center;
   flex-direction: row;
 `;
 
 export const Info = styled.div`
-  width: 100%;
   font-size: 14px;
   white-space: nowrap;
   overflow: hidden;
@@ -76,12 +77,12 @@ export const Info = styled.div`
 `;
 
 export const Title = styled.div`
-  width: 100%;
   font-size: 18px;
   font-weight: bold;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  user-select: none;
   text-align: left;
   color: var(--im-lightgray);
 `;
@@ -101,20 +102,18 @@ export const TextContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 5px;
-  padding: 10px;
-  margin-bottom: 10px;
   flex-wrap: wrap;
-  border-radius: 5px;
   background-color: var(--im-lightgray);
   color: var(--im-darkgray);
 `;
 
 export const Entry = styled.div`
+  padding: 10px 10px;
   width: 100%;
   line-height: normal;
 `;
 export const Text = styled.div`
+  user-select: none;
   text-align: center;
 `;
 

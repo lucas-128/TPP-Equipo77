@@ -13,19 +13,20 @@ import {
 } from "./styled";
 
 export const Modal = ({ title, msg, onClose, children }) => {
-
   return (
     <ModalWrapper>
       <ModalBoxSetup>
         <ModalContainer>
           <InfoContainer>
             <Title>{title}</Title>
-            <IconContainer onClick={onClose}></IconContainer>
+            {onClose && <IconContainer onClick={onClose}></IconContainer>}
           </InfoContainer>
           <TextContainer>
-            <Entry>
-              <Text>{msg}</Text>
-            </Entry>
+            {msg && (
+              <Entry>
+                <Text>{msg}</Text>
+              </Entry>
+            )}
             {children}
           </TextContainer>
         </ModalContainer>
@@ -33,4 +34,4 @@ export const Modal = ({ title, msg, onClose, children }) => {
       <ModalBg />
     </ModalWrapper>
   );
-}
+};

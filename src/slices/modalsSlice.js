@@ -1,15 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   error: false,
-  errorMessage: "",
+  errorMessage: '',
   aluZoom: false,
   controlUnitZoom: false,
   mainMemoryModal: false,
 };
 
 export const modalsSlice = createSlice({
-  name: "modals",
+  name: 'modals',
   initialState,
   reducers: {
     setError(state, action) {
@@ -18,7 +18,7 @@ export const modalsSlice = createSlice({
     },
     closeError(state) {
       state.error = false;
-      state.errorMessage = "";
+      state.errorMessage = '';
     },
     setOpenAluZoom(state, action) {
       state.aluZoom = action.payload;
