@@ -33,10 +33,10 @@ export default class StoreMemFromRegister extends Instruction {
     newExecuteState.instructionId = this.id + 1;
 
     newExecuteState.edgeAnimation = [
+      { id: registersControlUnitId, reverse: false },
+      { id: controlUnitCacheId, reverse: true },
       controlUnitMainMemAddrId,
-      mainMemControlUnitDataId,
-      registersControlUnitId,
-      controlUnitCacheId,
+      { id: mainMemControlUnitDataId, reverse: true },
       controlUnitCacheAddrBusId,
     ];
 

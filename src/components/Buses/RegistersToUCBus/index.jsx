@@ -14,10 +14,12 @@ export const RegistersToUCBus = ({ id }) => {
     (state) => state.application.execute.edgeAnimation
   );
 
-  const edgeAnimation = useMemo(
-    () => animations.includes(registersControlUnitId),
+  const animationData = useMemo(
+    () => animations.find((anim) => anim.id === registersControlUnitId),
     [animations, registersControlUnitId]
   );
+
+  const edgeAnimation = !!animationData;
 
   const [edgePath] = usePosition({
     edgeId: registersControlUnitId,
@@ -36,7 +38,13 @@ export const RegistersToUCBus = ({ id }) => {
           filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5))",
         }}
       />
-      {edgeAnimation && <BusAnimation edgePath={edgePath} id={id} />}
+      {edgeAnimation && (
+        <BusAnimation
+          edgePath={edgePath}
+          id={id}
+          reverse={animationData.reverse}
+        />
+      )}
     </g>
   );
 };

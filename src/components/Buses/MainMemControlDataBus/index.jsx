@@ -14,12 +14,14 @@ export const MainMemControlDataBus = ({ id, source, target }) => {
     (state) => state.application.execute.edgeAnimation
   );
 
-  const edgeAnimation = useMemo(
-    () =>
-      animations.includes(mainMemControlUnitDataId) ||
-      executeAnimations.includes(mainMemControlUnitDataId),
-    [animations, executeAnimations, mainMemControlUnitDataId]
-  );
+  const animationData = useMemo(() => {
+    const combinedAnimations = [...animations, ...executeAnimations];
+    return combinedAnimations.find(
+      (anim) => anim.id === mainMemControlUnitDataId
+    );
+  }, [animations, executeAnimations, mainMemControlUnitDataId]);
+
+  const edgeAnimation = !!animationData;
 
   const [edgePath] = usePosition({
     edgeId: id,
@@ -39,7 +41,13 @@ export const MainMemControlDataBus = ({ id, source, target }) => {
           filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5))",
         }}
       />
-      {edgeAnimation && <BusAnimation edgePath={edgePath} id={id} />}
+      {edgeAnimation && (
+        <BusAnimation
+          edgePath={edgePath}
+          id={id}
+          reverse={animationData.reverse}
+        />
+      )}
     </g>
   );
 };

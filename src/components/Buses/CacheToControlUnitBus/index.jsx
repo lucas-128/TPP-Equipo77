@@ -14,10 +14,12 @@ export const CacheToControlUnitBus = ({ id }) => {
     (state) => state.application.execute.edgeAnimation
   );
 
-  const edgeAnimation = useMemo(
-    () => animations.includes(controlUnitCacheId),
+  const animationData = useMemo(
+    () => animations.find((anim) => anim.id === controlUnitCacheId),
     [animations, controlUnitCacheId]
   );
+
+  const edgeAnimation = !!animationData;
 
   const [edgePath] = usePosition({
     edgeId: id,
@@ -37,7 +39,13 @@ export const CacheToControlUnitBus = ({ id }) => {
           filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5))",
         }}
       />
-      {edgeAnimation && <BusAnimation edgePath={edgePath} id={id} />}
+      {edgeAnimation && (
+        <BusAnimation
+          edgePath={edgePath}
+          id={id}
+          reverse={animationData.reverse}
+        />
+      )}
     </g>
   );
 };
