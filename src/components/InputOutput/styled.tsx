@@ -23,7 +23,7 @@ export const Container = styled.div`
 
 export const Title = styled.h1`
   margin: 0;
-  font-size: 30px;
+  font-size: 28px;
 `;
 
 export const TableContainer = styled.div`

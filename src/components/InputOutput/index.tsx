@@ -27,7 +27,7 @@ const InputOutput = () => {
 
   return (
     <Container>
-      <Title>Entrada/Salida de datos</Title>
+      <Title>Puerto de Entrada/Salida</Title>
       <TableContainer>
         <Table>
           <thead>
