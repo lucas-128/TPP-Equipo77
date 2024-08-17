@@ -8,8 +8,8 @@ Load the register R with the pattern XY
 */
 
 export default class LoadRegisterFromPattern extends Instruction {
-  constructor(register, pattern, id) {
-    super(id);
+  constructor(type, register, pattern, id) {
+    super(type, id);
     this.register = register;
     this.pattern = pattern;
   }

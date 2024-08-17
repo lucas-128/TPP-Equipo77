@@ -9,8 +9,8 @@ Copy the content of register R1 to register R2
 */
 
 export default class ANDInstruction extends Instruction {
-  constructor(registerSIndex, registerTIndex, destinationIndex, id) {
-    super(id);
+  constructor(type, registerSIndex, registerTIndex, destinationIndex, id) {
+    super(type, id);
     this.registerSIndex = registerSIndex;
     this.registerTIndex = registerTIndex;
     this.destinationIndex = destinationIndex;

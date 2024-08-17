@@ -1,6 +1,6 @@
-import { typeSimulations } from '../../interpreter/constants';
-import Instruction from '../Instruction';
-import { updateCache } from '../utils';
+import { typeSimulations } from "../../interpreter/constants";
+import Instruction from "../Instruction";
+import { updateCache } from "../utils";
 
 /* 
 
@@ -10,8 +10,8 @@ Load the content of the memory cell with address XY into register R
 */
 
 export default class LoadRegisterFromMem extends Instruction {
-  constructor(register, memoryAddress, id) {
-    super(id);
+  constructor(type, register, memoryAddress, id) {
+    super(type, id);
     this.register = register;
     this.memoryAddress = memoryAddress;
   }

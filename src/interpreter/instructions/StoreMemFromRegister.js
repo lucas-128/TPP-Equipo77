@@ -9,8 +9,8 @@ Store the content of register R in the memory cell with address XY
 */
 
 export default class StoreMemFromRegister extends Instruction {
-  constructor(register, memoryCell, id) {
-    super(id);
+  constructor(type, register, memoryCell, id) {
+    super(type, id);
     this.register = register;
     this.memoryCell = memoryCell;
   }

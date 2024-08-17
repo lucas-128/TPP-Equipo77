@@ -8,8 +8,8 @@ Copy the content of register R1 to register R2
 */
 
 export default class FloatingPointSum extends Instruction {
-  constructor(registerS, registerT, destinationIndex, id) {
-    super(id);
+  constructor(type, registerS, registerT, destinationIndex, id) {
+    super(type, id);
     this.registerS = registerS;
     this.registerT = registerT;
     this.destinationIndex = destinationIndex;
@@ -19,6 +19,6 @@ export default class FloatingPointSum extends Instruction {
     const newExecuteState = { ...oldState.execute };
     newExecuteState.instructionId = this.id + 1;
     //TODO: Definicion punto flotante como el libro
-    return {...oldState, execute: newExecuteState};
+    return { ...oldState, execute: newExecuteState };
   }
 }

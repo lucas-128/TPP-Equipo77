@@ -54,15 +54,19 @@ export const AluModal = () => {
                   <OperationName>{aluOperation.operation}</OperationName>
                 </div>
                 <div className="row">
-                  {aluOperation.registerS.toString(2).padStart(8, "0")}
+                  {parseInt(aluOperation.registerS, 16)
+                    .toString(2)
+                    .padStart(8, "0")}
                 </div>
                 <div className="row">
-                  {aluOperation.registerT.toString(2).padStart(8, "0")}
+                  {parseInt(aluOperation.registerT, 16)
+                    .toString(2)
+                    .padStart(8, "0")}
                 </div>
                 <Line />
                 {showResult ? (
                   <div className="row">
-                    {aluOperation.result.toString(2).padStart(8, "0")}
+                    {aluOperation.result.toString().padStart(8, "0")}
                   </div>
                 ) : (
                   <ButtonContainer>

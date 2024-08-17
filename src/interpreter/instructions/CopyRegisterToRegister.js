@@ -9,8 +9,8 @@ Copy the content of register R1 to register R2
 */
 
 export default class CopyRegisterToRegister extends Instruction {
-  constructor(sourceRegister, destinationRegister, id) {
-    super(id);
+  constructor(type, sourceRegister, destinationRegister, id) {
+    super(type, id);
     this.sourceRegister = sourceRegister;
     this.destinationRegister = destinationRegister;
   }
@@ -22,6 +22,6 @@ export default class CopyRegisterToRegister extends Instruction {
     newExecuteState.registers[this.destinationRegister] = value;
     newExecuteState.instructionId = this.id + 1;
     newExecuteState.edgeAnimation = []; //Actualizar las aristas correspondientes
-    return {...oldState, execute: newExecuteState};
+    return { ...oldState, execute: newExecuteState };
   }
 }

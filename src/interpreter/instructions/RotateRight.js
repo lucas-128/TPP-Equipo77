@@ -10,8 +10,8 @@ Copy the content of register R1 to register R2
 */
 
 export default class RotateRight extends Instruction {
-  constructor(register, rotations, id) {
-    super(id);
+  constructor(type, register, rotations, id) {
+    super(type, id);
     this.rotations = rotations;
     this.register = register;
   }
