@@ -34,7 +34,6 @@ export const TextEditor = ({ children, isSimulating, text, setText }) => {
 
   const dispatch = useDispatch();
 
-
   const getLineNumbers = (text) => {
     const lines = text.split("\n").length;
     return Array.from({ length: lines }, (_, i) =>
@@ -63,6 +62,7 @@ export const TextEditor = ({ children, isSimulating, text, setText }) => {
           setText(e.target.result);
         };
         reader.readAsText(file);
+        event.target.value = null;
       } else {
         alert("Please select a valid .txt file");
       }
