@@ -1,21 +1,40 @@
-import { useEffect, useState } from "react";
-import { MdOutlineFileUpload } from "react-icons/md";
-import { useSelector } from "react-redux";
-import { processCode } from "../../interpreter/main";
+import { useEffect } from "react";
+import {
+  MdOutlineFileUpload,
+  MdArrowBackIosNew,
+  MdArrowForwardIos,
+} from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { validateSyntax } from "../../interpreter/main";
 import {
   EditorText,
   EditorHeader,
   EditorHeaderIconContainer,
-  EditorHeaderText,
   EditorWrapper,
   EditorTextWrapper,
   LineCounter,
   LineNumber,
   LineCounterText,
   EditorTextContainer,
+  Button,
+  Container,
+  HiddenEditorContainer,
 } from "./styled";
+import { setShowEditor } from "../../slices/editorTextSlice";
+import { setError } from "../../slices/modalsSlice";
 
-export const TextEditor = ({ isSimulating, selectedLine, text, setText }) => {
+export const TextEditor = ({ children, isSimulating, text, setText }) => {
+  const show = useSelector((state) => state.editorText.show);
+  const currentInstruction = useSelector(
+    (state) =>
+      state.application.execute.instructionId ||
+      state.application.fetch.instructionId ||
+      state.application.decode.instructionId
+  );
+
+  const dispatch = useDispatch();
+
+
   const getLineNumbers = (text) => {
     const lines = text.split("\n").length;
     return Array.from({ length: lines }, (_, i) =>
@@ -52,51 +71,69 @@ export const TextEditor = ({ isSimulating, selectedLine, text, setText }) => {
     }
   };
 
-  useEffect(() => console.log("Selected line: ", selectedLine), [selectedLine]);
-
   useEffect(() => {
-    console.log("Is simulating: ", isSimulating);
-    if (text && isSimulating) processCode(text);
+    if (!text || !isSimulating) return;
+    if (!validateSyntax(text) && isSimulating) {
+      dispatch(
+        setError(
+          "El código contiene errores de sintáxis, por favor modifíquelo e intente de nuevo"
+        )
+      );
+    }
   }, [isSimulating]);
-  return (
+
+  return show ? (
+    <Container>
+      <EditorWrapper>
+        <EditorHeader>
+          <EditorHeaderIconContainer>
+            <Button htmlFor="file-upload">
+              <MdOutlineFileUpload size={20} />
+            </Button>
+            <input
+              id="file-upload"
+              type="file"
+              style={{ display: "none" }}
+              accept=".txt"
+              onChange={handleFileUpload}
+              disabled={isSimulating}
+            />
+            <Button onClick={() => dispatch(setShowEditor(!show))}>
+              <MdArrowBackIosNew size={15} />
+            </Button>
+          </EditorHeaderIconContainer>
+        </EditorHeader>
+        <EditorTextWrapper>
+          <EditorTextContainer>
+            <LineCounter>
+              {getLineNumbers(text).map((lineNumber, i) => (
+                <LineNumber
+                  key={lineNumber}
+                  selected={isSimulating && i == (currentInstruction || 0)}
+                >
+                  <LineCounterText>{lineNumber}</LineCounterText>
+                </LineNumber>
+              ))}
+            </LineCounter>
+            <EditorText
+              disabled={isSimulating}
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              onKeyDown={handleKeyDown}
+              readOnly={isSimulating}
+            />
+          </EditorTextContainer>
+        </EditorTextWrapper>
+        {children}
+      </EditorWrapper>
+    </Container>
+  ) : (
     <EditorWrapper>
-      <EditorHeader>
-        <EditorHeaderText>Editor de texto</EditorHeaderText>
-        <EditorHeaderIconContainer>
-          <label htmlFor="file-upload" style={{ cursor: "pointer" }}>
-            <MdOutlineFileUpload size={20} />
-          </label>
-          <input
-            id="file-upload"
-            type="file"
-            style={{ display: "none" }}
-            accept=".txt"
-            onChange={handleFileUpload}
-            disabled={isSimulating}
-          />
-        </EditorHeaderIconContainer>
-      </EditorHeader>
-      <EditorTextWrapper>
-        <EditorTextContainer>
-          <LineCounter>
-            {getLineNumbers(text).map((lineNumber, i) => (
-              <LineNumber
-                key={lineNumber}
-                isSelected={isSimulating && i == selectedLine}
-              >
-                <LineCounterText>{lineNumber}</LineCounterText>
-              </LineNumber>
-            ))}
-          </LineCounter>
-          <EditorText
-            disabled={isSimulating}
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            onKeyDown={handleKeyDown}
-            readOnly={isSimulating}
-          />
-        </EditorTextContainer>
-      </EditorTextWrapper>
+      <HiddenEditorContainer>
+        <Button onClick={() => dispatch(setShowEditor(!show))}>
+          <MdArrowForwardIos size={15} />
+        </Button>
+      </HiddenEditorContainer>
     </EditorWrapper>
   );
 };

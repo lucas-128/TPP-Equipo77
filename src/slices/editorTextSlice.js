@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   instruction: "",
+  show: true,
+  program: {},
 };
 
 export const editorTextSlice = createSlice({
@@ -9,12 +11,14 @@ export const editorTextSlice = createSlice({
   initialState,
   reducers: {
     setNewInstruction: (state, action) => {
-      console.log("action", action.payload);
       state.instruction = action.payload;
+    },
+    setShowEditor: (state, action) => {
+      state.show = action.payload;
     },
   },
 });
 
-export const { setNewInstruction } = editorTextSlice.actions;
+export const { setNewInstruction, setShowEditor } = editorTextSlice.actions;
 
 export default editorTextSlice.reducer;

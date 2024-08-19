@@ -1,22 +1,80 @@
+import { Handle } from "reactflow";
 import styled from "styled-components";
 
-export const Box = styled.div`
-  position: relative;
-  color: black;
+export const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  padding: 15px;
+  cursor: pointer;
+  box-shadow: var(--im-shadow);
+  background-color: var(--im-primary);
+  border-radius: 10px;
+  pointer-events: none;
+
+  &:hover {
+    background-color: var(--im-primary-hover);
+    box-shadow: var(--im-shadow-hover);
+  }
+`;
+
+export const TitleContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  color: var(--im-white);
+  width: 100%;
+`;
+
+export const TitleText = styled.p`
+  margin: 0px;
+  font-size: 22px;
+  font-weight: bold;
+`;
+
+export const RegistersContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  height: 100%;
+  width: 100%;
+  padding: 10px 20px;
+`;
+
+export const RegisterContainer = styled.div`
+  display: flex;
+  background-color: var(--im-white);
+  color: var(--im-darkgray);
+  padding: 2px;
+  width: 100%;
+  margin: 0px 10px;
+  border-radius: 3px;
+  align-items: center;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+`;
+
+export const RegisterNumeration = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 150px;
-  height: 250px;
-  background-color: gray;
-  border-radius: 10px;
-  border: 1px solid black;
-  margin: 10px;
-  cursor: pointer;
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
-    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  border-right: 1px solid black;
+  padding-left: 5px;
+  padding-right: 5px;
+`;
 
-  &:hover {
-    box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.1);
-  }
+export const RegisterValue = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
+
+export const CustomHandle = styled(Handle)`
+  background-color: transparent !important;
+  border: none;
+  pointer-events: none;
 `;

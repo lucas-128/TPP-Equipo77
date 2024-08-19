@@ -1,32 +1,38 @@
 import styled from "styled-components";
 
+export const Container = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+`;
+
 export const EditorWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 15;
-  border: 1px solid black;
-  border-radius: 10px;
-  height: fit-content;
+  flex-grow: 0;
+  height: 100%;
+  background-color: var(--im-gray);
+  transition: all 0.15s;
 `;
 
 export const EditorHeader = styled.div`
   display: flex;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 5px;
   align-items: center;
-  flex: 1;
-  justify-content: space-between;
-  border-radius: 10px 10px 0 0;
-  border-bottom: 1px solid black;
-  background-color: lightblue;
+  justify-content: flex-end;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  z-index: 1;
 `;
 
 export const EditorHeaderIconContainer = styled.div`
   display: flex;
+  flex-direction: row;
+  gap: 10px;
 `;
 
 export const EditorHeaderText = styled.p`
-  font-size: 16px;
+  font-size: 14px;
   color: black;
   user-select: none;
   margin: 0px;
@@ -35,12 +41,14 @@ export const EditorHeaderText = styled.p`
 export const EditorTextWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  background-color: #f5f5f5;
-  border-radius: 0 0 10px 10px;
+  background-color: var(--im-white);
+  padding: 2px;
+  margin: 0px 5px;
+  border-radius: 10px;
   flex: 20;
   overflow-y: scroll;
-  max-height: 75vh;
-  height: 75vh;
+  max-height: 100%;
+  height: 100%;
 `;
 
 export const LineCounter = styled.div`
@@ -65,15 +73,16 @@ export const LineNumber = styled.div`
   justify-content: center;
   width: 100%;
   color: black;
-  background-color: ${(props) => (props.isSelected ? "#d7d7d7" : "")};
+  background-color: ${(props) => (props.selected ? "#d7d7d7" : "")};
   margin-right: 5px;
 `;
 
 export const EditorText = styled.textarea`
   font-size: 12px;
   width: 100%;
+  height: calc(100vh - 100px);
   border: none;
-  background-color: #f5f5f5;
+  background-color: var(--im-white);
   padding: 0px;
   border-radius: 0 0 10px 0;
   color: black;
@@ -91,4 +100,27 @@ export const EditorTextContainer = styled.div`
   display: flex;
   width: 100%;
   height: fit-content;
+`;
+
+export const Button = styled.label`
+  height: 20px;
+  width: 20px;
+  color: var(--im-lightgray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 2px;
+  transition: all 0.15s;
+
+  &:hover {
+    background-color: var(--im-primary);
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+`;
+
+export const HiddenEditorContainer = styled.div`
+  padding: 2px;
+  transition: all 0.15s;
 `;

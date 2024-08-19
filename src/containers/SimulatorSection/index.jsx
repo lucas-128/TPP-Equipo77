@@ -1,71 +1,49 @@
-import React from "react";
-import ReactFlow, {
-  addEdge,
-  applyEdgeChanges,
-  applyNodeChanges,
-} from "reactflow";
-import { useState, useCallback } from "react";
-import { RegisterBox } from "../../components/RegisterBox";
+import React, { useMemo } from "react";
+import ReactFlow, { Controls, Background } from "reactflow";
+import {
+  onNodesChange,
+  onEdgesChange,
+  onConnect,
+} from "../../slices/applicationSlice";
 
 import "reactflow/dist/style.css";
-
-const initialNodes = [
-  {
-    id: "1",
-    type: "input",
-    data: { label: "Input Node" },
-    position: { x: 250, y: 25 },
-  },
-
-  {
-    id: "2",
-    // you can also pass a React component as a label
-    data: { label: <div>Default Node</div> },
-    position: { x: 100, y: 125 },
-  },
-  {
-    id: "3",
-    type: "output",
-    data: { label: <RegisterBox /> },
-    position: { x: 250, y: 250 },
-  },
-];
-
-const initialEdges = [
-  { id: "e1-2", source: "1", target: "2" },
-  { id: "e2-3", source: "2", target: "3", animated: true },
-];
+import { Container } from "./styled";
+import { nodeTypes, edgeTypes } from "./components";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { AluModal } from "../../components/AluModal";
+import { ControlUnitModal } from "../../components/ControlUnitModal";
 
 export const SimulatorContainer = () => {
-  const [nodes, setNodes] = useState(initialNodes);
-  const [edges, setEdges] = useState(initialEdges);
-
-  const onNodesChange = useCallback(
-    (changes) => {
-      setNodes((nds) => applyNodeChanges(changes, nds));
-    },
-    [setNodes]
-  );
-
-  const onEdgesChange = useCallback(
-    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
-    [setEdges]
-  );
-
-  const onConnect = useCallback(
-    (connection) =>
-      setEdges((eds) => addEdge({ ...connection, animated: true }, eds)),
-    [setEdges]
-  );
+  const nodes = useSelector((state) => state.application.execute.nodes);
+  const edges = useSelector((state) => state.application.execute.edges);
+  const proOptions = { hideAttribution: true };
+  const dispatch = useDispatch();
 
   return (
-    <ReactFlow
-      nodes={nodes}
-      edges={edges}
-      onNodesChange={onNodesChange}
-      onEdgesChange={onEdgesChange}
-      onConnect={onConnect}
-      fitView
-    />
+    <Container>
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
+        onNodesChange={(changes) => dispatch(onNodesChange(changes))}
+        onEdgesChange={(changes) => dispatch(onEdgesChange(changes))}
+        onConnect={(connection) => dispatch(onConnect(connection))}
+        onNodeClick={() => {}} // permite que se pueda hacer click al nodo
+        onEdgeMouseEnter={() => {}}
+        proOptions={proOptions}
+        fitView
+        nodesDraggable={false}
+        elementsSelectable={true}
+        zoomOnPinch={false}
+        zoomOnDoubleClick={false}
+      >
+        <Controls showInteractive={false} />
+        <Background gap={20} />
+      </ReactFlow>
+      <AluModal />
+      <ControlUnitModal />
+    </Container>
   );
 };

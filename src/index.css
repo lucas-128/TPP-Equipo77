@@ -1,34 +1,49 @@
 :root {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+    sans-serif, Apple Color Emoji, Segoe UI Emoji;
   line-height: 1.5;
   font-weight: 400;
   overflow: hidden;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --color-primary-im: #2d3142;
-  --color-background-im: #e5e9e9;
-  --color-secondary-im: #fc763c;
-  --color-tertiary-im: #4f5d75;
-  --color-quaternary-im: #4f5d75cc;
-  --color-quinary-im: #eb6859;
-  --color-sexary-im: #bfc0c0;
-}
+  --im-shadow: rgba(0, 0, 0, 0.25) 10px 20px 100px -20px,
+    rgba(50, 50, 50, 0.596) 0px 30px 60px -30px,
+    rgba(114, 114, 114, 0.37) 0px -3px 10px 0px inset;
 
+  --im-white: #f4f4f4;
+  --im-darkgray: #272727;
+  --im-gray: #626262;
+  --im-gray-lighter: #848484;
+  --im-lightgray: #c2c2c2;
+  --im-bluegray: #4f5d75;
+  --im-primary: #153a4b;
+  --im-secondary: #023445;
+  --im-terciary: #4a8a9f;
+  --im-light-purple: #6a6792;
+  --im-light-blue: #73989e;
+  --im-terciary: #496675;
+  --im-purple: #29274c; 
+  --im-red: rgb(187, 78, 78);
+
+  --im-primary-hover: #1a516c;
+  --im-shadow-hover: rgba(101, 101, 101, 0.25) 0px 10px 20px -10px,
+    rgba(128, 128, 128, 0.596) 0px 30px 60px -30px,
+    rgba(83, 83, 83, 0.37) 0px -3px 10px 0px inset;
+}
 
 /* SCROLLBARS */
 
 /* width */
 ::-webkit-scrollbar {
-  width: 7px;
+  width: 5px;
+  height: 5px;
 }
 
 /* Track */
@@ -50,6 +65,21 @@ a {
   color: #646cff;
   text-decoration: inherit;
 }
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
 a:hover {
   color: #535bf2;
 }
@@ -75,5 +105,18 @@ h1 {
   }
   button {
     background-color: #f9f9f9;
+  }
+}
+.react-flow__edge {
+  padding: 10px !important;
+  cursor: none;
+}
+
+@keyframes dash {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: 1000;
   }
 }

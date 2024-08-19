@@ -1,17 +1,35 @@
+import { useDispatch, useSelector } from "react-redux";
+import { aluId } from "../../containers/SimulatorSection/components";
+import { Container, CustomHandle } from "./styled";
+import { setOpenAluZoom } from "../../slices/modalsSlice";
+
 export const ALU = () => {
-  let input1 = "";
-  let input2 = "";
-  let output = "";
+  const dispatch = useDispatch();
+
+  const aluOperation = useSelector((state) => state.application.execute.aluOperation);
 
   return (
-    <div className="ALU">
-      <div>
-        <p>Input 1: {input1}</p>
-        <p>Input 2: {input2}</p>
-      </div>
-      <div>
-        <p>Output: {output}</p>
-      </div>
-    </div>
+    <Container
+      id={aluId}
+      $operating={aluOperation}
+      onClick={aluOperation ? () => dispatch(setOpenAluZoom(true)) : () => {}}
+    >
+      <CustomHandle
+        type="target"
+        position="left"
+        style={{ background: "#555" }}
+      />
+      <CustomHandle
+        type="target"
+        position="left"
+        style={{ background: "#555" }}
+      />
+      ALU
+      <CustomHandle
+        type="source"
+        position="right"
+        style={{ background: "#555" }}
+      />
+    </Container>
   );
 };

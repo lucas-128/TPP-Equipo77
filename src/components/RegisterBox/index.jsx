@@ -1,22 +1,52 @@
-// import React from "react";
-// import { Box } from "./styled.jsx";
+import React from "react";
+import { useSelector } from "react-redux";
+import {
+  MainContainer,
+  CustomHandle,
+  RegisterContainer,
+  TitleContainer,
+  RegistersContainer,
+  TitleText,
+  RegisterNumeration,
+  RegisterValue,
+} from "./styled.jsx";
+import { registersId } from "../../containers/SimulatorSection/components.jsx";
 
-// export const RegisterBox = () => {
-//   return <Box>Registros</Box>;
-// };
+export const RegisterBox = ({ id, data }) => {
+  const registers = useSelector((state) => state.application.execute.registers);
 
-
-import { useState } from 'react';
-
-export const RegisterBox = (props) => {
-  const [count, setCount] = useState(props.data?.initialCount ?? 0);
- 
   return (
-    <div>
-      <p>Count: {count}</p>
-      <button className="nodrag" onClick={() => setCount(count + 1)}>
-        Increment
-      </button>
-    </div>
+    <>
+      <MainContainer id={registersId}>
+        <TitleContainer>
+          <TitleText>Registros</TitleText>
+        </TitleContainer>
+        <RegistersContainer>
+          {registers.map((value, i) => (
+            <RegisterContainer key={i}>
+              <RegisterNumeration>{i.toString(16)}</RegisterNumeration>
+              <RegisterValue>
+                {value != null ? parseInt(value, 16).toString(2).padStart(8, "0") : "-"}
+              </RegisterValue>
+            </RegisterContainer>
+          ))}
+        </RegistersContainer>
+      </MainContainer>
+      <CustomHandle
+        type="target"
+        position="right"
+        style={{ background: "#555" }}
+      />
+      <CustomHandle
+        type="source"
+        position="bottom"
+        style={{ background: "#555" }}
+      />
+      {/*<CustomHandle
+        type="target"
+        position="bottom"
+        style={{ background: "#555" }}
+      />*/}
+    </>
   );
-}
+};

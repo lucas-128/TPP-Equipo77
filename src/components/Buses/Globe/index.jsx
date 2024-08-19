@@ -1,9 +1,10 @@
+import React from "react";
 import { Container } from "./styled";
 
-export const CloseBar = () => {
+export const Globe = () => {
   return (
     <Container>
-      <button>Close</button>
+      texto
     </Container>
   );
 };
