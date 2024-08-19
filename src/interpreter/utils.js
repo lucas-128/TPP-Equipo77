@@ -28,7 +28,11 @@ export function applyBinaryOperation(instruction, operation, actualState) {
     .padStart(8, "0");
 
   const operationResult = operation(registerS, registerT);
-  const hexValue = parseInt(operationResult, 2).toString(16).toUpperCase();
+  const paddedOperationResult = operationResult.slice(0, 8).padStart(8, "0");
+
+  const hexValue = parseInt(paddedOperationResult, 2)
+    .toString(16)
+    .toUpperCase();
 
   newState.aluOperation = {
     operation: operationNames[instruction.type],

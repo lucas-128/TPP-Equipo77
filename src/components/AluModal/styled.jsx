@@ -9,6 +9,24 @@ const fadeIn = keyframes`
   }
 `;
 
+export const ExtraBits = styled.span`
+  color: red;
+  position: relative;
+
+  &:hover::after {
+    content: "Truncamiento";
+    color: black;
+    background-color: white;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    padding: 1px;
+    white-space: nowrap;
+    z-index: 12;
+    margin-top: 2px;
+  }
+`;
+
 export const ModalWrapper = styled.div`
   position: fixed;
   top: 0;
