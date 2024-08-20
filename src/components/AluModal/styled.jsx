@@ -14,16 +14,18 @@ export const ExtraBits = styled.span`
   position: relative;
 
   &:hover::after {
-    content: "Truncamiento";
+    content: "Bits truncados";
+    font-size: 14px;
     color: black;
     background-color: white;
     position: absolute;
     top: 100%;
     left: 0;
-    padding: 1px;
+    padding: 3px;
     white-space: nowrap;
     z-index: 12;
     margin-top: 2px;
+    border-radius: 5px;
   }
 `;
 
