@@ -23,7 +23,7 @@ export const MainMemory = () => {
     (state) => state.application.execute.mainMemoryCells
   );
 
-  const rowsPerPage = 16;
+  const rowsPerPage = 32;
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = useMemo(
     () => Math.ceil(mainMemoryCells.length / rowsPerPage),

@@ -9,7 +9,7 @@ export const Container = styled.div`
   align-items: center;
   background-color: var(--im-gray);
   border-radius: 10px;
-  width: 350px;
+  width: 150px;
   gap: 5px;
   height: 150px;
   padding: 20px 15px;
@@ -23,7 +23,7 @@ export const Container = styled.div`
 
 export const Title = styled.h1`
   margin: 0;
-  font-size: 28px;
+  font-size: 25px;
 `;
 
 export const TableContainer = styled.div`
@@ -45,13 +45,6 @@ export const Table = styled.table`
 
 export const TableRow = styled.tr``;
 
-export const TableHeader = styled.th`
-  background-color: var(--im-primary);
-  color: var(--im-white);
-  padding: 8px;
-  text-align: center;
-`;
-
 export const TableCell = styled.td`
   padding: 2px;
   text-align: center;
@@ -59,10 +52,4 @@ export const TableCell = styled.td`
   background-color: var(--im-white);
   border-left: 1px solid var(--im-gray);
   border-bottom: 1px solid var(--im-gray);
-`;
-
-export const HeaderCellText = styled.p`
-  font-size: 18px;
-  color: var(--im-white);
-  margin: 0;
 `;

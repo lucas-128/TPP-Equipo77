@@ -32,10 +32,12 @@ export const EditorHeaderIconContainer = styled.div`
 `;
 
 export const EditorHeaderText = styled.p`
-  font-size: 14px;
-  color: black;
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
   user-select: none;
   margin: 0px;
+  margin-right: auto;
 `;
 
 export const EditorTextWrapper = styled.div`

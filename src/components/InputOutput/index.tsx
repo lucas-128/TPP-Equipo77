@@ -2,11 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   Container,
-  HeaderCellText,
   Table,
   TableCell,
   TableContainer,
-  TableHeader,
   TableRow,
   Title,
 } from "./styled";
@@ -27,26 +25,21 @@ const InputOutput = () => {
 
   return (
     <Container>
-      <Title>Puerto de Entrada/Salida</Title>
+      <Title>Entrada (FE)</Title>
       <TableContainer>
         <Table>
-          <thead>
-            <TableRow>
-              <TableHeader>
-                <HeaderCellText>Dirección</HeaderCellText>
-              </TableHeader>
-              <TableHeader>
-                <HeaderCellText>Contenido</HeaderCellText>
-              </TableHeader>
-            </TableRow>
-          </thead>
           <tbody>
             <TableRow>
-              <TableCell>FE</TableCell>
               <TableCell>{inputCell}</TableCell>
             </TableRow>
+          </tbody>
+        </Table>
+      </TableContainer>
+      <Title>Salida (FF)</Title>
+      <TableContainer>
+        <Table>
+          <tbody>
             <TableRow>
-              <TableCell>FF</TableCell>
               <TableCell>{outputCell}</TableCell>
             </TableRow>
           </tbody>

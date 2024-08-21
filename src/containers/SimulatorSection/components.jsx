@@ -51,7 +51,7 @@ export const initialNodes = [
     id: mainMemoryId,
     type: "mainMemory",
     data: { label: "Main Memory" },
-    position: { x: 1300, y: 0 },
+    position: { x: 1200, y: 0 },
     selectable: false,
   },
   {
@@ -72,14 +72,14 @@ export const initialNodes = [
     id: cacheMemoryId,
     type: "cacheMemory",
     data: { label: "Cache Memory" },
-    position: { x: 770, y: 500 },
+    position: { x: 750, y: 500 },
     selectable: false,
   },
   {
     id: inputOutputId,
     type: "inputOutput",
     data: { label: "Input Output" },
-    position: { x: 1300, y: 700 },
+    position: { x: 1600, y: 0 },
     selectable: false,
   },
 ];
