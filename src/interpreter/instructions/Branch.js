@@ -8,8 +8,8 @@ Jumps to the instruction at address XY if the content of register R is equal to 
 */
 
 export default class Branch extends Instruction {
-  constructor(instruction, id) {
-    super(id);
+  constructor(type, instruction, id) {
+    super(type, id);
     this.nextInstruction = instruction[2];
   }
 

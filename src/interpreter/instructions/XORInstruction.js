@@ -10,10 +10,10 @@ Copy the content of register R1 to register R2
 */
 
 export default class XORInstruction extends Instruction {
-  constructor(registerS, registerT, destinationIndex, id) {
-    super(id);
-    this.registerS = registerS;
-    this.registerT = registerT;
+  constructor(type, registerSIndex, registerTIndex, destinationIndex, id) {
+    super(type, id);
+    this.registerSIndex = registerSIndex;
+    this.registerTIndex = registerTIndex;
     this.destinationIndex = destinationIndex;
   }
 

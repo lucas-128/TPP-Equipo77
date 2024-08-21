@@ -7,9 +7,10 @@ import {
 } from "./constants";
 
 export default class Instruction {
-  constructor(id) {
+  constructor(type, id) {
     this.cycle = cyclesSimulations.FETCH;
     this.id = id;
+    this.type = type;
   }
 
   cleanState(oldState) {

@@ -1,4 +1,6 @@
 import Instruction from "../Instruction";
+import { animationsAlu } from "../constants";
+import { applyBinaryOperation } from "../utils";
 
 /* 
 Instruction: 6
@@ -26,80 +28,87 @@ function getKeyForValue(value) {
 }
 
 export default class FloatingPointSum extends Instruction {
-  constructor(registerS, registerT, destinationIndex, id) {
-    super(id);
-    this.registerS = registerS;
-    this.registerT = registerT;
+  constructor(type, registerSIndex, registerTIndex, destinationIndex, id) {
+    super(type, id);
+    this.registerSIndex = registerSIndex;
+    this.registerTIndex = registerTIndex;
     this.destinationIndex = destinationIndex;
   }
 
   execute(oldState) {
     const newExecuteState = { ...oldState.execute };
-    newExecuteState.registers = [...oldState.execute.registers];
-    const registerS = parseInt(newExecuteState.registers[this.registerS], 16)
-      .toString(2)
-      .padStart(8, "0");
-    const registerT = parseInt(newExecuteState.registers[this.registerT], 16)
-      .toString(2)
-      .padStart(8, "0");
+    newExecuteState.programCounter += 1;
+    newExecuteState.edgeAnimation = animationsAlu;
 
-    // Test
-    // const registerS = "01101010";
-    // const registerT = "11001100";
+    // const registerS = parseInt(newExecuteState.registers[this.registerS], 16)
+    //   .toString(2)
+    //   .padStart(8, "0");
+    // const registerT = parseInt(newExecuteState.registers[this.registerT], 16)
+    //   .toString(2)
+    //   .padStart(8, "0");
 
-    // Interpretar binarios
-    const reg1SignBit = registerS[0];
-    const reg1ExponentBits = registerS.slice(1, 4);
-    let reg1MantissaBits = registerS.slice(4);
-
-    const reg2SignBit = registerT[0];
-    const reg2ExponentBits = registerT.slice(1, 4);
-    let reg2MantissaBits = registerT.slice(4);
-
-    // Posicionar el radix point
-    reg1MantissaBits = positionRadixPoint(reg1ExponentBits, reg1MantissaBits);
-    reg2MantissaBits = positionRadixPoint(reg2ExponentBits, reg2MantissaBits);
-
-    // Alinear mantisas
-    let [alignedReg1Mantissa, alignedReg2Mantissa] = alignMantissas(
-      reg1MantissaBits,
-      reg2MantissaBits
-    );
-
-    // Determinal el signo de la operacion
-    let operationResultSign = calculateResultSign(
-      alignedReg1Mantissa,
-      reg1SignBit,
-      alignedReg2Mantissa,
-      reg2SignBit
-    );
-
-    let resultMantissa;
-    resultMantissa = calculateMantissa(
-      reg1SignBit,
-      reg2SignBit,
-      resultMantissa,
-      alignedReg1Mantissa,
-      alignedReg2Mantissa
-    );
-
-    // Normalizar mantisa
-    const normalizedMantissa = normalizeMantissa(resultMantissa);
-
-    // Constuir resultado de operacion
-    const operationResult =
-      operationResultSign +
-      getKeyForValue(normalizedMantissa.positionsMoved) +
-      normalizedMantissa.adjustedValue;
+    //const operationResult = this.floatingPointSum(registerS, registerT);
 
     //console.log(operationResult);
-    const hexResult = parseInt(operationResult, 2).toString(16).toUpperCase();
+    //const hexResult = parseInt(operationResult, 2).toString(16).toUpperCase();
     //console.log(hexResult);
+    //newExecuteState.registers[this.destinationIndex] = hexResult;
+    //return { ...oldState, execute: newExecuteState };
 
-    newExecuteState.registers[this.destinationIndex] = hexResult;
-    newExecuteState.programCounter += 1;
-    return { ...oldState, execute: newExecuteState };
+    return {
+      ...oldState,
+      execute: applyBinaryOperation(this, floatingPointSum, newExecuteState),
+    };
   }
+}
+
+function floatingPointSum(registerS, registerT) {
+  const reg1SignBit = registerS[0];
+  const reg1ExponentBits = registerS.slice(1, 4);
+  let reg1MantissaBits = registerS.slice(4);
+
+  const reg2SignBit = registerT[0];
+  const reg2ExponentBits = registerT.slice(1, 4);
+  let reg2MantissaBits = registerT.slice(4);
+
+  // Posicionar el radix point
+  reg1MantissaBits = positionRadixPoint(reg1ExponentBits, reg1MantissaBits);
+  reg2MantissaBits = positionRadixPoint(reg2ExponentBits, reg2MantissaBits);
+
+  // Alinear mantisas
+  let [alignedReg1Mantissa, alignedReg2Mantissa] = alignMantissas(
+    reg1MantissaBits,
+    reg2MantissaBits
+  );
+
+  // Determinal el signo de la operacion
+  let operationResultSign = calculateResultSign(
+    alignedReg1Mantissa,
+    reg1SignBit,
+    alignedReg2Mantissa,
+    reg2SignBit
+  );
+
+  let resultMantissa;
+  resultMantissa = calculateMantissa(
+    reg1SignBit,
+    reg2SignBit,
+    resultMantissa,
+    alignedReg1Mantissa,
+    alignedReg2Mantissa
+  );
+
+  // Normalizar mantisa
+  const normalizedMantissa = normalizeMantissa(resultMantissa);
+
+  //console.log(resultMantissa);
+
+  // Constuir resultado de operacion
+  const operationResult =
+    operationResultSign +
+    getKeyForValue(normalizedMantissa.positionsMoved) +
+    normalizedMantissa.adjustedValue;
+  return operationResult;
 }
 
 function calculateMantissa(
@@ -305,7 +314,7 @@ function normalizeMantissa(value) {
     positionsMoved = -firstOneIndex;
   }
 
-  let adjustedValue = binaryString.slice(firstOneIndex, firstOneIndex + 4);
+  let adjustedValue = binaryString.slice(firstOneIndex);
 
   if (adjustedValue.length < 4) {
     adjustedValue = adjustedValue.padEnd(4, "0");

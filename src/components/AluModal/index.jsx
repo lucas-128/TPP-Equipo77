@@ -14,6 +14,7 @@ import {
   Line,
   CircledNumber,
   ButtonContainer,
+  ExtraBits,
 } from "./styled";
 import { useDispatch, useSelector } from "react-redux";
 import { IoClose } from "react-icons/io5";
@@ -27,6 +28,14 @@ export const AluModal = () => {
   const aluOperation = useSelector(
     (state) => state.application.execute.aluOperation
   );
+
+  const result = (aluOperation?.result ?? 0).toString().padStart(8, "0");
+  const firstEightBits = result.slice(0, 8);
+  const extraBits = result.slice(8);
+
+  const handleShowResult = () => {
+    setShowResult(true);
+  };
 
   useEffect(() => {
     setShowResult(false);
@@ -54,22 +63,24 @@ export const AluModal = () => {
                   <OperationName>{aluOperation.operation}</OperationName>
                 </div>
                 <div className="row">
-                  {aluOperation.registerS.toString(2).padStart(8, "0")}
+                  {parseInt(aluOperation.registerS, 16)
+                    .toString(2)
+                    .padStart(8, "0")}
                 </div>
                 <div className="row">
-                  {aluOperation.registerT.toString(2).padStart(8, "0")}
+                  {parseInt(aluOperation.registerT, 16)
+                    .toString(2)
+                    .padStart(8, "0")}
                 </div>
                 <Line />
                 {showResult ? (
-                  <div className="row">
-                    {aluOperation.result.toString(2).padStart(8, "0")}
+                  <div className="row" style={{ display: "flex", gap: "0" }}>
+                    <span>{firstEightBits}</span>
+                    {extraBits && <ExtraBits>{extraBits}</ExtraBits>}
                   </div>
                 ) : (
                   <ButtonContainer>
-                    <Button
-                      lightColor={true}
-                      onClick={() => setShowResult(true)}
-                    >
+                    <Button lightColor={true} onClick={handleShowResult}>
                       Realizar operación
                     </Button>
                   </ButtonContainer>
