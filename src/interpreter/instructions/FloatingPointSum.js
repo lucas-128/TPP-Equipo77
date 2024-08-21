@@ -101,7 +101,7 @@ function floatingPointSum(registerS, registerT) {
   // Normalizar mantisa
   const normalizedMantissa = normalizeMantissa(resultMantissa);
 
-  console.log(resultMantissa);
+  //console.log(resultMantissa);
 
   // Constuir resultado de operacion
   const operationResult =
