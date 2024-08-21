@@ -12,6 +12,7 @@ import { CacheToControlUnitBus } from "../../components/Buses/CacheToControlUnit
 import { ControlToCacheAddrBus } from "../../components/Buses/ControlToCacheAddrBus";
 import { RegistersToUCBus } from "../../components/Buses/RegistersToUCBus";
 import { RegistersToALUBus } from "../../components/Buses/RegistersToALUBus";
+import InputOutput from "../../components/InputOutput";
 
 export const nodeTypes = {
   registers: RegisterBox,
@@ -20,6 +21,7 @@ export const nodeTypes = {
   controlUnit: ControlUnit,
   cacheMemory: CacheMemory,
   CPU: CPU,
+  inputOutput: InputOutput,
 };
 
 export const CPUId = "1";
@@ -28,6 +30,7 @@ export const mainMemoryId = "3";
 export const registersId = "4";
 export const controlUnitId = "5";
 export const cacheMemoryId = "6";
+export const inputOutputId = "7";
 
 export const initialNodes = [
   {
@@ -49,7 +52,7 @@ export const initialNodes = [
     id: mainMemoryId,
     type: "mainMemory",
     data: { label: "Main Memory" },
-    position: { x: 1300, y: 0 },
+    position: { x: 1200, y: 0 },
     selectable: false,
   },
   {
@@ -70,7 +73,14 @@ export const initialNodes = [
     id: cacheMemoryId,
     type: "cacheMemory",
     data: { label: "Cache Memory" },
-    position: { x: 770, y: 500 },
+    position: { x: 750, y: 500 },
+    selectable: false,
+  },
+  {
+    id: inputOutputId,
+    type: "inputOutput",
+    data: { label: "Input Output" },
+    position: { x: 1600, y: 0 },
     selectable: false,
   },
 ];
@@ -85,25 +95,16 @@ export const edgeTypes = {
   controlUnitToCacheAddr: ControlToCacheAddrBus,
 };
 
-//export const registerCacheId = "registers-cache";
-//export const cacheRegistersId = "cache-registers";
 export const registersControlUnitId = "registers-control-unit";
 export const controlUnitCacheId = "control-unit-cache";
 export const registerAluTopId = "registers-alu-top";
 export const registerAluBottomId = "registers-alu-bottom";
 export const aluRegistersId = "alu-registers";
 export const mainMemControlUnitDataId = "main-mem-control-unit-data";
-// export const controlUnitMainMemDataId = "control-unit-main-mem-data";
 export const controlUnitMainMemAddrId = "control-unit-main-mem-addr";
 export const controlUnitCacheAddrBusId = "control-unit-cache-addr";
 
 export const initialEdges = [
-  /*{
-    id: registerCacheId,
-    source: registersId,
-    target: cacheMemoryId,
-    type: "registersCache",
-  },*/
   {
     id: controlUnitCacheId,
     source: cacheMemoryId,
@@ -130,12 +131,6 @@ export const initialEdges = [
     target: controlUnitId,
     type: "memoryControlUnitData",
   },
-  // {
-  //   id: controlUnitMainMemDataId,
-  //   source: controlUnitId,
-  //   target: mainMemoryId,
-  //   type: "memoryControlUnitData",
-  // },
   // bus de direcciones del control a la memoria principal
   {
     id: controlUnitMainMemAddrId,

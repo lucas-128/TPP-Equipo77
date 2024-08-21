@@ -4,11 +4,9 @@ import {
   aluRegistersId,
   registerAluTopId,
   registerAluBottomId,
-  //registerCacheId,
   controlUnitCacheId,
   mainMemControlUnitDataId,
   controlUnitMainMemAddrId,
-  // controlUnitMainMemDataId,
   registersControlUnitId,
   controlUnitCacheAddrBusId,
 } from "../containers/SimulatorSection/components";
@@ -83,16 +81,6 @@ export const usePosition = ({
           sourcePosition: Position.Left,
           targetPosition: Position.Right,
         };
-      // case controlUnitMainMemDataId:
-      //   return {
-      //     sourceX: sourceComponent.position.x,
-      //     sourceY: sourceComponent.position.y + sourceComponent.height / 2,
-      //     targetX: targetComponent.position.x + targetComponent.width,
-      //     targetY: sourceComponent.position.y + sourceComponent.height / 2,
-      //     offset: 100,
-      //     sourcePosition: Position.Right,
-      //     targetPosition: Position.Left,
-      //   };
       case controlUnitMainMemAddrId:
         return {
           sourceX: sourceComponent.position.x + sourceComponent.width,

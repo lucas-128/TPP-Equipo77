@@ -24,6 +24,7 @@ import {
   Button,
   Container,
   HiddenEditorContainer,
+  EditorHeaderText,
 } from "./styled";
 import { setShowEditor } from "../../slices/editorTextSlice";
 import { setError } from "../../slices/modalsSlice";
@@ -41,6 +42,13 @@ export const TextEditor = ({ children, isSimulating, text, setText }) => {
       state.application.execute.instructionId ||
       state.application.fetch.instructionId ||
       state.application.decode.instructionId
+  );
+  const fetchId = useSelector((state) => state.application.fetch.instructionId);
+  const decodeId = useSelector(
+    (state) => state.application.decode.instructionId
+  );
+  const executeId = useSelector(
+    (state) => state.application.execute.instructionId
   );
 
   const dispatch = useDispatch();
@@ -124,6 +132,13 @@ export const TextEditor = ({ children, isSimulating, text, setText }) => {
     URL.revokeObjectURL(url);
   };
 
+  const getCurrentCycle = () => {
+    if (decodeId !== null) return "DECODE";
+    if (fetchId !== null) return "FETCH";
+    if (executeId !== null) return "EXECUTE";
+    return "";
+  };
+
   useEffect(() => {
     if (!text || !isSimulating) return;
     if (!validateSyntax(text) && isSimulating) {
@@ -148,6 +163,9 @@ export const TextEditor = ({ children, isSimulating, text, setText }) => {
     <Container fullscreen={isFullScreen}>
       <EditorWrapper>
         <EditorHeader>
+          <EditorHeaderText>
+            {isSimulating && "ciclo " + getCurrentCycle()}
+          </EditorHeaderText>
           <EditorHeaderIconContainer>
             {isSimulating ? (
               <></>
