@@ -8,6 +8,7 @@ import {
   mainMemControlUnitDataId,
   controlUnitMainMemAddrId,
   registersControlUnitId,
+  controlUnitCacheAddrBusId,
 } from "../containers/SimulatorSection/components";
 import { useMemo } from "react";
 
@@ -64,9 +65,9 @@ export const usePosition = ({
         };
       case controlUnitCacheId:
         return {
-          sourceX: targetComponent.position.x + targetComponent.width / 2,
+          sourceX: targetComponent.position.x + targetComponent.width / 3,
           sourceY: sourceComponent.position.y,
-          targetX: targetComponent.position.x + targetComponent.width / 2,
+          targetX: targetComponent.position.x + targetComponent.width / 3,
           targetY: targetComponent.position.y + targetComponent.height,
           sourcePosition: Position.Top,
           targetPosition: Position.Bottom,
@@ -98,6 +99,16 @@ export const usePosition = ({
           sourcePosition: Position.Right,
           targetPosition: Position.Left,
         };
+      case controlUnitCacheAddrBusId:
+        return {
+          sourceX: targetComponent.position.x + targetComponent.width / 1.5,
+          sourceY: sourceComponent.position.y + sourceComponent.height,
+          targetX: targetComponent.position.x + targetComponent.width / 1.5,
+          targetY: targetComponent.position.y,
+          sourcePosition: Position.Top,
+          targetPosition: Position.Bottom,
+        };
+
       default:
         console.log("ERROR", edgeId);
     }
