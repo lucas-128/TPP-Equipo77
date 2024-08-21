@@ -9,7 +9,7 @@ export const TableHeader = styled.th`
 `;
 
 export const TableContainer = styled.div`
-  width: fit-content;
+  width: 100%;
   padding: 15px;
   background-color: var(--im-primary);
   border-radius: 10px;
@@ -30,7 +30,7 @@ export const TableContainer = styled.div`
 export const TableTitle = styled.div`
   color: var(--im-white);
   font-weight: bold;
-  font-size: 22px;
+  font-size: 28px;
 `;
 
 export const Table = styled.table`

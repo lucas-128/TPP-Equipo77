@@ -74,7 +74,7 @@ export const CustomText = styled.p`
 
 export const HeaderText = styled.p`
   color: var(--im-white);
-  font-size: 22px;
+  font-size: 25px;
   font-weight: bold;
   margin: 0px 0px 20px 0px;
 `;

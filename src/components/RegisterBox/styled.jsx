@@ -6,7 +6,7 @@ export const MainContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 200px;
+  width: 250px;
   padding: 15px;
   cursor: pointer;
   box-shadow: var(--im-shadow);
@@ -29,7 +29,7 @@ export const TitleContainer = styled.div`
 
 export const TitleText = styled.p`
   margin: 0px;
-  font-size: 22px;
+  font-size: 25px;
   font-weight: bold;
 `;
 

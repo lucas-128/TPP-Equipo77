@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   MdOutlineFileUpload,
   MdArrowBackIosNew,
@@ -19,11 +19,13 @@ import {
   Button,
   Container,
   HiddenEditorContainer,
+  EditorHeaderText,
 } from "./styled";
 import { setShowEditor } from "../../slices/editorTextSlice";
 import { setError } from "../../slices/modalsSlice";
 
 export const TextEditor = ({ children, isSimulating, text, setText }) => {
+  const dispatch = useDispatch();
   const show = useSelector((state) => state.editorText.show);
   const currentInstruction = useSelector(
     (state) =>
@@ -31,9 +33,13 @@ export const TextEditor = ({ children, isSimulating, text, setText }) => {
       state.application.fetch.instructionId ||
       state.application.decode.instructionId
   );
-
-  const dispatch = useDispatch();
-
+  const fetchId = useSelector((state) => state.application.fetch.instructionId);
+  const decodeId = useSelector(
+    (state) => state.application.decode.instructionId
+  );
+  const executeId = useSelector(
+    (state) => state.application.execute.instructionId
+  );
 
   const getLineNumbers = (text) => {
     const lines = text.split("\n").length;
@@ -71,6 +77,13 @@ export const TextEditor = ({ children, isSimulating, text, setText }) => {
     }
   };
 
+  const getCurrentCycle = () => {
+    if (decodeId !== null) return "DECODE";
+    if (fetchId !== null) return "FETCH";
+    if (executeId !== null) return "EXECUTE";
+    return "";
+  };
+
   useEffect(() => {
     if (!text || !isSimulating) return;
     if (!validateSyntax(text) && isSimulating) {
@@ -86,6 +99,9 @@ export const TextEditor = ({ children, isSimulating, text, setText }) => {
     <Container>
       <EditorWrapper>
         <EditorHeader>
+          <EditorHeaderText>
+            {isSimulating && "ciclo " + getCurrentCycle()}
+          </EditorHeaderText>
           <EditorHeaderIconContainer>
             <Button htmlFor="file-upload">
               <MdOutlineFileUpload size={20} />
