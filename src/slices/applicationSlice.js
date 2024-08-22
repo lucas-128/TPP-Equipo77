@@ -1,10 +1,10 @@
-import { createSlice, current } from '@reduxjs/toolkit';
+import { createSlice, current } from "@reduxjs/toolkit";
 import {
   initialEdges,
   initialNodes,
-} from '../containers/SimulatorSection/components';
-import { addEdge, applyNodeChanges, applyEdgeChanges } from 'reactflow';
-import { CACHE_SIZE } from '../interpreter/constants';
+} from "../containers/SimulatorSection/components";
+import { addEdge, applyNodeChanges, applyEdgeChanges } from "reactflow";
+import { CACHE_SIZE, typeSimulations } from "../interpreter/constants";
 
 // LOS VALORES SE GUARDAN EN HEXADECIMAL
 export const initialState = {
@@ -13,7 +13,7 @@ export const initialState = {
     address: null,
     edgeAnimation: [],
     programCounter: null,
-    instructionRegister: '-',
+    instructionRegister: "-",
   },
   decode: {
     instructionId: null,
@@ -22,7 +22,7 @@ export const initialState = {
     instructionId: null,
     registers: new Array(16).fill(null),
     //TODO: capaz la memoria se puede mover afuera
-    mainMemoryCells: new Array(256).fill('-'),
+    mainMemoryCells: new Array(256).fill("-"),
     cacheMemoryCells: new Array(CACHE_SIZE).fill(null),
     nodes: initialNodes,
     edges: initialEdges,
@@ -33,10 +33,11 @@ export const initialState = {
   previousState: null,
   aluOperation: null,
   edgeAnimation: [],
+  typeSimulations: typeSimulations.SIMPLE,
 };
 
 export const applicationSlice = createSlice({
-  name: 'application',
+  name: "application",
   initialState,
   reducers: {
     setNodes(state, action) {
@@ -71,13 +72,13 @@ export const applicationSlice = createSlice({
     },
     getProgramInMemory(state, action) {
       const text = action.payload;
-      const parsedCode = splitCode(text).join('');
+      const parsedCode = splitCode(text).join("");
       if (parsedCode.length > 512) {
         // TODO: ERROR => el programa no entra en memoria
       }
       state.execute.mainMemoryCells = Array.from(
         { length: 256 },
-        (_, i) => parsedCode.slice(i * 2, i * 2 + 2) || 'x'
+        (_, i) => parsedCode.slice(i * 2, i * 2 + 2) || "x"
       );
     },
     updateMainMemoryCells(state, action) {
@@ -116,6 +117,9 @@ export const applicationSlice = createSlice({
       state.decode = initialState.decode;
       state.fetch = initialState.fetch;
     },
+    updateTypeSimulation(state, action) {
+      state.typeSimulations = action.payload;
+    },
   },
 });
 
@@ -134,6 +138,7 @@ export const {
   clearApplication,
   setShowOutputPort,
   updateMainMemoryCells,
+  updateTypeSimulation,
 } = applicationSlice.actions;
 
 // Thunk para manejar la actualización del estado actual
