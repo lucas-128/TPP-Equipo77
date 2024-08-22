@@ -5,7 +5,7 @@ import { SimulatorContainer } from "../SimulatorSection";
 import { Header } from "../../components/Header";
 import { HelpButton } from "../../components/HelpButton";
 import { ErrorModal } from "../../components/ErrorModal";
-import { OutputPortModal } from "../../components/OutputPortModal";
+import { InputPortModal } from "../../components/InputPortModal";
 
 export const App = () => {
   return (
@@ -17,7 +17,7 @@ export const App = () => {
       </AppContainer>
       <HelpButton />
       <ErrorModal />
-      <OutputPortModal />
+      <InputPortModal />
     </MainContainer>
   );
 };

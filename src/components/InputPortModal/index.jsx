@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Modal } from '../Modal';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateCurrentState } from '../../slices/applicationSlice';
+import React, { useEffect, useState } from "react";
+import { Modal } from "../Modal";
+import { useDispatch, useSelector } from "react-redux";
+import { updateCurrentState } from "../../slices/applicationSlice";
 import {
   BodyContainer,
   Container,
@@ -13,33 +13,32 @@ import {
   RadioInput,
   RadioLabel,
   Text,
-} from './styled';
-import { Button } from '../Button';
+} from "./styled";
+import { Button } from "../Button";
 
-export const OutputPortModal = () => {
+export const InputPortModal = () => {
   const dispatch = useDispatch();
   const applicationState = useSelector((state) => state.application);
   const showModal = useSelector(
-    (state) => state.application.execute.showOutputPort
+    (state) => state.application.execute.showInputPort
   );
-  const [inputValue, setInputValue] = useState('');
-  const [numericBase, setNumericBase] = useState('decimal');
-  const [error, setError] = useState('');
+  const [inputValue, setInputValue] = useState("");
+  const [numericBase, setNumericBase] = useState("decimal");
+  const [error, setError] = useState("");
 
   const handleChange = (event) => {
-    setError('');
+    setError("");
     setNumericBase(event.target.value);
   };
 
   const errorMessages = {
-    empty: 'El valor no puede estar vacío',
-    notNumber: 'El valor debe ser un número',
-    outOfRange: 'El valor debe estar entre 0 y 255',
-    containsLetters: 'El valor no puede contener letras',
-    invalidBinary: 'El valor solo puede contener unos y ceros',
-    invalidBitLength: 'El valor debe tener exactamente 8 bits',
-    invalidHex: 'El valor debe estar en base hexadecimal y tener 1 o 2 dígitos',
-    invalidValue: 'Tipo de valor no válido',
+    empty: "El valor no puede estar vacío",
+    outOfRange: "El valor debe estar entre 0 y 255",
+    containsLetters: "El valor no puede contener letras",
+    invalidBinary: "El valor solo puede contener unos y ceros",
+    invalidBitLength: "El valor debe tener exactamente 8 bits",
+    invalidHex: "El valor debe estar en base hexadecimal y tener 1 o 2 dígitos",
+    invalidValue: "Tipo de valor no válido",
   };
 
   const isValidDecimal = (value) => {
@@ -81,23 +80,17 @@ export const OutputPortModal = () => {
   };
 
   const isValidInput = () => {
-    if (inputValue === '') {
+    if (inputValue === "") {
       setError(errorMessages.empty);
       return false;
     }
 
-    const numericValue = parseInt(inputValue, 10);
-    if (isNaN(numericValue)) {
-      setError(errorMessages.notNumber);
-      return false;
-    }
-
     switch (numericBase) {
-      case 'decimal':
+      case "decimal":
         return isValidDecimal(inputValue);
-      case 'binario':
+      case "binario":
         return isValidBinary(inputValue);
-      case 'hexa':
+      case "hexa":
         return isValidHex(inputValue);
       default:
         setError(errorMessages.invalidValue);
@@ -106,18 +99,18 @@ export const OutputPortModal = () => {
   };
 
   const getHexaValue = () => {
-    if (numericBase === 'decimal') {
+    if (numericBase === "decimal") {
       return parseInt(inputValue).toString(16).toUpperCase();
-    } else if (numericBase === 'binario') {
+    } else if (numericBase === "binario") {
       return parseInt(inputValue, 2).toString(16).toUpperCase();
-    } else if (numericBase === 'hexa') {
+    } else if (numericBase === "hexa") {
       return inputValue.toUpperCase();
     }
   };
 
   const handleSave = () => {
     if (!isValidInput()) return;
-    setInputValue('');
+    setInputValue("");
     const {
       execute: currentExecuteState,
       fetch: { instructionRegister },
@@ -125,30 +118,32 @@ export const OutputPortModal = () => {
     const newExecuteState = {
       ...currentExecuteState,
       registers: [...currentExecuteState.registers],
-      showOutputPort: false,
+      mainMemoryCells: [...currentExecuteState.mainMemoryCells],
+      showInputPort: false,
     };
 
     const newValue = getHexaValue();
     const registerToUpdate = parseInt(instructionRegister.slice(1, 2), 16);
     newExecuteState.registers[registerToUpdate] = newValue;
+    newExecuteState.mainMemoryCells[254] = newValue;
     const newState = {
       ...applicationState,
       execute: newExecuteState,
     };
     dispatch(updateCurrentState(newState));
-    setError('');
+    setError("");
   };
 
   return (
     showModal && (
-      <Modal title={'Puerto de entrada'} msg={null}>
+      <Modal title={"Puerto de entrada"} msg={null}>
         <Container>
           <BodyContainer>
             <Text>Valor de entrada</Text>
             <Input
               onChange={(e) => setInputValue(e.target.value)}
               value={inputValue}
-              $hasError={error !== ''}
+              $hasError={error !== ""}
             />
             <ErrorMessage>{error}</ErrorMessage>
 
@@ -158,7 +153,7 @@ export const OutputPortModal = () => {
                   type="radio"
                   name="number-system"
                   value="decimal"
-                  checked={numericBase === 'decimal'}
+                  checked={numericBase === "decimal"}
                   onChange={handleChange}
                 />
                 Decimal
@@ -168,7 +163,7 @@ export const OutputPortModal = () => {
                   type="radio"
                   name="number-system"
                   value="binario"
-                  checked={numericBase === 'binario'}
+                  checked={numericBase === "binario"}
                   onChange={handleChange}
                 />
                 Binario
@@ -178,7 +173,7 @@ export const OutputPortModal = () => {
                   type="radio"
                   name="number-system"
                   value="hexa"
-                  checked={numericBase === 'hexa'}
+                  checked={numericBase === "hexa"}
                   onChange={handleChange}
                 />
                 Hexadecimal

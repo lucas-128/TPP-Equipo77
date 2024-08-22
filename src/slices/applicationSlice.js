@@ -28,7 +28,7 @@ export const initialState = {
     edges: initialEdges,
     aluOperation: null,
     edgeAnimation: [],
-    showOutputPort: false,
+    showInputPort: false,
   },
   previousState: null,
   aluOperation: null,
@@ -84,8 +84,8 @@ export const applicationSlice = createSlice({
     updateMainMemoryCells(state, action) {
       state.execute.mainMemoryCells = action.payload;
     },
-    setShowOutputPort(state, action) {
-      state.execute.showOutputPort = action.payload;
+    setShowInputPort(state, action) {
+      state.execute.showInputPort = action.payload;
     },
     updateInstructionRegister(state, action) {
       const { instructionRegister } = action.payload;
@@ -136,7 +136,7 @@ export const {
   goToPreviousState,
   updatePreviousState,
   clearApplication,
-  setShowOutputPort,
+  setShowInputPort,
   updateMainMemoryCells,
   updateTypeSimulation,
 } = applicationSlice.actions;
