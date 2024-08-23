@@ -71,19 +71,19 @@ export const instructionCodes = [
 ];
 
 export const operationNames = {
-  ADDITION_TWO_COMPLEMENT: "Suma en complemento a 2",
-  FLOATING_POINT_SUM: "Suma en punto flotante",
-  OR: "OR",
-  AND: "AND",
-  XOR: "XOR",
-  ROTATE_RIGHT: "Rotar a la derecha",
+  [ADDITION_TWO_COMPLEMENT]: "Suma en complemento a 2",
+  [FLOATING_POINT_SUM]: "Suma en punto flotante",
+  [OR]: "OR",
+  [AND]: "AND",
+  [XOR]: "XOR",
+  [ROTATE_RIGHT]: "Rotar a la derecha",
 };
 
 export const CACHE_SIZE = 16;
 
 export const animationsFetch = [
   controlUnitMainMemAddrId,
-  mainMemControlUnitDataId,
+  { id: mainMemControlUnitDataId, reverse: false },
 ];
 
 export const animationsAlu = [

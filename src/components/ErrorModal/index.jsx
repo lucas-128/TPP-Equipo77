@@ -15,9 +15,7 @@ export const ErrorModal = () => {
         title={"Error"}
         msg={errorMessage}
         onClose={() => dispatch(closeError())}
-      >
-        <Button onClick={() => dispatch(closeError())}>Cerrar</Button>
-      </Modal>
+      ></Modal>
     )
   );
 };

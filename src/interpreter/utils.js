@@ -2,15 +2,38 @@ import { operationNames, CACHE_SIZE } from "./constants";
 
 export function applyBinaryOperation(instruction, operation, actualState) {
   const newState = { ...actualState, registers: [...actualState.registers] };
+
+  // const registerS = parseInt(
+  //   actualState.registers[instruction.registerSIndex],
+  //   2
+  // );
+
   const registerS = parseInt(
     actualState.registers[instruction.registerSIndex],
-    2
-  );
+    16
+  )
+    .toString(2)
+    .padStart(8, "0");
+
+  // const registerT = parseInt(
+  //   actualState.registers[instruction.registerTIndex],
+  //   2
+  // );
+
   const registerT = parseInt(
     actualState.registers[instruction.registerTIndex],
-    2
-  );
-  const operationResult = operation(registerS, registerT);
+    16
+  )
+    .toString(2)
+    .padStart(8, "0");
+
+  const operationResult = operation(registerS, registerT).toString(2);
+  const paddedOperationResult = operationResult.slice(0, 8).padStart(8, "0");
+
+  const hexValue = parseInt(paddedOperationResult, 2)
+    .toString(16)
+    .toUpperCase();
+
   newState.aluOperation = {
     operation: operationNames[instruction.type],
     registerS: actualState.registers[instruction.registerSIndex],
@@ -20,7 +43,7 @@ export function applyBinaryOperation(instruction, operation, actualState) {
     destinationIndex: instruction.destinationIndex,
     result: operationResult,
   };
-  newState.registers[instruction.destinationIndex] = operationResult;
+  newState.registers[instruction.destinationIndex] = hexValue;
   return newState;
 }
 

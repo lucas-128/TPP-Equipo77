@@ -3,9 +3,9 @@ import { splitCode, validateSyntax } from "./main";
 import { InstructionFactory } from "./InstructionFactory";
 
 export default class Program {
-  constructor(program) {
+  constructor(program, typeSimulation) {
     this.program = program;
-    this.typeSimulation = typeSimulations.CYCLES;
+    this.typeSimulation = typeSimulation;
     if (!validateSyntax(program)) {
       return;
     }

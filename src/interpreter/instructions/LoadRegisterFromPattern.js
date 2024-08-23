@@ -1,5 +1,5 @@
 import Instruction from "../Instruction";
-
+import { registersControlUnitId } from "../../containers/SimulatorSection/components";
 /* 
 
 Instruction: 2
@@ -8,8 +8,8 @@ Load the register R with the pattern XY
 */
 
 export default class LoadRegisterFromPattern extends Instruction {
-  constructor(register, pattern, id) {
-    super(id);
+  constructor(type, register, pattern, id) {
+    super(type, id);
     this.register = register;
     this.pattern = pattern;
   }
@@ -19,7 +19,9 @@ export default class LoadRegisterFromPattern extends Instruction {
     newExecuteState.registers = [...oldState.execute.registers];
     newExecuteState.registers[this.register] = this.pattern;
     newExecuteState.instructionId = this.id + 1;
-    newExecuteState.edgeAnimation = []; //Actualizar las aristas correspondientes
+    newExecuteState.edgeAnimation = [
+      { id: registersControlUnitId, reverse: true },
+    ];
     return { ...oldState, execute: newExecuteState };
   }
 }

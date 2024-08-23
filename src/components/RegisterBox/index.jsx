@@ -15,6 +15,10 @@ import { registersId } from "../../containers/SimulatorSection/components.jsx";
 export const RegisterBox = ({ id, data }) => {
   const registers = useSelector((state) => state.application.execute.registers);
 
+  const toHexa = (value) => {
+    return parseInt(value, 16).toString(2).padStart(8, "0");
+  };
+
   return (
     <>
       <MainContainer id={registersId}>
@@ -26,7 +30,7 @@ export const RegisterBox = ({ id, data }) => {
             <RegisterContainer key={i}>
               <RegisterNumeration>{i.toString(16)}</RegisterNumeration>
               <RegisterValue>
-                {value != null ? parseInt(value, 16).toString(2).padStart(8, "0") : "-"}
+                {value != null ? toHexa(value) : "-"}
               </RegisterValue>
             </RegisterContainer>
           ))}
@@ -42,11 +46,6 @@ export const RegisterBox = ({ id, data }) => {
         position="bottom"
         style={{ background: "#555" }}
       />
-      {/*<CustomHandle
-        type="target"
-        position="bottom"
-        style={{ background: "#555" }}
-      />*/}
     </>
   );
 };

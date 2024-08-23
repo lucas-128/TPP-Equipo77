@@ -10,9 +10,11 @@ import {
   SpecialRegisterContainer,
   SpecialRegisterValue,
 } from "./styled";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setOpenControlUnitZoom } from "../../slices/modalsSlice";
 
 export const ControlUnit = () => {
+  const dispatch = useDispatch();
   const programCounter = useSelector(
     (state) => state.application.fetch.programCounter
   );
@@ -36,7 +38,11 @@ export const ControlUnit = () => {
   };
 
   return (
-    <MainContainer id={controlUnitId} $operating={decodeId !== null}>
+    <MainContainer
+      id={controlUnitId}
+      $operating={decodeId !== null}
+      onClick={() => dispatch(setOpenControlUnitZoom(true))}
+    >
       <HeaderText>Unidad de Control</HeaderText>
       <BodyContainer>
         <SpecialRegisterContainer>
@@ -63,6 +69,7 @@ export const ControlUnit = () => {
       {/* cache to control unit */}
       <CustomHandle type="target" position="bottom" />
       <IndicatorText animate={false}>
+        {/* TODO: si el tipo de ejecución es simple esto no se muestra */}
         {decodeId !== null ? texts.decode : ""}
         {fetchId !== null ? texts.fetch : ""}
         {executeId !== null ? texts.execute : ""}

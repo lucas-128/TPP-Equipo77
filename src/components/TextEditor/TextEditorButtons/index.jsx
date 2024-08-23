@@ -33,7 +33,7 @@ export const TextEditorButtons = ({ isSimulating, setIsSimulating, text }) => {
   const handleSimulateButtonClick = () => {
     setIsSimulating((prev) => !prev);
     const newMemory = getProgramInMemory();
-    const newProgram = new Program(text);
+    const newProgram = new Program(text, applicationState.typeSimulations);
     setProgram(newProgram);
     const newState = newProgram.getNewState({
       ...applicationState,

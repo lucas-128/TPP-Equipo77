@@ -4,7 +4,7 @@ import {
   initialNodes,
 } from "../containers/SimulatorSection/components";
 import { addEdge, applyNodeChanges, applyEdgeChanges } from "reactflow";
-import { CACHE_SIZE } from "../interpreter/constants";
+import { CACHE_SIZE, typeSimulations } from "../interpreter/constants";
 
 // LOS VALORES SE GUARDAN EN HEXADECIMAL
 export const initialState = {
@@ -28,8 +28,12 @@ export const initialState = {
     edges: initialEdges,
     aluOperation: null,
     edgeAnimation: [],
+    showInputPort: false,
   },
   previousState: null,
+  aluOperation: null,
+  edgeAnimation: [],
+  typeSimulations: typeSimulations.SIMPLE,
 };
 
 export const applicationSlice = createSlice({
@@ -77,6 +81,12 @@ export const applicationSlice = createSlice({
         (_, i) => parsedCode.slice(i * 2, i * 2 + 2) || "x"
       );
     },
+    updateMainMemoryCells(state, action) {
+      state.execute.mainMemoryCells = action.payload;
+    },
+    setShowInputPort(state, action) {
+      state.execute.showInputPort = action.payload;
+    },
     updateInstructionRegister(state, action) {
       const { instructionRegister } = action.payload;
       state.execute.instructionRegister = instructionRegister;
@@ -86,17 +96,18 @@ export const applicationSlice = createSlice({
       state.execute.programCounter = programCounter;
     },
     goToPreviousState(state) {
-      state.execute.registers = current(state).previousstate.execute.registers;
-      state.execute.nodes = current(state).previousstate.execute.nodes;
-      state.execute.edges = current(state).previousstate.execute.edges;
-      state.execute.programCounter =
-        current(state).previousstate.execute.programCounter;
-      state.execute.edgeAnimation =
-        current(state).previousstate.execute.edgeAnimation;
-      state.execute.instructionRegister =
-        current(state).previousstate.execute.instructionRegister;
-      state.execute.previousState =
-        current(state).previousstate.execute.previousState;
+      state.execute = state.previousState
+        ? state.previousState.execute
+        : initialState.execute;
+      state.decode = state.previousState
+        ? state.previousState.decode
+        : initialState.decode;
+      state.fetch = state.previousState
+        ? state.previousState.fetch
+        : initialState.fetch;
+      state.previousState = state.previousState
+        ? state.previousState.previousState
+        : null;
     },
     updatePreviousState(state) {
       state.previousState = current(state);
@@ -105,6 +116,9 @@ export const applicationSlice = createSlice({
       state.execute = initialState.execute;
       state.decode = initialState.decode;
       state.fetch = initialState.fetch;
+    },
+    updateTypeSimulation(state, action) {
+      state.typeSimulations = action.payload;
     },
   },
 });
@@ -122,6 +136,9 @@ export const {
   goToPreviousState,
   updatePreviousState,
   clearApplication,
+  setShowInputPort,
+  updateMainMemoryCells,
+  updateTypeSimulation,
 } = applicationSlice.actions;
 
 // Thunk para manejar la actualización del estado actual

@@ -5,7 +5,7 @@ const shine = keyframes`
   100% {
     background-color: #2c5d75;
     box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
-    transform: scale(1.05);
+    transform: scale(1.01);
   }
 `;
 
@@ -20,7 +20,11 @@ export const MainContainer = styled.div`
   padding: 25px;
   overflow: hidden;
   box-shadow: var(--im-shadow);
-  cursor: pointer;
+  cursor: ${(props) =>
+    props.$operating
+      ? "pointer"
+      : "default"};
+  pointer-events: ${(props) => (props.$operating ? "auto" : "none")};
   animation: ${(props) =>
     props.$operating
       ? css`
@@ -31,6 +35,7 @@ export const MainContainer = styled.div`
   &:hover {
     background-color: var(--im-primary-hover);
     box-shadow: var(--im-shadow-hover);
+    animation: none;
   }
 `;
 
@@ -58,7 +63,6 @@ export const SpecialRegisterValue = styled.div`
   min-width: ${(props) => (props.id == "PC" ? "50px" : "100px")};
   display: flex;
   justify-content: center;
-  border: 1px solid black;
 `;
 
 export const CustomText = styled.p`
@@ -70,7 +74,7 @@ export const CustomText = styled.p`
 
 export const HeaderText = styled.p`
   color: var(--im-white);
-  font-size: 22px;
+  font-size: 25px;
   font-weight: bold;
   margin: 0px 0px 20px 0px;
 `;

@@ -1,8 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   MdOutlineFileUpload,
   MdArrowBackIosNew,
   MdArrowForwardIos,
+  MdDelete,
+  MdFullscreen,
+  MdFullscreenExit,
+  MdUndo,
+  MdDownload,
 } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { validateSyntax } from "../../interpreter/main";
@@ -19,11 +24,18 @@ import {
   Button,
   Container,
   HiddenEditorContainer,
+  EditorHeaderText,
 } from "./styled";
 import { setShowEditor } from "../../slices/editorTextSlice";
 import { setError } from "../../slices/modalsSlice";
 
+import MonacoEditor from "react-monaco-editor";
+import { MiniMap } from "reactflow";
+
 export const TextEditor = ({ children, isSimulating, text, setText }) => {
+  const [isFullScreen, setIsFullScreen] = useState(false);
+  const [history, setHistory] = useState([]);
+
   const show = useSelector((state) => state.editorText.show);
   const currentInstruction = useSelector(
     (state) =>
@@ -31,9 +43,15 @@ export const TextEditor = ({ children, isSimulating, text, setText }) => {
       state.application.fetch.instructionId ||
       state.application.decode.instructionId
   );
+  const fetchId = useSelector((state) => state.application.fetch.instructionId);
+  const decodeId = useSelector(
+    (state) => state.application.decode.instructionId
+  );
+  const executeId = useSelector(
+    (state) => state.application.execute.instructionId
+  );
 
   const dispatch = useDispatch();
-
 
   const getLineNumbers = (text) => {
     const lines = text.split("\n").length;
@@ -51,24 +69,74 @@ export const TextEditor = ({ children, isSimulating, text, setText }) => {
         "\t" +
         value.substring(selectionEnd);
       setText(newValue);
+    } else if (e.ctrlKey && e.key === "z") {
+      handleUndo();
     }
   };
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
-    try {
-      if (file && file.type === "text/plain") {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          setText(e.target.result);
-        };
-        reader.readAsText(file);
-      } else {
-        alert("Please select a valid .txt file");
-      }
-    } catch (error) {
-      console.log(error);
+    if (file && file.type === "text/plain") {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setText(e.target.result);
+        setHistory((prevHistory) => [...prevHistory, e.target.result]);
+        event.target.value = null;
+      };
+      reader.onerror = () => {
+        dispatch(setError("Error reading file."));
+      };
+      reader.readAsText(file);
+    } else {
+      dispatch(setError("Please select a valid .txt file."));
     }
+  };
+
+  const handleClearText = () => {
+    if (!isSimulating) {
+      setHistory((prevHistory) => [...prevHistory, text]);
+      setText("");
+    } else {
+      // no se puede editar el codigo mientras se simula
+    }
+  };
+
+  const handleFullScreenToggle = () => {
+    if (!isSimulating) {
+      setIsFullScreen(!isFullScreen);
+    }
+  };
+
+  const handleUndo = () => {
+    if (!isSimulating) {
+      setHistory((prevHistory) => {
+        if (prevHistory.length > 1) {
+          const previousText = prevHistory[prevHistory.length - 2];
+          setText(previousText);
+          return prevHistory.slice(0, -2);
+        }
+        return prevHistory;
+      });
+    } else {
+      // no se puede editar el codigo mientras se simula
+    }
+  };
+
+  const handleFileDownload = () => {
+    const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "programa.txt";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const getCurrentCycle = () => {
+    if (decodeId !== null) return "DECODE";
+    if (fetchId !== null) return "FETCH";
+    if (executeId !== null) return "EXECUTE";
+    return "";
   };
 
   useEffect(() => {
@@ -82,48 +150,72 @@ export const TextEditor = ({ children, isSimulating, text, setText }) => {
     }
   }, [isSimulating]);
 
+  const options = {
+    selectOnLineNumbers: true,
+    lineNumbers: (lineNumber) => {
+      let hexLineNumber = ((lineNumber - 1) * 2).toString(16).padStart(2, "0");
+      return hexLineNumber;
+    },
+    minimap: { enabled: false },
+  };
+
   return show ? (
-    <Container>
+    <Container fullscreen={isFullScreen}>
       <EditorWrapper>
         <EditorHeader>
+          <EditorHeaderText>
+            {isSimulating && "ciclo " + getCurrentCycle()}
+          </EditorHeaderText>
           <EditorHeaderIconContainer>
-            <Button htmlFor="file-upload">
-              <MdOutlineFileUpload size={20} />
-            </Button>
-            <input
-              id="file-upload"
-              type="file"
-              style={{ display: "none" }}
-              accept=".txt"
-              onChange={handleFileUpload}
-              disabled={isSimulating}
-            />
+            {isSimulating ? (
+              <></>
+            ) : (
+              <>
+                <Button htmlFor="file-upload" title="Subir archivo">
+                  <MdOutlineFileUpload size={20} />
+                </Button>
+                <input
+                  id="file-upload"
+                  type="file"
+                  style={{ display: "none" }}
+                  accept=".txt"
+                  onChange={handleFileUpload}
+                  disabled={isSimulating}
+                />
+                <Button onClick={handleClearText} title="Borrar">
+                  <MdDelete size={20} />
+                </Button>
+                {/* <Button
+                  onClick={handleFullScreenToggle}
+                  title="Pantalla completa"
+                >
+                  {isFullScreen ? (
+                    <MdFullscreenExit size={20} />
+                  ) : (
+                    <MdFullscreen size={20} />
+                  )}
+                </Button> */}
+                {/* <Button onClick={handleUndo} title="Deshacer">
+                  <MdUndo size={20} />
+                </Button> */}
+                <Button onClick={handleFileDownload} title="Descargar">
+                  <MdDownload size={20} />
+                </Button>
+              </>
+            )}
             <Button onClick={() => dispatch(setShowEditor(!show))}>
               <MdArrowBackIosNew size={15} />
             </Button>
           </EditorHeaderIconContainer>
         </EditorHeader>
-        <EditorTextWrapper>
-          <EditorTextContainer>
-            <LineCounter>
-              {getLineNumbers(text).map((lineNumber, i) => (
-                <LineNumber
-                  key={lineNumber}
-                  selected={isSimulating && i == (currentInstruction || 0)}
-                >
-                  <LineCounterText>{lineNumber}</LineCounterText>
-                </LineNumber>
-              ))}
-            </LineCounter>
-            <EditorText
-              disabled={isSimulating}
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              onKeyDown={handleKeyDown}
-              readOnly={isSimulating}
-            />
-          </EditorTextContainer>
-        </EditorTextWrapper>
+
+        <MonacoEditor
+          theme="vs-dark"
+          value={text}
+          onChange={setText}
+          options={options}
+        />
+
         {children}
       </EditorWrapper>
     </Container>

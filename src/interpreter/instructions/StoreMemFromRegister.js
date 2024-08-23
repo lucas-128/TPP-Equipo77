@@ -1,16 +1,21 @@
 import Instruction from "../Instruction";
 import { updateCache } from "../utils";
+import {
+  registersControlUnitId,
+  controlUnitCacheId,
+  controlUnitCacheAddrBusId,
+  controlUnitMainMemAddrId,
+  mainMemControlUnitDataId,
+} from "../../containers/SimulatorSection/components";
 
 /* 
-
 Instruction: 3
 Store the content of register R in the memory cell with address XY
-
 */
 
 export default class StoreMemFromRegister extends Instruction {
-  constructor(register, memoryCell, id) {
-    super(id);
+  constructor(type, register, memoryCell, id) {
+    super(type, id);
     this.register = register;
     this.memoryCell = memoryCell;
   }
@@ -26,6 +31,15 @@ export default class StoreMemFromRegister extends Instruction {
       this.memoryCell
     );
     newExecuteState.instructionId = this.id + 1;
+
+    newExecuteState.edgeAnimation = [
+      { id: registersControlUnitId, reverse: false },
+      { id: controlUnitCacheId, reverse: true },
+      controlUnitMainMemAddrId,
+      { id: mainMemControlUnitDataId, reverse: true },
+      controlUnitCacheAddrBusId,
+    ];
+
     return { ...oldState, execute: newExecuteState };
   }
 }

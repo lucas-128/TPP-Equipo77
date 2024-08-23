@@ -9,26 +9,6 @@ const fadeIn = keyframes`
   }
 `;
 
-export const ExtraBits = styled.span`
-  color: red;
-  position: relative;
-
-  &:hover::after {
-    content: "Bits truncados";
-    font-size: 14px;
-    color: black;
-    background-color: white;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    padding: 3px;
-    white-space: nowrap;
-    z-index: 12;
-    margin-top: 2px;
-    border-radius: 5px;
-  }
-`;
-
 export const ModalWrapper = styled.div`
   position: fixed;
   top: 0;
@@ -58,14 +38,13 @@ export const ModalBoxSetup = styled.div`
   animation: 0.7s ${fadeIn} forwards;
 `;
 
-export const AluContainer = styled.div`
+export const ControlUnitContainer = styled.div`
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04);
   border: 0.5px solid var(--im-gray);
-  border-radius: 5px;
+  border-radius: 10px;
   background: var(--im-primary);
-  clip-path: polygon(0 0, 100% 29%, 100% 67%, 0 100%, 0% 69%, 24% 48%, 0 29%);
-  width: 550px;
-  height: 580px;
+  width: 480px;
+  height: 530px;
   display: flex;
   flex-direction: row;
   justify-content: end;
@@ -163,18 +142,19 @@ export const Bus = styled.div`
     rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px,
     rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
 
-  &:nth-child(1) {
-    margin-top: 20px;
-  }
-
-  &:nth-child(2) {
-    margin-bottom: 20px;
-  }
 `;
+
+export const AddrBus = styled(Bus)`
+    background-color: var(--im-light-purple);
+`
+
+export const DataBus = styled(Bus)`
+    background-color: var(--im-light-blue);
+`
 
 export const StartBusContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   flex-direction: column;
   z-index: 1;
@@ -187,29 +167,6 @@ export const EndBusContainer = styled.div`
   align-items: center;
   flex-direction: column;
   z-index: 1;
-  height: 580px;
-
-  ${Bus} {
-    margin: 0px 0px 20px 0px;
-  }
-`;
-
-export const CircledNumber = styled.div`
-  color: var(--im-primary);
-  background-color: var(--im-white);
-  padding: 5px;
-  height: 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 15px;
-  border-radius: 50%;
-`;
-
-export const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  margin-top: 20px;
+  height: 530px;
+  gap: 200px;
 `;
