@@ -3,8 +3,8 @@ import { applyBinaryOperation } from "../utils";
 import { animationsAlu } from "../constants";
 /* 
 
-Instruction: 4
-Copy the content of register R1 to register R2
+Instruction: 8
+AND operation
 
 */
 
