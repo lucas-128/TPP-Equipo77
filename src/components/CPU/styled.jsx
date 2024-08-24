@@ -12,7 +12,7 @@ export const Container = styled.div`
   background-color: var(--im-gray);
   border-radius: 10px;
   width: 1100px;
-  height: 1070px;
+  height: 1060px;
   overflow: hidden;
   background-image: url(${CPU_BACKGROUND});
   background-blend-mode: multiply;

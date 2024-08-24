@@ -8,12 +8,12 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: var(--im-gray);
+  background-color: var(--im-primary);
   border-radius: 10px;
-  width: 350px;
+  width: 220px;
   gap: 5px;
-  height: 1050px;
-  padding: 20px 15px;
+  height: 945px;
+  padding: 15px;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
     rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
   cursor: pointer;
@@ -24,48 +24,27 @@ export const Container = styled.div`
 
 export const Title = styled.h1`
   margin: 0;
-  font-size: 40px;
+  font-size: 24px;
 `;
 
 export const TableContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  gap: 3px;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
-  margin-top: 10px;
-`;
-
-export const Table = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-  border-radius: 10px;
   overflow: hidden;
-  box-shadow: var(--im-shadow);
 `;
 
-export const TableRow = styled.tr``;
-
-export const TableHeader = styled.th`
-  background-color: var(--im-primary);
-  color: var(--im-white);
-  padding: 8px;
-  text-align: center;
-`;
-
-export const TableCell = styled.td`
-  padding: 2px;
-  text-align: center;
-  color: black;
+export const TableRow = styled.div`
   background-color: var(--im-white);
-  border-left: 1px solid var(--im-gray);
-  border-bottom: 1px solid var(--im-gray);
-`;
-
-export const HeaderCellText = styled.p`
-  font-size: 18px;
-  color: var(--im-white);
-  margin: 0;
+  display: flex;
+  flex-direction: row;
+  color: var(--im-darkgray);
+  border-radius: 3px;
+  width: 100%;
 `;
 
 export const ButtonsContainer = styled.div`
@@ -86,4 +65,19 @@ export const CustomHandle = styled(Handle)`
   background-color: transparent !important;
   border: none;
   pointer-events: none;
+`;
+
+export const CellNumeration = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-right: 1px solid black;
+  width: 15%;
+`;
+
+export const CellValue = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 `;

@@ -2,15 +2,13 @@ import { useMemo, useState } from "react";
 import {
   Container,
   TableContainer,
-  Table,
   TableRow,
-  TableHeader,
-  TableCell,
   Title,
-  HeaderCellText,
   ButtonsContainer,
   PaginationButton,
   CustomHandle,
+  CellNumeration,
+  CellValue,
 } from "./styled";
 import { useDispatch, useSelector } from "react-redux";
 import { mainMemoryId } from "../../containers/SimulatorSection/components";
@@ -49,31 +47,14 @@ export const MainMemory = () => {
       <Container id={mainMemoryId}>
         <Title>Memoria principal</Title>
         <TableContainer>
-          <Table>
-            <thead>
-              <TableRow>
-                <TableHeader>
-                  <HeaderCellText>Dirección</HeaderCellText>
-                </TableHeader>
-                <TableHeader>
-                  <HeaderCellText>Contenido</HeaderCellText>
-                </TableHeader>
-              </TableRow>
-            </thead>
-            <tbody>
-              {currentData.map((cellValue, index) => (
-                <TableRow key={index + offset} colSpan="2">
-                  <TableCell>
-                    {(index + offset)
-                      .toString(16)
-                      .toUpperCase()
-                      .padStart(2, "0")}
-                  </TableCell>
-                  <TableCell>{cellValue}</TableCell>
-                </TableRow>
-              ))}
-            </tbody>
-          </Table>
+          {currentData.map((cellValue, index) => (
+            <TableRow key={index + offset} colSpan="2">
+              <CellNumeration>
+                {(index + offset).toString(16).toUpperCase().padStart(2, "0")}
+              </CellNumeration>
+              <CellValue>{cellValue}</CellValue>
+            </TableRow>
+          ))}
         </TableContainer>
         <ButtonsContainer>
           <span>
