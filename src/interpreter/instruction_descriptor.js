@@ -94,6 +94,7 @@ export const instructionCodes = [
 
 export function getInstructionLog(instruction, row) {
   row = row.toUpperCase();
+  instruction = instruction.toUpperCase();
   switch (instruction) {
     case "1":
       // 1RXY
