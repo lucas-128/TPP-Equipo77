@@ -1,10 +1,9 @@
 import Instruction from "../Instruction";
-
+import { toBinary } from "../utils";
 /*
 
 Instruction: b
 Jumps to the instruction at address XY if the content of register R is equal to the content of register 0
-
 */
 
 export default class Branch extends Instruction {
@@ -16,15 +15,17 @@ export default class Branch extends Instruction {
 
   execute(oldState) {
     const newExecuteState = { ...oldState.execute };
+    const newFetchState = { ...oldState.fetch };
     const { registers } = newExecuteState;
-    const register0 = parseInt(registers[0], 2);
-    const registerToCompare = parseInt(registers[this.registerCompareId], 2);
+    const register0 = toBinary(registers[0]);
+    const registerToCompare = toBinary(registers[this.registerCompareId]);
     if (register0 == registerToCompare) {
+      newFetchState.programCounter = parseInt(this.nextInstructionDir, 16);
       newExecuteState.instructionId = parseInt(this.nextInstructionDir, 16) / 2;
     } else {
       newExecuteState.instructionId = this.id + 1;
     }
-    return { ...oldState, execute: newExecuteState };
+    return { ...oldState, execute: newExecuteState, fetch: newFetchState };
   }
 
   toString() {
