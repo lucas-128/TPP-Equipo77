@@ -65,7 +65,7 @@ export const ControlUnitModal = () => {
               )
                 .toString()
                 .map((instructionData, i) => {
-                  return <Info key={i}>{"\t " + instructionData}</Info>;
+                  return <Info key={i}>{"• " + instructionData}</Info>;
                 })}
             </InfoContainer>
             <StartBusContainer>
