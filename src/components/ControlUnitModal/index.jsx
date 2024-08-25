@@ -58,7 +58,7 @@ export const ControlUnitModal = () => {
               <Info>
                 {"• Descripción: " + controlUnitInfo.instructionDescription}
               </Info>
-              <Info>{"• Información adicional: "}</Info>
+              <InfoTile>{"Información adicional"}</InfoTile>
               {InstructionFactory.createInstruction(
                 controlUnitInfo.instruction,
                 0
