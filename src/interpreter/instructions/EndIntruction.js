@@ -18,4 +18,8 @@ export default class End extends Instruction {
     const newExecuteState = { ...oldState.execute };
     return { ...oldState, execute: newExecuteState };
   }
+
+  toString() {
+    return ["Opcode: c (END)"];
+  }
 }

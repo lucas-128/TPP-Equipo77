@@ -1,6 +1,6 @@
-import { ROTATE_RIGHT, typeSimulations } from "../constants";
 import Instruction from "../Instruction";
 import { animationsAlu } from "../constants";
+import { toHexa } from "../utils";
 
 /* 
 
@@ -39,5 +39,15 @@ export default class RotateRight extends Instruction {
     newExecuteState.edgeAnimation = animationsAlu;
 
     return { ...oldState, execute: newExecuteState };
+  }
+
+  toString() {
+    return [
+      "Opcode: a (ROTATE)",
+      "Operando 1: Registro " + toHexa(this.register),
+      ...(parseInt(this.rotations) == 1
+        ? ["Rotación: " + this.rotations + " vez"]
+        : ["Rotación: " + this.rotations + " veces"]),
+    ];
   }
 }

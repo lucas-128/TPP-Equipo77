@@ -67,20 +67,6 @@ export const ModalBg = styled.div`
   background: rgba(2, 2, 2, 0.857);
 `;
 
-export const InfoContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 70%;
-  align-items: center;
-  padding: 30px;
-  margin-right: 20px;
-  justify-content: center;
-  color: var(--im-lightgray);
-  font-size: 18px;
-  font-weight: 700;
-  text-align: center;
-`;
-
 export const OperationName = styled.div`
   border-radius: 15px;
   background-color: var(--im-white);
@@ -89,14 +75,6 @@ export const OperationName = styled.div`
   font-size: 18px;
   font-weight: 700;
   text-align: center;
-`;
-
-export const Info = styled.div`
-  width: 100%;
-  font-size: 14px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 `;
 
 export const CloseButton = styled.div`
@@ -141,16 +119,15 @@ export const Bus = styled.div`
     rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px,
     rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px,
     rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
-
 `;
 
 export const AddrBus = styled(Bus)`
-    background-color: var(--im-light-purple);
-`
+  background-color: var(--im-light-purple);
+`;
 
 export const DataBus = styled(Bus)`
-    background-color: var(--im-light-blue);
-`
+  background-color: var(--im-light-blue);
+`;
 
 export const StartBusContainer = styled.div`
   display: flex;
@@ -169,4 +146,18 @@ export const EndBusContainer = styled.div`
   z-index: 1;
   height: 530px;
   gap: 200px;
+`;
+
+export const InfoContainer = styled.div`
+  position: absolute;
+  width: 450px;
+`;
+
+export const InfoTile = styled.p`
+  font-size: 30px;
+  font-weight: bold;
+`;
+
+export const Info = styled.p`
+  text-align: left;
 `;

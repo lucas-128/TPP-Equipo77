@@ -59,21 +59,22 @@ const instructions = {
     " con resultado en registro ",
   ],
   //AR0X
-  a: [
+  A: [
     "Rotar a derecha el contenido del registro R, X veces",
     "Rotar a derecha el contenido del registro ",
     ", ",
-    " veces",
+    " veces.",
+    " vez.",
   ],
   //BRXY
-  b: [
+  B: [
     "Saltar a la instrucción con dirección XY si el contenido del registro R es igual al del reg. 0",
     "Saltar a la instrucción con dirección ",
     " si el contenido del registro ",
-    " es igual al del reg. 0",
+    " es igual al del registro 0.",
   ],
   //C000
-  c: ["Parar la ejecución"],
+  C: ["Parar la ejecución."],
 };
 
 export const instructionCodes = [
@@ -86,12 +87,13 @@ export const instructionCodes = [
   "7",
   "8",
   "9",
-  "a",
-  "b",
-  "c",
+  "A",
+  "B",
+  "C",
 ];
 
-export function getInstructionLog(actualState, instruction, row) {
+export function getInstructionLog(instruction, row) {
+  row = row.toUpperCase();
   switch (instruction) {
     case "1":
       // 1RXY
@@ -101,7 +103,8 @@ export function getInstructionLog(actualState, instruction, row) {
         row[1] +
         instructions[instruction][2] +
         row[2] +
-        row[3]
+        row[3] +
+        "."
       );
     case "2":
       // 2RXY
@@ -111,7 +114,8 @@ export function getInstructionLog(actualState, instruction, row) {
         row[1] +
         instructions[instruction][2] +
         row[2] +
-        row[3]
+        row[3] +
+        "."
       );
     case "3":
       // 3RXY
@@ -121,7 +125,8 @@ export function getInstructionLog(actualState, instruction, row) {
         row[1] +
         instructions[instruction][2] +
         row[2] +
-        row[3]
+        row[3] +
+        "."
       );
     case "4":
       // 40RS
@@ -130,7 +135,8 @@ export function getInstructionLog(actualState, instruction, row) {
         instructions[instruction][1] +
         row[2] +
         instructions[instruction][2] +
-        row[3]
+        row[3] +
+        "."
       );
     case "5":
       // 5RST
@@ -141,7 +147,8 @@ export function getInstructionLog(actualState, instruction, row) {
         instructions[instruction][2] +
         row[3] +
         instructions[instruction][3] +
-        row[1]
+        row[1] +
+        "."
       );
     case "6":
       //6RST
@@ -152,7 +159,8 @@ export function getInstructionLog(actualState, instruction, row) {
         instructions[instruction][2] +
         row[3] +
         instructions[instruction][3] +
-        row[1]
+        row[1] +
+        "."
       );
     case "7":
       //7RST
@@ -163,7 +171,8 @@ export function getInstructionLog(actualState, instruction, row) {
         instructions[instruction][2] +
         row[3] +
         instructions[instruction][3] +
-        row[1]
+        row[1] +
+        "."
       );
     case "8":
       // 8RST
@@ -174,7 +183,8 @@ export function getInstructionLog(actualState, instruction, row) {
         instructions[instruction][2] +
         row[3] +
         instructions[instruction][3] +
-        row[1]
+        row[1] +
+        "."
       );
     case "9":
       // 9RST
@@ -185,19 +195,24 @@ export function getInstructionLog(actualState, instruction, row) {
         instructions[instruction][2] +
         row[3] +
         instructions[instruction][3] +
-        row[1]
+        row[1] +
+        "."
       );
-    case "a":
+    case "A":
       // AR0X
       // Rotar a derecha el contenido del registro R, X veces
-      return (
-        instructions[instruction][1] +
-        row[1] +
-        instructions[instruction][2] +
-        row[3] +
-        instructions[instruction][3]
-      );
-    case "b":
+      return row[3] === "1"
+        ? instructions[instruction][1] +
+            row[1] +
+            instructions[instruction][2] +
+            row[3] +
+            instructions[instruction][4]
+        : instructions[instruction][1] +
+            row[1] +
+            instructions[instruction][2] +
+            row[3] +
+            instructions[instruction][3];
+    case "B":
       // BRXY
       // Saltar a la instrucción con dirección XY si el contenido del registro R es igual al del reg. 0
       return (
@@ -208,7 +223,7 @@ export function getInstructionLog(actualState, instruction, row) {
         row[1] +
         instructions[instruction][3]
       );
-    case "c":
+    case "C":
       // C000
       // Parar la ejecución
       return instructions[instruction][0];
