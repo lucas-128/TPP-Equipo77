@@ -5,6 +5,7 @@ import {
   cyclesSimulations,
   typeSimulations,
 } from "./constants";
+import { updateCache } from "./utils";
 
 export default class Instruction {
   constructor(type, id) {
@@ -57,18 +58,30 @@ export default class Instruction {
 
   fetch(oldState) {
     const newFetchState = { ...oldState.fetch };
+    const newExecuteState = { ...oldState.execute };
     const mainMemoryCells = oldState.execute.mainMemoryCells;
     newFetchState.address = oldState.fetch.programCounter;
 
-    newFetchState.instructionRegister =
+    const currentInstruction =
       mainMemoryCells[oldState.fetch.programCounter] +
       mainMemoryCells[oldState.fetch.programCounter + 1];
+
+    newFetchState.instructionRegister = currentInstruction;
     newFetchState.programCounter += 2;
 
     newFetchState.edgeAnimation = animationsFetch;
     newFetchState.instructionId = this.id;
 
-    return { ...oldState, fetch: newFetchState };
+    newExecuteState.cacheMemoryCells = updateCache(
+      newExecuteState,
+      oldState.fetch.programCounter
+    );
+    newExecuteState.cacheMemoryCells = updateCache(
+      newExecuteState,
+      oldState.fetch.programCounter + 1
+    );
+
+    return { ...oldState, fetch: newFetchState, execute: newExecuteState };
   }
 
   decode(oldState) {

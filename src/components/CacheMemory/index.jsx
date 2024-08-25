@@ -7,11 +7,8 @@ import {
   TableHeader,
   TableCell,
   TableTitle,
-  ButtonsContainer,
-  PaginationButton,
   CustomHandle,
 } from "./styled";
-import { useMemo, useState } from "react";
 
 export const CacheMemory = () => {
   const cacheMemoryCells = useSelector(
@@ -32,7 +29,9 @@ export const CacheMemory = () => {
           {cacheMemoryCells.map((cell, index) => (
             <TableRow key={index} colSpan="2">
               <TableCell>
-                {cell ? parseInt(cell.address, 10).toString(16) : "-"}
+                {cell
+                  ? parseInt(cell.address, 10).toString(16).padStart(2, "0")
+                  : "-"}
               </TableCell>
               <TableCell>{cell ? cell.content : "-"}</TableCell>
             </TableRow>

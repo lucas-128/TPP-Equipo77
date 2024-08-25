@@ -17,39 +17,32 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { IoClose } from "react-icons/io5";
 import { setOpenControlUnitZoom } from "../../slices/modalsSlice";
-import { useEffect, useState } from "react";
 import { getInstructionLog } from "../../interpreter/instruction_descriptor";
 import { InstructionFactory } from "../../interpreter/InstructionFactory";
+import { useMemo } from "react";
 
 export const ControlUnitModal = () => {
   const dispatch = useDispatch();
   const showModal = useSelector((state) => state.modals.controlUnitZoom);
-  const mainMemmoryCells = useSelector(
-    (state) => state.application.execute.mainMemoryCells
+  const fetchId = useSelector((state) => state.application.fetch.instructionId);
+  const instructionRegister = useSelector(
+    (state) => state.application.fetch.instructionRegister
   );
-  const decodeId = useSelector(
-    (state) => state.application.decode.instructionId
+  const programCounter = useSelector(
+    (state) => state.application.fetch.programCounter
   );
 
-  const [instruction, setInstruction] = useState("");
-  const [instructionDescription, setInstructionDescription] = useState("");
-
-  useEffect(() => {
-    if (mainMemmoryCells && decodeId !== null) {
-      const instructionIndex = parseInt(decodeId);
-      const firstHalfIndex = instructionIndex + instructionIndex * 1;
-      const secondHalfIndex = instructionIndex + 1 + instructionIndex * 1;
-      const firstHalf = mainMemmoryCells[firstHalfIndex];
-      const secondHalf = mainMemmoryCells[secondHalfIndex];
-      const instructionStr = firstHalf.toString() + secondHalf.toString();
-      setInstruction(instructionStr.toUpperCase());
-      const instructionDesc = getInstructionLog(
-        instructionStr[0],
-        instructionStr
-      );
-      setInstructionDescription(instructionDesc);
-    }
-  }, [mainMemmoryCells, decodeId]);
+  const controlUnitInfo = useMemo(() => {
+    return {
+      instruction: instructionRegister ? instructionRegister.toUpperCase() : "",
+      instructionDescription: instructionRegister
+        ? getInstructionLog(instructionRegister[0], instructionRegister)
+        : "",
+      programCounter: programCounter
+        ? programCounter.toString(16).padStart(2, "0")
+        : "",
+    };
+  }, [fetchId, instructionRegister, programCounter]);
 
   return (
     showModal && (
@@ -58,13 +51,21 @@ export const ControlUnitModal = () => {
           <ModalContainer>
             <InfoContainer>
               <InfoTile>{"Unidad de control"}</InfoTile>
-              <Info>{"• Instrucción: " + instruction}</Info>
-              <Info>{"• Descripción: " + instructionDescription}</Info>
+              <Info>
+                {"• Contador de programa: " + controlUnitInfo.programCounter}
+              </Info>
+              <Info>{"• Instrucción: " + controlUnitInfo.instruction}</Info>
+              <Info>
+                {"• Descripción: " + controlUnitInfo.instructionDescription}
+              </Info>
               <Info>{"• Información adicional: "}</Info>
-              {InstructionFactory.createInstruction(instruction, 0)
+              {InstructionFactory.createInstruction(
+                controlUnitInfo.instruction,
+                0
+              )
                 .toString()
                 .map((instructionData, i) => {
-                  return <Info key={i}>{instructionData}</Info>;
+                  return <Info key={i}>{"\t " + instructionData}</Info>;
                 })}
             </InfoContainer>
             <StartBusContainer>
