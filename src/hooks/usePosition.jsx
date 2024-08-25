@@ -45,7 +45,7 @@ export const usePosition = ({
           sourceY: sourceComponent.position.y + sourceComponent.height / 2,
           targetX: targetComponent.position.x + targetComponent.width / 2,
           targetY: targetComponent.position.y + targetComponent.height,
-          offset: 40,
+          offset: 60,
           sourcePosition: Position.Right,
           targetPosition: Position.Bottom,
         };

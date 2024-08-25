@@ -12,7 +12,7 @@ export const Container = styled.div`
   border-radius: 10px;
   width: 220px;
   gap: 5px;
-  height: 945px;
+  height: 975px;
   padding: 15px;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
     rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
@@ -44,6 +44,7 @@ export const TableRow = styled.div`
   flex-direction: row;
   color: var(--im-darkgray);
   border-radius: 3px;
+  font-size: 16px;
   width: 100%;
 `;
 

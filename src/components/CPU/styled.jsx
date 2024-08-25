@@ -11,8 +11,8 @@ export const Container = styled.div`
   padding-top: 20px;
   background-color: var(--im-gray);
   border-radius: 10px;
-  width: 1100px;
-  height: 1060px;
+  width: 1300px;
+  height: 1100px;
   overflow: hidden;
   background-image: url(${CPU_BACKGROUND});
   background-blend-mode: multiply;

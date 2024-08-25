@@ -37,7 +37,7 @@ export const MainMemControlDataBus = ({ id, source, target }) => {
         interactionWidth={20}
         style={{
           stroke: "hsl(120, 50%, 70%)",
-          strokeWidth: 20,
+          strokeWidth: 30,
           filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5))",
         }}
       />

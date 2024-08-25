@@ -9,12 +9,14 @@ import {
   updatePreviousState,
   updateCurrentState,
   clearApplication,
+  setIsSimulating,
 } from "../../../slices/applicationSlice";
 import { Button } from "../../Button";
 import Program from "../../../interpreter/Program";
 
-export const TextEditorButtons = ({ isSimulating, setIsSimulating, text }) => {
+export const TextEditorButtons = ({ text }) => {
   const [program, setProgram] = useState(null);
+  const isSimulating = useSelector((state) => state.application.isSimulating);
   const dispatch = useDispatch();
   const applicationState = useSelector((state) => state.application);
 
@@ -31,7 +33,7 @@ export const TextEditorButtons = ({ isSimulating, setIsSimulating, text }) => {
   };
 
   const handleSimulateButtonClick = () => {
-    setIsSimulating((prev) => !prev);
+    dispatch(setIsSimulating(!isSimulating));
     const newMemory = getProgramInMemory();
     const newProgram = new Program(text, applicationState.typeSimulations);
     setProgram(newProgram);
@@ -45,7 +47,7 @@ export const TextEditorButtons = ({ isSimulating, setIsSimulating, text }) => {
   };
 
   const handleEditCodeButtonClick = () => {
-    setIsSimulating((prev) => !prev);
+    dispatch(setIsSimulating(!isSimulating));
     dispatch(clearApplication());
   };
 
@@ -54,6 +56,11 @@ export const TextEditorButtons = ({ isSimulating, setIsSimulating, text }) => {
   };
 
   const setNextLine = () => {
+    if(applicationState.execute.endProgram) {
+      dispatch(setIsSimulating(false));
+      dispatch(clearApplication());
+      return;
+    }
     dispatch(updatePreviousState()); //TODO: Revisar esto porque creo que el primer estado guarda un previous state que no deberia
     dispatch(updateCurrentState(program.getNewState(applicationState)));
   };

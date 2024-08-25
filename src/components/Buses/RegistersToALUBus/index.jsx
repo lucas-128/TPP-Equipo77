@@ -81,7 +81,7 @@ export const RegistersToALUBus = ({ id, data }) => {
           interactionWidth={20}
           style={{
             stroke: "grey",
-            strokeWidth: 20,
+            strokeWidth: 30,
             filter: "url(#drop-shadow-top)",
           }}
         />
@@ -90,7 +90,7 @@ export const RegistersToALUBus = ({ id, data }) => {
           interactionWidth={20}
           style={{
             stroke: "grey",
-            strokeWidth: 20,
+            strokeWidth: 30,
             filter: "url(#drop-shadow-bottom)",
           }}
         />
