@@ -20,8 +20,8 @@ export const Container = styled.div`
   font-weight: bold;
   color: var(--im-white);
   background: var(--im-primary);
-  width: 150px;
-  height: 180px;
+  width: 190px;
+  height: 220px;
   clip-path: polygon(0 0, 100% 29%, 100% 67%, 0 100%, 0% 69%, 24% 48%, 0 29%);
   box-shadow: var(--im-shadow);
   cursor: pointer;

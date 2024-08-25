@@ -17,7 +17,7 @@ export const MainContainer = styled.div`
   align-items: center;
   background-color: var(--im-primary);
   border-radius: 10px;
-  padding: 25px;
+  padding: 20px;
   overflow: hidden;
   box-shadow: var(--im-shadow);
   cursor: ${(props) =>
@@ -43,7 +43,7 @@ export const BodyContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 10px;
+  gap: 15px;
 `;
 
 export const SpecialRegisterContainer = styled.div`
@@ -67,7 +67,7 @@ export const SpecialRegisterValue = styled.div`
 
 export const CustomText = styled.p`
   color: var(--im-white);
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
   margin: 0px;
 `;
@@ -76,7 +76,7 @@ export const HeaderText = styled.p`
   color: var(--im-white);
   font-size: 25px;
   font-weight: bold;
-  margin: 0px 0px 20px 0px;
+  margin: 0px 0px 15px 0px;
 `;
 
 const pulse = keyframes`

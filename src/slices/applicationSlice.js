@@ -29,10 +29,12 @@ export const initialState = {
     aluOperation: null,
     edgeAnimation: [],
     showInputPort: false,
+    endProgram: false,
   },
   previousState: null,
   aluOperation: null,
   edgeAnimation: [],
+  isSimulating: false,
   typeSimulations: typeSimulations.SIMPLE,
 };
 
@@ -120,6 +122,9 @@ export const applicationSlice = createSlice({
     updateTypeSimulation(state, action) {
       state.typeSimulations = action.payload;
     },
+    setIsSimulating(state, action) {
+      state.isSimulating = action.payload;
+    },
   },
 });
 
@@ -139,6 +144,7 @@ export const {
   setShowInputPort,
   updateMainMemoryCells,
   updateTypeSimulation,
+  setIsSimulating,
 } = applicationSlice.actions;
 
 // Thunk para manejar la actualización del estado actual

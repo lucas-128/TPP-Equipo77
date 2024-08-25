@@ -30,9 +30,10 @@ import { setShowEditor } from "../../slices/editorTextSlice";
 import { setError } from "../../slices/modalsSlice";
 
 import MonacoEditor from "react-monaco-editor";
-import { MiniMap } from "reactflow";
 
-export const TextEditor = ({ children, isSimulating, text, setText }) => {
+export const TextEditor = ({ children, text, setText }) => {
+  const isSimulating = useSelector((state) => state.application.isSimulating);
+
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [history, setHistory] = useState([]);
 

@@ -31,7 +31,7 @@ export const ALUToRegistersBus = ({ id }) => {
         interactionWidth={20}
         style={{
           stroke: "grey",
-          strokeWidth: 20,
+          strokeWidth: 30,
           filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5)) ",
         }}
       />

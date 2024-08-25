@@ -16,6 +16,7 @@ export default class End extends Instruction {
 
   execute(oldState) {
     const newExecuteState = { ...oldState.execute };
+    newExecuteState.endProgram = true;
     return { ...oldState, execute: newExecuteState };
   }
 
