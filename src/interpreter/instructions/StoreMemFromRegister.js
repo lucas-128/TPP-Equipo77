@@ -1,5 +1,6 @@
 import Instruction from "../Instruction";
-import { updateCache } from "../utils";
+import { updateCache, toHexa, toHexaPadStart } from "../utils";
+
 import {
   registersControlUnitId,
   controlUnitCacheId,
@@ -41,5 +42,13 @@ export default class StoreMemFromRegister extends Instruction {
     ];
 
     return { ...oldState, execute: newExecuteState };
+  }
+
+  toString() {
+    return [
+      "Opcode: 3 (STORE)",
+      "Origen: Registro " + toHexa(this.register),
+      "Destino: Dirección " + toHexaPadStart(this.memoryCell),
+    ];
   }
 }

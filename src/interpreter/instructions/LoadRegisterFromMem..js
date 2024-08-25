@@ -1,6 +1,5 @@
-import { animationsFetch, typeSimulations } from "../../interpreter/constants";
 import Instruction from "../Instruction";
-import { updateCache } from "../utils";
+import { updateCache, toHexa, toHexaPadStart } from "../utils";
 import {
   registersControlUnitId,
   controlUnitCacheId,
@@ -50,5 +49,13 @@ export default class LoadRegisterFromMem extends Instruction {
     ];
 
     return { ...oldState, execute: newExecuteState };
+  }
+
+  toString() {
+    return [
+      "Opcode: 1 (LOAD)",
+      "Origen: Dirección " + toHexaPadStart(this.memoryAddress),
+      "Destino: Registro " + toHexa(this.register),
+    ];
   }
 }

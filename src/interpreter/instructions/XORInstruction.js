@@ -1,5 +1,5 @@
 import Instruction from "../Instruction";
-import { applyBinaryOperation } from "../utils";
+import { applyBinaryOperation, toHexa } from "../utils";
 import { animationsAlu } from "../constants";
 
 /* 
@@ -25,5 +25,14 @@ export default class XORInstruction extends Instruction {
       ...oldState,
       execute: applyBinaryOperation(this, (a, b) => a ^ b, newExecuteState),
     };
+  }
+
+  toString() {
+    return [
+      "Opcode: 9 (XOR)",
+      "Operando 1: Registro " + toHexa(this.registerSIndex),
+      "Operando 2: Registro " + toHexa(this.registerTIndex),
+      "Destino: Registro " + toHexa(this.destinationIndex),
+    ];
   }
 }

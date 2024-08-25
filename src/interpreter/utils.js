@@ -66,3 +66,15 @@ export function updateCache(oldExecuteState, memoryAddress) {
 
   return newCacheMemoryCells;
 }
+
+export function toHexa(value) {
+  return value.toString(16).toUpperCase();
+};
+
+export function toHexaPadStart(value) {
+  return value.toString(16).toUpperCase().padStart(2, "0");
+};
+
+export function toBinary(value) {
+  return parseInt(value, 16).toString(2).toUpperCase().padStart(8, "0");
+};
