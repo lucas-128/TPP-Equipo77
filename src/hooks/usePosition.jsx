@@ -75,9 +75,9 @@ export const usePosition = ({
       case mainMemControlUnitDataId:
         return {
           sourceX: sourceComponent.position.x,
-          sourceY: targetComponent.position.y + targetComponent.height / 2,
+          sourceY: targetComponent.position.y + targetComponent.height / 2.5,
           targetX: targetComponent.position.x + targetComponent.width,
-          targetY: targetComponent.position.y + targetComponent.height / 2,
+          targetY: targetComponent.position.y + targetComponent.height / 2.5,
           sourcePosition: Position.Left,
           targetPosition: Position.Right,
         };

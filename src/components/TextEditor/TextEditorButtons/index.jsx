@@ -39,8 +39,8 @@ export const TextEditorButtons = ({ text }) => {
     setProgram(newProgram);
     const newState = newProgram.getNewState({
       ...applicationState,
-      fetch: { ...applicationState.fetch, programCounter: 0, instructionId: 0 },
-      execute: { ...applicationState.execute, mainMemoryCells: newMemory },
+      fetch: { ...applicationState.fetch, programCounter: 0, instructionId: null },
+      execute: { ...applicationState.execute, mainMemoryCells: newMemory},
     });
     dispatch(updatePreviousState()); //TODO: Revisar esto porque creo que el primer estado guarda un previous state que no deberia
     dispatch(updateCurrentState(newState));

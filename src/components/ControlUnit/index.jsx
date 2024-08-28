@@ -12,9 +12,14 @@ import {
 } from "./styled";
 import { useDispatch, useSelector } from "react-redux";
 import { setOpenControlUnitZoom } from "../../slices/modalsSlice";
+import { typeSimulations } from "../../interpreter/constants";
 
 export const ControlUnit = () => {
   const dispatch = useDispatch();
+
+  const typeSimulation = useSelector(
+    (state) => state.application.typeSimulation
+  );
   const programCounter = useSelector(
     (state) => state.application.fetch.programCounter
   );
@@ -36,6 +41,19 @@ export const ControlUnit = () => {
     decode: "Decodificando instrucción",
     execute: "Ejecutando instrucción",
   };
+
+  const textToShow = () =>{
+    if(typeSimulation == typeSimulations.CYCLES){
+      if (fetchId !== null) {
+        return texts.fetch;
+      } else if (decodeId !== null) {
+        return texts.decode;
+      } else if (executeId !== null) {
+        return texts.execute;
+      }
+    }
+    return "";
+  }
 
   return (
     <MainContainer
@@ -68,12 +86,9 @@ export const ControlUnit = () => {
       <CustomHandle type="source" position="right" />
       {/* cache to control unit */}
       <CustomHandle type="target" position="bottom" />
-      <IndicatorText animate={false}>
-        {/* TODO: si el tipo de ejecución es simple esto no se muestra */}
-        {decodeId !== null ? texts.decode : ""}
-        {fetchId !== null ? texts.fetch : ""}
-        {executeId !== null ? texts.execute : ""}
-      </IndicatorText>
+        <IndicatorText animate={false}>
+          {textToShow()}
+        </IndicatorText>     
     </MainContainer>
   );
 };
