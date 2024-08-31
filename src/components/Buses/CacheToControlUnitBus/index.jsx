@@ -10,14 +10,18 @@ import { useMemo } from "react";
 import { BusAnimation } from "../BusAnimation";
 
 export const CacheToControlUnitBus = ({ id }) => {
-  const animations = useSelector(
+  const executeAnimations = useSelector(
     (state) => state.application.execute.edgeAnimation
   );
 
-  const animationData = useMemo(
-    () => animations.find((anim) => anim.id === controlUnitCacheId),
-    [animations, controlUnitCacheId]
+  const animations = useSelector(
+    (state) => state.application.fetch.edgeAnimation
   );
+
+  const animationData = useMemo(() => {
+    const combinedAnimations = [...animations, ...executeAnimations];
+    return combinedAnimations.find((anim) => anim.id === controlUnitCacheId);
+  }, [animations, executeAnimations, controlUnitCacheId]);
 
   const edgeAnimation = !!animationData;
 
