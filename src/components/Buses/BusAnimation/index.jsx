@@ -9,7 +9,7 @@ export const BusAnimation = ({ edgePath, id, reverse }) => {
         <path
           d={edgePath}
           stroke="black"
-          strokeWidth={4}
+          strokeWidth={5}
           strokeDasharray="15,15"
           strokeDashoffset="0"
           strokeLinecap="round"

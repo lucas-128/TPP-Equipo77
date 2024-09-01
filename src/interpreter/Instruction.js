@@ -54,22 +54,15 @@ export default class Instruction {
       }
     } else if (typeSimulation === typeSimulations.PIPELINING) {
       let newState = oldState;
-      // let newElement = {};
       if (this.cycle === cyclesSimulations.FETCH) {
         this.cycle = cyclesSimulations.DECODE;
         newState = this.fetch(oldState);
       } else if (this.cycle === cyclesSimulations.DECODE) {
         this.cycle = cyclesSimulations.EXECUTE;
         newState = this.decode(oldState);
-        // newElement = {
-        //   execute: { ...newState.execute, instructionId: this.id },
-        // };
       } else if (this.cycle === cyclesSimulations.EXECUTE) {
         this.cycle = cyclesSimulations.FETCH;
         newState = this.execute(oldState);
-        // newElement = {
-        //   fetch: { ...newState.fetch, instructionId: this.id + 1 },
-        // };
       }
       return newState;
     }

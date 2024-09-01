@@ -44,7 +44,7 @@ export const TableRow = styled.div`
   flex-direction: row;
   color: var(--im-darkgray);
   border-radius: 3px;
-  font-size: 16px;
+  font-size: 16.5px;
   width: 100%;
 `;
 

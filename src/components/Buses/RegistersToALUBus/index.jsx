@@ -80,7 +80,7 @@ export const RegistersToALUBus = ({ id, data }) => {
           path={edgePath}
           interactionWidth={20}
           style={{
-            stroke: "grey",
+            stroke: "var(--im-gray-lighter)",
             strokeWidth: 30,
             filter: "url(#drop-shadow-top)",
           }}
@@ -89,7 +89,7 @@ export const RegistersToALUBus = ({ id, data }) => {
           path={secondEdgePath}
           interactionWidth={20}
           style={{
-            stroke: "grey",
+            stroke: "var(--im-gray-lighter)",
             strokeWidth: 30,
             filter: "url(#drop-shadow-bottom)",
           }}

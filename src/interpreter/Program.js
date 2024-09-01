@@ -42,9 +42,8 @@ export default class Program {
     return state.execute.instructionId || 0;
   }
 
-  // TODO: Esto hacerlo directamente en el gteNextValue
-  isValidId(id) {
-    return id !== null && id < this.instructions.length;
+  isLastId(id) {
+    return id >= this.instructions.length || id === null;
   }
 
   getNextValue(value, lastCycleInst) {
@@ -77,40 +76,39 @@ export default class Program {
       console.log("el id del decode es ", decodeInstructionId);
       console.log("el id del execute es ", executeInstructionId);
 
-      if (this.isValidId(executeInstructionId)) {
-        console.log(
-          "la instruccion haciendo el execute es ",
-          this.instructions[oldState.execute.instructionId]
-        );
+      if (!this.isLastId(executeInstructionId)) {
         const instructionExecute = this.instructions[executeInstructionId];
         newExecuteState = instructionExecute.nextStep(
           oldState,
           this.typeSimulation
         );
       }
-      if (this.isValidId(fetchInstructionId)) {
+      if (!this.isLastId(fetchInstructionId)) {
         const instructionFetch = this.instructions[fetchInstructionId];
-        console.log("la instruccion haciendo el fetch es ", instructionFetch);
         newFetchState = instructionFetch.nextStep(
           oldState,
           this.typeSimulation
         );
       } else {
         newFetchState = {
-          fetch: { ...oldState.fetch, instructionId: fetchInstructionId, edgeAnimation: [] },
+          fetch: {
+            ...oldState.fetch,
+            instructionId: fetchInstructionId,
+            instructionRegister: null,
+            address: null,
+            edgeAnimation: [],
+          },
         };
-        console.log("el fetch no es valido", newFetchState);
       }
-      if (this.isValidId(decodeInstructionId)) {
+      if (!this.isLastId(decodeInstructionId)) {
         const intructionDecode = this.instructions[decodeInstructionId];
-        console.log("la instruccion haciendo el decode es ", intructionDecode);
         newDecodeState = intructionDecode.nextStep(
           oldState,
           this.typeSimulation
         );
       } else {
         newDecodeState = {
-          decode: { ...oldState.decode, instructionId: decodeInstructionId },
+          decode: { ...oldState.decode, instructionId: null },
         };
       }
 

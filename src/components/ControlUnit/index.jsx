@@ -18,7 +18,7 @@ export const ControlUnit = () => {
   const dispatch = useDispatch();
 
   const typeSimulation = useSelector(
-    (state) => state.application.typeSimulation
+    (state) => state.application.typeSimulations
   );
   const programCounter = useSelector(
     (state) => state.application.fetch.programCounter

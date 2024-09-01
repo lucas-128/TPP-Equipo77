@@ -17,7 +17,7 @@ export const MainContainer = styled.div`
   align-items: center;
   background-color: var(--im-primary);
   border-radius: 10px;
-  padding: 20px;
+  padding: 25px;
   overflow: hidden;
   box-shadow: var(--im-shadow);
   cursor: ${(props) =>
