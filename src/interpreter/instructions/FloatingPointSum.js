@@ -24,7 +24,7 @@ function getKeyForValue(value) {
       return key;
     }
   }
-  return undefined;
+  return "000"; // temporal hasta cambiar el metodo por el nuevo que paso Arturo
 }
 
 export default class FloatingPointSum extends Instruction {
@@ -109,8 +109,6 @@ function floatingPointSum(registerS, registerT) {
 
   // Normalizar mantisa
   const normalizedMantissa = normalizeMantissa(resultMantissa);
-
-  //console.log(resultMantissa);
 
   // Constuir resultado de operacion
   const operationResult =
