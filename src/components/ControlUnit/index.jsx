@@ -1,5 +1,4 @@
 import { controlUnitId } from "../../containers/SimulatorSection/components";
-import { useEffect, useState } from "react";
 import {
   BodyContainer,
   CustomHandle,
@@ -36,6 +35,8 @@ export const ControlUnit = () => {
     (state) => state.application.execute.instructionId
   );
 
+  const decodeColor = useSelector((state) => state.application.decode.color);
+
   const texts = {
     fetch: "Buscando instrucción",
     decode: "Decodificando instrucción",
@@ -59,6 +60,7 @@ export const ControlUnit = () => {
     <MainContainer
       id={controlUnitId}
       $operating={decodeId !== null}
+      $color={decodeColor}
       onClick={() => dispatch(setOpenControlUnitZoom(true))}
     >
       <HeaderText>Unidad de Control</HeaderText>

@@ -1,9 +1,9 @@
 import { Handle } from "reactflow";
 import styled, { keyframes, css } from "styled-components";
 
-const shine = keyframes`
+const shine = (color) => keyframes`
   100% {
-    background-color: #2c5d75;
+    background-color: ${color};
     box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
     transform: scale(1.01);
   }
@@ -20,15 +20,12 @@ export const MainContainer = styled.div`
   padding: 25px;
   overflow: hidden;
   box-shadow: var(--im-shadow);
-  cursor: ${(props) =>
-    props.$operating
-      ? "pointer"
-      : "default"};
+  cursor: ${(props) => (props.$operating ? "pointer" : "default")};
   pointer-events: ${(props) => (props.$operating ? "auto" : "none")};
   animation: ${(props) =>
     props.$operating
       ? css`
-          ${shine} 0.7s infinite alternate
+          ${shine(props.$color)} 0.7s infinite alternate
         `
       : "none"};
 

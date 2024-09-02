@@ -20,6 +20,17 @@ export const ControlToMainMemAddrBus = ({ id }) => {
     (state) => state.application.execute.edgeAnimation
   );
 
+  const fetchColor = useSelector((state) => state.application.fetch.color);
+  const executeColor = useSelector((state) => state.application.execute.color);
+
+  const color = useMemo(() => {
+    return executeAnimations.find(
+      (anim) => anim.id === controlUnitMainMemAddrId
+    )
+      ? executeColor
+      : fetchColor;
+  }, [executeAnimations, fetchColor, executeColor]);
+
   const edgeAnimation = useMemo(
     () =>
       animations.includes(controlUnitMainMemAddrId) ||
@@ -53,13 +64,15 @@ export const ControlToMainMemAddrBus = ({ id }) => {
           className="nodrag nopan"
         >
           {edgeAnimation && (
-            <Globe arrowPosition={"top"} title={"Dirección"}>
+            <Globe arrowPosition={"top"} title={"Dirección"} color={color}>
               {address}
             </Globe>
           )}
         </div>
       </EdgeLabelRenderer>
-      {edgeAnimation && <BusAnimation edgePath={edgePath} id={id} />}
+      {edgeAnimation && (
+        <BusAnimation edgePath={edgePath} id={id} color={color} />
+      )}
     </g>
   );
 };

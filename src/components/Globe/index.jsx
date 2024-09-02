@@ -1,8 +1,7 @@
 import React, { useMemo } from "react";
 import { Container, Content, Title } from "./styled";
 
-export const Globe = ({ id, arrowPosition, children, title }) => {
-
+export const Globe = ({ id, arrowPosition, children, title, color }) => {
   const directionArrow = {
     left: { top: "50%", left: "0px" },
     right: { top: "50%", left: "88%" },
@@ -13,7 +12,7 @@ export const Globe = ({ id, arrowPosition, children, title }) => {
   return (
     <Container key={id + "_globe"} $direction={directionArrow[arrowPosition]}>
       <Content>
-        <Title>{title}</Title>
+        <Title $color={color || "var(--im-darkgray)"}>{title}</Title>
         {children}
       </Content>
     </Container>

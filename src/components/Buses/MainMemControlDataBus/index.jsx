@@ -19,12 +19,23 @@ export const MainMemControlDataBus = ({ id, source, target }) => {
     (state) => state.application.execute.edgeAnimation
   );
 
+  const fetchColor = useSelector((state) => state.application.fetch.color);
+  const executeColor = useSelector((state) => state.application.execute.color);
+
   const animationData = useMemo(() => {
     const combinedAnimations = [...animations, ...executeAnimations];
     return combinedAnimations.find(
       (anim) => anim.id === mainMemControlUnitDataId
     );
   }, [animations, executeAnimations, mainMemControlUnitDataId]);
+
+  const color = useMemo(() => {
+    return executeAnimations.find(
+      (anim) => anim.id === mainMemControlUnitDataId
+    )
+      ? executeColor
+      : fetchColor;
+  }, [executeAnimations, fetchColor, executeColor]);
 
   const edgeAnimation = !!animationData;
 
@@ -54,7 +65,7 @@ export const MainMemControlDataBus = ({ id, source, target }) => {
           className="nodrag nopan"
         >
           {edgeAnimation && (
-            <Globe arrowPosition={"bottom"} title={"Datos"}>
+            <Globe arrowPosition={"bottom"} title={"Datos"} color={color}>
               {instructionRegister}
             </Globe>
           )}
@@ -65,6 +76,7 @@ export const MainMemControlDataBus = ({ id, source, target }) => {
           edgePath={edgePath}
           id={id}
           reverse={animationData.reverse}
+          color={color}
         />
       )}
     </g>

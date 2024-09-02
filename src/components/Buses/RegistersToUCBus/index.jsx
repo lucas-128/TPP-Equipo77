@@ -16,6 +16,8 @@ export const RegistersToUCBus = ({ id }) => {
     (state) => state.application.execute.edgeAnimation
   );
 
+  const color = useSelector((state) => state.application.execute.color);
+
   const animationData = useMemo(
     () => animations.find((anim) => anim.id === registersControlUnitId),
     [animations, registersControlUnitId]
@@ -51,11 +53,11 @@ export const RegistersToUCBus = ({ id }) => {
           {edgeAnimation && (
             <Globe arrowPosition={"bottom"}>
               <div className="row">
-                <Title>Dirección</Title>
+                <Title $color={color}>Dirección</Title>
                 {animationData?.address}
               </div>
               <div className="row">
-                <Title>Datos</Title>
+                <Title $color={color}>Datos</Title>
                 {animationData?.data}
               </div>
             </Globe>
@@ -67,6 +69,7 @@ export const RegistersToUCBus = ({ id }) => {
           edgePath={edgePath}
           id={id}
           reverse={animationData.reverse}
+          color={color}
         />
       )}
     </g>

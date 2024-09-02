@@ -59,7 +59,7 @@ export const initialNodes = [
     id: registersId,
     type: "registers",
     data: { registers: new Array(16).fill("-") },
-    position: { x: 80, y: 120 },
+    position: { x: 78, y: 120 },
     selectable: false,
   },
   {

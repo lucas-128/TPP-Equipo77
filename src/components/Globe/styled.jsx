@@ -4,7 +4,7 @@ import styled from "styled-components";
 export const Container = styled.div`
   /* position: absolute; */
   height: 70px;
-  background-color: var(--im-white);
+  background-color: var(--im-white-gray);
   z-index: 1;
   min-width: 80px;
   border-radius: 16px;
@@ -19,7 +19,7 @@ export const Container = styled.div`
     border-radius: 0;
     height: 15px;
     width: 15px;
-    background-color: var(--im-white);
+    background-color: var(--im-white-gray);
     top: ${(props) => props.$direction.top};
     left: ${(props) => props.$direction.left};
     transform: rotate(45deg);
@@ -27,12 +27,12 @@ export const Container = styled.div`
 `;
 
 export const Content = styled.div`
-  padding: 10px;
+  padding: 5px;
   display: flex;
   flex-direction: column;
   align-items: center;
   color: var(--im-darkgray);
-  font-size: 14px;
+  font-size: 16px;
   justify-content: center;
   width: 100%;
 `;
@@ -45,6 +45,7 @@ export const Title = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    color: ${(props) => props.$color};
 `;
 
 // export const CloseButton = styled(CgClose)`

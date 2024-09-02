@@ -14,13 +14,15 @@ export const RegistersToALUBus = ({ id, data }) => {
     (state) => state.application.execute.edgeAnimation
   );
 
+  const color = useSelector((state) => state.application.execute.color);
+
   const edgeAnimationAluBottom = useMemo(
-    () => animations.includes(registerAluTopId),
+    () => animations.find((anim) => anim.id === registerAluTopId),
     [animations, registerAluTopId]
   );
 
   const edgeAnimationAluTop = useMemo(
-    () => animations.includes(registerAluBottomId),
+    () => animations.find((anim) => anim.id === registerAluBottomId),
     [animations, registerAluBottomId]
   );
 
@@ -98,8 +100,8 @@ export const RegistersToALUBus = ({ id, data }) => {
           <>
             <path
               d={edgePath}
-              stroke="black"
-              strokeWidth={4}
+              stroke={color || "black"}
+              strokeWidth={8}
               strokeDasharray="15,15"
               strokeLinecap="round"
               fill="none"
@@ -109,8 +111,8 @@ export const RegistersToALUBus = ({ id, data }) => {
             />
             <path
               d={secondEdgePath}
-              stroke="black"
-              strokeWidth={4}
+              stroke={color || "black"}
+              strokeWidth={8}
               strokeDasharray="15,15"
               strokeLinecap="round"
               fill="none"

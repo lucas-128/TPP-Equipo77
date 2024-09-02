@@ -86,6 +86,27 @@ export const animationsFetch = [
   { id: mainMemControlUnitDataId, reverse: false },
 ];
 
+
+export const animationsAluData = (
+  registerRAddr,
+  registerRData,
+  registerTAddr,
+  registerTData,
+  registerDestIndex,
+  registerDestData
+) => {
+  return [
+    { id: registerAluTopId, address: registerRAddr, data: registerRData },
+    { id: registerAluBottomId, address: registerTAddr, data: registerTData },
+    {
+      id: aluRegistersId,
+      address: registerDestIndex,
+      data: registerDestData,
+    },
+  ];
+};
+
+
 export const animationsAlu = [
   registerAluTopId,
   registerAluBottomId,
