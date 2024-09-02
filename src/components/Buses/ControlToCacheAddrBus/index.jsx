@@ -11,12 +11,18 @@ import { BusAnimation } from "../BusAnimation";
 
 export const ControlToCacheAddrBus = ({ id }) => {
   const animations = useSelector(
+    (state) => state.application.fetch.edgeAnimation
+  );
+
+  const executeAnimations = useSelector(
     (state) => state.application.execute.edgeAnimation
   );
 
   const edgeAnimation = useMemo(
-    () => animations.includes(controlUnitCacheAddrBusId),
-    [animations, controlUnitCacheAddrBusId]
+    () =>
+      animations.includes(controlUnitCacheAddrBusId) ||
+      executeAnimations.includes(controlUnitCacheAddrBusId),
+    [animations, executeAnimations, controlUnitCacheAddrBusId]
   );
 
   const [edgePath] = usePosition({

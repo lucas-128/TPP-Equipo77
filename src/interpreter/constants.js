@@ -5,6 +5,8 @@ import {
   controlUnitMainMemAddrId,
   // controlUnitMainMemDataId,
   mainMemControlUnitDataId,
+  controlUnitCacheId,
+  controlUnitCacheAddrBusId,
 } from "../containers/SimulatorSection/components";
 
 // Data Tranfer Instructions
@@ -84,6 +86,8 @@ export const CACHE_SIZE = 16;
 export const animationsFetch = [
   controlUnitMainMemAddrId,
   { id: mainMemControlUnitDataId, reverse: false },
+  { id: controlUnitCacheId, reverse: true },
+  controlUnitCacheAddrBusId,
 ];
 
 export const animationsAlu = [
