@@ -4,7 +4,7 @@ export const Container = styled.div.withConfig({
   shouldForwardProp: (prop) => !["fullscreen"].includes(prop),
 })`
   display: flex;
-  flex: 1;
+  flex: 2;
   flex-direction: column;
   position: ${(props) => (props.fullscreen ? "fixed" : "relative")};
   top: 0;
@@ -49,64 +49,6 @@ export const EditorHeaderText = styled.p`
   user-select: none;
   margin: 0px;
   margin-right: auto;
-`;
-
-export const EditorTextWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  background-color: var(--im-white);
-  padding: 2px;
-  margin: 0px 5px;
-  border-radius: 10px;
-  flex: 20;
-  overflow-y: scroll;
-  max-height: 100%;
-  height: 100%;
-`;
-
-export const LineCounter = styled.div`
-  width: 30px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  line-height: 20px;
-  user-select: none;
-  height: 100%;
-`;
-
-export const LineCounterText = styled.p`
-  font-size: 10px;
-  color: black;
-  margin: 0px;
-`;
-
-export const LineNumber = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  color: black;
-  background-color: ${(props) => (props.selected ? "#d7d7d7" : "")};
-  margin-right: 5px;
-`;
-
-export const EditorText = styled.textarea`
-  font-size: 12px;
-  width: 100%;
-  height: calc(100vh - 100px);
-  border: none;
-  background-color: var(--im-white);
-  padding: 0px;
-  border-radius: 0 0 10px 0;
-  color: black;
-  font-family: "Courier New", Courier, monospace;
-  resize: none;
-  box-shadow: none;
-  outline: none;
-  line-height: 20px;
-  tab-size: 4;
-  white-space: pre;
-  overflow-y: hidden;
 `;
 
 export const EditorTextContainer = styled.div`

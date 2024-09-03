@@ -12,15 +12,9 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { validateSyntax } from "../../interpreter/main";
 import {
-  EditorText,
   EditorHeader,
   EditorHeaderIconContainer,
   EditorWrapper,
-  EditorTextWrapper,
-  LineCounter,
-  LineNumber,
-  LineCounterText,
-  EditorTextContainer,
   Button,
   Container,
   HiddenEditorContainer,
@@ -28,8 +22,7 @@ import {
 } from "./styled";
 import { setShowEditor } from "../../slices/editorTextSlice";
 import { setError } from "../../slices/modalsSlice";
-
-import MonacoEditor from "react-monaco-editor";
+import { EditorTest } from "./Editor";
 
 export const TextEditor = ({ children, text, setText }) => {
   const isSimulating = useSelector((state) => state.application.isSimulating);
@@ -54,27 +47,6 @@ export const TextEditor = ({ children, text, setText }) => {
 
   const dispatch = useDispatch();
 
-  const getLineNumbers = (text) => {
-    const lines = text.split("\n").length;
-    return Array.from({ length: lines }, (_, i) =>
-      (i * 2).toString(16).padStart(2, "0")
-    );
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Tab") {
-      e.preventDefault();
-      const { selectionStart, selectionEnd, value } = e.target;
-      const newValue =
-        value.substring(0, selectionStart) +
-        "\t" +
-        value.substring(selectionEnd);
-      setText(newValue);
-    } else if (e.ctrlKey && e.key === "z") {
-      handleUndo();
-    }
-  };
-
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (file && file.type === "text/plain") {
@@ -97,27 +69,6 @@ export const TextEditor = ({ children, text, setText }) => {
     if (!isSimulating) {
       setHistory((prevHistory) => [...prevHistory, text]);
       setText("");
-    } else {
-      // no se puede editar el codigo mientras se simula
-    }
-  };
-
-  const handleFullScreenToggle = () => {
-    if (!isSimulating) {
-      setIsFullScreen(!isFullScreen);
-    }
-  };
-
-  const handleUndo = () => {
-    if (!isSimulating) {
-      setHistory((prevHistory) => {
-        if (prevHistory.length > 1) {
-          const previousText = prevHistory[prevHistory.length - 2];
-          setText(previousText);
-          return prevHistory.slice(0, -2);
-        }
-        return prevHistory;
-      });
     } else {
       // no se puede editar el codigo mientras se simula
     }
@@ -151,15 +102,6 @@ export const TextEditor = ({ children, text, setText }) => {
     }
   }, [isSimulating]);
 
-  const options = {
-    selectOnLineNumbers: true,
-    lineNumbers: (lineNumber) => {
-      let hexLineNumber = ((lineNumber - 1) * 2).toString(16).padStart(2, "0");
-      return hexLineNumber;
-    },
-    minimap: { enabled: false },
-  };
-
   return show ? (
     <Container fullscreen={isFullScreen}>
       <EditorWrapper>
@@ -186,19 +128,6 @@ export const TextEditor = ({ children, text, setText }) => {
                 <Button onClick={handleClearText} title="Borrar">
                   <MdDelete size={20} />
                 </Button>
-                {/* <Button
-                  onClick={handleFullScreenToggle}
-                  title="Pantalla completa"
-                >
-                  {isFullScreen ? (
-                    <MdFullscreenExit size={20} />
-                  ) : (
-                    <MdFullscreen size={20} />
-                  )}
-                </Button> */}
-                {/* <Button onClick={handleUndo} title="Deshacer">
-                  <MdUndo size={20} />
-                </Button> */}
                 <Button onClick={handleFileDownload} title="Descargar">
                   <MdDownload size={20} />
                 </Button>
@@ -209,13 +138,7 @@ export const TextEditor = ({ children, text, setText }) => {
             </Button>
           </EditorHeaderIconContainer>
         </EditorHeader>
-
-        <MonacoEditor
-          theme="vs-dark"
-          value={text}
-          onChange={setText}
-          options={options}
-        />
+        <EditorTest editorValue={text} setEditorValue={setText} />
 
         {children}
       </EditorWrapper>
