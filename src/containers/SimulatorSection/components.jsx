@@ -45,7 +45,7 @@ export const initialNodes = [
     id: aluId,
     type: "alu",
     data: { label: "ALU" },
-    position: { x: 570, y: 420 },
+    position: { x: 570, y: 410 },
     selectable: false,
   },
   {
