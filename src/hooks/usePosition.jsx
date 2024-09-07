@@ -75,9 +75,9 @@ export const usePosition = ({
       case mainMemControlUnitDataId:
         return {
           sourceX: sourceComponent.position.x,
-          sourceY: targetComponent.position.y + targetComponent.height / 2,
+          sourceY: targetComponent.position.y + targetComponent.height / 2.5,
           targetX: targetComponent.position.x + targetComponent.width,
-          targetY: targetComponent.position.y + targetComponent.height / 2,
+          targetY: targetComponent.position.y + targetComponent.height / 2.5,
           sourcePosition: Position.Left,
           targetPosition: Position.Right,
         };
@@ -114,7 +114,7 @@ export const usePosition = ({
     }
   }, [sourceComponent, targetComponent, position, sourceComponentId]);
 
-  const [edgePath] = getSmoothStepPath({
+  const [edgePath, labelX, labelY] = getSmoothStepPath({
     sourceX: positions.sourceX,
     sourceY: positions.sourceY,
     targetX: positions.targetX,
@@ -124,5 +124,5 @@ export const usePosition = ({
     targetPosition: positions.targetPosition,
   });
 
-  return [edgePath];
+  return [edgePath, labelX, labelY];
 };

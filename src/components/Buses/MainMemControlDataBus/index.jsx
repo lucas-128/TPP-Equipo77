@@ -1,11 +1,16 @@
 import { useSelector } from "react-redux";
 import { useMemo } from "react";
-import { BaseEdge } from "reactflow";
+import { BaseEdge, EdgeLabelRenderer } from "reactflow";
 import { usePosition } from "../../../hooks/usePosition";
 import { mainMemControlUnitDataId } from "../../../containers/SimulatorSection/components";
 import { BusAnimation } from "../BusAnimation";
+import { Globe } from "../../Globe";
 
 export const MainMemControlDataBus = ({ id, source, target }) => {
+  const instructionRegister = useSelector(
+    (state) => state.application.fetch.instructionRegister
+  );
+
   const animations = useSelector(
     (state) => state.application.fetch.edgeAnimation
   );
@@ -14,6 +19,9 @@ export const MainMemControlDataBus = ({ id, source, target }) => {
     (state) => state.application.execute.edgeAnimation
   );
 
+  const fetchColor = useSelector((state) => state.application.fetch.color);
+  const executeColor = useSelector((state) => state.application.execute.color);
+
   const animationData = useMemo(() => {
     const combinedAnimations = [...animations, ...executeAnimations];
     return combinedAnimations.find(
@@ -21,31 +29,54 @@ export const MainMemControlDataBus = ({ id, source, target }) => {
     );
   }, [animations, executeAnimations, mainMemControlUnitDataId]);
 
+  const color = useMemo(() => {
+    return executeAnimations.find(
+      (anim) => anim.id === mainMemControlUnitDataId
+    )
+      ? executeColor
+      : fetchColor;
+  }, [executeAnimations, fetchColor, executeColor]);
+
   const edgeAnimation = !!animationData;
 
-  const [edgePath] = usePosition({
+  const [edgePath, labelX, labelY] = usePosition({
     edgeId: id,
     sourceComponentId: source,
     targetComponentId: target,
   });
 
-  // Verde para distinguir que es sólo de datos
   return (
     <g>
       <BaseEdge
         path={edgePath}
         interactionWidth={20}
         style={{
-          stroke: "hsl(120, 50%, 70%)",
+          stroke: "hsl(120, 10.769230769230772%, 74.50980392156863%)",
           strokeWidth: 30,
           filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5))",
         }}
       />
+      <EdgeLabelRenderer>
+        <div
+          style={{
+            position: "absolute",
+            transform: `translate(-50%, -140%) translate(${labelX}px,${labelY}px)`,
+          }}
+          className="nodrag nopan"
+        >
+          {edgeAnimation && (
+            <Globe arrowPosition={"bottom"} title={"Datos"} color={color}>
+              {instructionRegister}
+            </Globe>
+          )}
+        </div>
+      </EdgeLabelRenderer>
       {edgeAnimation && (
         <BusAnimation
           edgePath={edgePath}
           id={id}
           reverse={animationData.reverse}
+          color={color}
         />
       )}
     </g>
