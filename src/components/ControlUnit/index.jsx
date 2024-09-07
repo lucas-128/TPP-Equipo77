@@ -1,5 +1,4 @@
 import { controlUnitId } from "../../containers/SimulatorSection/components";
-import { useEffect, useState } from "react";
 import {
   BodyContainer,
   CustomHandle,
@@ -12,9 +11,14 @@ import {
 } from "./styled";
 import { useDispatch, useSelector } from "react-redux";
 import { setOpenControlUnitZoom } from "../../slices/modalsSlice";
+import { typeSimulations } from "../../interpreter/constants";
 
 export const ControlUnit = () => {
   const dispatch = useDispatch();
+
+  const typeSimulation = useSelector(
+    (state) => state.application.typeSimulations
+  );
   const programCounter = useSelector(
     (state) => state.application.fetch.programCounter
   );
@@ -31,16 +35,32 @@ export const ControlUnit = () => {
     (state) => state.application.execute.instructionId
   );
 
+  const decodeColor = useSelector((state) => state.application.decode.color);
+
   const texts = {
     fetch: "Buscando instrucción",
     decode: "Decodificando instrucción",
     execute: "Ejecutando instrucción",
   };
 
+  const textToShow = () =>{
+    if(typeSimulation == typeSimulations.CYCLES){
+      if (fetchId !== null) {
+        return texts.fetch;
+      } else if (decodeId !== null) {
+        return texts.decode;
+      } else if (executeId !== null) {
+        return texts.execute;
+      }
+    }
+    return "";
+  }
+
   return (
     <MainContainer
       id={controlUnitId}
       $operating={decodeId !== null}
+      $color={decodeColor}
       onClick={() => dispatch(setOpenControlUnitZoom(true))}
     >
       <HeaderText>Unidad de Control</HeaderText>
@@ -68,12 +88,9 @@ export const ControlUnit = () => {
       <CustomHandle type="source" position="right" />
       {/* cache to control unit */}
       <CustomHandle type="target" position="bottom" />
-      <IndicatorText animate={false}>
-        {/* TODO: si el tipo de ejecución es simple esto no se muestra */}
-        {decodeId !== null ? texts.decode : ""}
-        {fetchId !== null ? texts.fetch : ""}
-        {executeId !== null ? texts.execute : ""}
-      </IndicatorText>
+        <IndicatorText animate={false}>
+          {textToShow()}
+        </IndicatorText>     
     </MainContainer>
   );
 };

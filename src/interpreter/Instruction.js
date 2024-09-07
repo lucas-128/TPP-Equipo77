@@ -53,6 +53,19 @@ export default class Instruction {
         };
         return newState;
       }
+    } else if (typeSimulation === typeSimulations.PIPELINING) {
+      let newState = oldState;
+      if (this.cycle === cyclesSimulations.FETCH) {
+        this.cycle = cyclesSimulations.DECODE;
+        newState = this.fetch(oldState);
+      } else if (this.cycle === cyclesSimulations.DECODE) {
+        this.cycle = cyclesSimulations.EXECUTE;
+        newState = this.decode(oldState);
+      } else if (this.cycle === cyclesSimulations.EXECUTE) {
+        this.cycle = cyclesSimulations.FETCH;
+        newState = this.execute(oldState);
+      }
+      return newState;
     }
   }
 

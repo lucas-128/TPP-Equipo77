@@ -22,7 +22,7 @@ export default class LoadRegisterFromPattern extends Instruction {
     newExecuteState.registers[this.register] = this.pattern;
     newExecuteState.instructionId = this.id + 1;
     newExecuteState.edgeAnimation = [
-      { id: registersControlUnitId, reverse: true },
+      { id: registersControlUnitId, reverse: true, address: this.register, data: this.pattern },
     ];
     return { ...oldState, execute: newExecuteState };
   }
