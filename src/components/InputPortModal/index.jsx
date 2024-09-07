@@ -126,6 +126,7 @@ export const InputPortModal = () => {
     const registerToUpdate = parseInt(instructionRegister.slice(1, 2), 16);
     newExecuteState.registers[registerToUpdate] = newValue;
     newExecuteState.mainMemoryCells[254] = newValue;
+    newExecuteState.instructionId = currentExecuteState.instructionId + 1;
     const newState = {
       ...applicationState,
       execute: newExecuteState,

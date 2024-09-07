@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import Editor from "@monaco-editor/react";
 import { useSelector } from "react-redux";
 import "./index.css";
@@ -19,10 +19,21 @@ export const EditorTest = ({ setEditorValue, editorValue }) => {
   //Tomar los ids y ver cual no es null para ver cual no es null
 
   //Pipelining traer los ids de los 3 y los colores
-  const selectedLine =
-    useSelector((state) => state.application.fetch.programCounter) / 2 - 1;
+  const fetchInstructionId = useSelector((state) => state.application.fetch.instructionId) ;
+
+  const decodeInstructionId = useSelector((state) => state.application.decode.instructionId);
+
+  const executeInstructionId = useSelector((state) => state.application.execute.instructionId);
+
+  // const selectedLine = fetchInstructionId || decodeInstructionId || executeInstructionId;
+
+  console.log("EL fetchInstructionId", fetchInstructionId, "EL decodeInstructionId", decodeInstructionId, "EL executeInstructionId", executeInstructionId);
 
   const isSimulating = useSelector((state) => state.application.isSimulating);
+
+  const selectedLine = useMemo(() => {
+    return fetchInstructionId || decodeInstructionId || executeInstructionId;
+  }, [fetchInstructionId, decodeInstructionId, executeInstructionId]);
 
   const options = {
     selectOnLineNumbers: true,
@@ -38,7 +49,7 @@ export const EditorTest = ({ setEditorValue, editorValue }) => {
 
   const updateDecorations = () => {
     if (!editorRef.current) return;
-    const lineNumber = Math.floor(selectedLine) + 1;
+    const lineNumber = selectedLine;
     const newDecorations = [
       {
         range: new monaco.Range(lineNumber, 1, lineNumber, 1),
@@ -55,8 +66,9 @@ export const EditorTest = ({ setEditorValue, editorValue }) => {
   };
 
   useEffect(() => {
+    console.log("LA selectedLine", selectedLine);
     updateDecorations();
-  }, [selectedLine]);
+  }, [fetchInstructionId, decodeInstructionId, executeInstructionId]);
 
   return (
     <>
