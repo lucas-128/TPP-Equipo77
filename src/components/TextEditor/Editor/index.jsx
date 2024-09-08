@@ -19,21 +19,63 @@ export const EditorTest = ({ setEditorValue, editorValue }) => {
   //Tomar los ids y ver cual no es null para ver cual no es null
 
   //Pipelining traer los ids de los 3 y los colores
-  const fetchInstructionId = useSelector((state) => state.application.fetch.instructionId) ;
+  const fetchInstructionId = useSelector(
+    (state) => state.application.fetch.instructionId
+  );
 
-  const decodeInstructionId = useSelector((state) => state.application.decode.instructionId);
+  const decodeInstructionId = useSelector(
+    (state) => state.application.decode.instructionId
+  );
 
-  const executeInstructionId = useSelector((state) => state.application.execute.instructionId);
+  const executeInstructionId = useSelector(
+    (state) => state.application.execute.instructionId
+  );
 
-  // const selectedLine = fetchInstructionId || decodeInstructionId || executeInstructionId;
+  const fetchInstructionColor = useSelector(
+    (state) => state.application.fetch.color
+  );
 
-  console.log("EL fetchInstructionId", fetchInstructionId, "EL decodeInstructionId", decodeInstructionId, "EL executeInstructionId", executeInstructionId);
+  const decodeInstructionColor = useSelector(
+    (state) => state.application.decode.color
+  );
+
+  const executeInstructionColor = useSelector(
+    (state) => state.application.execute.color
+  );
+
+  console.log(
+    "EL fetchInstructionId",
+    fetchInstructionId,
+    "EL decodeInstructionId",
+    decodeInstructionId,
+    "EL executeInstructionId",
+    executeInstructionId
+  );
 
   const isSimulating = useSelector((state) => state.application.isSimulating);
 
-  const selectedLine = useMemo(() => {
-    return fetchInstructionId || decodeInstructionId || executeInstructionId;
+  const colorMapper = {
+    "var(--im-green)": "green",
+    "var(--im-pink)": "pink",
+    "var(--im-yellow)": "yellow",
+    "var(--im-blue)": "blue",
+  };
+
+  const line = useMemo(() => {
+    return fetchInstructionId
+      ? { number: fetchInstructionId, color: colorMapper[fetchInstructionColor] }
+      : decodeInstructionId
+      ? { number: decodeInstructionId, color: colorMapper[decodeInstructionColor] }
+      : {
+          number:
+            executeInstructionId !== null && executeInstructionId > 0
+              ? executeInstructionId - 1
+              : 0,
+          color: colorMapper[executeInstructionColor],
+        };
   }, [fetchInstructionId, decodeInstructionId, executeInstructionId]);
+
+  //TODO: Sacar el line y usar los tres objetos en el option del decoration. En caso de que el id no sea null, mostrar la flecha
 
   const options = {
     selectOnLineNumbers: true,
@@ -49,13 +91,13 @@ export const EditorTest = ({ setEditorValue, editorValue }) => {
 
   const updateDecorations = () => {
     if (!editorRef.current) return;
-    const lineNumber = selectedLine;
+    const lineNumber = line.number + 1;
     const newDecorations = [
       {
         range: new monaco.Range(lineNumber, 1, lineNumber, 1),
         options: {
           isWholeLine: true,
-          glyphMarginClassName: "fa fa-solid fa-arrow-right fa-xs",
+          glyphMarginClassName: `fa fa-solid fa-arrow-right fa-xs glyph-margin-color-${line.color}`,
         },
       },
     ];
@@ -66,7 +108,6 @@ export const EditorTest = ({ setEditorValue, editorValue }) => {
   };
 
   useEffect(() => {
-    console.log("LA selectedLine", selectedLine);
     updateDecorations();
   }, [fetchInstructionId, decodeInstructionId, executeInstructionId]);
 

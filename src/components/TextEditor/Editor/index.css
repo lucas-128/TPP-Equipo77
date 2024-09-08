@@ -1,9 +1,3 @@
-.my-glyph-margin {
-  position: relative;
-  display: flex;
-  align-items: center;
-  background-color: red;
-}
 
 .monaco-editor .monaco-scrollable-element .scrollbar.horizontal,
 .monaco-editor .decorationsOverviewRuler,
@@ -16,4 +10,20 @@
 }
 .monaco-editor .monaco-scrollable-element .scrollbar.vertical {
   background: rgba(40, 40, 40, 0.7);
+}
+
+.glyph-margin-color-green{
+  color: var(--im-green);
+}
+
+.glyph-margin-color-pink{
+  color: var(--im-pink);
+}
+
+.glyph-margin-color-blue{
+  color: var(--im-blue);
+}
+
+.glyph-margin-color-yellow{
+  color: var(--im-yellow);
 }

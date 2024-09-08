@@ -22,12 +22,8 @@ export default class Branch extends Instruction {
     if (register0 == registerToCompare) {
       newFetchState.programCounter = parseInt(this.nextInstructionDir, 16);
       newFetchState.instructionId = parseInt(this.nextInstructionDir, 16) / 2; //TODO: Check this
-
-      console.log("this.nextInstructionDir", this.nextInstructionDir);
-      console.log("EL valor en decimal", parseInt(this.nextInstructionDir, 16));
-      console.log("EL nextInstructionDir", parseInt(this.nextInstructionDir, 16) / 2  );
     } else {
-      newFetchState.instructionId = this.id;
+      newFetchState.instructionId = this.id + 1;
     }
     return { ...oldState, fetch: newFetchState, execute: newExecuteState };
   }
