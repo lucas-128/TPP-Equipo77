@@ -16,16 +16,7 @@ export const TableContainer = styled.div`
   border-radius: 10px;
   text-align: center;
   box-shadow: var(--im-shadow);
-  cursor: pointer;
-
-  &:hover {
-    background-color: var(--im-primary-hover);
-    box-shadow: var(--im-shadow-hover);
-
-    ${TableHeader} {
-      background-color: var(--im-primary-hover);
-    }
-  }
+  cursor: grab;
 `;
 
 export const TableTitle = styled.div`
