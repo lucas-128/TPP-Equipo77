@@ -10,9 +10,9 @@ import {
   IconContainer,
   ModalBg,
   Table,
-  Column,
-  HeaderCell,
+  DirectionColumn,
   Cell,
+  DataColumn,
 } from "./styled";
 
 const MainMemoryModal = () => {
@@ -44,27 +44,25 @@ const MainMemoryModal = () => {
                 return (
                   <div
                     style={{
-                      background:
-                        i % 2 === 0 ? "var(--im-lightgray)" : "var(--im-white)",
+                      background: "var(--im-white)",
                       display: "flex",
+                      marginLeft: "5px"
                     }}
                   >
-                    <Column>
-                      <HeaderCell>Dirección</HeaderCell>
+                    <DirectionColumn>
                       {mainMemoryCells
                         .slice(i * 32, (i + 1) * 32)
                         .map((_value, index) => (
                           <Cell>{toHexa(index, i * 32)}</Cell>
                         ))}
-                    </Column>
-                    <Column>
-                      <HeaderCell>Contenido</HeaderCell>
+                    </DirectionColumn>
+                    <DataColumn>
                       {mainMemoryCells
                         .slice(i * 32, (i + 1) * 32)
                         .map((value, _index) => (
                           <Cell>{value}</Cell>
                         ))}
-                    </Column>
+                    </DataColumn>
                   </div>
                 );
               })}

@@ -145,6 +145,7 @@ export const InfoContainer = styled.div`
 `;
 
 export const InfoTile = styled.p`
+  text-decoration: underline;
   font-size: 20px;
   font-weight: bold;
 `;
@@ -172,4 +173,5 @@ export const DataBox = styled.div`
 export const BlankDataBox = styled.div`
   border-radius: 15px;
   padding: 5px 10px;
+  font-style: italic;
 `;
