@@ -46,6 +46,7 @@ const MainMemoryModal = () => {
                     style={{
                       background:
                         i % 2 === 0 ? "var(--im-lightgray)" : "var(--im-white)",
+                      display: "flex",
                     }}
                   >
                     <Column>

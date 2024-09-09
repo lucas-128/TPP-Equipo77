@@ -29,9 +29,9 @@ export default class LoadRegisterFromPattern extends Instruction {
 
   toString() {
     return [
-      "Opcode: 2 (LOAD_PATTERN)",
-      "Origen: Patrón " + this.pattern + " -> " + toBinary(this.pattern),
-      "Destino: Registro " + toHexa(this.register),
+      ["Opcode: ", "2 (LOAD_PATTERN)"],
+      ["Origen: ", "Patrón 0x" + this.pattern + " = " + toBinary(this.pattern)+"b"],
+      ["Destino: ", "Registro " + toHexa(this.register)],
     ];
   }
 }

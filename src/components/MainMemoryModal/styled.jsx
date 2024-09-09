@@ -86,22 +86,26 @@ export const IconContainer = styled(IoClose)`
   color: var(--im-lightgray);
 `;
 
-export const Table = styled.table`
+export const Table = styled.div`
   display: flex;
   justify-content: center;
   border-collapse: collapse;
   margin: 10px 0 0 0;
 `;
 
-export const Column = styled.td`
+export const Column = styled.div`
+  flex-direction: column;
   border-right: 1px solid var(--im-darkgray);
   border-left: 1px solid var(--im-darkgray);
 `;
 
-export const HeaderCell = styled.th`
+export const HeaderCell = styled.div`
+  flex-direction: row;
   border-bottom: 1px solid var(--im-darkgray);
+  font-weight: bold;
 `;
 
-export const Cell = styled.tr`
+export const Cell = styled.div`
+  flex-direction: row;
   border-top: 1px solid var(--im-darkgray);
 `;

@@ -46,9 +46,9 @@ export default class StoreMemFromRegister extends Instruction {
 
   toString() {
     return [
-      "Opcode: 3 (STORE)",
-      "Origen: Registro " + toHexa(this.register),
-      "Destino: Dirección " + toHexaPadStart(this.memoryCell),
+      ["Opcode: ", "3 (STORE)"],
+      ["Origen: ", "Registro " + toHexa(this.register)],
+      ["Destino: ", "Dirección " + toHexaPadStart(this.memoryCell)],
     ];
   }
 }

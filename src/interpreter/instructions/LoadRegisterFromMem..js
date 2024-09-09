@@ -53,9 +53,9 @@ export default class LoadRegisterFromMem extends Instruction {
 
   toString() {
     return [
-      "Opcode: 1 (LOAD)",
-      "Origen: Dirección " + toHexaPadStart(this.memoryAddress),
-      "Destino: Registro " + toHexa(this.register),
+      ["Opcode: ", "1 (LOAD)"],
+      ["Origen: ", "Dirección " + toHexaPadStart(this.memoryAddress)],
+      ["Destino: ", "Registro " + toHexa(this.register)],
     ];
   }
 }

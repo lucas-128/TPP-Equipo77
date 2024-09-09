@@ -67,16 +67,6 @@ export const ModalBg = styled.div`
   background: rgba(2, 2, 2, 0.857);
 `;
 
-export const OperationName = styled.div`
-  border-radius: 15px;
-  background-color: var(--im-white);
-  padding: 5px 10px;
-  color: var(--im-primary);
-  font-size: 18px;
-  font-weight: 700;
-  text-align: center;
-`;
-
 export const CloseButton = styled.div`
   cursor: pointer;
   right: 0;
@@ -87,7 +77,7 @@ export const CloseButton = styled.div`
   padding: 5px 10px;
   font-weight: 600;
   font-size: 15px;
-  margin: 30px;
+  margin: 5px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -150,14 +140,36 @@ export const EndBusContainer = styled.div`
 
 export const InfoContainer = styled.div`
   position: absolute;
+  font-size: 13px;
   width: 450px;
 `;
 
 export const InfoTile = styled.p`
-  font-size: 30px;
+  font-size: 20px;
   font-weight: bold;
 `;
 
 export const Info = styled.p`
+  display: flex;
   text-align: left;
+  font-weight: bold;
+`;
+
+export const InfoBox = styled.div`
+  background-color: var(--im-white);
+  color: var(--im-gray);
+  padding: 1px 5px 5px 5px;
+  border-radius: 10px;
+`;
+
+export const DataBox = styled.div`
+  border-radius: 15px;
+  background-color: var(--im-primary);
+  color: var(--im-white);
+  padding: 5px 10px;
+`;
+
+export const BlankDataBox = styled.div`
+  border-radius: 15px;
+  padding: 5px 10px;
 `;
