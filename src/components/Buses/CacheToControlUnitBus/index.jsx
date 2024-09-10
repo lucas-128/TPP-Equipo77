@@ -31,7 +31,7 @@ export const CacheToControlUnitBus = ({ id }) => {
     targetComponentId: controlUnitId,
   });
 
-  // Verde para distinguir que es sólo de datos
+  
   return (
     <g>
       <BaseEdge

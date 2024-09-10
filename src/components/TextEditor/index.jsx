@@ -21,8 +21,9 @@ import {
   EditorHeaderText,
 } from "./styled";
 import { setShowEditor } from "../../slices/editorTextSlice";
-import { setError } from "../../slices/modalsSlice";
+import { setError, setOpenInstructionsModal } from "../../slices/modalsSlice";
 import { EditorTest } from "./Editor";
+import { BsQuestionCircle, BsQuestionCircleFill } from "react-icons/bs";
 
 export const TextEditor = ({ children, text, setText }) => {
   const isSimulating = useSelector((state) => state.application.isSimulating);
@@ -130,6 +131,9 @@ export const TextEditor = ({ children, text, setText }) => {
                 </Button>
                 <Button onClick={handleFileDownload} title="Descargar">
                   <MdDownload size={20} />
+                </Button>
+                <Button title="Ayuda" onClick={()=>dispatch(setOpenInstructionsModal(true))}>
+                  <BsQuestionCircleFill size={18} />
                 </Button>
               </>
             )}

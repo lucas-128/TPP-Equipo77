@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { BaseEdge } from "reactflow";
+import { BaseEdge, EdgeLabelRenderer } from "reactflow";
 import { usePosition } from "../../../hooks/usePosition";
 import { useMemo } from "react";
 import {
@@ -8,6 +8,9 @@ import {
   registerAluBottomId,
   registersId,
 } from "../../../containers/SimulatorSection/components";
+import { BusAnimation } from "../BusAnimation";
+import { Globe } from "../../Globe";
+import { Title } from "./styled";
 
 export const RegistersToALUBus = ({ id, data }) => {
   const animations = useSelector(
@@ -16,24 +19,27 @@ export const RegistersToALUBus = ({ id, data }) => {
 
   const color = useSelector((state) => state.application.execute.color);
 
-  const edgeAnimationAluBottom = useMemo(
+  const animationDataTop = useMemo(
     () => animations.find((anim) => anim.id === registerAluTopId),
     [animations, registerAluTopId]
   );
 
-  const edgeAnimationAluTop = useMemo(
+  const animationDataBottom = useMemo(
     () => animations.find((anim) => anim.id === registerAluBottomId),
     [animations, registerAluBottomId]
   );
 
-  const [edgePath] = usePosition({
+  const edgeAnimationAluTop = !!animationDataTop;
+  const edgeAnimationAluBottom = !!animationDataBottom;
+
+  const [edgePathTop, labelXTop, labelYTop] = usePosition({
     edgeId: id,
     sourceComponentId: registersId,
     targetComponentId: aluId,
     position: "top",
   });
 
-  const [secondEdgePath] = usePosition({
+  const [edgePathBottom, labelXBottom, labelYBottom] = usePosition({
     edgeId: id,
     sourceComponentId: registersId,
     targetComponentId: aluId,
@@ -79,7 +85,7 @@ export const RegistersToALUBus = ({ id, data }) => {
       <g>
         {/* Background Edges */}
         <BaseEdge
-          path={edgePath}
+          path={edgePathTop}
           interactionWidth={20}
           style={{
             stroke: "var(--im-gray-lighter)",
@@ -88,7 +94,7 @@ export const RegistersToALUBus = ({ id, data }) => {
           }}
         />
         <BaseEdge
-          path={secondEdgePath}
+          path={edgePathBottom}
           interactionWidth={20}
           style={{
             stroke: "var(--im-gray-lighter)",
@@ -96,31 +102,55 @@ export const RegistersToALUBus = ({ id, data }) => {
             filter: "url(#drop-shadow-bottom)",
           }}
         />
-        {edgeAnimationAluTop && edgeAnimationAluBottom && (
-          <>
-            <path
-              d={edgePath}
-              stroke={color || "black"}
-              strokeWidth={8}
-              strokeDasharray="15,15"
-              strokeLinecap="round"
-              fill="none"
-              style={{
-                animation: "dash 20s linear infinite reverse",
-              }}
-            />
-            <path
-              d={secondEdgePath}
-              stroke={color || "black"}
-              strokeWidth={8}
-              strokeDasharray="15,15"
-              strokeLinecap="round"
-              fill="none"
-              style={{
-                animation: "dash 20s linear infinite reverse",
-              }}
-            />
-          </>
+        <EdgeLabelRenderer>
+          <div
+            style={{
+              position: "absolute",
+              transform: `translate(0%, -180%) translate(${labelXTop}px,${labelYTop}px)`,
+            }}
+            className="nodrag nopan"
+          >
+            {edgeAnimationAluTop && (
+              <Globe arrowPosition={"bottom"} color={color}>
+                <div className="row">
+                  <Title $color={color}>Dirección</Title>
+                  {animationDataTop?.address}
+                </div>
+                <div className="row">
+                  <Title $color={color}>Datos</Title>
+                  {animationDataTop?.data}
+                </div>
+              </Globe>
+            )}
+          </div>
+        </EdgeLabelRenderer>
+        <EdgeLabelRenderer>
+          <div
+            style={{
+              position: "absolute",
+              transform: `translate(0%, 90%) translate(${labelXBottom}px,${labelYBottom}px)`,
+            }}
+            className="nodrag nopan"
+          >
+            {edgeAnimationAluBottom && (
+              <Globe arrowPosition={"top"} color={color}>
+                <div className="row">
+                  <Title $color={color}>Dirección</Title>
+                  {animationDataBottom?.address}
+                </div>
+                <div className="row">
+                  <Title $color={color}>Datos</Title>
+                  {animationDataBottom?.data}
+                </div>
+              </Globe>
+            )}
+          </div>
+        </EdgeLabelRenderer>
+        {edgeAnimationAluTop && (
+          <BusAnimation edgePath={edgePathTop} id={id} color={color} />
+        )}
+        {edgeAnimationAluBottom && (
+          <BusAnimation edgePath={edgePathBottom} id={id} color={color} />
         )}
       </g>
     </>

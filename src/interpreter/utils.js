@@ -1,4 +1,9 @@
 import { operationNames, CACHE_SIZE } from "./constants";
+import {
+  aluRegistersId,
+  registerAluBottomId,
+  registerAluTopId,
+} from "../containers/SimulatorSection/components";
 
 export function applyBinaryOperation(instruction, operation, actualState) {
   const newState = { ...actualState, registers: [...actualState.registers] };
@@ -66,6 +71,33 @@ export function updateCache(oldExecuteState, memoryAddress) {
 
   return newCacheMemoryCells;
 }
+
+export const animationsAluData = (
+  registerRAddr,
+  registerRData,
+  registerTAddr,
+  registerTData,
+  registerDestIndex,
+  registerDestData
+) => {
+  const aluData = [
+    { id: registerAluTopId, address: registerRAddr, data: registerRData },
+    {
+      id: aluRegistersId,
+      address: registerDestIndex,
+      data: registerDestData,
+    },
+  ];
+
+  if (registerTAddr) {
+    aluData.push({
+      id: registerAluBottomId,
+      address: registerTAddr,
+      data: registerTData,
+    });
+  }
+  return aluData;
+};
 
 export function toHexa(value) {
   return value.toString(16).toUpperCase();

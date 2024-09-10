@@ -9,6 +9,7 @@ import {
 import { usePosition } from "../../../hooks/usePosition";
 import { BusAnimation } from "../BusAnimation";
 import { Globe } from "../../Globe";
+import { Title } from "./styled";
 
 export const ALUToRegistersBus = ({ id }) => {
   const animations = useSelector(
@@ -17,10 +18,18 @@ export const ALUToRegistersBus = ({ id }) => {
 
   const color = useSelector((state) => state.application.execute.color);
 
-  const edgeAnimation = useMemo(
+  // const edgeAnimation = useMemo(
+  //   () => animations.find((anim) => anim.id === aluRegistersId),
+  //   [animations, aluRegistersId]
+  // );
+
+  const animationData = useMemo(
     () => animations.find((anim) => anim.id === aluRegistersId),
     [animations, aluRegistersId]
   );
+
+  const edgeAnimation = !!animationData;
+
   const [edgePath, labelX, labelY] = usePosition({
     edgeId: id,
     sourceComponentId: aluId,
@@ -46,16 +55,16 @@ export const ALUToRegistersBus = ({ id }) => {
           }}
           className="nodrag nopan"
         >
-          {true && (
-            <Globe arrowPosition={"bottom"} title={"Datos"} color={color}>
-              {/* <div className="row">
+          {edgeAnimation && (
+            <Globe arrowPosition={"bottom"} color={color}>
+              <div className="row">
                 <Title $color={color}>Dirección</Title>
                 {animationData?.address}
               </div>
               <div className="row">
                 <Title $color={color}>Datos</Title>
                 {animationData?.data}
-              </div> */}
+              </div>
             </Globe>
           )}
         </div>
