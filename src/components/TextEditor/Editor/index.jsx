@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import Editor from "@monaco-editor/react";
 import { useSelector } from "react-redux";
 import "./index.css";
+import { typeSimulations } from "../../../interpreter/constants";
 
 export const EditorTest = ({ setEditorValue, editorValue }) => {
   const editorRef = useRef(null);
@@ -43,13 +44,8 @@ export const EditorTest = ({ setEditorValue, editorValue }) => {
     (state) => state.application.execute.color
   );
 
-  console.log(
-    "EL fetchInstructionId",
-    fetchInstructionId,
-    "EL decodeInstructionId",
-    decodeInstructionId,
-    "EL executeInstructionId",
-    executeInstructionId
+  const actualTypeSimulation = useSelector(
+    (state) => state.application.typeSimulations
   );
 
   const isSimulating = useSelector((state) => state.application.isSimulating);
@@ -61,21 +57,33 @@ export const EditorTest = ({ setEditorValue, editorValue }) => {
     "var(--im-blue)": "blue",
   };
 
-  const line = useMemo(() => {
-    return fetchInstructionId
-      ? { number: fetchInstructionId, color: colorMapper[fetchInstructionColor] }
-      : decodeInstructionId
-      ? { number: decodeInstructionId, color: colorMapper[decodeInstructionColor] }
-      : {
-          number:
-            executeInstructionId !== null && executeInstructionId > 0
-              ? executeInstructionId - 1
-              : 0,
-          color: colorMapper[executeInstructionColor],
-        };
-  }, [fetchInstructionId, decodeInstructionId, executeInstructionId]);
+  const fetchLine = useMemo(() => {
+    if (fetchInstructionId === null) return null;
+    return {
+      number: fetchInstructionId + 1,
+      color: colorMapper[fetchInstructionColor],
+    };
+  }, [fetchInstructionId]);
 
-  //TODO: Sacar el line y usar los tres objetos en el option del decoration. En caso de que el id no sea null, mostrar la flecha
+  const decodeLine = useMemo(() => {
+    if (decodeInstructionId === null) return null;
+    return {
+      number: decodeInstructionId + 1,
+      color: colorMapper[decodeInstructionColor],
+    };
+  }, [decodeInstructionId]);
+
+  const executeLine = useMemo(() => {
+    if (executeInstructionId === null) return null;
+    const executeLine = {
+      number:
+        actualTypeSimulation === typeSimulations.PIPELINING
+          ? executeInstructionId + 1
+          : executeInstructionId,
+      color: colorMapper[executeInstructionColor],
+    };
+    return executeLine;
+  }, [executeInstructionId]);
 
   const options = {
     selectOnLineNumbers: true,
@@ -89,21 +97,26 @@ export const EditorTest = ({ setEditorValue, editorValue }) => {
     readOnly: isSimulating,
   };
 
-  const updateDecorations = () => {
-    if (!editorRef.current) return;
-    const lineNumber = line.number + 1;
-    const newDecorations = [
-      {
-        range: new monaco.Range(lineNumber, 1, lineNumber, 1),
+  const addLineDecoration = (line, decorations) => {
+    if (line) {
+      decorations.push({
+        range: new monaco.Range(line.number, 1, line.number, 1),
         options: {
           isWholeLine: true,
-          glyphMarginClassName: `fa fa-solid fa-arrow-right fa-xs glyph-margin-color-${line.color}`,
+          glyphMarginClassName: `fa fa-solid fa-arrow-right fa-xs glyph-margin-color-${line.color} glyph-margin`,
         },
-      },
-    ];
+      });
+    }
+  };
 
+  const updateDecorations = () => {
+    if (!editorRef.current) return;
+    let newDecoration = [];
+    addLineDecoration(fetchLine, newDecoration);
+    addLineDecoration(decodeLine, newDecoration);
+    addLineDecoration(executeLine, newDecoration);
     setDecorations(
-      editorRef.current.deltaDecorations(decorations, newDecorations)
+      editorRef.current.deltaDecorations(decorations, newDecoration)
     );
   };
 
