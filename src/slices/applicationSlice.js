@@ -14,9 +14,11 @@ export const initialState = {
     edgeAnimation: [],
     programCounter: null,
     instructionRegister: "-",
+    color: "var(--im-green)",
   },
   decode: {
     instructionId: null,
+    color: "var(--im-pink)",
   },
   execute: {
     instructionId: null,
@@ -29,10 +31,13 @@ export const initialState = {
     aluOperation: null,
     edgeAnimation: [],
     showInputPort: false,
+    endProgram: false,
+    color: "var(--im-blue)",
   },
   previousState: null,
   aluOperation: null,
   edgeAnimation: [],
+  isSimulating: false,
   typeSimulations: typeSimulations.SIMPLE,
 };
 
@@ -120,6 +125,9 @@ export const applicationSlice = createSlice({
     updateTypeSimulation(state, action) {
       state.typeSimulations = action.payload;
     },
+    setIsSimulating(state, action) {
+      state.isSimulating = action.payload;
+    },
   },
 });
 
@@ -139,6 +147,7 @@ export const {
   setShowInputPort,
   updateMainMemoryCells,
   updateTypeSimulation,
+  setIsSimulating,
 } = applicationSlice.actions;
 
 // Thunk para manejar la actualización del estado actual

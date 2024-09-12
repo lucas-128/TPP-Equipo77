@@ -8,16 +8,10 @@ export const MainContainer = styled.div`
   align-items: center;
   width: 250px;
   padding: 15px;
-  cursor: pointer;
   box-shadow: var(--im-shadow);
   background-color: var(--im-primary);
   border-radius: 10px;
   pointer-events: none;
-
-  &:hover {
-    background-color: var(--im-primary-hover);
-    box-shadow: var(--im-shadow-hover);
-  }
 `;
 
 export const TitleContainer = styled.div`
@@ -48,7 +42,9 @@ export const RegisterContainer = styled.div`
   display: flex;
   background-color: var(--im-white);
   color: var(--im-darkgray);
-  padding: 2px;
+  padding: 3px;
+  cursor: pointer;
+  font-size: 16px;
   width: 100%;
   margin: 0px 10px;
   border-radius: 3px;

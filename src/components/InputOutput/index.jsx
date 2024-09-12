@@ -25,26 +25,14 @@ const InputOutput = () => {
 
   return (
     <Container>
+      <TableRow>
       <Title>Entrada (FE)</Title>
-      <TableContainer>
-        <Table>
-          <tbody>
-            <TableRow>
-              <TableCell>{inputCell}</TableCell>
-            </TableRow>
-          </tbody>
-        </Table>
-      </TableContainer>
+        <TableCell>{inputCell}</TableCell>
+      </TableRow>
+      <TableRow>
       <Title>Salida (FF)</Title>
-      <TableContainer>
-        <Table>
-          <tbody>
-            <TableRow>
-              <TableCell>{outputCell}</TableCell>
-            </TableRow>
-          </tbody>
-        </Table>
-      </TableContainer>
+        <TableCell>{outputCell}</TableCell>
+      </TableRow>
     </Container>
   );
 };

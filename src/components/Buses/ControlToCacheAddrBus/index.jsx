@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { BaseEdge } from "reactflow";
+import { BaseEdge, EdgeLabelRenderer } from "reactflow";
 import {
   controlUnitId,
   controlUnitCacheAddrBusId,
@@ -8,18 +8,50 @@ import {
 import { useMemo } from "react";
 import { usePosition } from "../../../hooks/usePosition";
 import { BusAnimation } from "../BusAnimation";
+import { Globe } from "../../Globe";
 
 export const ControlToCacheAddrBus = ({ id }) => {
+  const fetchAddress = useSelector((state) => state.application.fetch.address);
+
+  const executeAddress = "";
+
   const animations = useSelector(
+    (state) => state.application.fetch.edgeAnimation
+  );
+
+  const executeAnimations = useSelector(
     (state) => state.application.execute.edgeAnimation
   );
 
-  const edgeAnimation = useMemo(
-    () => animations.includes(controlUnitCacheAddrBusId),
-    [animations, controlUnitCacheAddrBusId]
-  );
+  const fetchColor = useSelector((state) => state.application.fetch.color);
+  const executeColor = useSelector((state) => state.application.execute.color);
 
-  const [edgePath] = usePosition({
+  const animationData = useMemo(() => {
+    const combinedAnimations = [...animations, ...executeAnimations];
+    return combinedAnimations.find(
+      (anim) => anim.id === controlUnitCacheAddrBusId
+    );
+  }, [animations, executeAnimations]);
+
+  const edgeAnimation = !!animationData;
+
+  const color = useMemo(() => {
+    return executeAnimations.find(
+      (anim) => anim.id === controlUnitCacheAddrBusId
+    )
+      ? executeColor
+      : fetchColor;
+  }, [executeAnimations, fetchColor, executeColor]);
+
+  const address = useMemo(() => {
+    return executeAnimations.find(
+      (anim) => anim.id === controlUnitCacheAddrBusId
+    )
+      ? executeAddress
+      : fetchAddress;
+  }, [executeAnimations, fetchAddress, executeAddress]);
+
+  const [edgePath, labelX, labelY] = usePosition({
     edgeId: id,
     sourceComponentId: controlUnitId,
     targetComponentId: cacheMemoryId,
@@ -32,12 +64,34 @@ export const ControlToCacheAddrBus = ({ id }) => {
         path={edgePath}
         interactionWidth={20}
         style={{
-          stroke: "hsl(0, 50%, 65%)",
-          strokeWidth: 20,
+          stroke: "hsl(120, 10.769230769230772%, 74.50980392156863%)",
+          strokeWidth: 30,
           filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5))",
         }}
       />
-      {edgeAnimation && <BusAnimation edgePath={edgePath} id={id} />}
+      <EdgeLabelRenderer>
+        <div
+          style={{
+            position: "absolute",
+            transform: `translate(30px, -30px) translate(${labelX}px,${labelY}px)`,
+          }}
+          className="nodrag nopan"
+        >
+          {edgeAnimation && (
+            <Globe arrowPosition={"left"} title={"Dirección"} color={color}>
+              {animationData.address}
+            </Globe>
+          )}
+        </div>
+      </EdgeLabelRenderer>
+      {edgeAnimation && (
+        <BusAnimation
+          edgePath={edgePath}
+          id={id}
+          color={color}
+          reverse={animationData.reverse}
+        />
+      )}
     </g>
   );
 };

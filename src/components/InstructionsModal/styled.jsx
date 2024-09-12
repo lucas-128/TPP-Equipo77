@@ -27,14 +27,15 @@ export const ModalBoxSetup = styled.div`
   left: 0;
   right: 0;
   display: block;
-  width: 1000px;
-  max-height: 90%;
   margin: 0 auto;
-  padding: 12px;
-  overflow-y: auto;
-  overflow-x: auto;
+  max-width: 900px;
+  max-height: 800px;
+  overflow-y: hidden;
+  overflow-x: hidden;
   text-align: center;
   box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
   z-index: 1;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04);
   border: 0.5px solid var(--im-gray);
@@ -45,11 +46,11 @@ export const ModalBoxSetup = styled.div`
 `;
 
 export const ModalContainer = styled.div`
-  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   color: var(--im-darkgray);
+  overflow: hidden;
 `;
 
 export const ModalBg = styled.div`
@@ -59,20 +60,14 @@ export const ModalBg = styled.div`
   background: rgba(14, 13, 13, 0.589);
 `;
 
-export const InfoContainer = styled.div`
-  display: flex;
-  width: 100%;
-  align-items: center;
-  flex-direction: row;
-`;
-
 export const Title = styled.div`
-  width: 100%;
   font-size: 18px;
-  font-weight: bold;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-weight: 800;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
   color: var(--im-lightgray);
 `;
 
@@ -86,25 +81,16 @@ export const IconContainer = styled(IoClose)`
   color: var(--im-lightgray);
 `;
 
-export const Table = styled.div`
+export const Img = styled.img`
+  width: 97%;
+  height: 100%;
+  padding: 10px;
+`;
+
+export const ImgContainer = styled.div`
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
-  border-collapse: collapse;
-  margin: 10px 0 0 0;
-`;
-
-export const DirectionColumn = styled.div`
-  flex-direction: column;
-  border-radius: 10px;
-`;
-
-export const DataColumn = styled.div`
-  flex-direction: column;
-  border-left: 2px solid var(--im-darkgray);
-  width: 95px;
-`;
-
-export const Cell = styled.div`
-  flex-direction: row;
-  border-top: 1px solid var(--im-darkgray);
+  align-items: center;
 `;

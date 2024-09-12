@@ -11,13 +11,10 @@ import {
   RegisterValue,
 } from "./styled.jsx";
 import { registersId } from "../../containers/SimulatorSection/components.jsx";
+import { toBinaryComplement } from "../../interpreter/utils.js";
 
 export const RegisterBox = ({ id, data }) => {
   const registers = useSelector((state) => state.application.execute.registers);
-
-  const toHexa = (value) => {
-    return parseInt(value, 16).toString(2).padStart(8, "0");
-  };
 
   return (
     <>
@@ -30,7 +27,7 @@ export const RegisterBox = ({ id, data }) => {
             <RegisterContainer key={i}>
               <RegisterNumeration>{i.toString(16)}</RegisterNumeration>
               <RegisterValue>
-                {value != null ? toHexa(value) : "-"}
+                {value != null ? toBinaryComplement(value) : "-"}
               </RegisterValue>
             </RegisterContainer>
           ))}

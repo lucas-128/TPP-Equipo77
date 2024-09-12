@@ -1,6 +1,6 @@
 import Instruction from "../Instruction";
 import { animationsAlu } from "../constants";
-import { applyBinaryOperation } from "../utils";
+import { applyBinaryOperation, toHexa } from "../utils";
 
 /* 
 Instruction: 6
@@ -24,7 +24,7 @@ function getKeyForValue(value) {
       return key;
     }
   }
-  return undefined;
+  return "000"; // temporal hasta cambiar el metodo por el nuevo que paso Arturo
 }
 
 export default class FloatingPointSum extends Instruction {
@@ -59,6 +59,15 @@ export default class FloatingPointSum extends Instruction {
       ...oldState,
       execute: applyBinaryOperation(this, floatingPointSum, newExecuteState),
     };
+  }
+
+  toString() {
+    return [
+      ["Opcode: ", "6 (ADD FLOAT)"],
+      ["Operando 1: ", "Registro " + toHexa(this.registerSIndex)],
+      ["Operando 2: ","Registro " + toHexa(this.registerTIndex)],
+      ["Destino: ", "Registro " + toHexa(this.destinationIndex)],
+    ];
   }
 }
 
@@ -100,8 +109,6 @@ function floatingPointSum(registerS, registerT) {
 
   // Normalizar mantisa
   const normalizedMantissa = normalizeMantissa(resultMantissa);
-
-  //console.log(resultMantissa);
 
   // Constuir resultado de operacion
   const operationResult =

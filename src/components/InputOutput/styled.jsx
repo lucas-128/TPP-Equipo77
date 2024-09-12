@@ -7,23 +7,22 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: var(--im-gray);
+  background-color: var(--im-primary);
   border-radius: 10px;
-  width: 150px;
+  width: 270px;
   gap: 5px;
-  height: 150px;
-  padding: 20px 15px;
+  height: 80px;
+  padding: 10px 15px;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
     rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-  cursor: pointer;
-  &:hover {
-    box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.1);
-  }
+  cursor: grab;
 `;
 
 export const Title = styled.h1`
   margin: 0;
-  font-size: 25px;
+  font-size: 17px;
+  display: flex;
+  flex: 1;
 `;
 
 export const TableContainer = styled.div`
@@ -43,7 +42,14 @@ export const Table = styled.table`
   box-shadow: var(--im-shadow);
 `;
 
-export const TableRow = styled.tr``;
+export const TableRow = styled.div`
+  display: flex;
+  gap: 10px;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+`;
 
 export const TableCell = styled.td`
   padding: 2px;
@@ -52,4 +58,9 @@ export const TableCell = styled.td`
   background-color: var(--im-white);
   border-left: 1px solid var(--im-gray);
   border-bottom: 1px solid var(--im-gray);
+  display: flex;
+  border-radius: 3px;
+  justify-content: center;
+  align-items: center;
+  flex: 1.5;
 `;

@@ -1,6 +1,6 @@
-import { ROTATE_RIGHT, typeSimulations } from "../constants";
 import Instruction from "../Instruction";
 import { animationsAlu } from "../constants";
+import { animationsAluData, toHexa } from "../utils";
 
 /* 
 
@@ -16,12 +16,6 @@ export default class RotateRight extends Instruction {
     this.register = register;
   }
 
-  // nextStep(oldState, typeSimulation) {
-  //   if (typeSimulation === typeSimulations.SIMPLE) {
-  //     return this.execute(oldState);
-  //   }
-  // }
-
   execute(oldState) {
     const newExecuteState = { ...oldState.state };
     const registerValue = newExecuteState.registers[this.register];
@@ -36,8 +30,28 @@ export default class RotateRight extends Instruction {
     );
 
     newExecuteState.instructionId = this.id + 1;
-    newExecuteState.edgeAnimation = animationsAlu;
+    newExecuteState.edgeAnimation = animationsAluData(
+      this.register,
+      registerValue,
+      null,
+      null,
+      this.register,
+      newExecuteState.registers[this.register]
+    );
 
     return { ...oldState, execute: newExecuteState };
+  }
+
+  toString() {
+    return [
+      ["Opcode: ", "A (ROTATE)"],
+      [
+        "Operando 1: ",
+        "Registro " + toHexa(this.register),
+        ...(parseInt(this.rotations) == 1
+          ? ["Rotación: " + this.rotations + " vez"]
+          : ["Rotación: " + this.rotations + " veces"]),
+      ],
+    ];
   }
 }

@@ -1,6 +1,6 @@
-import { COPY_REGISTER_TO_REGISTER, typeSimulations } from "../constants";
 import Instruction from "../Instruction";
 import { registersControlUnitId } from "../../containers/SimulatorSection/components";
+import { toHexa } from "../utils";
 
 /* 
 
@@ -27,5 +27,13 @@ export default class CopyRegisterToRegister extends Instruction {
       { id: registersControlUnitId, reverse: true },
     ];
     return { ...oldState, execute: newExecuteState };
+  }
+
+  toString() {
+    return [
+      ["Opcode: ", "4 (COPY)"],
+      ["Origen: ", "Registro " + toHexa(this.sourceRegister)],
+      ["Destino: ", "Registro " + toHexa(this.destinationRegister)],
+    ];
   }
 }

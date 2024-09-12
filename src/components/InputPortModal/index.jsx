@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Modal } from "../Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCurrentState } from "../../slices/applicationSlice";
@@ -31,9 +31,17 @@ export const InputPortModal = () => {
     setNumericBase(event.target.value);
   };
 
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (showModal && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [showModal]);
+
   const errorMessages = {
     empty: "El valor no puede estar vacío",
-    outOfRange: "El valor debe estar entre 0 y 255",
+    outOfRange: "El valor debe estar entre -128 y 127",
     containsLetters: "El valor no puede contener letras",
     invalidBinary: "El valor solo puede contener unos y ceros",
     invalidBitLength: "El valor debe tener exactamente 8 bits",
@@ -43,11 +51,11 @@ export const InputPortModal = () => {
 
   const isValidDecimal = (value) => {
     const numericValue = parseInt(value, 10);
-    if (numericValue < 0 || numericValue > 255) {
+    if (numericValue < -128 || numericValue > 127) {
       setError(errorMessages.outOfRange);
       return false;
     }
-    if (!/^\d+$/.test(value)) {
+    if (!/^-?\d+$/.test(value)) {
       setError(errorMessages.containsLetters);
       return false;
     }
@@ -72,7 +80,7 @@ export const InputPortModal = () => {
       return false;
     }
     const hexValue = parseInt(value, 16);
-    if (hexValue < 0 || hexValue > 255) {
+    if (hexValue < -128 || hexValue > 127) {
       setError(errorMessages.outOfRange);
       return false;
     }
@@ -95,6 +103,12 @@ export const InputPortModal = () => {
       default:
         setError(errorMessages.invalidValue);
         return false;
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSave();
     }
   };
 
@@ -141,7 +155,9 @@ export const InputPortModal = () => {
           <BodyContainer>
             <Text>Valor de entrada</Text>
             <Input
+              ref={inputRef}
               onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={handleKeyDown}
               value={inputValue}
               $hasError={error !== ""}
             />

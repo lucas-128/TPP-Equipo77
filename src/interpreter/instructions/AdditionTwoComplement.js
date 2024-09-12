@@ -1,8 +1,10 @@
 import Instruction from "../Instruction";
 import { animationsAlu } from "../constants";
+import { toHexa } from "../utils";
+
 /* 
 
-Instruction: 4
+Instruction: 5
 Copy the content of register R1 to register R2
 
 */
@@ -32,5 +34,14 @@ export default class AdditionTwoComplement extends Instruction {
     newExecuteState.edgeAnimation = animationsAlu;
 
     return { ...oldState, execute: newExecuteState };
+  }
+
+  toString() {
+    return [
+      ["Opcode: ", "5 (ADD)"],
+      ["Operando 1: ", "Registro " + toHexa(this.registerSIndex)],
+      ["Operando 2: ", "Registro " + toHexa(this.registerTIndex)],
+      ["Destino: ", "Registro " + toHexa(this.destinationIndex)],
+    ];
   }
 }

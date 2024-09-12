@@ -1,9 +1,9 @@
 import styled, { keyframes, css } from "styled-components";
 import { Handle } from "reactflow";
 
-const shine = keyframes`
+const shine =  (color) => keyframes`
   100% {
-    background-color: #2c5d75;
+    background-color: ${color};
     box-shadow: 0 0 5px rgba(255, 255, 255, 0.2),
                 0 0 10px rgba(255, 255, 255, 0.2),
                 0 0 20px rgba(255, 255, 255, 0.2),
@@ -20,15 +20,15 @@ export const Container = styled.div`
   font-weight: bold;
   color: var(--im-white);
   background: var(--im-primary);
-  width: 150px;
-  height: 180px;
+  width: 190px;
+  height: 220px;
   clip-path: polygon(0 0, 100% 29%, 100% 67%, 0 100%, 0% 69%, 24% 48%, 0 29%);
   box-shadow: var(--im-shadow);
   cursor: pointer;
   animation: ${(props) =>
     props.$operating
       ? css`
-          ${shine} 0.7s infinite alternate
+          ${shine(props.$color)} 0.7s infinite alternate
         `
       : "none"};
 
@@ -44,3 +44,14 @@ export const CustomHandle = styled(Handle)`
   border: none;
   pointer-events: none;
 `;
+
+
+export const ButtonContainer = styled.div`
+  position: absolute;
+  top: 60px;
+  right: 50px;
+  align-self: center;
+  justify-self: center;
+  display: flex;
+  top: auto;
+`

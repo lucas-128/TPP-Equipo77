@@ -14,16 +14,17 @@ export const Header = () => {
   const handleSelectChange = (e) => {
     dispatch(updateTypeSimulation(e.target.value));
   };
-
   const typeSimulation = useSelector(
     (state) => state.application.typeSimulation
   );
-
+  const isSimulating = useSelector((state) => state.application.isSimulating);
   return (
     <HeaderContainer>
       <HeaderTitle>Intérprete Máquina Ideal RISC</HeaderTitle>
+
       <HeaderSelect
         value={typeSimulation}
+        disabled={isSimulating}
         onChange={(e) => handleSelectChange(e)}
       >
         <HeaderOption value={typeSimulations.SIMPLE}>

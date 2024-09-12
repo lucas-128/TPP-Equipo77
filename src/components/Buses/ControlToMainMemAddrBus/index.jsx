@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { BaseEdge } from "reactflow";
+import { BaseEdge, EdgeLabelRenderer } from "reactflow";
 import {
   controlUnitId,
   mainMemoryId,
@@ -8,8 +8,10 @@ import {
 import { useMemo } from "react";
 import { usePosition } from "../../../hooks/usePosition";
 import { BusAnimation } from "../BusAnimation";
+import { Globe } from "../../Globe";
 
 export const ControlToMainMemAddrBus = ({ id }) => {
+  const address = useSelector((state) => state.application.fetch.address); // TODO esta direccion cambia si es del execute
   const animations = useSelector(
     (state) => state.application.fetch.edgeAnimation
   );
@@ -18,34 +20,67 @@ export const ControlToMainMemAddrBus = ({ id }) => {
     (state) => state.application.execute.edgeAnimation
   );
 
-  const address = useSelector((state) => state.application.fetch.address);
+  const fetchColor = useSelector((state) => state.application.fetch.color);
+  const executeColor = useSelector((state) => state.application.execute.color);
 
-  const edgeAnimation = useMemo(
-    () =>
-      animations.includes(controlUnitMainMemAddrId) ||
-      executeAnimations.includes(controlUnitMainMemAddrId),
-    [animations, executeAnimations, controlUnitMainMemAddrId]
-  );
+  const color = useMemo(() => {
+    return executeAnimations.find(
+      (anim) => anim.id === controlUnitMainMemAddrId
+    )
+      ? executeColor
+      : fetchColor;
+  }, [executeAnimations, fetchColor, executeColor]);
 
-  const [edgePath] = usePosition({
+  // const edgeAnimation = useMemo(
+  //   () =>
+  //     animations.includes(controlUnitMainMemAddrId) ||
+  //     executeAnimations.includes(controlUnitMainMemAddrId),
+  //   [animations, executeAnimations, controlUnitMainMemAddrId]
+  // );
+  const animationData = useMemo(() => {
+    const combinedAnimations = [...animations, ...executeAnimations];
+    return combinedAnimations.find(
+      (anim) => anim.id === controlUnitMainMemAddrId
+    );
+  }, [animations, executeAnimations]);
+
+  const edgeAnimation = !!animationData;
+
+  const [edgePath, labelX, labelY] = usePosition({
     edgeId: id,
     sourceComponentId: controlUnitId,
     targetComponentId: mainMemoryId,
   });
 
-  // Rojo para distinguir que es sólo de address
   return (
     <g onClick={() => console.log(address)}>
       <BaseEdge
         path={edgePath}
         interactionWidth={20}
         style={{
-          stroke: "hsl(0, 50%, 65%)",
-          strokeWidth: 20,
+          stroke: "hsl(120, 10.769230769230772%, 74.50980392156863%)",
+          strokeWidth: 30,
           filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5))",
         }}
       />
-      {edgeAnimation && <BusAnimation edgePath={edgePath} id={id} />}
+      <EdgeLabelRenderer>
+        <div
+          style={{
+            position: "absolute",
+            transform: `translate(-50%, 40%) translate(${labelX}px,${labelY}px)`,
+          }}
+          className="nodrag nopan"
+        >
+          {edgeAnimation && (
+            <Globe arrowPosition={"top"} title={"Dirección"} color={color}>
+              {animationData.address}
+            </Globe>
+          )}
+        </div>
+      </EdgeLabelRenderer>
+      {edgeAnimation && (
+        <BusAnimation edgePath={edgePath} id={id} color={color} />
+      )}
     </g>
   );
 };

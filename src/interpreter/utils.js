@@ -1,4 +1,9 @@
 import { operationNames, CACHE_SIZE } from "./constants";
+import {
+  aluRegistersId,
+  registerAluBottomId,
+  registerAluTopId,
+} from "../containers/SimulatorSection/components";
 
 export function applyBinaryOperation(instruction, operation, actualState) {
   const newState = { ...actualState, registers: [...actualState.registers] };
@@ -65,4 +70,75 @@ export function updateCache(oldExecuteState, memoryAddress) {
   });
 
   return newCacheMemoryCells;
+}
+
+// Combines the two caches without duplicates
+export function combineCaches(executeCache, fetchCache) {
+  const newCacheMemoryCells = [...executeCache];
+  fetchCache.forEach((cell) => {
+    if (!cell) {
+      return;
+    }
+    if (!newCacheMemoryCells.find((e) => e && e.address === cell.address)) {
+      newCacheMemoryCells.pop();
+      newCacheMemoryCells.unshift(cell);
+    }
+  });
+
+  return newCacheMemoryCells;
+}
+
+export const animationsAluData = (
+  registerRAddr,
+  registerRData,
+  registerTAddr,
+  registerTData,
+  registerDestIndex,
+  registerDestData
+) => {
+  const aluData = [
+    { id: registerAluTopId, address: registerRAddr, data: registerRData },
+    {
+      id: aluRegistersId,
+      address: registerDestIndex,
+      data: registerDestData,
+    },
+  ];
+
+  if (registerTAddr) {
+    aluData.push({
+      id: registerAluBottomId,
+      address: registerTAddr,
+      data: registerTData,
+    });
+  }
+  return aluData;
+};
+
+export function toHexa(value) {
+  return value.toString(16).toUpperCase();
+}
+
+export function toHexaPadStart(value) {
+  return value.toString(16).toUpperCase().padStart(2, "0");
+}
+
+export function toBinary(value) {
+  return parseInt(value, 16).toString(2).toUpperCase().padStart(8, "0");
+}
+
+export function toBinaryComplement(value) {
+  if (value >= 0) {
+    return toBinary(value);
+  } else {
+    const positiveBinary = Math.abs(value).toString(2).padStart(8, "0");
+    const invertedBinary = positiveBinary
+      .split("")
+      .map((bit) => (bit === "0" ? "1" : "0"))
+      .join("");
+    const binaryCOmplement = (parseInt(invertedBinary, 2) + 1)
+      .toString(2)
+      .padStart(8, "0");
+    return binaryCOmplement;
+  }
 }
