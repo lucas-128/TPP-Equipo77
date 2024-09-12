@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import { AluModal } from "../../components/AluModal";
 import { ControlUnitModal } from "../../components/ControlUnitModal";
 import MainMemoryModal from "../../components/MainMemoryModal";
+import { InstructionsModal } from "../../components/InstructionsModal";
 
 export const SimulatorContainer = () => {
   const nodes = useSelector((state) => state.application.execute.nodes);
@@ -46,6 +47,7 @@ export const SimulatorContainer = () => {
       <AluModal />
       <ControlUnitModal />
       <MainMemoryModal />
+      <InstructionsModal/>
     </Container>
   );
 };

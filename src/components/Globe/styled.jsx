@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   /* position: absolute; */
-  height: 70px;
+  height: 7 0px;
   background-color: var(--im-white-gray);
   z-index: 1;
   min-width: 80px;

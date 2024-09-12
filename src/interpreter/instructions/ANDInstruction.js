@@ -1,5 +1,5 @@
 import Instruction from "../Instruction";
-import { applyBinaryOperation, toHexa } from "../utils";
+import { animationsAluData, applyBinaryOperation, toHexa } from "../utils";
 import { animationsAlu } from "../constants";
 /* 
 
@@ -24,7 +24,14 @@ export default class ANDInstruction extends Instruction {
       (a, b) => parseInt(a, 2) & parseInt(b, 2),
       newExecuteState
     );
-    newExecuteState.edgeAnimation = animationsAlu;
+    resultNewExecuteState.edgeAnimation = animationsAluData(
+      this.registerSIndex,
+      resultNewExecuteState.registers[this.registerSIndex],
+      this.registerTIndex,
+      resultNewExecuteState.registers[this.registerTIndex],
+      this.destinationIndex,
+      resultNewExecuteState.registers[this.destinationIndex]
+    );
     return {
       ...oldState,
       execute: resultNewExecuteState,

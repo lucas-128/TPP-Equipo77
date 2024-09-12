@@ -11,7 +11,7 @@ import { BusAnimation } from "../BusAnimation";
 import { Globe } from "../../Globe";
 
 export const ControlToMainMemAddrBus = ({ id }) => {
-  const address = useSelector((state) => state.application.fetch.address);
+  const address = useSelector((state) => state.application.fetch.address); // TODO esta direccion cambia si es del execute
   const animations = useSelector(
     (state) => state.application.fetch.edgeAnimation
   );
@@ -31,12 +31,20 @@ export const ControlToMainMemAddrBus = ({ id }) => {
       : fetchColor;
   }, [executeAnimations, fetchColor, executeColor]);
 
-  const edgeAnimation = useMemo(
-    () =>
-      animations.includes(controlUnitMainMemAddrId) ||
-      executeAnimations.includes(controlUnitMainMemAddrId),
-    [animations, executeAnimations, controlUnitMainMemAddrId]
-  );
+  // const edgeAnimation = useMemo(
+  //   () =>
+  //     animations.includes(controlUnitMainMemAddrId) ||
+  //     executeAnimations.includes(controlUnitMainMemAddrId),
+  //   [animations, executeAnimations, controlUnitMainMemAddrId]
+  // );
+  const animationData = useMemo(() => {
+    const combinedAnimations = [...animations, ...executeAnimations];
+    return combinedAnimations.find(
+      (anim) => anim.id === controlUnitMainMemAddrId
+    );
+  }, [animations, executeAnimations]);
+
+  const edgeAnimation = !!animationData;
 
   const [edgePath, labelX, labelY] = usePosition({
     edgeId: id,
@@ -65,7 +73,7 @@ export const ControlToMainMemAddrBus = ({ id }) => {
         >
           {edgeAnimation && (
             <Globe arrowPosition={"top"} title={"Dirección"} color={color}>
-              {address}
+              {animationData.address}
             </Globe>
           )}
         </div>
