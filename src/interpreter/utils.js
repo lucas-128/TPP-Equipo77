@@ -74,21 +74,17 @@ export function updateCache(oldExecuteState, memoryAddress) {
 
 // Combines the two caches without duplicates
 export function combineCaches(executeCache, fetchCache) {
-  console.log("fetchCache", fetchCache);
-  console.log("executeCache", executeCache);
   const newCacheMemoryCells = [...executeCache];
   fetchCache.forEach((cell) => {
     if (!cell) {
       return;
     }
-    console.log("cell", cell);
     if (!newCacheMemoryCells.find((e) => e && e.address === cell.address)) {
       newCacheMemoryCells.pop();
       newCacheMemoryCells.unshift(cell);
     }
   });
 
-  console.log("newCacheMemoryCells", newCacheMemoryCells);
   return newCacheMemoryCells;
 }
 
