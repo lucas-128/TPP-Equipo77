@@ -9,26 +9,6 @@ const fadeIn = keyframes`
   }
 `;
 
-export const ExtraBits = styled.span`
-  color: red;
-  position: relative;
-
-  &:hover::after {
-    content: "Bits truncados";
-    font-size: 14px;
-    color: black;
-    background-color: white;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    padding: 3px;
-    white-space: nowrap;
-    z-index: 12;
-    margin-top: 2px;
-    border-radius: 5px;
-  }
-`;
-
 export const ModalWrapper = styled.div`
   position: fixed;
   top: 0;
@@ -209,7 +189,14 @@ export const CircledNumber = styled.div`
 export const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
-  width: 100%;
-  margin-top: 20px;
+`;
+
+export const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+`;
+
+export const RowOperation = styled(Row)`
+  margin-bottom: 20px;
 `;

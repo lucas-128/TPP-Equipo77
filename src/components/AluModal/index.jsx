@@ -14,7 +14,8 @@ import {
   Line,
   CircledNumber,
   ButtonContainer,
-  ExtraBits,
+  Row,
+  RowOperation,
 } from "./styled";
 import { useDispatch, useSelector } from "react-redux";
 import { IoClose } from "react-icons/io5";
@@ -31,7 +32,6 @@ export const AluModal = () => {
 
   const result = (aluOperation?.result ?? 0).toString().padStart(8, "0");
   const firstEightBits = result.slice(0, 8);
-  const extraBits = result.slice(8);
 
   const handleShowResult = () => {
     setShowResult(true);
@@ -58,26 +58,25 @@ export const AluModal = () => {
             </StartBusContainer>
             <AluContainer>
               <InfoContainer>
-                <div className="row" style={{ marginBottom: "20px" }}>
+                <RowOperation>
                   Operación
                   <OperationName>{aluOperation.operation}</OperationName>
-                </div>
-                <div className="row">
+                </RowOperation>
+                <Row>
                   {parseInt(aluOperation.registerS, 16)
                     .toString(2)
                     .padStart(8, "0")}
-                </div>
-                <div className="row">
+                </Row>
+                <Row>
                   {parseInt(aluOperation.registerT, 16)
                     .toString(2)
                     .padStart(8, "0")}
-                </div>
+                </Row>
                 <Line />
                 {showResult ? (
-                  <div className="row" style={{ display: "flex", gap: "0" }}>
+                  <Row>
                     <span>{firstEightBits}</span>
-                    {extraBits && <ExtraBits>{extraBits}</ExtraBits>}
-                  </div>
+                  </Row>
                 ) : (
                   <ButtonContainer>
                     <Button lightColor={true} onClick={handleShowResult}>
