@@ -57,34 +57,66 @@ export const AluModal = () => {
               </Bus>
             </StartBusContainer>
             <AluContainer>
-              <InfoContainer>
-                <RowOperation>
-                  Operación
-                  <OperationName>{aluOperation.operation}</OperationName>
-                </RowOperation>
-                <Row>
-                  {parseInt(aluOperation.registerS, 16)
-                    .toString(2)
-                    .padStart(8, "0")}
-                </Row>
-                <Row>
-                  {parseInt(aluOperation.registerT, 16)
-                    .toString(2)
-                    .padStart(8, "0")}
-                </Row>
-                <Line />
-                {showResult ? (
+              {aluOperation &&
+              aluOperation.operation === "Suma en punto flotante" ? (
+                <InfoContainer>
+                  <RowOperation>
+                    Operación
+                    <OperationName>{aluOperation.operation}</OperationName>
+                  </RowOperation>
                   <Row>
-                    <span>{firstEightBits}</span>
+                    {parseInt(aluOperation.registerS, 16)
+                      .toString(2)
+                      .padStart(8, "0")}
                   </Row>
-                ) : (
-                  <ButtonContainer>
-                    <Button lightColor={true} onClick={handleShowResult}>
-                      Realizar operación
-                    </Button>
-                  </ButtonContainer>
-                )}
-              </InfoContainer>
+                  <Row>
+                    {parseInt(aluOperation.registerT, 16)
+                      .toString(2)
+                      .padStart(8, "0")}
+                  </Row>
+                  <Line />
+                  {showResult ? (
+                    <Row>
+                      <span>{firstEightBits}</span>
+                    </Row>
+                  ) : (
+                    <ButtonContainer>
+                      <Button lightColor={true} onClick={handleShowResult}>
+                        Realizar suma
+                      </Button>
+                    </ButtonContainer>
+                  )}
+                </InfoContainer>
+              ) : (
+                <InfoContainer>
+                  <RowOperation>
+                    Operación
+                    <OperationName>{aluOperation.operation}</OperationName>
+                  </RowOperation>
+                  <Row>
+                    {parseInt(aluOperation.registerS, 16)
+                      .toString(2)
+                      .padStart(8, "0")}
+                  </Row>
+                  <Row>
+                    {parseInt(aluOperation.registerT, 16)
+                      .toString(2)
+                      .padStart(8, "0")}
+                  </Row>
+                  <Line />
+                  {showResult ? (
+                    <Row>
+                      <span>{firstEightBits}</span>
+                    </Row>
+                  ) : (
+                    <ButtonContainer>
+                      <Button lightColor={true} onClick={handleShowResult}>
+                        Realizar operación
+                      </Button>
+                    </ButtonContainer>
+                  )}
+                </InfoContainer>
+              )}
             </AluContainer>
             <EndBusContainer>
               <Bus>
