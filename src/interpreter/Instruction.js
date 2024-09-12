@@ -1,7 +1,12 @@
 // aca tener una clase que tenga updateProgram counter, load y fetch. Después cada inst tiene su execute
 
 import {
-  animationsFetch,
+  controlUnitCacheAddrBusId,
+  controlUnitCacheId,
+  controlUnitMainMemAddrId,
+  mainMemControlUnitDataId,
+} from "../containers/SimulatorSection/components";
+import {
   cyclesSimulations,
   typeSimulations,
 } from "./constants";
@@ -82,7 +87,6 @@ export default class Instruction {
     newFetchState.instructionRegister = currentInstruction;
     newFetchState.programCounter += 2;
 
-    newFetchState.edgeAnimation = animationsFetch;
     newFetchState.instructionId = this.id;
 
     newExecuteState.cacheMemoryCells = updateCache(
@@ -93,6 +97,34 @@ export default class Instruction {
       newExecuteState,
       oldState.fetch.programCounter + 1
     );
+
+    //CACHE MEMORY ANIMATIONS
+    const oldLength = oldState.execute.cacheMemoryCells.filter(
+      (e) => e !== null
+    ).length;
+    const newLength = newExecuteState.cacheMemoryCells.filter(
+      (e) => e !== null
+    ).length;
+
+    // Cache memory has been updated, meaning the main memory bus should be animated
+    if (oldLength < newLength) {
+      newFetchState.edgeAnimation = [
+        { id: controlUnitMainMemAddrId, address: newFetchState.address },
+        {
+          id: mainMemControlUnitDataId,
+          reverse: false,
+          data: currentInstruction,
+        },
+        { id: controlUnitCacheId, reverse: true, data: currentInstruction },
+        { id: controlUnitCacheAddrBusId, address: newFetchState.address },
+      ];
+    } else {
+      // Cache memory has not been updated, meaning the main memory bus should not be animated
+      newFetchState.edgeAnimation = [
+        { id: controlUnitCacheId, reverse: false, data: currentInstruction },
+        { id: controlUnitCacheAddrBusId, address: newFetchState.address },
+      ];
+    }
 
     return { ...oldState, fetch: newFetchState, execute: newExecuteState };
   }

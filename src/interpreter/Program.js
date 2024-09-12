@@ -1,6 +1,7 @@
 import { animationsAlu, typeSimulations } from "./constants";
 import { splitCode, validateSyntax } from "./main";
 import { InstructionFactory } from "./InstructionFactory";
+import { combineCaches } from "./utils";
 
 export default class Program {
   constructor(program, typeSimulation) {
@@ -111,7 +112,7 @@ export default class Program {
           fetch: {
             ...oldState.fetch,
             instructionId: fetchInstructionId,
-            instructionRegister: '-',
+            instructionRegister: "-",
             address: null,
             edgeAnimation: [],
           },
@@ -143,6 +144,11 @@ export default class Program {
         },
       });
 
+      const newCacheMemoryCells = combineCaches(
+        newExecuteState.execute.cacheMemoryCells,
+        newFetchState.execute.cacheMemoryCells
+      );
+
       return {
         ...oldState,
         fetch: {
@@ -154,6 +160,7 @@ export default class Program {
           ...newExecuteState.execute,
           instructionId: executeInstructionId,
           color: oldState.decode.color,
+          cacheMemoryCells: newCacheMemoryCells,
         },
       };
     }

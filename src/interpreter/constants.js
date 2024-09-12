@@ -83,13 +83,12 @@ export const operationNames = {
 
 export const CACHE_SIZE = 16;
 
-export const animationsFetch = [
-  controlUnitMainMemAddrId,
-  { id: mainMemControlUnitDataId, reverse: false },
-  { id: controlUnitCacheId, reverse: true },
-  controlUnitCacheAddrBusId,
-];
-
+// export const animationsFetch = [
+//   { id: controlUnitMainMemAddrId },
+//   { id: mainMemControlUnitDataId, reverse: false, data: "" },
+//   { id: controlUnitCacheId, reverse: false, data: "" },
+//   { id: controlUnitCacheAddrBusId },
+// ];
 
 export const animationsAlu = [
   registerAluTopId,
