@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Modal } from "../Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCurrentState } from "../../slices/applicationSlice";
@@ -30,6 +30,14 @@ export const InputPortModal = () => {
     setError("");
     setNumericBase(event.target.value);
   };
+
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (showModal && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [showModal]);
 
   const errorMessages = {
     empty: "El valor no puede estar vacío",
@@ -98,6 +106,12 @@ export const InputPortModal = () => {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSave();
+    }
+  };
+
   const getHexaValue = () => {
     if (numericBase === "decimal") {
       return parseInt(inputValue).toString(16).toUpperCase();
@@ -141,7 +155,9 @@ export const InputPortModal = () => {
           <BodyContainer>
             <Text>Valor de entrada</Text>
             <Input
+              ref={inputRef}
               onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={handleKeyDown}
               value={inputValue}
               $hasError={error !== ""}
             />

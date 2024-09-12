@@ -89,10 +89,6 @@ export default class Program {
         oldState.decode.instructionId
       );
 
-      console.log("el id del fecth es ", fetchInstructionId);
-      console.log("el id del decode es ", decodeInstructionId);
-      console.log("el id del execute es ", executeInstructionId);
-
       if (!this.isLastId(executeInstructionId)) {
         const instructionExecute = this.instructions[executeInstructionId];
         newExecuteState = instructionExecute.nextStep(
@@ -111,7 +107,7 @@ export default class Program {
           fetch: {
             ...oldState.fetch,
             instructionId: fetchInstructionId,
-            instructionRegister: '-',
+            instructionRegister: "-",
             address: null,
             edgeAnimation: [],
           },
@@ -128,20 +124,6 @@ export default class Program {
           decode: { ...oldState.decode, instructionId: null },
         };
       }
-
-      console.log("lo que devuelvo es ", {
-        ...oldState,
-        fetch: {
-          ...newFetchState.fetch,
-          color: this.getNextColor(oldState.fetch.color),
-        },
-        decode: { ...newDecodeState.decode, color: oldState.fetch.color },
-        execute: {
-          ...newExecuteState.execute,
-          instructionId: executeInstructionId,
-          color: oldState.decode.color,
-        },
-      });
 
       return {
         ...oldState,
