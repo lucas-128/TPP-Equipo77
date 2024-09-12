@@ -1,6 +1,6 @@
 import Instruction from "../Instruction";
 import { animationsAlu } from "../constants";
-import { toHexa } from "../utils";
+import { toHexa, applyBinaryOperation } from "../utils";
 
 /* 
 
@@ -17,24 +17,32 @@ export default class AdditionTwoComplement extends Instruction {
     this.destinationIndex = destinationIndex;
   }
 
-  // nextStep(oldState, typeSimulation) {
-  //   if (typeSimulation === typeSimulations.SIMPLE) {
-  //     return this.execute(oldState);
-  //   }
-  // }
-
   execute(oldState) {
     const newExecuteState = { ...oldState.execute };
-    newExecuteState.registers = [...oldState.execute.registers];
-    const registerS = newExecuteState.registers[this.registerS];
-    const registerT = newExecuteState.registers[this.registerT];
-    const operationResult = (registerS + registerT) & 0xff;
-    newExecuteState.registers[this.destinationIndex] = operationResult;
     newExecuteState.instructionId = this.id + 1;
     newExecuteState.edgeAnimation = animationsAlu;
-
-    return { ...oldState, execute: newExecuteState };
+    return {
+      ...oldState,
+      execute: applyBinaryOperation(
+        this,
+        (a, b) => (a + b) & 0xff,
+        newExecuteState
+      ),
+    };
   }
+
+  // execute(oldState) {
+  //   const newExecuteState = { ...oldState.execute };
+  //   newExecuteState.registers = [...oldState.execute.registers];
+  //   const registerS = newExecuteState.registers[this.registerS];
+  //   const registerT = newExecuteState.registers[this.registerT];
+  //   const operationResult = (registerS + registerT) & 0xff;
+  //   newExecuteState.registers[this.destinationIndex] = operationResult;
+  //   newExecuteState.instructionId = this.id + 1;
+  //   newExecuteState.edgeAnimation = animationsAlu;
+
+  //   return { ...oldState, execute: newExecuteState };
+  // }
 
   toString() {
     return [

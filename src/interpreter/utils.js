@@ -48,6 +48,7 @@ export function applyBinaryOperation(instruction, operation, actualState) {
     destinationIndex: instruction.destinationIndex,
     result: operationResult,
   };
+
   newState.registers[instruction.destinationIndex] = hexValue;
   return newState;
 }

@@ -1,10 +1,9 @@
 import Instruction from "../Instruction";
 import { animationsAluData, applyBinaryOperation, toHexa } from "../utils";
-import { animationsAlu } from "../constants";
 /* 
 
-Instruction: 4
-Copy the content of register R1 to register R2
+Instruction: 7
+OR Operation
 
 */
 
@@ -21,7 +20,7 @@ export default class ORInstruction extends Instruction {
     newExecuteState.instructionId = this.id + 1;
     const resultNewExecuteState = applyBinaryOperation(
       this,
-      (a, b) => a | b,
+      (a, b) => parseInt(a, 2) | parseInt(b, 2),
       newExecuteState
     );
 
@@ -31,7 +30,7 @@ export default class ORInstruction extends Instruction {
       this.registerTIndex,
       resultNewExecuteState.registers[this.registerTIndex],
       this.destinationIndex,
-      resultNewExecuteState.registers[this.destinationIndex],
+      resultNewExecuteState.registers[this.destinationIndex]
     );
 
     return {
