@@ -44,7 +44,7 @@ export const ControlUnitContainer = styled.div`
   border-radius: 10px;
   background: var(--im-primary);
   width: 480px;
-  height: 530px;
+  max-height: 500px;
   display: flex;
   flex-direction: row;
   justify-content: end;
@@ -112,11 +112,13 @@ export const Bus = styled.div`
 `;
 
 export const AddrBus = styled(Bus)`
-  background-color: var(--im-light-purple);
+  background-color: hsl(120, 10.769230769230772%, 74.50980392156863%);
+  color: var(--im-darkgray);
 `;
 
 export const DataBus = styled(Bus)`
-  background-color: var(--im-light-blue);
+  background-color:  hsl(120, 10.769230769230772%, 74.50980392156863%);
+  color: var(--im-darkgray);
 `;
 
 export const StartBusContainer = styled.div`

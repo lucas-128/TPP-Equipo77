@@ -1,5 +1,5 @@
 import Instruction from "../Instruction";
-import { applyBinaryOperation, toHexa } from "../utils";
+import { animationsAluData, applyBinaryOperation, toHexa } from "../utils";
 import { animationsAlu } from "../constants";
 /* 
 
@@ -19,10 +19,24 @@ export default class ORInstruction extends Instruction {
   execute(oldState) {
     const newExecuteState = { ...oldState.execute };
     newExecuteState.instructionId = this.id + 1;
-    newExecuteState.edgeAnimation = animationsAlu;
+    const resultNewExecuteState = applyBinaryOperation(
+      this,
+      (a, b) => a | b,
+      newExecuteState
+    );
+
+    resultNewExecuteState.edgeAnimation = animationsAluData(
+      this.registerSIndex,
+      resultNewExecuteState.registers[this.registerSIndex],
+      this.registerTIndex,
+      resultNewExecuteState.registers[this.registerTIndex],
+      this.destinationIndex,
+      resultNewExecuteState.registers[this.destinationIndex],
+    );
+
     return {
       ...oldState,
-      execute: applyBinaryOperation(this, (a, b) => a | b, newExecuteState),
+      execute: resultNewExecuteState,
     };
   }
 

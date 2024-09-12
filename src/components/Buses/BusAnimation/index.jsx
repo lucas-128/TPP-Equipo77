@@ -9,7 +9,7 @@ export const BusAnimation = ({ edgePath, id, reverse, color }) => {
         <path
           d={edgePath}
           stroke={"black"} // Color del contorno
-          strokeWidth={10} // Grosor del contorno, mayor que el de la línea principal
+          strokeWidth={9} // Grosor del contorno, mayor que el de la línea principal
           strokeDasharray="20,15"
           strokeLinecap="round"
           fill="none"
@@ -20,7 +20,7 @@ export const BusAnimation = ({ edgePath, id, reverse, color }) => {
         <path
           d={edgePath}
           stroke={color || "black"}
-          strokeWidth={8}
+          strokeWidth={7}
           strokeDasharray="20,15"
           strokeDashoffset="0"
           strokeLinecap="round"

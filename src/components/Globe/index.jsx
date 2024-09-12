@@ -3,8 +3,8 @@ import { Container, Content, Title } from "./styled";
 
 export const Globe = ({ id, arrowPosition, children, title, color }) => {
   const directionArrow = {
-    left: { top: "50%", left: "0px" },
-    right: { top: "50%", left: "88%" },
+    left: { top: "50%", left: "-5px" },
+    right: { top: "50%", left: "89%" },
     bottom: { top: "90%", left: "45%" },
     top: { top: "-5px", left: "40%" },
   };

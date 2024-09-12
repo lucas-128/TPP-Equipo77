@@ -1,4 +1,4 @@
-import { BaseEdge } from "reactflow";
+import { BaseEdge, EdgeLabelRenderer } from "reactflow";
 import {
   cacheMemoryId,
   controlUnitId,
@@ -8,8 +8,14 @@ import { usePosition } from "../../../hooks/usePosition";
 import { useSelector } from "react-redux";
 import { useMemo } from "react";
 import { BusAnimation } from "../BusAnimation";
+import { Globe } from "../../Globe";
 
 export const CacheToControlUnitBus = ({ id }) => {
+  // const fetchData = useSelector(
+  //   (state) => state.application.fetch.instructionRegister
+  // );
+  const executeData = "";
+
   const executeAnimations = useSelector(
     (state) => state.application.execute.edgeAnimation
   );
@@ -18,20 +24,34 @@ export const CacheToControlUnitBus = ({ id }) => {
     (state) => state.application.fetch.edgeAnimation
   );
 
+  const fetchColor = useSelector((state) => state.application.fetch.color);
+  const executeColor = useSelector((state) => state.application.execute.color);
+
   const animationData = useMemo(() => {
     const combinedAnimations = [...animations, ...executeAnimations];
     return combinedAnimations.find((anim) => anim.id === controlUnitCacheId);
   }, [animations, executeAnimations, controlUnitCacheId]);
 
+  const color = useMemo(() => {
+    return executeAnimations.find((anim) => anim.id === controlUnitCacheId)
+      ? executeColor
+      : fetchColor;
+  }, [executeAnimations, fetchColor, executeColor]);
+
+  // const data = useMemo(() => {
+  //   return executeAnimations.find((anim) => anim.id === controlUnitCacheId)
+  //     ? executeData
+  //     : fetchData;
+  // }, [executeAnimations, fetchData, executeData]);
+
   const edgeAnimation = !!animationData;
 
-  const [edgePath] = usePosition({
+  const [edgePath, labelX, labelY] = usePosition({
     edgeId: id,
     sourceComponentId: cacheMemoryId,
     targetComponentId: controlUnitId,
   });
 
-  // Verde para distinguir que es sólo de datos
   return (
     <g>
       <BaseEdge
@@ -47,9 +67,25 @@ export const CacheToControlUnitBus = ({ id }) => {
         <BusAnimation
           edgePath={edgePath}
           id={id}
+          color={color}
           reverse={animationData.reverse}
         />
       )}
+      <EdgeLabelRenderer>
+        <div
+          style={{
+            position: "absolute",
+            transform: `translate(-140%, -30px) translate(${labelX}px,${labelY}px)`,
+          }}
+          className="nodrag nopan"
+        >
+          {edgeAnimation && (
+            <Globe arrowPosition={"right"} title={"Datos"} color={color}>
+              {animationData.data}
+            </Globe>
+          )}
+        </div>
+      </EdgeLabelRenderer>
     </g>
   );
 };
