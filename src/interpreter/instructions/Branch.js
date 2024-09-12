@@ -21,11 +21,11 @@ export default class Branch extends Instruction {
     const registerToCompare = toBinary(registers[this.registerCompareId]);
     if (register0 == registerToCompare) {
       newFetchState.programCounter = parseInt(this.nextInstructionDir, 16);
-      newExecuteState.instructionId = parseInt(this.nextInstructionDir, 16) / 2;
+      newFetchState.instructionId = parseInt(this.nextInstructionDir, 16) / 2; //TODO: Check this
     } else {
-      newExecuteState.instructionId = this.id + 1;
+      newFetchState.instructionId = this.id + 1;
     }
-    return { ...oldState, execute: newExecuteState, fetch: newFetchState };
+    return { ...oldState, fetch: newFetchState, execute: newExecuteState };
   }
 
   toString() {
