@@ -12,35 +12,37 @@ export default class FloatingPointSum extends Instruction {
     super(type, id);
     this.registerSIndex = registerSIndex;
     this.registerTIndex = registerTIndex;
-    this.register = register;
+    this.destinationIndex = register;
   }
 
   execute(oldState) {
     const newExecuteState = { ...oldState.execute };
-    newExecuteState.registers = [...oldState.execute.registers];
-    newExecuteState.programCounter += 1;
+    newExecuteState.instructionId = this.id + 1;
     newExecuteState.edgeAnimation = animationsAlu;
 
-    const registerS = parseInt(
-      newExecuteState.registers[this.registerSIndex],
-      16
-    )
-      .toString(2)
-      .padStart(8, "0");
-    const registerT = parseInt(
-      newExecuteState.registers[this.registerTIndex],
-      16
-    )
-      .toString(2)
-      .padStart(8, "0");
+    // TODO mover a funcion floatingPointSum
+    // const registerS = parseInt(
+    //   newExecuteState.registers[this.registerSIndex],
+    //   16
+    // )
+    //   .toString(2)
+    //   .padStart(8, "0");
+    // const registerT = parseInt(
+    //   newExecuteState.registers[this.registerTIndex],
+    //   16
+    // )
+    //   .toString(2)
+    //   .padStart(8, "0");
 
-    const operationResult = floatingPointSum(registerS, registerT);
-    const hexResult = parseInt(operationResult, 2).toString(16).toUpperCase();
-    newExecuteState.registers[this.register] = hexResult;
+    // const operationResult = floatingPointSum(registerS, registerT);
 
     return {
       ...oldState,
-      execute: applyBinaryOperation(this, (a, b) => a ^ b, newExecuteState),
+      execute: applyBinaryOperation(
+        this,
+        (a, b) => (a + b) & 0xff,
+        newExecuteState
+      ),
     };
   }
 
@@ -48,7 +50,7 @@ export default class FloatingPointSum extends Instruction {
     return [
       ["Opcode: ", "6 (ADD FLOAT)"],
       ["Operando 1: ", "Registro " + toHexa(this.registerSIndex)],
-      ["Operando 2: ","Registro " + toHexa(this.registerTIndex)],
+      ["Operando 2: ", "Registro " + toHexa(this.registerTIndex)],
       ["Destino: ", "Registro " + toHexa(this.destinationIndex)],
     ];
   }
@@ -65,17 +67,15 @@ function floatingPointSum(registerS, registerT) {
   // TODO Manejar casos especiales (infinito, 0)
   const alignedRegisters = alignMantissas(parsedS, parsedT);
 
-  console.log(alignedRegisters);
-
   const resultMantissa = addBinary(
-    alignedRegisters.newBiggerRegister.mantissa.implied,
-    alignedRegisters.newSmallerRegister.mantissa.implied
+    alignedRegisters.register1.mantissa.implied,
+    alignedRegisters.register2.mantissa.implied
   );
 
   const [normalizedMantissa, placesMoved] = normalizeMantissa(resultMantissa);
 
   const resultExponent = toBiasBinary(
-    alignedRegisters.newBiggerRegister.exponent.decimal + placesMoved,
+    alignedRegisters.register1.exponent.decimal + placesMoved,
     3,
     3
   );
@@ -172,8 +172,8 @@ function alignMantissas(register1, register2) {
   };
 
   return {
-    newBiggerRegister,
-    newSmallerRegister,
+    register1: newBiggerRegister,
+    register2: newSmallerRegister,
   };
 }
 
@@ -273,12 +273,6 @@ function normalizeMantissa(s) {
 
 function toBiasBinary(value, bias, bitWidth) {
   const adjustedValue = parseInt(value) + bias;
-  const maxBinaryValue = (1 << bitWidth) - 1;
-
-  if (adjustedValue < 0 || adjustedValue > maxBinaryValue) {
-    throw new Error("Value out of range for the given bit width.");
-  }
-
   return adjustedValue.toString(2).padStart(bitWidth, "0");
 }
 
