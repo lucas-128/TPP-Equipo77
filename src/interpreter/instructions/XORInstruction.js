@@ -23,13 +23,17 @@ export default class XORInstruction extends Instruction {
     newExecuteState.edgeAnimation = animationsAlu;
     return {
       ...oldState,
-      execute: applyBinaryOperation(this, (a, b) => a ^ b, newExecuteState),
+      execute: applyBinaryOperation(
+        this,
+        (a, b) => parseInt(a, 2) ^ parseInt(b, 2),
+        newExecuteState
+      ),
     };
   }
 
   toString() {
     return [
-      ["Opcode: ","9 (XOR)"],
+      ["Opcode: ", "9 (XOR)"],
       ["Operando 1: ", "Registro " + toHexa(this.registerSIndex)],
       ["Operando 2: ", "Registro " + toHexa(this.registerTIndex)],
       ["Destino: ", "Registro " + toHexa(this.destinationIndex)],

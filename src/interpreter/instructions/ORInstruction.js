@@ -22,7 +22,11 @@ export default class ORInstruction extends Instruction {
     newExecuteState.edgeAnimation = animationsAlu;
     return {
       ...oldState,
-      execute: applyBinaryOperation(this, (a, b) => a | b, newExecuteState),
+      execute: applyBinaryOperation(
+        this,
+        (a, b) => parseInt(a, 2) | parseInt(b, 2),
+        newExecuteState
+      ),
     };
   }
 
