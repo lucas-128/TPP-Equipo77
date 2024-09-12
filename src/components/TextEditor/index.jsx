@@ -23,6 +23,7 @@ import {
 import { setShowEditor } from "../../slices/editorTextSlice";
 import { setError } from "../../slices/modalsSlice";
 import { EditorTest } from "./Editor";
+import { typeSimulations } from "../../interpreter/constants";
 
 export const TextEditor = ({ children, text, setText }) => {
   const isSimulating = useSelector((state) => state.application.isSimulating);
@@ -43,6 +44,10 @@ export const TextEditor = ({ children, text, setText }) => {
   );
   const executeId = useSelector(
     (state) => state.application.execute.instructionId
+  );
+
+  const simulationType = useSelector(
+    (state) => state.application.typeSimulations
   );
 
   const dispatch = useDispatch();
@@ -85,9 +90,9 @@ export const TextEditor = ({ children, text, setText }) => {
   };
 
   const getCurrentCycle = () => {
-    if (decodeId !== null) return "DECODE";
-    if (fetchId !== null) return "FETCH";
-    if (executeId !== null) return "EXECUTE";
+    if (decodeId !== null) return "Decode";
+    if (fetchId !== null) return "Fetch";
+    if (executeId !== null) return "Execute";
     return "";
   };
 
@@ -107,7 +112,11 @@ export const TextEditor = ({ children, text, setText }) => {
       <EditorWrapper>
         <EditorHeader>
           <EditorHeaderText>
-            {isSimulating && "ciclo " + getCurrentCycle()}
+            {isSimulating
+              ? simulationType === typeSimulations.CYCLES
+                ? "Ciclo " + getCurrentCycle()
+                : "Simulando"
+              : ""}
           </EditorHeaderText>
           <EditorHeaderIconContainer>
             {isSimulating ? (

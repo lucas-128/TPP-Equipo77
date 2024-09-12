@@ -4,7 +4,7 @@ export const Container = styled.div.withConfig({
   shouldForwardProp: (prop) => !["fullscreen"].includes(prop),
 })`
   display: flex;
-  flex: 2;
+  flex: 1.5;
   flex-direction: column;
   position: ${(props) => (props.fullscreen ? "fixed" : "relative")};
   top: 0;
