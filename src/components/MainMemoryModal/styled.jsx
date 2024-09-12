@@ -27,7 +27,7 @@ export const ModalBoxSetup = styled.div`
   left: 0;
   right: 0;
   display: block;
-  max-width: 85%;
+  width: 1000px;
   max-height: 90%;
   margin: 0 auto;
   padding: 12px;
@@ -86,22 +86,25 @@ export const IconContainer = styled(IoClose)`
   color: var(--im-lightgray);
 `;
 
-export const Table = styled.table`
+export const Table = styled.div`
   display: flex;
   justify-content: center;
   border-collapse: collapse;
   margin: 10px 0 0 0;
 `;
 
-export const Column = styled.td`
-  border-right: 1px solid var(--im-darkgray);
-  border-left: 1px solid var(--im-darkgray);
+export const DirectionColumn = styled.div`
+  flex-direction: column;
+  border-radius: 10px;
 `;
 
-export const HeaderCell = styled.th`
-  border-bottom: 1px solid var(--im-darkgray);
+export const DataColumn = styled.div`
+  flex-direction: column;
+  border-left: 2px solid var(--im-darkgray);
+  width: 95px;
 `;
 
-export const Cell = styled.tr`
+export const Cell = styled.div`
+  flex-direction: row;
   border-top: 1px solid var(--im-darkgray);
 `;

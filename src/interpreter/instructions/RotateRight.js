@@ -43,11 +43,14 @@ export default class RotateRight extends Instruction {
 
   toString() {
     return [
-      "Opcode: a (ROTATE)",
-      "Operando 1: Registro " + toHexa(this.register),
-      ...(parseInt(this.rotations) == 1
-        ? ["Rotación: " + this.rotations + " vez"]
-        : ["Rotación: " + this.rotations + " veces"]),
+      ["Opcode: ", "A (ROTATE)"],
+      [
+        "Operando 1: ",
+        "Registro " + toHexa(this.register),
+        ...(parseInt(this.rotations) == 1
+          ? ["Rotación: " + this.rotations + " vez"]
+          : ["Rotación: " + this.rotations + " veces"]),
+      ],
     ];
   }
 }

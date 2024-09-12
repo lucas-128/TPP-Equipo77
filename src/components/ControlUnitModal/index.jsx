@@ -13,6 +13,9 @@ import {
   InfoContainer,
   Info,
   InfoTile,
+  InfoBox,
+  DataBox,
+  BlankDataBox,
 } from "./styled";
 import { useDispatch, useSelector } from "react-redux";
 import { IoClose } from "react-icons/io5";
@@ -39,7 +42,7 @@ export const ControlUnitModal = () => {
         ? getInstructionLog(instructionRegister[0], instructionRegister)
         : "",
       programCounter: programCounter
-        ? programCounter.toString(16).padStart(2, "0")
+        ? programCounter.toString(16).padStart(2, "0").toUpperCase()
         : "",
     };
   }, [fetchId, instructionRegister, programCounter]);
@@ -51,22 +54,41 @@ export const ControlUnitModal = () => {
           <ModalContainer>
             <InfoContainer>
               <InfoTile>{"Unidad de control"}</InfoTile>
-              <Info>
-                {"• Contador de programa: " + controlUnitInfo.programCounter}
-              </Info>
-              <Info>{"• Instrucción: " + controlUnitInfo.instruction}</Info>
-              <Info>
-                {"• Descripción: " + controlUnitInfo.instructionDescription}
-              </Info>
+
+              <InfoBox>
+                <Info>
+                  <BlankDataBox>{"Contador de programa:"}</BlankDataBox>
+                  <DataBox>{controlUnitInfo.programCounter}</DataBox>
+                </Info>
+                <Info>
+                  <BlankDataBox>{"Instrucción:"}</BlankDataBox>
+                  <DataBox>{controlUnitInfo.instruction}</DataBox>
+                </Info>
+                <Info>
+                  <BlankDataBox>
+                    {controlUnitInfo.instructionDescription}
+                  </BlankDataBox>
+                </Info>
+              </InfoBox>
+
               <InfoTile>{"Información adicional"}</InfoTile>
-              {InstructionFactory.createInstruction(
-                controlUnitInfo.instruction,
-                0
-              )
-                .toString()
-                .map((instructionData, i) => {
-                  return <Info key={i}>{"• " + instructionData}</Info>;
-                })}
+              <InfoBox>
+                {InstructionFactory.createInstruction(
+                  controlUnitInfo.instruction,
+                  0
+                )
+                  ?.toString()
+                  .map((instructionData, i) => {
+                    return (
+                      <Info key={i}>
+                        <BlankDataBox key={i}>
+                          {instructionData[0]}
+                        </BlankDataBox>
+                        <DataBox key={i}>{instructionData[1]}</DataBox>
+                      </Info>
+                    );
+                  })}
+              </InfoBox>
             </InfoContainer>
             <StartBusContainer>
               <Bus>Bus hacia los registros</Bus>
