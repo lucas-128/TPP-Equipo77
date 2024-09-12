@@ -1,6 +1,5 @@
 import Instruction from "../Instruction";
 import { animationsAluData, applyBinaryOperation, toHexa } from "../utils";
-import { animationsAlu } from "../constants";
 /* 
 
 Instruction: 8
