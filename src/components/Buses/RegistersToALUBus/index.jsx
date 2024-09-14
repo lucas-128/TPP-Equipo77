@@ -113,11 +113,11 @@ export const RegistersToALUBus = ({ id, data }) => {
             {edgeAnimationAluTop && (
               <Globe arrowPosition={"bottom"} color={color}>
                 <div className="row">
-                  <Title $color={color}>Dirección</Title>
+                  <Title $color={color}>Dirección (execute)</Title>
                   {animationDataTop?.address}
                 </div>
                 <div className="row">
-                  <Title $color={color}>Datos</Title>
+                  <Title $color={color}>Datos (execute)</Title>
                   {animationDataTop?.data}
                 </div>
               </Globe>

@@ -53,11 +53,11 @@ export const RegistersToUCBus = ({ id }) => {
           {edgeAnimation && (
             <Globe arrowPosition={"bottom"}>
               <div className="row">
-                <Title $color={color}>Dirección</Title>
+                <Title $color={color}>Dirección (execute)</Title>
                 {animationData?.address}
               </div>
               <div className="row">
-                <Title $color={color}>Datos</Title>
+                <Title $color={color}>Datos (execute)</Title>
                 {animationData?.data}
               </div>
             </Globe>

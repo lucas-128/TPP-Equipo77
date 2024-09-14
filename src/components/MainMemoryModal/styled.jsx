@@ -28,9 +28,9 @@ export const ModalBoxSetup = styled.div`
   right: 0;
   display: block;
   width: 1000px;
-  max-height: 90%;
+  max-height: 700px;
+  padding: 10px;
   margin: 0 auto;
-  padding: 12px;
   overflow-y: auto;
   overflow-x: auto;
   text-align: center;
@@ -49,6 +49,8 @@ export const ModalContainer = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   color: var(--im-darkgray);
 `;
 
@@ -96,15 +98,22 @@ export const Table = styled.div`
 export const DirectionColumn = styled.div`
   flex-direction: column;
   border-radius: 10px;
+  font-size: 12px;
+  padding: 0px 1px;
 `;
 
 export const DataColumn = styled.div`
   flex-direction: column;
   border-left: 2px solid var(--im-darkgray);
   width: 95px;
+  font-size: 12px;
 `;
 
 export const Cell = styled.div`
   flex-direction: row;
-  border-top: 1px solid var(--im-darkgray);
+  border-bottom: 1px solid var(--im-darkgray);
+
+  &:last-child {
+    border: none;
+  }
 `;

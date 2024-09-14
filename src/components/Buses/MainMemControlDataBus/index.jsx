@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { BaseEdge, EdgeLabelRenderer } from "reactflow";
 import { usePosition } from "../../../hooks/usePosition";
 import { mainMemControlUnitDataId } from "../../../containers/SimulatorSection/components";
@@ -7,6 +7,7 @@ import { BusAnimation } from "../BusAnimation";
 import { Globe } from "../../Globe";
 
 export const MainMemControlDataBus = ({ id, source, target }) => {
+  const [animateInterminently, setAnimateInterminently] = useState(false);
   const instructionRegister = useSelector(
     (state) => state.application.fetch.instructionRegister
   );
@@ -22,28 +23,34 @@ export const MainMemControlDataBus = ({ id, source, target }) => {
   const fetchColor = useSelector((state) => state.application.fetch.color);
   const executeColor = useSelector((state) => state.application.execute.color);
 
-  const animationData = useMemo(() => {
-    const combinedAnimations = [...animations, ...executeAnimations];
-    return combinedAnimations.find(
-      (anim) => anim.id === mainMemControlUnitDataId
-    );
-  }, [animations, executeAnimations, mainMemControlUnitDataId]);
+  const animationDataFetch = useMemo(() => {
+    return animations.find((anim) => anim.id === mainMemControlUnitDataId);
+  }, [animations, mainMemControlUnitDataId]);
 
-  const color = useMemo(() => {
+  const animationDataExecute = useMemo(() => {
     return executeAnimations.find(
       (anim) => anim.id === mainMemControlUnitDataId
-    )
-      ? executeColor
-      : fetchColor;
-  }, [executeAnimations, fetchColor, executeColor]);
+    );
+  }, [executeAnimations, mainMemControlUnitDataId]);
 
-  const edgeAnimation = !!animationData;
+  const animationFetch = animationDataFetch && !animationDataExecute;
+  const animationExecute = animationDataExecute && !animationDataFetch;
+  const animationBoth = animationDataFetch && animationDataExecute;
 
   const [edgePath, labelX, labelY] = usePosition({
     edgeId: id,
     sourceComponentId: source,
     targetComponentId: target,
   });
+
+  // make timer that turns a boolean to false after 0.5 seconds and then to true again and repeat
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAnimateInterminently((prev) => !prev);
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, [animateInterminently]);
 
   return (
     <g>
@@ -64,20 +71,62 @@ export const MainMemControlDataBus = ({ id, source, target }) => {
           }}
           className="nodrag nopan"
         >
-          {edgeAnimation && (
-            <Globe arrowPosition={"bottom"} title={"Datos"} color={color}>
+          {animationFetch && (
+            <Globe arrowPosition={"bottom"} title={"Datos (fetch)"} color={fetchColor}>
               {instructionRegister}
             </Globe>
           )}
+          {animationExecute && (
+            <Globe arrowPosition={"bottom"} title={"Datos (execute)"} color={executeColor}>
+              {"execute"}
+            </Globe>
+          )}
+          {animationBoth && (
+            <div className="row">
+              <Globe arrowPosition={"bottom"} title={"Datos (fetch)"} color={fetchColor}>
+                {instructionRegister}
+              </Globe>
+              <Globe arrowPosition={"bottom"} title={"Datos (execute)"} color={executeColor}>
+                {'el del execute'}
+              </Globe>
+            </div>
+          )}
         </div>
       </EdgeLabelRenderer>
-      {edgeAnimation && (
+      {animationFetch && (
         <BusAnimation
           edgePath={edgePath}
           id={id}
-          reverse={animationData.reverse}
-          color={color}
+          reverse={animationDataFetch.reverse}
+          color={fetchColor}
         />
+      )}
+      {animationExecute && (
+        <BusAnimation
+          edgePath={edgePath}
+          id={id}
+          reverse={animationDataExecute.reverse}
+          color={executeColor}
+        />
+      )}
+      {animationBoth && (
+        <>
+          {animateInterminently ? (
+            <BusAnimation
+              edgePath={edgePath}
+              id={id}
+              reverse={animationDataFetch.reverse}
+              color={fetchColor}
+            />
+          ) : (
+            <BusAnimation
+              edgePath={edgePath}
+              id={id}
+              reverse={animationDataExecute.reverse}
+              color={executeColor}
+            />
+          )}
+        </>
       )}
     </g>
   );
