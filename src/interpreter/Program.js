@@ -2,6 +2,7 @@ import { animationsAlu, typeSimulations } from "./constants";
 import { splitCode, validateSyntax } from "./main";
 import { InstructionFactory } from "./InstructionFactory";
 import { combineCaches } from "./utils";
+import { initialState } from "../slices/applicationSlice";
 
 export default class Program {
   constructor(program, typeSimulation) {
@@ -105,6 +106,7 @@ export default class Program {
         );
       } else {
         newFetchState = {
+          ...oldState,
           fetch: {
             ...oldState.fetch,
             instructionId: fetchInstructionId,
@@ -122,23 +124,31 @@ export default class Program {
         );
       } else {
         newDecodeState = {
+          fetch: {
+            ...oldState.fetch,
+            instructionId: fetchInstructionId,
+            instructionRegister: "-",
+            address: null,
+            edgeAnimation: [],
+          },
           decode: { ...oldState.decode, instructionId: null },
+          execute: { ...oldState.execute },
         };
       }
 
-      console.log("lo que devuelvo es ", {
-        ...oldState,
-        fetch: {
-          ...newFetchState.fetch,
-          color: this.getNextColor(oldState.fetch.color),
-        },
-        decode: { ...newDecodeState.decode, color: oldState.fetch.color },
-        execute: {
-          ...newExecuteState.execute,
-          instructionId: executeInstructionId,
-          color: oldState.decode.color,
-        },
-      });
+      // console.log("lo que devuelvo es ", {
+      //   ...oldState,
+      //   fetch: {
+      //     ...newFetchState.fetch,
+      //     color: this.getNextColor(oldState.fetch.color),
+      //   },
+      //   decode: { ...newDecodeState.decode, color: oldState.fetch.color },
+      //   execute: {
+      //     ...newExecuteState.execute,
+      //     instructionId: executeInstructionId,
+      //     color: oldState.decode.color,
+      //   },
+      // });
 
       const newCacheMemoryCells = combineCaches(
         newExecuteState.execute.cacheMemoryCells,

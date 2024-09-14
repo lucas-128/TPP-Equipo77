@@ -61,7 +61,7 @@ export default class LoadRegisterFromMem extends Instruction {
         { id: controlUnitCacheId, reverse: true, data: value },
         { id: controlUnitCacheAddrBusId, address: this.memoryAddress },
         { id: controlUnitMainMemAddrId, data: value },
-        { id: mainMemControlUnitDataId, reverse: true, data: value },
+        { id: mainMemControlUnitDataId, reverse: false, data: value },
       ];
     } else {
       // Cache memory has not been updated, meaning the main memory bus should not be animated

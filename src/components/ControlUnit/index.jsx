@@ -20,11 +20,11 @@ export const ControlUnit = () => {
     (state) => state.application.typeSimulations
   );
   const programCounter = useSelector(
-    (state) => state.application.fetch.programCounter
+    (state) => state.application.decode.programCounter
   );
 
   const instructionRegister = useSelector(
-    (state) => state.application.fetch.instructionRegister
+    (state) => state.application.decode.instructionRegister
   );
 
   const fetchId = useSelector((state) => state.application.fetch.instructionId);

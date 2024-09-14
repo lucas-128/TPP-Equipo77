@@ -132,6 +132,8 @@ export default class Instruction {
   decode(oldState) {
     const newDecodeState = { ...oldState.decode };
     newDecodeState.instructionId = this.id;
+    newDecodeState.instructionRegister = oldState.fetch.instructionRegister;
+    newDecodeState.programCounter = oldState.fetch.programCounter;
     return { ...oldState, decode: newDecodeState };
   }
 }

@@ -14,11 +14,13 @@ export const initialState = {
     edgeAnimation: [],
     programCounter: null,
     instructionRegister: "-",
-    color: "var(--im-green)",
+    color: "var(--im-yellow)",
   },
   decode: {
     instructionId: null,
     color: "var(--im-pink)",
+    programCounter: null,
+    instructionRegister: "-",
   },
   execute: {
     instructionId: null,
@@ -32,7 +34,7 @@ export const initialState = {
     edgeAnimation: [],
     showInputPort: false,
     endProgram: false,
-    color: "var(--im-blue)",
+    color: "var(--im-green)",
   },
   previousState: null,
   aluOperation: null,
