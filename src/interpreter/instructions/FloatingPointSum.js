@@ -38,11 +38,7 @@ export default class FloatingPointSum extends Instruction {
 
     return {
       ...oldState,
-      execute: applyBinaryOperation(
-        this,
-        (a, b) => (a + b) & 0xff,
-        newExecuteState
-      ),
+      execute: applyBinaryOperation(this, floatingPointSum, newExecuteState),
     };
   }
 

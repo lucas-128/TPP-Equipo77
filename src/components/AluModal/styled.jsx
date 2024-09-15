@@ -197,6 +197,23 @@ export const Row = styled.div`
   gap: 10px;
 `;
 
+export const BitsRow = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
 export const RowOperation = styled(Row)`
   margin-bottom: 20px;
+`;
+
+export const SignBit = styled.span`
+  color: lightgreen;
+`;
+
+export const ExponentBits = styled.span`
+  color: teal;
+`;
+
+export const MantissaBits = styled.span`
+  color: lightblue;
 `;
