@@ -95,3 +95,6 @@ export const animationsAlu = [
   registerAluBottomId,
   aluRegistersId,
 ];
+
+export const INVALID_END_ERROR =
+  "El programa ingresado no tiene 'C000' como última instrucción.";
