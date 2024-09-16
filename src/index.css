@@ -17,6 +17,7 @@
     rgba(50, 50, 50, 0.596) 0px 30px 60px -30px,
     rgba(114, 114, 114, 0.37) 0px -3px 10px 0px inset;
 
+  --im-black: #000000;
   --im-white: #f4f4f4;
   --im-white-gray: #e7e7e7;
   --im-darkgray: #272727;
