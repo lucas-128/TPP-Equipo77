@@ -13,6 +13,8 @@ import {
 } from "../../../slices/applicationSlice";
 import { Button } from "../../Button";
 import Program from "../../../interpreter/Program";
+import { setError } from "../../../slices/modalsSlice";
+import { INVALID_END_ERROR } from "../../../interpreter/constants";
 
 export const TextEditorButtons = ({ text }) => {
   const [program, setProgram] = useState(null);
@@ -33,14 +35,22 @@ export const TextEditorButtons = ({ text }) => {
   };
 
   const handleSimulateButtonClick = () => {
-    dispatch(setIsSimulating(!isSimulating));
     const newMemory = getProgramInMemory();
     const newProgram = new Program(text, applicationState.typeSimulations);
+    if (newProgram.invalidEndInstruction()) {
+      dispatch(setError(INVALID_END_ERROR));
+      return;
+    }
+    dispatch(setIsSimulating(!isSimulating));
     setProgram(newProgram);
     const newState = newProgram.getNewState({
       ...applicationState,
-      fetch: { ...applicationState.fetch, programCounter: 0, instructionId: null },
-      execute: { ...applicationState.execute, mainMemoryCells: newMemory},
+      fetch: {
+        ...applicationState.fetch,
+        programCounter: 0,
+        instructionId: null,
+      },
+      execute: { ...applicationState.execute, mainMemoryCells: newMemory },
     });
     dispatch(updatePreviousState()); //TODO: Revisar esto porque creo que el primer estado guarda un previous state que no deberia
     dispatch(updateCurrentState(newState));
@@ -56,7 +66,7 @@ export const TextEditorButtons = ({ text }) => {
   };
 
   const setNextLine = () => {
-    if(applicationState.execute.endProgram) {
+    if (applicationState.execute.endProgram) {
       dispatch(setIsSimulating(false));
       dispatch(clearApplication());
       return;

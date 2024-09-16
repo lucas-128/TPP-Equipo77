@@ -1,4 +1,4 @@
-import { animationsAlu, typeSimulations } from "./constants";
+import { animationsAlu, END, typeSimulations } from "./constants";
 import { splitCode, validateSyntax } from "./main";
 import { InstructionFactory } from "./InstructionFactory";
 import { combineCaches } from "./utils";
@@ -41,6 +41,19 @@ export default class Program {
     }
     console.log("FETCH", state.execute.instructionId);
     return state.execute.instructionId || 0;
+  }
+
+  // Checks if last instruction is 'C000'.
+  // Also checks if 'C000' is not in the
+  // last line of the program.
+  invalidEndInstruction() {
+    const lastInstructionIndex = this.instructions.length - 1;
+    for (let i = 0; i < lastInstructionIndex; i++) {
+      if (this.instructions[i].type == END) {
+        return true;
+      }
+    }
+    return this.instructions[lastInstructionIndex].type != END;
   }
 
   isLastId(id) {
