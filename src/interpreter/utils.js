@@ -23,6 +23,7 @@ export function applyBinaryOperation(instruction, operation, actualState) {
     .padStart(8, "0");
 
   const operationResult = operation(registerS, registerT).toString(2);
+
   const paddedOperationResult = operationResult.slice(0, 8).padStart(8, "0");
 
   const hexValue = parseInt(paddedOperationResult, 2)
@@ -36,7 +37,7 @@ export function applyBinaryOperation(instruction, operation, actualState) {
     registerSIndex: instruction.registerSIndex,
     registerTIndex: instruction.registerTIndex,
     destinationIndex: instruction.destinationIndex,
-    result: operationResult,
+    result: paddedOperationResult,
   };
 
   newState.registers[instruction.destinationIndex] = hexValue;

@@ -16,13 +16,12 @@ import {
   ButtonContainer,
   Row,
   RowOperation,
-  SignBit,
-  ExponentBits,
-  MantissaBits,
-  BitsRow,
+  SlidesContainer,
+  Slide,
+  SlidesButtonsContainer,
 } from "./styled";
 import { useDispatch, useSelector } from "react-redux";
-import { IoClose } from "react-icons/io5";
+import { IoClose, IoArrowForward, IoArrowBack } from "react-icons/io5";
 import { setOpenAluZoom } from "../../slices/modalsSlice";
 import { Button } from "../Button";
 
@@ -57,8 +56,17 @@ export const AluModal = () => {
     return result;
   };
 
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const nextSlide = () => {
+    setCurrentSlide((prevSlide) => prevSlide + 1);
+  };
+  const prevSlide = () => {
+    setCurrentSlide((prevSlide) => prevSlide - 1);
+  };
+
   useEffect(() => {
     setShowResult(false);
+    setCurrentSlide(0);
   }, [showModal]);
 
   return (
@@ -76,6 +84,7 @@ export const AluModal = () => {
                 <CircledNumber>{aluOperation.registerTIndex}</CircledNumber>
               </Bus>
             </StartBusContainer>
+
             <AluContainer>
               {aluOperation && (
                 <>
@@ -85,104 +94,97 @@ export const AluModal = () => {
                         Operación
                         <OperationName>{aluOperation.operation}</OperationName>
                       </RowOperation>
-                      <Row>
-                        {"S: "}
-                        <BitsRow>
-                          <SignBit>{registerSbits.slice(0, 1)}</SignBit>
-                          <ExponentBits>
-                            {registerSbits.slice(1, 4)}
-                          </ExponentBits>
-                          <MantissaBits>{registerSbits.slice(4)}</MantissaBits>
-                        </BitsRow>
-                        {" → "}
-                        <BitsRow>
-                          {registerSbits.slice(0, 1) === "0" ? (
-                            <SignBit>{"+"}</SignBit>
-                          ) : (
-                            <SignBit>{"-"}</SignBit>
-                          )}
-                          {"1."}
-                          <MantissaBits>{registerSbits.slice(4)}</MantissaBits>
-                          {"*2^"}
-                          <ExponentBits>
-                            {binaryToDecimalWithBias(registerSbits.slice(1, 4))}
-                          </ExponentBits>
-                        </BitsRow>
-                      </Row>
-                      <Row>
-                        {"T: "}
-                        <BitsRow>
-                          <SignBit>{registerTbits.slice(0, 1)}</SignBit>
-                          <ExponentBits>
-                            {registerTbits.slice(1, 4)}
-                          </ExponentBits>
-                          <MantissaBits>{registerTbits.slice(4)}</MantissaBits>
-                        </BitsRow>
-                        {" → "}
-                        <BitsRow>
-                          {registerTbits.slice(0, 1) === "0" ? (
-                            <SignBit>{"+"}</SignBit>
-                          ) : (
-                            <SignBit>{"-"}</SignBit>
-                          )}
-                          {"1."}
-                          <MantissaBits>{registerTbits.slice(4)}</MantissaBits>
-                          {"*2^"}
-                          <ExponentBits>
-                            {binaryToDecimalWithBias(registerTbits.slice(1, 4))}
-                          </ExponentBits>
-                        </BitsRow>
-                      </Row>
 
-                      {"Alineación de mantisas"}
-                      <br />
-                      {"0.10100 *2^3"}
-                      <br />
-                      {"1.01010 *2^3"}
-                      <br />
-                      <Line></Line>
-                      {showResult ? (
-                        <Row>
-                          {"resultado sin normalizar -> "}
+                      <SlidesContainer>
+                        {currentSlide === 0 && (
+                          <Slide>
+                            <Row>{"Interpretacion de registros"}</Row>
+                            <Row>
+                              {parseInt(aluOperation.registerS, 16)
+                                .toString(2)
+                                .padStart(8, "0")}
+                            </Row>
+                            <Row>
+                              {parseInt(aluOperation.registerT, 16)
+                                .toString(2)
+                                .padStart(8, "0")}
+                            </Row>
+                          </Slide>
+                        )}
+                        {currentSlide === 1 && (
+                          <Slide>
+                            <Row>{"Alinear mantisas"}</Row>
+                            <Row>
+                              {parseInt(aluOperation.registerS, 16)
+                                .toString(2)
+                                .padStart(8, "0")}
+                            </Row>
+                            <Row>
+                              {parseInt(aluOperation.registerT, 16)
+                                .toString(2)
+                                .padStart(8, "0")}
+                            </Row>
+                          </Slide>
+                        )}
+                        {currentSlide === 2 && (
+                          <Slide>
+                            <Row>{"Realizar Suma"}</Row>
+                            <Row>
+                              {parseInt(aluOperation.registerS, 16)
+                                .toString(2)
+                                .padStart(8, "0")}
+                            </Row>
+                            <Row>
+                              {parseInt(aluOperation.registerT, 16)
+                                .toString(2)
+                                .padStart(8, "0")}
+                            </Row>
+                          </Slide>
+                        )}
+                        {currentSlide === 3 && (
+                          <Slide>
+                            <Row>{"Redondeo"}</Row>
+                            <Row>
+                              {parseInt(aluOperation.registerS, 16)
+                                .toString(2)
+                                .padStart(8, "0")}
+                            </Row>
+                            <Row>
+                              {parseInt(aluOperation.registerT, 16)
+                                .toString(2)
+                                .padStart(8, "0")}
+                            </Row>
+                          </Slide>
+                        )}
+                        {currentSlide === 4 && (
+                          <Slide>
+                            <Row>{"Normalizar y binario"}</Row>
+                            <Row>
+                              {parseInt(aluOperation.registerS, 16)
+                                .toString(2)
+                                .padStart(8, "0")}
+                            </Row>
+                            <Row>
+                              {parseInt(aluOperation.registerT, 16)
+                                .toString(2)
+                                .padStart(8, "0")}
+                            </Row>
+                          </Slide>
+                        )}
+                      </SlidesContainer>
 
-                          <span>{firstEightBits}</span>
-                        </Row>
-                      ) : (
-                        <ButtonContainer>
-                          <Button lightColor={true} onClick={handleShowResult}>
-                            Realizar suma pf
+                      <SlidesButtonsContainer>
+                        {currentSlide != 0 && (
+                          <Button lightColor={true} onClick={prevSlide}>
+                            <IoArrowBack />
                           </Button>
-                        </ButtonContainer>
-                      )}
-                    </InfoContainer>
-                  ) : aluOperation.operation === "Suma en complemento a 2" ? (
-                    <InfoContainer>
-                      <RowOperation>
-                        Operación
-                        <OperationName>{aluOperation.operation}</OperationName>
-                      </RowOperation>
-                      <Row>
-                        {parseInt(aluOperation.registerS, 16)
-                          .toString(2)
-                          .padStart(8, "0")}
-                      </Row>
-                      <Row>
-                        {parseInt(aluOperation.registerT, 16)
-                          .toString(2)
-                          .padStart(8, "0")}
-                      </Row>
-                      <Line />
-                      {showResult ? (
-                        <Row>
-                          <span>{firstEightBits}</span>
-                        </Row>
-                      ) : (
-                        <ButtonContainer>
-                          <Button lightColor={true} onClick={handleShowResult}>
-                            Realizar suma c2
+                        )}
+                        {currentSlide != 4 && (
+                          <Button lightColor={true} onClick={nextSlide}>
+                            <IoArrowForward />
                           </Button>
-                        </ButtonContainer>
-                      )}
+                        )}
+                      </SlidesButtonsContainer>
                     </InfoContainer>
                   ) : (
                     <InfoContainer>

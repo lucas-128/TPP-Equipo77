@@ -82,7 +82,14 @@ function floatingPointSum(registerS, registerT) {
 
   const resultSign = "0"; //TODO
 
-  return resultSign + resultExponent + resultNormalizedMantissa;
+  const res_string = resultSign + resultExponent + resultNormalizedMantissa;
+
+  const result = parseInt(
+    resultSign + resultExponent + resultNormalizedMantissa,
+    2
+  );
+
+  return res_string;
 }
 
 /*
