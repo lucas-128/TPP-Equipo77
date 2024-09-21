@@ -12,6 +12,7 @@ export const Container = styled.div`
   display: flex !important;
   cursor: default !important;
   padding: 5px;
+  margin: 5px;
 
   &:before {
     content: "";

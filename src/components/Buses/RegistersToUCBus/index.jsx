@@ -10,10 +10,16 @@ import { useMemo } from "react";
 import { BusAnimation } from "../BusAnimation";
 import { Globe } from "../../Globe";
 import { Title } from "./styled";
+import { toHexaPadStart } from "../../../interpreter/utils";
+import { textAddressTitle, textDataTitle } from "../utils";
 
 export const RegistersToUCBus = ({ id }) => {
   const animations = useSelector(
     (state) => state.application.execute.edgeAnimation
+  );
+
+  const typeSimulation = useSelector(
+    (state) => state.application.typeSimulations
   );
 
   const color = useSelector((state) => state.application.execute.color);
@@ -46,18 +52,22 @@ export const RegistersToUCBus = ({ id }) => {
         <div
           style={{
             position: "absolute",
-            transform: `translate(100%, -135%) translate(${labelX}px,${labelY}px)`,
+            transform: `translate(50%, -135%) translate(${labelX}px,${labelY}px)`,
           }}
           className="nodrag nopan"
         >
           {edgeAnimation && (
             <Globe arrowPosition={"bottom"}>
               <div className="row">
-                <Title $color={color}>Dirección</Title>
-                {animationData?.address}
+                <Title $color={color}>
+                  {textAddressTitle("Dirección (execute)", typeSimulation)}
+                </Title>
+                {toHexaPadStart(animationData?.address)}
               </div>
               <div className="row">
-                <Title $color={color}>Datos</Title>
+                <Title $color={color}>
+                  {textDataTitle("Datos (execute)", typeSimulation)}
+                </Title>
                 {animationData?.data}
               </div>
             </Globe>
