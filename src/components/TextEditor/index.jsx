@@ -9,6 +9,7 @@ import {
   MdUndo,
   MdDownload,
 } from "react-icons/md";
+import { Resizable } from "re-resizable";
 import { useDispatch, useSelector } from "react-redux";
 import { validateSyntax } from "../../interpreter/main";
 import {
@@ -16,7 +17,6 @@ import {
   EditorHeaderIconContainer,
   EditorWrapper,
   Button,
-  Container,
   HiddenEditorContainer,
   EditorHeaderText,
 } from "./styled";
@@ -29,16 +29,7 @@ import { typeSimulations } from "../../interpreter/constants";
 export const TextEditor = ({ children, text, setText }) => {
   const isSimulating = useSelector((state) => state.application.isSimulating);
 
-  const [isFullScreen, setIsFullScreen] = useState(false);
-  const [history, setHistory] = useState([]);
-
   const show = useSelector((state) => state.editorText.show);
-  const currentInstruction = useSelector(
-    (state) =>
-      state.application.execute.instructionId ||
-      state.application.fetch.instructionId ||
-      state.application.decode.instructionId
-  );
   const fetchId = useSelector((state) => state.application.fetch.instructionId);
   const decodeId = useSelector(
     (state) => state.application.decode.instructionId
@@ -59,7 +50,6 @@ export const TextEditor = ({ children, text, setText }) => {
       const reader = new FileReader();
       reader.onload = (e) => {
         setText(e.target.result);
-        setHistory((prevHistory) => [...prevHistory, e.target.result]);
         event.target.value = null;
       };
       reader.onerror = () => {
@@ -73,7 +63,6 @@ export const TextEditor = ({ children, text, setText }) => {
 
   const handleClearText = () => {
     if (!isSimulating) {
-      setHistory((prevHistory) => [...prevHistory, text]);
       setText("");
     } else {
       // no se puede editar el codigo mientras se simula
@@ -109,7 +98,20 @@ export const TextEditor = ({ children, text, setText }) => {
   }, [isSimulating]);
 
   return show ? (
-    <Container fullscreen={isFullScreen}>
+    <Resizable
+      defaultSize={{ width: "300px", height: "100%" }}
+      minWidth={200}
+      enable={{
+        top: false,
+        right: true,
+        bottom: false,
+        left: false,
+        topRight: false,
+        bottomRight: false,
+        bottomLeft: false,
+        topLeft: false,
+      }}
+    >
       <EditorWrapper>
         <EditorHeader>
           <EditorHeaderText>
@@ -141,7 +143,10 @@ export const TextEditor = ({ children, text, setText }) => {
                 <Button onClick={handleFileDownload} title="Descargar">
                   <MdDownload size={20} />
                 </Button>
-                <Button title="Ayuda" onClick={()=>dispatch(setOpenInstructionsModal(true))}>
+                <Button
+                  title="Ayuda"
+                  onClick={() => dispatch(setOpenInstructionsModal(true))}
+                >
                   <BsQuestionCircleFill size={18} />
                 </Button>
               </>
@@ -155,7 +160,7 @@ export const TextEditor = ({ children, text, setText }) => {
 
         {children}
       </EditorWrapper>
-    </Container>
+    </Resizable>
   ) : (
     <EditorWrapper>
       <HiddenEditorContainer>
