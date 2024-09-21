@@ -28,7 +28,7 @@ export const TextEditorButtons = ({ text }) => {
     }
     return Array.from(
       { length: 256 },
-      (_, i) => parsedCode.slice(i * 2, i * 2 + 2) || "x"
+      (_, i) => parsedCode.slice(i * 2, i * 2 + 2) || "-"
     );
   };
 
@@ -42,7 +42,6 @@ export const TextEditorButtons = ({ text }) => {
       fetch: { ...applicationState.fetch, programCounter: 0, instructionId: null },
       execute: { ...applicationState.execute, mainMemoryCells: newMemory},
     });
-    dispatch(updatePreviousState()); //TODO: Revisar esto porque creo que el primer estado guarda un previous state que no deberia
     dispatch(updateCurrentState(newState));
   };
 

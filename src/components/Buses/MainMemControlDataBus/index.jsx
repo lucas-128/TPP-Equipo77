@@ -5,11 +5,17 @@ import { usePosition } from "../../../hooks/usePosition";
 import { mainMemControlUnitDataId } from "../../../containers/SimulatorSection/components";
 import { BusAnimation } from "../BusAnimation";
 import { Globe } from "../../Globe";
+import { typeSimulations } from "../../../interpreter/constants";
+import { textDataTitle } from "../utils";
 
 export const MainMemControlDataBus = ({ id, source, target }) => {
   const [animateInterminently, setAnimateInterminently] = useState(false);
   const instructionRegister = useSelector(
     (state) => state.application.fetch.instructionRegister
+  );
+
+  const typeSimulation = useSelector(
+    (state) => state.application.typeSimulations
   );
 
   const animations = useSelector(
@@ -43,11 +49,11 @@ export const MainMemControlDataBus = ({ id, source, target }) => {
     targetComponentId: target,
   });
 
-  // make timer that turns a boolean to false after 0.5 seconds and then to true again and repeat
+  // Timer to animate interminently the bus when fetch and execute are active
   useEffect(() => {
     const interval = setInterval(() => {
       setAnimateInterminently((prev) => !prev);
-    }, 500);
+    }, 1000);
 
     return () => clearInterval(interval);
   }, [animateInterminently]);
@@ -72,22 +78,38 @@ export const MainMemControlDataBus = ({ id, source, target }) => {
           className="nodrag nopan"
         >
           {animationFetch && (
-            <Globe arrowPosition={"bottom"} title={"Datos (fetch)"} color={fetchColor}>
+            <Globe
+              arrowPosition={"bottom"}
+              title={textDataTitle("Datos (fetch)", typeSimulation)}
+              color={fetchColor}
+            >
               {instructionRegister}
             </Globe>
           )}
           {animationExecute && (
-            <Globe arrowPosition={"bottom"} title={"Datos (execute)"} color={executeColor}>
-              {"execute"}
+            <Globe
+              arrowPosition={"bottom"}
+              title={textDataTitle("Datos (execute)", typeSimulation)}
+              color={executeColor}
+            >
+              {animationDataExecute.data}
             </Globe>
           )}
           {animationBoth && (
             <div className="row">
-              <Globe arrowPosition={"bottom"} title={"Datos (fetch)"} color={fetchColor}>
-                {instructionRegister}
+              <Globe
+                arrowPosition={"bottom"}
+                title={"Datos (fetch)"}
+                color={fetchColor}
+              >
+                {animationDataFetch.data}
               </Globe>
-              <Globe arrowPosition={"bottom"} title={"Datos (execute)"} color={executeColor}>
-                {'el del execute'}
+              <Globe
+                arrowPosition={"bottom"}
+                title={"Datos (execute)"}
+                color={executeColor}
+              >
+                {animationDataExecute.data}
               </Globe>
             </div>
           )}

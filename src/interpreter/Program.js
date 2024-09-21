@@ -1,8 +1,7 @@
-import { animationsAlu, typeSimulations } from "./constants";
+import { cyclesSimulations, typeSimulations } from "./constants";
 import { splitCode, validateSyntax } from "./main";
 import { InstructionFactory } from "./InstructionFactory";
 import { combineCaches } from "./utils";
-import { initialState } from "../slices/applicationSlice";
 
 export default class Program {
   constructor(program, typeSimulation) {
@@ -60,16 +59,16 @@ export default class Program {
       return "var(--im-green)";
     }
     if (previousColor === "var(--im-green)") {
-      return "var(--im-yellow)";
-    }
-    if (previousColor === "var(--im-yellow)") {
       return "var(--im-blue)";
     }
-    if (previousColor === "var(--im-blue)") {
+    if (previousColor === "var(--im-yellow)") {
       return "var(--im-pink)";
     }
+    if (previousColor === "var(--im-blue)") {
+      return "var(--im-yellow)";
+    }
 
-    return "var(--im-pink)";
+    return "var(--im-blue)";
   }
 
   getNewState(oldState) {
@@ -95,14 +94,16 @@ export default class Program {
         const instructionExecute = this.instructions[executeInstructionId];
         newExecuteState = instructionExecute.nextStep(
           oldState,
-          this.typeSimulation
+          this.typeSimulation, 
+          cyclesSimulations.EXECUTE
         );
       }
       if (!this.isLastId(fetchInstructionId)) {
         const instructionFetch = this.instructions[fetchInstructionId];
         newFetchState = instructionFetch.nextStep(
           oldState,
-          this.typeSimulation
+          this.typeSimulation, 
+          cyclesSimulations.FETCH
         );
       } else {
         newFetchState = {
@@ -117,10 +118,11 @@ export default class Program {
         };
       }
       if (!this.isLastId(decodeInstructionId)) {
-        const intructionDecode = this.instructions[decodeInstructionId];
+        const intructionDecode = this.instructions[decodeInstructionId];;
         newDecodeState = intructionDecode.nextStep(
           oldState,
-          this.typeSimulation
+          this.typeSimulation,
+          cyclesSimulations.DECODE
         );
       } else {
         newDecodeState = {
@@ -136,6 +138,11 @@ export default class Program {
         };
       }
 
+      const newCacheMemoryCells = combineCaches(
+        newExecuteState.execute.cacheMemoryCells,
+        newFetchState.execute.cacheMemoryCells
+      );
+
       // console.log("lo que devuelvo es ", {
       //   ...oldState,
       //   fetch: {
@@ -147,13 +154,9 @@ export default class Program {
       //     ...newExecuteState.execute,
       //     instructionId: executeInstructionId,
       //     color: oldState.decode.color,
+      //     cacheMemoryCells: newCacheMemoryCells,
       //   },
       // });
-
-      const newCacheMemoryCells = combineCaches(
-        newExecuteState.execute.cacheMemoryCells,
-        newFetchState.execute.cacheMemoryCells
-      );
 
       return {
         ...oldState,

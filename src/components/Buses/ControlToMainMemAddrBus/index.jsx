@@ -10,6 +10,8 @@ import { usePosition } from "../../../hooks/usePosition";
 import { BusAnimation } from "../BusAnimation";
 import { Globe } from "../../Globe";
 import { typeSimulations } from "../../../interpreter/constants";
+import { toHexaPadStart } from "../../../interpreter/utils";
+import { textAddressTitle } from "../utils";
 
 export const ControlToMainMemAddrBus = ({ id }) => {
   const [animateInterminently, setAnimateInterminently] = useState(false);
@@ -46,19 +48,11 @@ export const ControlToMainMemAddrBus = ({ id }) => {
     targetComponentId: mainMemoryId,
   });
 
-  const textTitle = (title) => {
-    if (typeSimulation === typeSimulations.SIMPLE) {
-      return "Dirección";
-    }
-    return title;
-  };
-
   // Timer to animate interminently the bus when fetch and execute are active
   useEffect(() => {
     const interval = setInterval(() => {
       setAnimateInterminently((prev) => !prev);
-    }, 500);
-
+    }, 1000);
     return () => clearInterval(interval);
   }, [animateInterminently]);
 
@@ -84,36 +78,36 @@ export const ControlToMainMemAddrBus = ({ id }) => {
           {animationFetch && (
             <Globe
               arrowPosition={"top"}
-              title={textTitle("Dirección (fetch)")}
+              title={textAddressTitle("Dirección (fetch)", typeSimulation)}
               color={fetchColor}
             >
-              {animationDataFetch.address}
+              {toHexaPadStart(animationDataFetch.address)}
             </Globe>
           )}
           {animationExecute && (
             <Globe
               arrowPosition={"top"}
-              title={textTitle("Dirección (execute)")}
+              title={textAddressTitle("Dirección (execute)", typeSimulation)}
               color={executeColor}
             >
-              {animationDataExecute.address}
+              {toHexaPadStart(animationDataExecute.address)}
             </Globe>
           )}
           {animationBoth && (
             <div className="row">
               <Globe
                 arrowPosition={"top"}
-                title={textTitle("Dirección (fetch)")}
+                title={"Dirección (fetch)"}
                 color={fetchColor}
               >
-                {animationDataFetch.address}
+                {toHexaPadStart(animationDataFetch.address)}
               </Globe>
               <Globe
                 arrowPosition={"top"}
-                title={textTitle("Dirección (execute)")}
+                title={"Dirección (execute)"}
                 color={executeColor}
               >
-                {animationDataExecute.address}
+                {toHexaPadStart(animationDataExecute.address)}
               </Globe>
             </div>
           )}

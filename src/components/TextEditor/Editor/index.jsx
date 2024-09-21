@@ -115,6 +115,8 @@ export const EditorTest = ({ setEditorValue, editorValue }) => {
     addLineDecoration(fetchLine, newDecoration);
     addLineDecoration(decodeLine, newDecoration);
     addLineDecoration(executeLine, newDecoration);
+
+    console.log(newDecoration);
     setDecorations(
       editorRef.current.deltaDecorations(decorations, newDecoration)
     );

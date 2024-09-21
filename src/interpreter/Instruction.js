@@ -34,7 +34,7 @@ export default class Instruction {
     return cleanState;
   }
 
-  nextStep(oldState, typeSimulation) {
+  nextStep(oldState, typeSimulation, cycle) {
     if (typeSimulation === typeSimulations.SIMPLE) {
       const stateAfterFetch = this.fetch(oldState);
       const stateAfterDecode = this.decode(stateAfterFetch);
@@ -60,13 +60,13 @@ export default class Instruction {
       }
     } else if (typeSimulation === typeSimulations.PIPELINING) {
       let newState = oldState;
-      if (this.cycle === cyclesSimulations.FETCH) {
+      if (cycle === cyclesSimulations.FETCH) {
         this.cycle = cyclesSimulations.DECODE;
         newState = this.fetch(oldState);
-      } else if (this.cycle === cyclesSimulations.DECODE) {
+      } else if (cycle === cyclesSimulations.DECODE) {
         this.cycle = cyclesSimulations.EXECUTE;
         newState = this.decode(oldState);
-      } else if (this.cycle === cyclesSimulations.EXECUTE) {
+      } else if (cycle === cyclesSimulations.EXECUTE) {
         this.cycle = cyclesSimulations.FETCH;
         newState = this.execute(oldState);
       }
