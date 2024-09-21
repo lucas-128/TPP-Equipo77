@@ -26,44 +26,73 @@ export const TextEditorButtons = ({ text }) => {
   // TODO: Esto se puede pasar al state directamente (dispatchear memory)
   const getProgramInMemory = () => {
     const parsedCode = splitCode(text).join("");
-    if (parsedCode.length > 512) {
-      // TODO: ERROR => el programa no entra en memoria
-    }
     return Array.from(
       { length: 256 },
       (_, i) => parsedCode.slice(i * 2, i * 2 + 2) || "x"
     );
   };
 
-  const handleSimulateButtonClick = () => {
-    if (!validateSyntax(text)) {
+  const isCodeLengthValid = (code) => {
+    const codeLength = splitCode(code).join("").length;
+    if (codeLength > 508) {
       dispatch(
-        //TODO: Se podria agregar la linea que fallo
+        setError("El código excede la cantidad de instrucciones permitidas.")
+      );
+      return false;
+    }
+    return true;
+  };
+
+  const isSyntaxValid = (code) => {
+    if (!validateSyntax(code)) {
+      dispatch(
         setError(
           "El código contiene errores de sintáxis, por favor modifíquelo e intente de nuevo"
         )
       );
-      return;
+      return false;
     }
-    const newMemory = getProgramInMemory();
-    const newProgram = new Program(text, applicationState.typeSimulations);
-    if (newProgram.invalidEndInstruction()) {
+    return true;
+  };
+
+  const isValidEndInstruction = (program) => {
+    if (program.invalidEndInstruction()) {
       dispatch(setError(INVALID_END_ERROR));
-      return;
+      return false;
     }
+    return true;
+  };
+
+  const simulateProgram = (program, memory) => {
     dispatch(setIsSimulating(!isSimulating));
-    setProgram(newProgram);
-    const newState = newProgram.getNewState({
+    setProgram(program);
+
+    const newState = program.getNewState({
       ...applicationState,
       fetch: {
         ...applicationState.fetch,
         programCounter: 0,
         instructionId: null,
       },
-      execute: { ...applicationState.execute, mainMemoryCells: newMemory },
+      execute: { ...applicationState.execute, mainMemoryCells: memory },
     });
-    dispatch(updatePreviousState()); //TODO: Revisar esto porque creo que el primer estado guarda un previous state que no deberia
+
+    dispatch(updatePreviousState()); // TODO: Revisar esto porque creo que el primer estado guarda un previous state que no debería
     dispatch(updateCurrentState(newState));
+  };
+
+  const handleSimulateButtonClick = () => {
+    if (!isSyntaxValid(text)) return;
+    if (!isCodeLengthValid(text)) return;
+
+    const newMemory = getProgramInMemory();
+    const newProgram = new Program(text, applicationState.typeSimulations);
+    if (newProgram.invalidEndInstruction()) {
+      dispatch(setError(INVALID_END_ERROR));
+      return;
+    }
+    if (!isValidEndInstruction(newProgram)) return;
+    simulateProgram(newProgram, newMemory);
   };
 
   const handleEditCodeButtonClick = () => {
