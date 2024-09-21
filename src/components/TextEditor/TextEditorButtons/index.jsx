@@ -10,6 +10,7 @@ import {
   updateCurrentState,
   clearApplication,
   setIsSimulating,
+  goToFistState,
 } from "../../../slices/applicationSlice";
 import { Button } from "../../Button";
 import Program from "../../../interpreter/Program";
@@ -39,8 +40,12 @@ export const TextEditorButtons = ({ text }) => {
     setProgram(newProgram);
     const newState = newProgram.getNewState({
       ...applicationState,
-      fetch: { ...applicationState.fetch, programCounter: 0, instructionId: null },
-      execute: { ...applicationState.execute, mainMemoryCells: newMemory},
+      fetch: {
+        ...applicationState.fetch,
+        programCounter: 0,
+        instructionId: null,
+      },
+      execute: { ...applicationState.execute, mainMemoryCells: newMemory },
     });
     dispatch(updateCurrentState(newState));
   };
@@ -55,13 +60,27 @@ export const TextEditorButtons = ({ text }) => {
   };
 
   const setNextLine = () => {
-    if(applicationState.execute.endProgram) {
+    if (applicationState.execute.endProgram) {
       dispatch(setIsSimulating(false));
       dispatch(clearApplication());
       return;
     }
-    dispatch(updatePreviousState()); //TODO: Revisar esto porque creo que el primer estado guarda un previous state que no deberia
+    dispatch(updatePreviousState());
     dispatch(updateCurrentState(program.getNewState(applicationState)));
+  };
+
+  const setLastLine = () => {
+    let oldState = applicationState;
+    while (!oldState.execute.endProgram) {
+      const newState = program.getNewState(oldState);
+      oldState = newState;
+      dispatch(updateCurrentState(newState));
+      dispatch(updatePreviousState());
+    }
+  };
+
+  const setFirstLine = () => {
+    dispatch(goToFistState());
   };
 
   return (
@@ -69,7 +88,7 @@ export const TextEditorButtons = ({ text }) => {
       {isSimulating ? (
         <>
           {/* TODO> ver forma de volver al principio de todo, primera inst. De ultima sacar flecha */}
-          <Button onClick={() => {}}>
+          <Button onClick={setFirstLine}>
             <FaBackward />
           </Button>
           <Button onClick={setPrevLine}>
@@ -78,8 +97,7 @@ export const TextEditorButtons = ({ text }) => {
           <Button onClick={setNextLine}>
             <BiSolidRightArrow />
           </Button>
-          {/* TODO> ver forma de ir al final de todo, estado de ultima inst. De ultima sacar flecha */}
-          <Button onClick={() => {}}>
+          <Button onClick={setLastLine}>
             <FaForward />
           </Button>
           <Button onClick={handleEditCodeButtonClick}> Editar</Button>

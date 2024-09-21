@@ -71,107 +71,108 @@ export default class Program {
     return "var(--im-blue)";
   }
 
-  getNewState(oldState) {
-    if (this.typeSimulation == typeSimulations.PIPELINING) {
-      let newFetchState = oldState;
-      let newDecodeState = oldState;
-      let newExecuteState = oldState;
+  getNewStatePipelining(oldState) {
+    let newFetchState = oldState;
+    let newDecodeState = oldState;
+    let newExecuteState = oldState;
 
-      let fetchInstructionId = this.getNextValue(
-        oldState.fetch.instructionId,
-        0
+    let fetchInstructionId = this.getNextValue(oldState.fetch.instructionId, 0);
+    let decodeInstructionId = this.getNextValue(
+      oldState.decode.instructionId,
+      oldState.fetch.instructionId
+    );
+    let executeInstructionId = this.getNextValue(
+      oldState.execute.instructionId,
+      oldState.decode.instructionId
+    );
+
+    if (!this.isLastId(executeInstructionId)) {
+      const instructionExecute = this.instructions[executeInstructionId];
+      newExecuteState = instructionExecute.nextStep(
+        oldState,
+        this.typeSimulation,
+        cyclesSimulations.EXECUTE
       );
-      let decodeInstructionId = this.getNextValue(
-        oldState.decode.instructionId,
-        oldState.fetch.instructionId
+    }
+    if (!this.isLastId(fetchInstructionId)) {
+      const instructionFetch = this.instructions[fetchInstructionId];
+      newFetchState = instructionFetch.nextStep(
+        oldState,
+        this.typeSimulation,
+        cyclesSimulations.FETCH
       );
-      let executeInstructionId = this.getNextValue(
-        oldState.execute.instructionId,
-        oldState.decode.instructionId
-      );
-
-      if (!this.isLastId(executeInstructionId)) {
-        const instructionExecute = this.instructions[executeInstructionId];
-        newExecuteState = instructionExecute.nextStep(
-          oldState,
-          this.typeSimulation, 
-          cyclesSimulations.EXECUTE
-        );
-      }
-      if (!this.isLastId(fetchInstructionId)) {
-        const instructionFetch = this.instructions[fetchInstructionId];
-        newFetchState = instructionFetch.nextStep(
-          oldState,
-          this.typeSimulation, 
-          cyclesSimulations.FETCH
-        );
-      } else {
-        newFetchState = {
-          ...oldState,
-          fetch: {
-            ...oldState.fetch,
-            instructionId: fetchInstructionId,
-            instructionRegister: "-",
-            address: null,
-            edgeAnimation: [],
-          },
-        };
-      }
-      if (!this.isLastId(decodeInstructionId)) {
-        const intructionDecode = this.instructions[decodeInstructionId];;
-        newDecodeState = intructionDecode.nextStep(
-          oldState,
-          this.typeSimulation,
-          cyclesSimulations.DECODE
-        );
-      } else {
-        newDecodeState = {
-          fetch: {
-            ...oldState.fetch,
-            instructionId: fetchInstructionId,
-            instructionRegister: "-",
-            address: null,
-            edgeAnimation: [],
-          },
-          decode: { ...oldState.decode, instructionId: null },
-          execute: { ...oldState.execute },
-        };
-      }
-
-      const newCacheMemoryCells = combineCaches(
-        newExecuteState.execute.cacheMemoryCells,
-        newFetchState.execute.cacheMemoryCells
-      );
-
-      // console.log("lo que devuelvo es ", {
-      //   ...oldState,
-      //   fetch: {
-      //     ...newFetchState.fetch,
-      //     color: this.getNextColor(oldState.fetch.color),
-      //   },
-      //   decode: { ...newDecodeState.decode, color: oldState.fetch.color },
-      //   execute: {
-      //     ...newExecuteState.execute,
-      //     instructionId: executeInstructionId,
-      //     color: oldState.decode.color,
-      //     cacheMemoryCells: newCacheMemoryCells,
-      //   },
-      // });
-
-      return {
+    } else {
+      newFetchState = {
         ...oldState,
         fetch: {
-          ...newFetchState.fetch,
-          color: this.getNextColor(oldState.fetch.color),
-        },
-        decode: { ...newDecodeState.decode, color: oldState.fetch.color },
-        execute: {
-          ...newExecuteState.execute,
-          instructionId: executeInstructionId,
-          color: oldState.decode.color,
-          cacheMemoryCells: newCacheMemoryCells,
+          ...oldState.fetch,
+          instructionId: fetchInstructionId,
+          instructionRegister: "-",
+          address: null,
+          edgeAnimation: [],
         },
       };
+    }
+    if (!this.isLastId(decodeInstructionId)) {
+      const intructionDecode = this.instructions[decodeInstructionId];
+      newDecodeState = intructionDecode.nextStep(
+        oldState,
+        this.typeSimulation,
+        cyclesSimulations.DECODE
+      );
+    } else {
+      newDecodeState = {
+        fetch: {
+          ...oldState.fetch,
+          instructionId: fetchInstructionId,
+          instructionRegister: "-",
+          address: null,
+          edgeAnimation: [],
+        },
+        decode: { ...oldState.decode, instructionId: null },
+        execute: { ...oldState.execute },
+      };
+    }
+
+    const newCacheMemoryCells = combineCaches(
+      newExecuteState.execute.cacheMemoryCells,
+      newFetchState.execute.cacheMemoryCells
+    );
+
+    // console.log("lo que devuelvo es ", {
+    //   ...oldState,
+    //   fetch: {
+    //     ...newFetchState.fetch,
+    //     color: this.getNextColor(oldState.fetch.color),
+    //   },
+    //   decode: { ...newDecodeState.decode, color: oldState.fetch.color },
+    //   execute: {
+    //     ...newExecuteState.execute,
+    //     instructionId: executeInstructionId,
+    //     color: oldState.decode.color,
+    //     cacheMemoryCells: newCacheMemoryCells,
+    //   },
+    // });
+
+    return {
+      ...oldState,
+      fetch: {
+        ...newFetchState.fetch,
+        color: this.getNextColor(oldState.fetch.color),
+      },
+      decode: { ...newDecodeState.decode, color: oldState.fetch.color },
+      execute: {
+        ...newExecuteState.execute,
+        instructionId: executeInstructionId,
+        color: oldState.decode.color,
+        cacheMemoryCells: newCacheMemoryCells,
+      },
+    };
+  }
+
+  getNewState(oldState) {
+    if (this.typeSimulation == typeSimulations.PIPELINING) {
+      return this.getNewStatePipelining(oldState);
     }
     const actualInstruction =
       this.instructions[this.getCurrentInstructionId(oldState)];

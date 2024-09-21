@@ -104,13 +104,7 @@ export const applicationSlice = createSlice({
       state.execute.programCounter = programCounter;
     },
     goToPreviousState(state) {
-      console.log(
-        "En go to previous state",
-        !state.previousState || !state.previousState.previousState
-      );
       if (!state.previousState) {
-        console.log("El previous state entro en el if", state.previousState);
-        // console.log(state.previousState.previousState);
         state.execute = initialState.execute;
         state.decode = initialState.decode;
         state.fetch = initialState.fetch;
@@ -128,12 +122,18 @@ export const applicationSlice = createSlice({
         ? state.previousState.fetch
         : current(state).fetch;
       state.previousState = state.previousState.previousState;
-
-      const stateParsed = JSON.parse(JSON.stringify(current(state)));
-      console.log("State queda", stateParsed);
+    },
+    goToFistState(state) {
+      let oldState = current(state);
+      while (oldState.previousState) {
+        oldState = oldState.previousState;
+      }
+      state.execute = oldState.execute;
+      state.decode = oldState.decode;
+      state.fetch = oldState.fetch;
+      state.previousState = null;
     },
     updatePreviousState(state) {
-      console.log("En update previous state");
       state.previousState = current(state);
     },
     clearApplication(state) {
@@ -168,11 +168,11 @@ export const {
   updateMainMemoryCells,
   updateTypeSimulation,
   setIsSimulating,
+  goToFistState,
 } = applicationSlice.actions;
 
 // Thunk para manejar la actualización del estado actual
 export const updateCurrentState = (newState) => (dispatch) => {
-  console.log("New state", newState);
   dispatch(updateExecuteState(newState.execute));
   dispatch(updateDecodeState(newState.decode));
   dispatch(updateFetchState(newState.fetch));
