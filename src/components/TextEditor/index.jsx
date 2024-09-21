@@ -101,6 +101,7 @@ export const TextEditor = ({ children, text, setText }) => {
     <Resizable
       defaultSize={{ width: "300px", height: "100%" }}
       minWidth={200}
+      maxWidth={800}
       enable={{
         top: false,
         right: true,
