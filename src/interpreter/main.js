@@ -2,7 +2,9 @@
 import { instructionCodes } from "./constants.js";
 
 export function validateSyntax(code) {
-  let rows = splitCode(code).filter((row) => row.length > 0);
+  let rows = splitCode(code)
+    .filter((row) => row.length > 0)
+    .map((row) => row.toLowerCase());
   return isValidCode(rows);
 }
 

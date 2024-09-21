@@ -14,10 +14,9 @@ export default class Program {
   }
 
   createInstructions() {
-    const instructions = splitCode(this.program).filter(
-      (row) => row.length > 0
-    );
-
+    const instructions = splitCode(this.program)
+      .filter((row) => row.length > 0)
+      .map((row) => row.toLowerCase());
     return instructions.map((instruction, id) => {
       return InstructionFactory.createInstruction(instruction, id);
     });
