@@ -46,7 +46,7 @@ const MainMemoryModal = () => {
                     style={{
                       background: "var(--im-white)",
                       display: "flex",
-                      marginLeft: "5px"
+                      marginLeft: "5px",
                     }}
                   >
                     <DirectionColumn>

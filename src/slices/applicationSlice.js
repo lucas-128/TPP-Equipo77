@@ -123,6 +123,7 @@ export const applicationSlice = createSlice({
         : current(state).fetch;
       state.previousState = state.previousState.previousState;
     },
+    // TODO: revisar esto que no anda muy bien, el boton para ir atrás de todo en la ejecución del programa
     goToFistState(state) {
       let oldState = current(state);
       while (oldState.previousState) {

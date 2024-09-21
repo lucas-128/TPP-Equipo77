@@ -2,13 +2,15 @@
 import { instructionCodes } from "./constants.js";
 
 export function validateSyntax(code) {
-  let rows = splitCode(code).filter((row) => row.length > 0);
+  let rows = splitCode(code)
+    .filter((row) => row.length > 0)
+    .map((row) => row.toLowerCase());
   return isValidCode(rows);
 }
 
 export function splitCode(text) {
-  return text.split("\n").map((row) => {
-    return row.trim.length > 0
+  return text.split(/\r?\n/).map((row) => {
+    return row.trim().length > 0
       ? row.trim().substring(0, 4)
       : row.substring(0, 4);
   });
@@ -26,7 +28,6 @@ export function splitCode(text) {
 //   return newState;
 // };
 
-//cambiar que esta funcion tiene que devolver true si esta todo bien, no false,
 function isValidCode(rows) {
   return rows.every((row) => {
     return (
