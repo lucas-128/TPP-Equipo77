@@ -15,6 +15,7 @@ import { Button } from "../../Button";
 import Program from "../../../interpreter/Program";
 import { setError } from "../../../slices/modalsSlice";
 import { INVALID_END_ERROR } from "../../../interpreter/constants";
+import { validateSyntax } from "../../../interpreter/main";
 
 export const TextEditorButtons = ({ text }) => {
   const [program, setProgram] = useState(null);
@@ -35,6 +36,15 @@ export const TextEditorButtons = ({ text }) => {
   };
 
   const handleSimulateButtonClick = () => {
+    if (!validateSyntax(text)) {
+      dispatch(
+        //TODO: Se podria agregar la linea que fallo
+        setError(
+          "El código contiene errores de sintáxis, por favor modifíquelo e intente de nuevo"
+        )
+      );
+      return;
+    }
     const newMemory = getProgramInMemory();
     const newProgram = new Program(text, applicationState.typeSimulations);
     if (newProgram.invalidEndInstruction()) {

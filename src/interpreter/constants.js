@@ -97,4 +97,4 @@ export const animationsAlu = [
 ];
 
 export const INVALID_END_ERROR =
-  "El programa ingresado no tiene 'C000' como última instrucción.";
+  "La instrucción C000 debe ser la ultima en ser ejecutada.";

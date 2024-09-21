@@ -86,17 +86,6 @@ export const TextEditor = ({ children, text, setText }) => {
     return "";
   };
 
-  useEffect(() => {
-    if (!text || !isSimulating) return;
-    if (!validateSyntax(text) && isSimulating) {
-      dispatch(
-        setError(
-          "El código contiene errores de sintáxis, por favor modifíquelo e intente de nuevo"
-        )
-      );
-    }
-  }, [isSimulating]);
-
   return show ? (
     <Resizable
       defaultSize={{ width: "300px", height: "100%" }}
