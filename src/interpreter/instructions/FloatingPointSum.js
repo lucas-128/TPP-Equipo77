@@ -248,7 +248,7 @@ function addBinaryInteger(int1, int2, carry) {
   return { result };
 }
 
-function normalizeMantissa(s) {
+export function normalizeMantissa(s) {
   const dotIndex = s.indexOf(".");
   const firstOneIndex = s.indexOf("1");
   if (dotIndex === -1 || firstOneIndex === -1) {
@@ -274,7 +274,7 @@ function normalizeMantissa(s) {
   return [newString, movedValue];
 }
 
-function toBiasBinary(value, bias, bitWidth) {
+export function toBiasBinary(value, bias, bitWidth) {
   const adjustedValue = parseInt(value) + bias;
   return adjustedValue.toString(2).padStart(bitWidth, "0");
 }

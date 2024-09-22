@@ -18,6 +18,8 @@ import {
   alignMantissas,
   parseRegister,
   addBinary,
+  normalizeMantissa,
+  toBiasBinary,
 } from "../../../interpreter/instructions/FloatingPointSum";
 
 import { IoArrowForward, IoArrowBack, IoArrowDown } from "react-icons/io5";
@@ -44,6 +46,15 @@ export const FloatingPointSlides = ({
   const sumResultMantissa = addBinary(
     alignedRegisters.register1.mantissa.implied,
     alignedRegisters.register2.mantissa.implied
+  );
+
+  const [normalizedMantissa, placesMoved] =
+    normalizeMantissa(sumResultMantissa);
+
+  const resultExponent = toBiasBinary(
+    alignedRegisters.register1.exponent.decimal + placesMoved,
+    3,
+    3
   );
 
   return (
@@ -226,6 +237,7 @@ export const FloatingPointSlides = ({
         {currentSlide === 2 && (
           <Slide>
             <Row>{"Suma:"}</Row>
+            <br></br>
             <Row>
               <BitsRow>
                 <SignBit>
@@ -269,31 +281,63 @@ export const FloatingPointSlides = ({
         )}
         {currentSlide === 3 && (
           <Slide>
-            <Row>{"Redondeo"}</Row>
+            <Row>{"Redondeo del resultado:"}</Row>
+            <br></br>
             <Row>
-              {parseInt(aluOperation.registerS, 16)
-                .toString(2)
-                .padStart(8, "0")}
+              <BitsRow>
+                <SignBit>{"+"}</SignBit>
+                <MantissaBits>{sumResultMantissa}</MantissaBits>
+              </BitsRow>
+              {"*2^ "}
+              <ExponentBits>
+                {alignedRegisters.register2.exponent.decimal}
+              </ExponentBits>
             </Row>
+            <IoArrowDown></IoArrowDown>
             <Row>
-              {parseInt(aluOperation.registerT, 16)
-                .toString(2)
-                .padStart(8, "0")}
+              <BitsRow>
+                <SignBit>{"+"}</SignBit>
+                {"1."}
+                <MantissaBits>{normalizedMantissa.slice(2, 6)}</MantissaBits>
+              </BitsRow>
+              {"*2^ "}
+              <ExponentBits>
+                {binaryToDecimalWithBias(resultExponent)}
+              </ExponentBits>
             </Row>
           </Slide>
         )}
         {currentSlide === 4 && (
           <Slide>
-            <Row>{"Normalizar y binario"}</Row>
+            <Row>{"Normalización y almacenamiento:"}</Row>
             <Row>
-              {parseInt(aluOperation.registerS, 16)
-                .toString(2)
-                .padStart(8, "0")}
+              <BitsRow>
+                <SignBit>{"+"}</SignBit>
+                {"1."}
+                <MantissaBits>{normalizedMantissa.slice(2, 6)}</MantissaBits>
+              </BitsRow>
+              {"*2^ "}
+              <ExponentBits>
+                {binaryToDecimalWithBias(resultExponent)}
+              </ExponentBits>
             </Row>
+            <IoArrowDown></IoArrowDown>
             <Row>
-              {parseInt(aluOperation.registerT, 16)
-                .toString(2)
-                .padStart(8, "0")}
+              <BitsRow>
+                <SignBit>{"+"}</SignBit>
+                {"1."}
+                <MantissaBits>{normalizedMantissa.slice(2, 6)}</MantissaBits>
+              </BitsRow>
+              {"*2^ "}
+              <ExponentBits>{resultExponent}</ExponentBits>
+            </Row>
+            <IoArrowDown></IoArrowDown>
+            <Row>
+              <BitsRow>
+                <SignBit>{0}</SignBit>
+                <MantissaBits>{normalizedMantissa.slice(2, 6)}</MantissaBits>
+                <ExponentBits>{resultExponent}</ExponentBits>
+              </BitsRow>
             </Row>
           </Slide>
         )}
