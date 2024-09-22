@@ -335,8 +335,8 @@ export const FloatingPointSlides = ({
             <Row>
               <BitsRow>
                 <SignBit>{0}</SignBit>
-                <MantissaBits>{normalizedMantissa.slice(2, 6)}</MantissaBits>
                 <ExponentBits>{resultExponent}</ExponentBits>
+                <MantissaBits>{normalizedMantissa.slice(2, 6)}</MantissaBits>
               </BitsRow>
             </Row>
           </Slide>

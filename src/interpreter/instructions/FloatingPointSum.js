@@ -20,25 +20,15 @@ export default class FloatingPointSum extends Instruction {
     newExecuteState.instructionId = this.id + 1;
     newExecuteState.edgeAnimation = animationsAlu;
 
-    // TODO mover a funcion floatingPointSum
-    // const registerS = parseInt(
-    //   newExecuteState.registers[this.registerSIndex],
-    //   16
-    // )
-    //   .toString(2)
-    //   .padStart(8, "0");
-    // const registerT = parseInt(
-    //   newExecuteState.registers[this.registerTIndex],
-    //   16
-    // )
-    //   .toString(2)
-    //   .padStart(8, "0");
-
-    // const operationResult = floatingPointSum(registerS, registerT);
+    const resultNewExecuteState = applyBinaryOperation(
+      this,
+      floatingPointSum,
+      newExecuteState
+    );
 
     return {
       ...oldState,
-      execute: applyBinaryOperation(this, floatingPointSum, newExecuteState),
+      execute: resultNewExecuteState,
     };
   }
 
