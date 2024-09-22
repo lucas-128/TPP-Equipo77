@@ -6,6 +6,7 @@ import {
   SlidesContainer,
   Slide,
   Row,
+  Line,
   BitsRow,
   SignBit,
   ExponentBits,
@@ -16,6 +17,7 @@ import { Button } from "../../Button";
 import {
   alignMantissas,
   parseRegister,
+  addBinary,
 } from "../../../interpreter/instructions/FloatingPointSum";
 
 import { IoArrowForward, IoArrowBack, IoArrowDown } from "react-icons/io5";
@@ -38,7 +40,11 @@ export const FloatingPointSlides = ({
   const parsedT = parseRegister(registerTbits);
 
   const alignedRegisters = alignMantissas(parsedS, parsedT);
-  console.log("Aligned REgs ffa: ", alignedRegisters.register2);
+
+  const sumResultMantissa = addBinary(
+    alignedRegisters.register1.mantissa.implied,
+    alignedRegisters.register2.mantissa.implied
+  );
 
   return (
     <InfoContainer>
@@ -219,16 +225,45 @@ export const FloatingPointSlides = ({
         )}
         {currentSlide === 2 && (
           <Slide>
-            <Row>{"Realizar Suma"}</Row>
+            <Row>{"Suma:"}</Row>
             <Row>
-              {parseInt(aluOperation.registerS, 16)
-                .toString(2)
-                .padStart(8, "0")}
+              <BitsRow>
+                <SignBit>
+                  {alignedRegisters.register1.sign === 0 ? "+" : "-"}
+                </SignBit>
+                <MantissaBits>
+                  {alignedRegisters.register1.mantissa.implied}
+                </MantissaBits>
+              </BitsRow>
+              {"*2^"}
+              <ExponentBits>
+                {alignedRegisters.register1.exponent.decimal}
+              </ExponentBits>
             </Row>
             <Row>
-              {parseInt(aluOperation.registerT, 16)
-                .toString(2)
-                .padStart(8, "0")}
+              <BitsRow>
+                <SignBit>
+                  {alignedRegisters.register2.sign === 0 ? "+" : "-"}
+                </SignBit>
+                <MantissaBits>
+                  {alignedRegisters.register2.mantissa.implied}
+                </MantissaBits>
+              </BitsRow>
+              {"*2^"}
+              <ExponentBits>
+                {alignedRegisters.register2.exponent.decimal}
+              </ExponentBits>
+            </Row>
+            <Line />
+            <Row>
+              <BitsRow>
+                <SignBit>{"+"}</SignBit>
+                <MantissaBits>{sumResultMantissa}</MantissaBits>
+              </BitsRow>
+              {"*2^ "}
+              <ExponentBits>
+                {alignedRegisters.register2.exponent.decimal}
+              </ExponentBits>
             </Row>
           </Slide>
         )}

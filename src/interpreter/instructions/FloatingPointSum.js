@@ -205,7 +205,7 @@ function padBinaryStrings(str1, str2) {
   return [`${paddedInt1}.${paddedFrac1}`, `${paddedInt2}.${paddedFrac2}`];
 }
 
-function addBinary(bin1, bin2) {
+export function addBinary(bin1, bin2) {
   const [intPart1, fracPart1] = bin1.split(".");
   const [intPart2, fracPart2] = bin2.split(".");
 

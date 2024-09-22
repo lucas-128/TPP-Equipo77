@@ -23,6 +23,13 @@ export const Row = styled.div`
   gap: 10px;
 `;
 
+export const Line = styled.div`
+  background-color: var(--im-lightgray);
+  height: 2px;
+  margin: 10px 0;
+  width: 100%;
+`;
+
 export const BitsRow = styled.div`
   display: flex;
   flex-direction: row;
