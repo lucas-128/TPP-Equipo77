@@ -1,3 +1,4 @@
+import { typeSimulations } from "../constants";
 import Instruction from "../Instruction";
 import { toBinary } from "../utils";
 /*
@@ -13,6 +14,8 @@ export default class Branch extends Instruction {
     this.nextInstructionDir = instruction[2] + instruction[3];
   }
 
+  // en pipelining limpiar los fetch y decode yta hechos porque se hace el salto
+  // en el execute mostrar como la alu compara los registros
   execute(oldState) {
     const newExecuteState = { ...oldState.execute };
     const newFetchState = { ...oldState.fetch };
@@ -20,10 +23,35 @@ export default class Branch extends Instruction {
     const register0 = toBinary(registers[0]);
     const registerToCompare = toBinary(registers[this.registerCompareId]);
     if (register0 == registerToCompare) {
-      newFetchState.programCounter = parseInt(this.nextInstructionDir, 16);
-      newFetchState.instructionId = parseInt(this.nextInstructionDir, 16) / 2; //TODO: Check this
+      newExecuteState.aluOperation = {
+        operation: "EQUAL",
+        registerS: registers[0],
+        registerT: registers[this.registerCompareId],
+        registerSIndex: 0,
+        registerTIndex: this.registerCompareId,
+        destinationIndex: null,
+        result: register0 == registerToCompare,
+      };
+      newExecuteState.jumpInstruction = this.id;
+      newExecuteState.instructionId = this.id + 1;
     } else {
       newFetchState.instructionId = this.id + 1;
+    }
+
+    return { ...oldState, fetch: newFetchState, execute: newExecuteState };
+  }
+
+  makeJump(oldState, typeSimulation) {
+    const newExecuteState = { ...oldState.execute };
+    const newFetchState = { ...oldState.fetch };
+    const newDecodeState = { ...oldState.decode };
+    newExecuteState.instructionId = parseInt(this.nextInstructionDir, 16) / 2;
+    newFetchState.programCounter = parseInt(this.nextInstructionDir, 16);
+    newExecuteState.jumpInstruction = null;
+    newExecuteState.aluOperation = null;
+    if(typeSimulation === typeSimulations.PIPELINING){
+      newDecodeState.edgeAnimation = [];
+      newExecuteState.edgeAnimation = [];
     }
     return { ...oldState, fetch: newFetchState, execute: newExecuteState };
   }

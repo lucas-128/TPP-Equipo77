@@ -21,6 +21,7 @@ export default class Instruction {
 
   cleanState(oldState) {
     const cleanState = {
+      ...oldState,
       fetch: { ...oldState.fetch },
       decode: { ...oldState.decode },
       execute: { ...oldState.execute },

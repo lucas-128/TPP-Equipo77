@@ -191,4 +191,10 @@ export default class Program {
     const newState = actualInstruction.nextStep(oldState, this.typeSimulation);
     return newState;
   }
+
+  makeJumpBranch(oldState, id) {
+    const actualInstruction = this.instructions[id];
+    const newState = actualInstruction.makeJump(oldState, this.typeSimulation);
+    return newState;
+  }
 }
