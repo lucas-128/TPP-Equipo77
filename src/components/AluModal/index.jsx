@@ -19,6 +19,10 @@ import {
   SlidesContainer,
   Slide,
   SlidesButtonsContainer,
+  SignBit,
+  ExponentBits,
+  BitsRow,
+  MantissaBits,
 } from "./styled";
 import { useDispatch, useSelector } from "react-redux";
 import { IoClose, IoArrowForward, IoArrowBack } from "react-icons/io5";
@@ -98,16 +102,72 @@ export const AluModal = () => {
                       <SlidesContainer>
                         {currentSlide === 0 && (
                           <Slide>
-                            <Row>{"Interpretacion de registros"}</Row>
+                            <Row>{"Interpretación de registros:"}</Row>
                             <Row>
-                              {parseInt(aluOperation.registerS, 16)
-                                .toString(2)
-                                .padStart(8, "0")}
+                              {"S: "}
+                              {registerSbits}
+                              <IoArrowForward />
+                              <BitsRow>
+                                <SignBit>{registerSbits.slice(0, 1)}</SignBit>
+                                <ExponentBits>
+                                  {registerSbits.slice(1, 4)}
+                                </ExponentBits>
+                                <MantissaBits>
+                                  {registerSbits.slice(4)}
+                                </MantissaBits>
+                              </BitsRow>
                             </Row>
                             <Row>
-                              {parseInt(aluOperation.registerT, 16)
-                                .toString(2)
-                                .padStart(8, "0")}
+                              {"S: "}
+                              <BitsRow>
+                                <SignBit>
+                                  {registerSbits.slice(0, 1) === "0"
+                                    ? "+"
+                                    : "0"}
+                                </SignBit>
+                                {"1."}
+                                <MantissaBits>
+                                  {registerSbits.slice(4)}
+                                </MantissaBits>
+                              </BitsRow>
+                              {"*2^"}
+                              <ExponentBits>
+                                {registerSbits.slice(1, 4)}
+                              </ExponentBits>
+                            </Row>
+                            <br></br>
+                            <Row>
+                              {"T: "}
+                              {registerTbits}
+                              <IoArrowForward />
+                              <BitsRow>
+                                <SignBit>{registerTbits.slice(0, 1)}</SignBit>
+                                <ExponentBits>
+                                  {registerTbits.slice(1, 4)}
+                                </ExponentBits>
+                                <MantissaBits>
+                                  {registerTbits.slice(4)}
+                                </MantissaBits>
+                              </BitsRow>
+                            </Row>
+
+                            <Row>
+                              {"T: "}
+                              <BitsRow>
+                                <SignBit>
+                                  {registerTbits.slice(0, 1) === "0"
+                                    ? "+"
+                                    : "0"}
+                                </SignBit>
+                                {"1."}
+                                <MantissaBits>
+                                  {registerTbits.slice(4)}
+                                </MantissaBits>
+                              </BitsRow>
+                              {"*2^"}
+                              <ExponentBits>
+                                {registerTbits.slice(1, 4)}
+                              </ExponentBits>
                             </Row>
                           </Slide>
                         )}
