@@ -236,7 +236,7 @@ export const SlidesButtonsContainer = styled.div`
 `;
 
 export const SlidesContainer = styled.div`
-  min-height: 150px;
+  min-height: 170px;
 `;
 
 export const Slide = styled.div``;
