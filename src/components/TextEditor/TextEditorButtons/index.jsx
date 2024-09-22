@@ -77,7 +77,6 @@ export const TextEditorButtons = ({ text }) => {
       },
       execute: { ...applicationState.execute, mainMemoryCells: memory },
     });
-    dispatch(updatePreviousState()); // TODO: Revisar esto porque creo que el primer estado guarda un previous state que no debería
     dispatch(updateCurrentState(newState));
   };
 
@@ -85,6 +84,7 @@ export const TextEditorButtons = ({ text }) => {
     if (!isSyntaxValid(text)) return;
     if (!isCodeLengthValid(text)) return;
 
+    dispatch(clearApplication());
     const newMemory = getProgramInMemory();
     const newProgram = new Program(text, applicationState.typeSimulations);
     if (newProgram.invalidEndInstruction()) {
@@ -119,8 +119,8 @@ export const TextEditorButtons = ({ text }) => {
     while (!oldState.execute.endProgram) {
       const newState = program.getNewState(oldState);
       oldState = newState;
-      dispatch(updateCurrentState(newState));
       dispatch(updatePreviousState());
+      dispatch(updateCurrentState(newState));
     }
   };
 
@@ -132,7 +132,6 @@ export const TextEditorButtons = ({ text }) => {
     <Container>
       {isSimulating ? (
         <>
-          {/* TODO> ver forma de volver al principio de todo, primera inst. De ultima sacar flecha */}
           <Button onClick={setFirstLine}>
             <FaBackward />
           </Button>

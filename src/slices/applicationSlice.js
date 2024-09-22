@@ -105,34 +105,28 @@ export const applicationSlice = createSlice({
     },
     goToPreviousState(state) {
       if (!state.previousState) {
+        state.previousState = null;
+        state.isSimulating = false;
         state.execute = initialState.execute;
         state.decode = initialState.decode;
         state.fetch = initialState.fetch;
-        state.previousState = null;
-        state.isSimulating = false;
-        return;
+        state.edgeAnimation = initialState.edgeAnimation;
+      } else {
+        state.execute = state.previousState.execute;
+        state.decode = state.previousState.decode;
+        state.fetch = state.previousState.fetch;
+        state.previousState = state.previousState.previousState;
       }
-      state.execute = state.previousState
-        ? state.previousState.execute
-        : current(state).execute;
-      state.decode = state.previousState
-        ? state.previousState.decode
-        : current(state).decode;
-      state.fetch = state.previousState
-        ? state.previousState.fetch
-        : current(state).fetch;
-      state.previousState = state.previousState.previousState;
     },
-    // TODO: revisar esto que no anda muy bien, el boton para ir atrás de todo en la ejecución del programa
     goToFistState(state) {
       let oldState = current(state);
       while (oldState.previousState) {
         oldState = oldState.previousState;
+        state.execute = oldState.execute;
+        state.decode = oldState.decode;
+        state.fetch = oldState.fetch;
+        state.previousState = oldState.previousState;
       }
-      state.execute = oldState.execute;
-      state.decode = oldState.decode;
-      state.fetch = oldState.fetch;
-      state.previousState = null;
     },
     updatePreviousState(state) {
       state.previousState = current(state);
@@ -141,6 +135,7 @@ export const applicationSlice = createSlice({
       state.execute = initialState.execute;
       state.decode = initialState.decode;
       state.fetch = initialState.fetch;
+      state.edgeAnimation = initialState.edgeAnimation;
       state.previousState = null;
     },
     updateTypeSimulation(state, action) {
