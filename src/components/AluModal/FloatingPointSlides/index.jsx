@@ -13,8 +13,12 @@ import {
   SlidesButtonsContainer,
 } from "./styled";
 import { Button } from "../../Button";
+import {
+  alignMantissas,
+  parseRegister,
+} from "../../../interpreter/instructions/FloatingPointSum";
 
-import { IoArrowForward, IoArrowBack } from "react-icons/io5";
+import { IoArrowForward, IoArrowBack, IoArrowDown } from "react-icons/io5";
 
 export const FloatingPointSlides = ({
   aluOperation,
@@ -29,6 +33,12 @@ export const FloatingPointSlides = ({
     const result = decimalValue - 3;
     return result;
   };
+
+  const parsedS = parseRegister(registerSbits);
+  const parsedT = parseRegister(registerTbits);
+
+  const alignedRegisters = alignMantissas(parsedS, parsedT);
+  console.log("Aligned REgs ffa: ", alignedRegisters.register2);
 
   return (
     <InfoContainer>
@@ -55,7 +65,7 @@ export const FloatingPointSlides = ({
               {"S: "}
               <BitsRow>
                 <SignBit>
-                  {registerSbits.slice(0, 1) === "0" ? "+" : "0"}
+                  {registerSbits.slice(0, 1) === "0" ? "+" : "-"}
                 </SignBit>
                 {"1."}
                 <MantissaBits>{registerSbits.slice(4)}</MantissaBits>
@@ -80,7 +90,7 @@ export const FloatingPointSlides = ({
               {"T: "}
               <BitsRow>
                 <SignBit>
-                  {registerTbits.slice(0, 1) === "0" ? "+" : "0"}
+                  {registerTbits.slice(0, 1) === "0" ? "+" : "-"}
                 </SignBit>
                 {"1."}
                 <MantissaBits>{registerTbits.slice(4)}</MantissaBits>
@@ -95,16 +105,116 @@ export const FloatingPointSlides = ({
         {currentSlide === 1 && (
           <Slide>
             <Row>{"Alineación de mantisas:"}</Row>
+
             <Row>
-              {parseInt(aluOperation.registerS, 16)
-                .toString(2)
-                .padStart(8, "0")}
+              {"S: "}
+              <BitsRow>
+                <SignBit>
+                  {registerSbits.slice(0, 1) === "0" ? "+" : "-"}
+                </SignBit>
+                {"1."}
+                <MantissaBits>{registerSbits.slice(4)}</MantissaBits>
+              </BitsRow>
+              {"*2^"}
+              <ExponentBits>
+                {binaryToDecimalWithBias(registerSbits.slice(1, 4))}
+              </ExponentBits>
             </Row>
+
             <Row>
-              {parseInt(aluOperation.registerT, 16)
-                .toString(2)
-                .padStart(8, "0")}
+              {"T: "}
+              <BitsRow>
+                <SignBit>
+                  {registerTbits.slice(0, 1) === "0" ? "+" : "-"}
+                </SignBit>
+                {"1."}
+                <MantissaBits>{registerTbits.slice(4)}</MantissaBits>
+              </BitsRow>
+              {"*2^"}
+              <ExponentBits>
+                {binaryToDecimalWithBias(registerTbits.slice(1, 4))}
+              </ExponentBits>
             </Row>
+
+            <IoArrowDown></IoArrowDown>
+
+            {binaryToDecimalWithBias(registerTbits.slice(1, 4)) ===
+            binaryToDecimalWithBias(registerSbits.slice(1, 4)) ? (
+              <Row>{"Las mantisas ya están alineadas."}</Row>
+            ) : parseInt(
+                binaryToDecimalWithBias(registerTbits.slice(1, 4)),
+                10
+              ) >
+              parseInt(
+                binaryToDecimalWithBias(registerSbits.slice(1, 4)),
+                10
+              ) ? (
+              <Slide>
+                <Row>
+                  {"S: "}
+                  <BitsRow>
+                    <SignBit>
+                      {alignedRegisters.register2.sign === 0 ? "+" : "-"}
+                    </SignBit>
+                    <MantissaBits>
+                      {alignedRegisters.register2.mantissa.implied}
+                    </MantissaBits>
+                  </BitsRow>
+                  {"*2^"}
+                  <ExponentBits>
+                    {alignedRegisters.register2.exponent.decimal}
+                  </ExponentBits>
+                </Row>
+                <Row>
+                  {"T: "}
+                  <BitsRow>
+                    <SignBit>
+                      {alignedRegisters.register1.sign === 0 ? "+" : "-"}
+                    </SignBit>
+                    <MantissaBits>
+                      {alignedRegisters.register1.mantissa.implied}
+                    </MantissaBits>
+                  </BitsRow>
+                  {"*2^"}
+                  <ExponentBits>
+                    {alignedRegisters.register1.exponent.decimal}
+                  </ExponentBits>
+                </Row>
+              </Slide>
+            ) : (
+              <Slide>
+                <Row>
+                  {"S: "}
+                  <BitsRow>
+                    <SignBit>
+                      {alignedRegisters.register1.sign === 0 ? "+" : "-"}
+                    </SignBit>
+                    <MantissaBits>
+                      {alignedRegisters.register1.mantissa.implied}
+                    </MantissaBits>
+                  </BitsRow>
+                  {"*2^"}
+                  <ExponentBits>
+                    {alignedRegisters.register1.exponent.decimal}
+                  </ExponentBits>
+                </Row>
+                <Row>
+                  {"T: "}
+                  <BitsRow>
+                    <SignBit>
+                      {alignedRegisters.register2.sign === 0 ? "+" : "-"}
+                    </SignBit>
+                    <MantissaBits>
+                      {alignedRegisters.register2.mantissa.implied}
+                    </MantissaBits>
+                  </BitsRow>
+                  {"*2^"}
+                  <ExponentBits>
+                    {alignedRegisters.register2.exponent.decimal}
+                  </ExponentBits>
+                </Row>
+              </Slide>
+            )}
           </Slide>
         )}
         {currentSlide === 2 && (

@@ -104,7 +104,7 @@ Exponente sesgado:
 111	 4
 */
 
-function parseRegister(register) {
+export function parseRegister(register) {
   const sign = parseInt(register[0], 2);
 
   const exponentStr = register.slice(1, 4);
@@ -132,7 +132,7 @@ function getResultExponent(register1, register2) {
   return Math.max(exponent1, exponent2);
 }
 
-function alignMantissas(register1, register2) {
+export function alignMantissas(register1, register2) {
   const exp1 = register1.exponent.decimal;
   const exp2 = register2.exponent.decimal;
 
