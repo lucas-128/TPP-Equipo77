@@ -8,22 +8,12 @@ import {
 export function applyBinaryOperation(instruction, operation, actualState) {
   const newState = { ...actualState, registers: [...actualState.registers] };
 
-  // const registerS = parseInt(
-  //   actualState.registers[instruction.registerSIndex],
-  //   2
-  // );
-
   const registerS = parseInt(
     actualState.registers[instruction.registerSIndex],
     16
   )
     .toString(2)
     .padStart(8, "0");
-
-  // const registerT = parseInt(
-  //   actualState.registers[instruction.registerTIndex],
-  //   2
-  // );
 
   const registerT = parseInt(
     actualState.registers[instruction.registerTIndex],
@@ -33,6 +23,7 @@ export function applyBinaryOperation(instruction, operation, actualState) {
     .padStart(8, "0");
 
   const operationResult = operation(registerS, registerT).toString(2);
+
   const paddedOperationResult = operationResult.slice(0, 8).padStart(8, "0");
 
   const hexValue = parseInt(paddedOperationResult, 2)
@@ -46,7 +37,7 @@ export function applyBinaryOperation(instruction, operation, actualState) {
     registerSIndex: instruction.registerSIndex,
     registerTIndex: instruction.registerTIndex,
     destinationIndex: instruction.destinationIndex,
-    result: operationResult,
+    result: paddedOperationResult,
   };
 
   newState.registers[instruction.destinationIndex] = hexValue;
@@ -129,7 +120,7 @@ export function toBinary(value) {
 }
 
 export function toBinaryComplement(value) {
-  if (value >= 0) {
+  if (parseInt(value, 16) >= 0) {
     return toBinary(value);
   } else {
     const positiveBinary = Math.abs(value).toString(2).padStart(8, "0");
