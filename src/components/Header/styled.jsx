@@ -40,3 +40,24 @@ export const HeaderOption = styled.option`
   border-radius: 5px;
   cursor: pointer;
 `;
+
+export const HeaderPipeliningColorReference = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--im-lightgray);
+  background-color: var(--im-black);
+  border-radius: 5px;
+  padding: 3px 5px 3px 5px;
+  font-size: 15px;
+  font-weight: bold;
+`;
+
+export const FetchCycle = styled.div`
+  margin-right: 5px;
+`;
+
+export const Cycle = styled.div`
+  margin-right: 5px;
+  margin-left: 15px;
+`;

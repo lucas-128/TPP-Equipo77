@@ -35,11 +35,12 @@ export const SimulatorContainer = () => {
         onNodeClick={() => {}} // permite que se pueda hacer click al nodo
         onEdgeMouseEnter={() => {}}
         proOptions={proOptions}
-        fitView
         nodesDraggable={false}
         elementsSelectable={true}
         zoomOnPinch={false}
         zoomOnDoubleClick={false}
+        fitView
+        minZoom={0.4}
       >
         <Controls showInteractive={false} />
         <Background gap={20} />
@@ -47,7 +48,7 @@ export const SimulatorContainer = () => {
       <AluModal />
       <ControlUnitModal />
       <MainMemoryModal />
-      <InstructionsModal/>
+      <InstructionsModal />
     </Container>
   );
 };

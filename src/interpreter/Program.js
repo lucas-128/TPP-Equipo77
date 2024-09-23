@@ -1,4 +1,4 @@
-import { animationsAlu, typeSimulations } from "./constants";
+import { cyclesSimulations, typeSimulations, END } from "./constants";
 import { splitCode, validateSyntax } from "./main";
 import { InstructionFactory } from "./InstructionFactory";
 import { combineCaches } from "./utils";
@@ -14,10 +14,9 @@ export default class Program {
   }
 
   createInstructions() {
-    const instructions = splitCode(this.program).filter(
-      (row) => row.length > 0
-    );
-
+    const instructions = splitCode(this.program)
+      .filter((row) => row.length > 0)
+      .map((row) => row.toLowerCase());
     return instructions.map((instruction, id) => {
       return InstructionFactory.createInstruction(instruction, id);
     });
@@ -43,6 +42,19 @@ export default class Program {
     return state.execute.instructionId || 0;
   }
 
+  // Checks if last instruction is 'C000'.
+  // Also checks if 'C000' is not in the
+  // last line of the program.
+  invalidEndInstruction() {
+    const lastInstructionIndex = this.instructions.length - 1;
+    for (let i = 0; i < lastInstructionIndex; i++) {
+      if (this.instructions[i].type == END) {
+        return true;
+      }
+    }
+    return this.instructions[lastInstructionIndex].type != END;
+  }
+
   isLastId(id) {
     return id >= this.instructions.length || id === null;
   }
@@ -59,106 +71,120 @@ export default class Program {
       return "var(--im-green)";
     }
     if (previousColor === "var(--im-green)") {
-      return "var(--im-yellow)";
-    }
-    if (previousColor === "var(--im-yellow)") {
       return "var(--im-blue)";
     }
-    if (previousColor === "var(--im-blue)") {
+    if (previousColor === "var(--im-yellow)") {
       return "var(--im-pink)";
     }
+    if (previousColor === "var(--im-blue)") {
+      return "var(--im-yellow)";
+    }
 
-    return "var(--im-pink)";
+    return "var(--im-blue)";
+  }
+
+  getNewStatePipelining(oldState) {
+    let newFetchState = oldState;
+    let newDecodeState = oldState;
+    let newExecuteState = oldState;
+
+    let fetchInstructionId = this.getNextValue(oldState.fetch.instructionId, 0);
+    let decodeInstructionId = this.getNextValue(
+      oldState.decode.instructionId,
+      oldState.fetch.instructionId
+    );
+    let executeInstructionId = this.getNextValue(
+      oldState.execute.instructionId,
+      oldState.decode.instructionId
+    );
+
+    if (!this.isLastId(executeInstructionId)) {
+      const instructionExecute = this.instructions[executeInstructionId];
+      newExecuteState = instructionExecute.nextStep(
+        oldState,
+        this.typeSimulation,
+        cyclesSimulations.EXECUTE
+      );
+    }
+    if (!this.isLastId(fetchInstructionId)) {
+      const instructionFetch = this.instructions[fetchInstructionId];
+      newFetchState = instructionFetch.nextStep(
+        oldState,
+        this.typeSimulation,
+        cyclesSimulations.FETCH
+      );
+    } else {
+      newFetchState = {
+        ...oldState,
+        fetch: {
+          ...oldState.fetch,
+          instructionId: fetchInstructionId,
+          instructionRegister: "-",
+          address: null,
+          edgeAnimation: [],
+        },
+      };
+    }
+    if (!this.isLastId(decodeInstructionId)) {
+      const intructionDecode = this.instructions[decodeInstructionId];
+      newDecodeState = intructionDecode.nextStep(
+        oldState,
+        this.typeSimulation,
+        cyclesSimulations.DECODE
+      );
+    } else {
+      newDecodeState = {
+        fetch: {
+          ...oldState.fetch,
+          instructionId: fetchInstructionId,
+          instructionRegister: "-",
+          address: null,
+          edgeAnimation: [],
+        },
+        decode: { ...oldState.decode, instructionId: null },
+        execute: { ...oldState.execute },
+      };
+    }
+
+    const newCacheMemoryCells = combineCaches(
+      newExecuteState.execute.cacheMemoryCells,
+      newFetchState.execute.cacheMemoryCells
+    );
+
+    // console.log("lo que devuelvo es ", {
+    //   ...oldState,
+    //   fetch: {
+    //     ...newFetchState.fetch,
+    //     color: this.getNextColor(oldState.fetch.color),
+    //   },
+    //   decode: { ...newDecodeState.decode, color: oldState.fetch.color },
+    //   execute: {
+    //     ...newExecuteState.execute,
+    //     instructionId: executeInstructionId,
+    //     color: oldState.decode.color,
+    //     cacheMemoryCells: newCacheMemoryCells,
+    //   },
+    // });
+
+    return {
+      ...oldState,
+      fetch: {
+        ...newFetchState.fetch,
+        color: this.getNextColor(oldState.fetch.color),
+      },
+      decode: { ...newDecodeState.decode, color: oldState.fetch.color },
+      execute: {
+        ...newExecuteState.execute,
+        instructionId: executeInstructionId,
+        color: oldState.decode.color,
+        cacheMemoryCells: newCacheMemoryCells,
+      },
+    };
   }
 
   getNewState(oldState) {
     if (this.typeSimulation == typeSimulations.PIPELINING) {
-      let newFetchState = oldState;
-      let newDecodeState = oldState;
-      let newExecuteState = oldState;
-
-      let fetchInstructionId = this.getNextValue(
-        oldState.fetch.instructionId,
-        0
-      );
-      let decodeInstructionId = this.getNextValue(
-        oldState.decode.instructionId,
-        oldState.fetch.instructionId
-      );
-      let executeInstructionId = this.getNextValue(
-        oldState.execute.instructionId,
-        oldState.decode.instructionId
-      );
-
-      if (!this.isLastId(executeInstructionId)) {
-        const instructionExecute = this.instructions[executeInstructionId];
-        newExecuteState = instructionExecute.nextStep(
-          oldState,
-          this.typeSimulation
-        );
-      }
-      if (!this.isLastId(fetchInstructionId)) {
-        const instructionFetch = this.instructions[fetchInstructionId];
-        newFetchState = instructionFetch.nextStep(
-          oldState,
-          this.typeSimulation
-        );
-      } else {
-        newFetchState = {
-          fetch: {
-            ...oldState.fetch,
-            instructionId: fetchInstructionId,
-            instructionRegister: "-",
-            address: null,
-            edgeAnimation: [],
-          },
-        };
-      }
-      if (!this.isLastId(decodeInstructionId)) {
-        const intructionDecode = this.instructions[decodeInstructionId];
-        newDecodeState = intructionDecode.nextStep(
-          oldState,
-          this.typeSimulation
-        );
-      } else {
-        newDecodeState = {
-          decode: { ...oldState.decode, instructionId: null },
-        };
-      }
-
-      console.log("lo que devuelvo es ", {
-        ...oldState,
-        fetch: {
-          ...newFetchState.fetch,
-          color: this.getNextColor(oldState.fetch.color),
-        },
-        decode: { ...newDecodeState.decode, color: oldState.fetch.color },
-        execute: {
-          ...newExecuteState.execute,
-          instructionId: executeInstructionId,
-          color: oldState.decode.color,
-        },
-      });
-
-      const newCacheMemoryCells = combineCaches(
-        newExecuteState.execute.cacheMemoryCells,
-        newFetchState.execute.cacheMemoryCells
-      );
-
-      return {
-        ...oldState,
-        fetch: {
-          ...newFetchState.fetch,
-          color: this.getNextColor(oldState.fetch.color),
-        },
-        decode: { ...newDecodeState.decode, color: oldState.fetch.color },
-        execute: {
-          ...newExecuteState.execute,
-          instructionId: executeInstructionId,
-          color: oldState.decode.color,
-          cacheMemoryCells: newCacheMemoryCells,
-        },
-      };
+      return this.getNewStatePipelining(oldState);
     }
     const actualInstruction =
       this.instructions[this.getCurrentInstructionId(oldState)];

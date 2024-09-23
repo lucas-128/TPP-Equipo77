@@ -27,12 +27,12 @@ import { useMemo } from "react";
 export const ControlUnitModal = () => {
   const dispatch = useDispatch();
   const showModal = useSelector((state) => state.modals.controlUnitZoom);
-  const fetchId = useSelector((state) => state.application.fetch.instructionId);
+  const decodeId = useSelector((state) => state.application.decode.instructionId);
   const instructionRegister = useSelector(
-    (state) => state.application.fetch.instructionRegister
+    (state) => state.application.decode.instructionRegister
   );
   const programCounter = useSelector(
-    (state) => state.application.fetch.programCounter
+    (state) => state.application.decode.programCounter
   );
 
   const controlUnitInfo = useMemo(() => {
@@ -45,7 +45,7 @@ export const ControlUnitModal = () => {
         ? programCounter.toString(16).padStart(2, "0").toUpperCase()
         : "",
     };
-  }, [fetchId, instructionRegister, programCounter]);
+  }, [decodeId, instructionRegister, programCounter]);
 
   return (
     showModal && (

@@ -14,11 +14,13 @@ export const initialState = {
     edgeAnimation: [],
     programCounter: null,
     instructionRegister: "-",
-    color: "var(--im-green)",
+    color: "var(--im-yellow)",
   },
   decode: {
     instructionId: null,
     color: "var(--im-pink)",
+    programCounter: null,
+    instructionRegister: "-",
   },
   execute: {
     instructionId: null,
@@ -32,9 +34,10 @@ export const initialState = {
     edgeAnimation: [],
     showInputPort: false,
     endProgram: false,
-    color: "var(--im-blue)",
+    color: "var(--im-green)",
   },
   previousState: null,
+  // TODO: Agregar a execute
   aluOperation: null,
   edgeAnimation: [],
   isSimulating: false,
@@ -101,18 +104,29 @@ export const applicationSlice = createSlice({
       state.execute.programCounter = programCounter;
     },
     goToPreviousState(state) {
-      state.execute = state.previousState
-        ? state.previousState.execute
-        : initialState.execute;
-      state.decode = state.previousState
-        ? state.previousState.decode
-        : initialState.decode;
-      state.fetch = state.previousState
-        ? state.previousState.fetch
-        : initialState.fetch;
-      state.previousState = state.previousState
-        ? state.previousState.previousState
-        : null;
+      if (!state.previousState) {
+        state.previousState = null;
+        state.isSimulating = false;
+        state.execute = initialState.execute;
+        state.decode = initialState.decode;
+        state.fetch = initialState.fetch;
+        state.edgeAnimation = initialState.edgeAnimation;
+      } else {
+        state.execute = state.previousState.execute;
+        state.decode = state.previousState.decode;
+        state.fetch = state.previousState.fetch;
+        state.previousState = state.previousState.previousState;
+      }
+    },
+    goToFistState(state) {
+      let oldState = current(state);
+      while (oldState.previousState) {
+        oldState = oldState.previousState;
+        state.execute = oldState.execute;
+        state.decode = oldState.decode;
+        state.fetch = oldState.fetch;
+        state.previousState = oldState.previousState;
+      }
     },
     updatePreviousState(state) {
       state.previousState = current(state);
@@ -121,6 +135,8 @@ export const applicationSlice = createSlice({
       state.execute = initialState.execute;
       state.decode = initialState.decode;
       state.fetch = initialState.fetch;
+      state.edgeAnimation = initialState.edgeAnimation;
+      state.previousState = null;
     },
     updateTypeSimulation(state, action) {
       state.typeSimulations = action.payload;
@@ -148,6 +164,7 @@ export const {
   updateMainMemoryCells,
   updateTypeSimulation,
   setIsSimulating,
+  goToFistState,
 } = applicationSlice.actions;
 
 // Thunk para manejar la actualización del estado actual

@@ -5,15 +5,19 @@ import {
   controlUnitCacheAddrBusId,
   cacheMemoryId,
 } from "../../../containers/SimulatorSection/components";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { usePosition } from "../../../hooks/usePosition";
 import { BusAnimation } from "../BusAnimation";
 import { Globe } from "../../Globe";
+import { toHexaPadStart } from "../../../interpreter/utils";
+import { typeSimulations } from "../../../interpreter/constants";
+import { textAddressTitle } from "../utils";
 
 export const ControlToCacheAddrBus = ({ id }) => {
-  const fetchAddress = useSelector((state) => state.application.fetch.address);
-
-  const executeAddress = "";
+  const typeSimulation = useSelector(
+    (state) => state.application.typeSimulations
+  );
+  const [animateInterminently, setAnimateInterminently] = useState(false);
 
   const animations = useSelector(
     (state) => state.application.fetch.edgeAnimation
@@ -26,30 +30,19 @@ export const ControlToCacheAddrBus = ({ id }) => {
   const fetchColor = useSelector((state) => state.application.fetch.color);
   const executeColor = useSelector((state) => state.application.execute.color);
 
-  const animationData = useMemo(() => {
-    const combinedAnimations = [...animations, ...executeAnimations];
-    return combinedAnimations.find(
+  const animationDataFetch = useMemo(() => {
+    return animations.find((anim) => anim.id === controlUnitCacheAddrBusId);
+  }, [animations]);
+
+  const animationDataExecute = useMemo(() => {
+    return executeAnimations.find(
       (anim) => anim.id === controlUnitCacheAddrBusId
     );
-  }, [animations, executeAnimations]);
+  }, [executeAnimations]);
 
-  const edgeAnimation = !!animationData;
-
-  const color = useMemo(() => {
-    return executeAnimations.find(
-      (anim) => anim.id === controlUnitCacheAddrBusId
-    )
-      ? executeColor
-      : fetchColor;
-  }, [executeAnimations, fetchColor, executeColor]);
-
-  const address = useMemo(() => {
-    return executeAnimations.find(
-      (anim) => anim.id === controlUnitCacheAddrBusId
-    )
-      ? executeAddress
-      : fetchAddress;
-  }, [executeAnimations, fetchAddress, executeAddress]);
+  const animationFetch = animationDataFetch && !animationDataExecute;
+  const animationExecute = animationDataExecute && !animationDataFetch;
+  const animationBoth = animationDataFetch && animationDataExecute;
 
   const [edgePath, labelX, labelY] = usePosition({
     edgeId: id,
@@ -57,7 +50,16 @@ export const ControlToCacheAddrBus = ({ id }) => {
     targetComponentId: cacheMemoryId,
   });
 
-  // Roja para distinguir que es sólo de address
+
+  // Timer to animate interminently the bus when fetch and execute are active
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAnimateInterminently((prev) => !prev);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [animateInterminently]);
+
   return (
     <g>
       <BaseEdge
@@ -77,20 +79,78 @@ export const ControlToCacheAddrBus = ({ id }) => {
           }}
           className="nodrag nopan"
         >
-          {edgeAnimation && (
-            <Globe arrowPosition={"left"} title={"Dirección"} color={color}>
-              {animationData.address}
+          {animationFetch && (
+            <Globe
+              arrowPosition={"left"}
+              title={textAddressTitle("Dirección (fetch)", typeSimulation)}
+              color={fetchColor}
+            >
+              {toHexaPadStart(animationDataFetch.address)}
             </Globe>
+          )}
+          {animationExecute && (
+            <Globe
+              arrowPosition={"left"}
+              title={textAddressTitle("Dirección (execute)", typeSimulation)}
+              color={executeColor}
+            >
+              {toHexaPadStart(animationDataExecute.address)}
+            </Globe>
+          )}
+          {animationBoth && (
+            <div className="column" style={{marginTop: '-40px'}}>
+              <Globe
+                arrowPosition={"left"}
+                title={"Dirección (fetch)"}
+                color={fetchColor}
+              >
+                {toHexaPadStart(animationDataFetch.address)}
+              </Globe>
+              <Globe
+                arrowPosition={"left"}
+                title={"Dirección (execute)"}
+                color={executeColor}
+              >
+                {toHexaPadStart(animationDataExecute.address)}
+              </Globe>
+            </div>
           )}
         </div>
       </EdgeLabelRenderer>
-      {edgeAnimation && (
+      {animationFetch && (
         <BusAnimation
           edgePath={edgePath}
           id={id}
-          color={color}
-          reverse={animationData.reverse}
+          color={fetchColor}
+          reverse={animationDataFetch.reverse}
         />
+      )}
+      {animationExecute && (
+        <BusAnimation
+          edgePath={edgePath}
+          id={id}
+          color={executeColor}
+          reverse={animationDataExecute.reverse}
+        />
+      )}
+      {animationBoth && (
+        <>
+          {animateInterminently ? (
+            <BusAnimation
+              edgePath={edgePath}
+              id={id}
+              reverse={animationDataFetch.reverse}
+              color={fetchColor}
+            />
+          ) : (
+            <BusAnimation
+              edgePath={edgePath}
+              id={id}
+              reverse={animationDataExecute.reverse}
+              color={executeColor}
+            />
+          )}
+        </>
       )}
     </g>
   );

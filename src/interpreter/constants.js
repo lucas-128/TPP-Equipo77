@@ -95,3 +95,6 @@ export const animationsAlu = [
   registerAluBottomId,
   aluRegistersId,
 ];
+
+export const INVALID_END_ERROR =
+  "La instrucción C000 debe ser la ultima en ser ejecutada.";

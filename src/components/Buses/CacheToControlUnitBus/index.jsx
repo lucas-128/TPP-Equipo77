@@ -6,15 +6,16 @@ import {
 } from "../../../containers/SimulatorSection/components";
 import { usePosition } from "../../../hooks/usePosition";
 import { useSelector } from "react-redux";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { BusAnimation } from "../BusAnimation";
 import { Globe } from "../../Globe";
+import { textDataTitle } from "../utils";
 
 export const CacheToControlUnitBus = ({ id }) => {
-  // const fetchData = useSelector(
-  //   (state) => state.application.fetch.instructionRegister
-  // );
-  const executeData = "";
+  const typeSimulation = useSelector(
+    (state) => state.application.typeSimulations
+  );
+  const [animateInterminently, setAnimateInterminently] = useState(false);
 
   const executeAnimations = useSelector(
     (state) => state.application.execute.edgeAnimation
@@ -27,30 +28,32 @@ export const CacheToControlUnitBus = ({ id }) => {
   const fetchColor = useSelector((state) => state.application.fetch.color);
   const executeColor = useSelector((state) => state.application.execute.color);
 
-  const animationData = useMemo(() => {
-    const combinedAnimations = [...animations, ...executeAnimations];
-    return combinedAnimations.find((anim) => anim.id === controlUnitCacheId);
-  }, [animations, executeAnimations, controlUnitCacheId]);
+  const animationDataFetch = useMemo(() => {
+    return animations.find((anim) => anim.id === controlUnitCacheId);
+  }, [animations]);
 
-  const color = useMemo(() => {
-    return executeAnimations.find((anim) => anim.id === controlUnitCacheId)
-      ? executeColor
-      : fetchColor;
-  }, [executeAnimations, fetchColor, executeColor]);
+  const animationDataExecute = useMemo(() => {
+    return executeAnimations.find((anim) => anim.id === controlUnitCacheId);
+  }, [executeAnimations]);
 
-  // const data = useMemo(() => {
-  //   return executeAnimations.find((anim) => anim.id === controlUnitCacheId)
-  //     ? executeData
-  //     : fetchData;
-  // }, [executeAnimations, fetchData, executeData]);
-
-  const edgeAnimation = !!animationData;
+  const animationFetch = animationDataFetch && !animationDataExecute;
+  const animationExecute = animationDataExecute && !animationDataFetch;
+  const animationBoth = animationDataFetch && animationDataExecute;
 
   const [edgePath, labelX, labelY] = usePosition({
     edgeId: id,
     sourceComponentId: cacheMemoryId,
     targetComponentId: controlUnitId,
   });
+
+  // Timer to animate interminently the bus when fetch and execute are active
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAnimateInterminently((prev) => !prev);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [animateInterminently]);
 
   return (
     <g>
@@ -63,26 +66,84 @@ export const CacheToControlUnitBus = ({ id }) => {
           filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5))",
         }}
       />
-      {edgeAnimation && (
+      {animationFetch && (
         <BusAnimation
           edgePath={edgePath}
           id={id}
-          color={color}
-          reverse={animationData.reverse}
+          color={fetchColor}
+          reverse={animationDataFetch.reverse}
         />
+      )}
+      {animationExecute && (
+        <BusAnimation
+          edgePath={edgePath}
+          id={id}
+          color={executeColor}
+          reverse={animationDataExecute.reverse}
+        />
+      )}
+      {animationBoth && (
+        <>
+          {animateInterminently ? (
+            <BusAnimation
+              edgePath={edgePath}
+              id={id}
+              reverse={animationDataFetch.reverse}
+              color={fetchColor}
+            />
+          ) : (
+            <BusAnimation
+              edgePath={edgePath}
+              id={id}
+              reverse={animationDataExecute.reverse}
+              color={executeColor}
+            />
+          )}
+        </>
       )}
       <EdgeLabelRenderer>
         <div
           style={{
             position: "absolute",
-            transform: `translate(-140%, -30px) translate(${labelX}px,${labelY}px)`,
+            transform: `translate(-130%, -30px) translate(${labelX}px,${labelY}px)`,
           }}
           className="nodrag nopan"
         >
-          {edgeAnimation && (
-            <Globe arrowPosition={"right"} title={"Datos"} color={color}>
-              {animationData.data}
+          {animationFetch && (
+            <Globe
+              arrowPosition={"right"}
+              title={textDataTitle("Datos (fetch)", typeSimulation)}
+              color={fetchColor}
+            >
+              {animationDataFetch.data}
             </Globe>
+          )}
+          {animationExecute && (
+            <Globe
+              arrowPosition={"right"}
+              title={textDataTitle("Datos (execute)", typeSimulation)}
+              color={executeColor}
+            >
+              {animationDataExecute.data}
+            </Globe>
+          )}
+          {animationBoth && (
+            <div className="column" style={{ marginTop: "-40px" }}>
+              <Globe
+                arrowPosition={"right"}
+                title={textDataTitle("Datos (fetch)", typeSimulation)}
+                color={fetchColor}
+              >
+                {animationDataFetch.data}
+              </Globe>
+              <Globe
+                arrowPosition={"right"}
+                title={textDataTitle("Datos (execute)", typeSimulation)}
+                color={executeColor}
+              >
+                {animationDataExecute.data}
+              </Globe>
+            </div>
           )}
         </div>
       </EdgeLabelRenderer>

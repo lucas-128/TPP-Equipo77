@@ -11,8 +11,16 @@ import {
 import { BusAnimation } from "../BusAnimation";
 import { Globe } from "../../Globe";
 import { Title } from "./styled";
+import { toHexaPadStart } from "../../../interpreter/utils";
+import { textAddressTitle, textDataTitle } from "../utils";
 
 export const RegistersToALUBus = ({ id, data }) => {
+
+  const typeSimulation = useSelector(
+    (state) => state.application.typeSimulations
+  );
+
+
   const animations = useSelector(
     (state) => state.application.execute.edgeAnimation
   );
@@ -113,11 +121,11 @@ export const RegistersToALUBus = ({ id, data }) => {
             {edgeAnimationAluTop && (
               <Globe arrowPosition={"bottom"} color={color}>
                 <div className="row">
-                  <Title $color={color}>Dirección</Title>
+                  <Title $color={color}>{textAddressTitle("Dirección (execute)", typeSimulation)}</Title>
                   {animationDataTop?.address}
                 </div>
                 <div className="row">
-                  <Title $color={color}>Datos</Title>
+                  <Title $color={color}>{textDataTitle("Datos (execute)", typeSimulation)}</Title>
                   {animationDataTop?.data}
                 </div>
               </Globe>
@@ -136,7 +144,7 @@ export const RegistersToALUBus = ({ id, data }) => {
               <Globe arrowPosition={"top"} color={color}>
                 <div className="row">
                   <Title $color={color}>Dirección</Title>
-                  {animationDataBottom?.address}
+                  {toHexaPadStart(animationDataBottom?.address)}
                 </div>
                 <div className="row">
                   <Title $color={color}>Datos</Title>
