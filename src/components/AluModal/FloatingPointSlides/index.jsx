@@ -281,7 +281,7 @@ export const FloatingPointSlides = ({
         )}
         {currentSlide === 3 && (
           <Slide>
-            <Row>{"Redondeo del resultado:"}</Row>
+            <Row>{"Normalización y redondeo:"}</Row>
             <br></br>
             <Row>
               <BitsRow>
@@ -309,7 +309,7 @@ export const FloatingPointSlides = ({
         )}
         {currentSlide === 4 && (
           <Slide>
-            <Row>{"Normalización y almacenamiento:"}</Row>
+            <Row>{"Almacenamiento del resultado:"}</Row>
             <Row>
               <BitsRow>
                 <SignBit>{"+"}</SignBit>
