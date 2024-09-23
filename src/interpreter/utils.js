@@ -120,7 +120,7 @@ export function toBinary(value) {
 }
 
 export function toBinaryComplement(value) {
-  if (value >= 0) {
+  if (parseInt(value, 16) >= 0) {
     return toBinary(value);
   } else {
     const positiveBinary = Math.abs(value).toString(2).padStart(8, "0");
