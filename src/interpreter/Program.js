@@ -192,8 +192,11 @@ export default class Program {
     return newState;
   }
 
-  makeJumpBranch(oldState, id) {
-    const actualInstruction = this.instructions[id];
+  makeJumpBranch(oldState, idBranch) {
+    const actualInstruction = this.instructions[idBranch];
+    const instruction = this.instructions[parseInt(actualInstruction.nextInstructionDir, 16) / 2];
+    instruction.cycle = cyclesSimulations.FETCH;
+    
     const newState = actualInstruction.makeJump(oldState, this.typeSimulation);
     return newState;
   }

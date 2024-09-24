@@ -1,6 +1,6 @@
 import { typeSimulations } from "../constants";
 import Instruction from "../Instruction";
-import { toBinary } from "../utils";
+import { animationsAluData, toBinary } from "../utils";
 /*
 
 Instruction: b
@@ -23,7 +23,7 @@ export default class Branch extends Instruction {
     const register0 = toBinary(registers[0]);
     const registerToCompare = toBinary(registers[this.registerCompareId]);
     if (register0 == registerToCompare) {
-      newExecuteState.aluOperation = {
+      newExecuteState.aluOperation = { 
         operation: "EQUAL",
         registerS: registers[0],
         registerT: registers[this.registerCompareId],
@@ -32,6 +32,15 @@ export default class Branch extends Instruction {
         destinationIndex: null,
         result: register0 == registerToCompare,
       };
+      newExecuteState.edgeAnimation = animationsAluData(
+        0,
+        register0,
+        this.registerCompareId,
+        registerToCompare,
+        null,
+        register0 == registerToCompare
+      );
+
       newExecuteState.jumpInstruction = this.id;
       newExecuteState.instructionId = this.id + 1;
     } else {
@@ -52,6 +61,8 @@ export default class Branch extends Instruction {
     if(typeSimulation === typeSimulations.PIPELINING){
       newDecodeState.edgeAnimation = [];
       newExecuteState.edgeAnimation = [];
+      newDecodeState.instructionId = null;
+      newExecuteState.instructionId = null;
     }
     return { ...oldState, fetch: newFetchState, execute: newExecuteState };
   }
