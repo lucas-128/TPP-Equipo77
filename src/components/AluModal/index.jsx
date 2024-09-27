@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { IoClose } from "react-icons/io5";
 import { setOpenAluZoom } from "../../slices/modalsSlice";
 import { Button } from "../Button";
+import { toBinaryComplement } from "../../interpreter/utils.js";
 
 export const AluModal = () => {
   const dispatch = useDispatch();
@@ -34,15 +35,9 @@ export const AluModal = () => {
   const result = (aluOperation?.result ?? 0).toString().padStart(8, "0");
   const firstEightBits = result.slice(0, 8);
 
-  const registerSbits = parseInt(aluOperation?.registerS ?? "0", 16)
-    .toString(2)
-    .padStart(8, "0")
-    .slice(0, 8);
+  const registerSbits = toBinaryComplement(aluOperation?.registerS ?? "0");
 
-  const registerTbits = parseInt(aluOperation?.registerT ?? "0", 16)
-    .toString(2)
-    .padStart(8, "0")
-    .slice(0, 8);
+  const registerTbits = toBinaryComplement(aluOperation?.registerT ?? "0");
 
   const handleShowResult = () => {
     setShowResult(true);
@@ -95,16 +90,8 @@ export const AluModal = () => {
                         Operación
                         <OperationName>{aluOperation.operation}</OperationName>
                       </RowOperation>
-                      <Row>
-                        {parseInt(aluOperation.registerS, 16)
-                          .toString(2)
-                          .padStart(8, "0")}
-                      </Row>
-                      <Row>
-                        {parseInt(aluOperation.registerT, 16)
-                          .toString(2)
-                          .padStart(8, "0")}
-                      </Row>
+                      <Row>{registerSbits}</Row>
+                      <Row>{registerTbits}</Row>
                       <Line />
                       {showResult ? (
                         <Row>

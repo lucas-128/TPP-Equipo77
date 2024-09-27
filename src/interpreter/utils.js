@@ -8,19 +8,13 @@ import {
 export function applyBinaryOperation(instruction, operation, actualState) {
   const newState = { ...actualState, registers: [...actualState.registers] };
 
-  const registerS = parseInt(
-    actualState.registers[instruction.registerSIndex],
-    16
-  )
-    .toString(2)
-    .padStart(8, "0");
+  const registerS = toBinaryComplement(
+    actualState.registers[instruction.registerSIndex]
+  );
 
-  const registerT = parseInt(
-    actualState.registers[instruction.registerTIndex],
-    16
-  )
-    .toString(2)
-    .padStart(8, "0");
+  const registerT = toBinaryComplement(
+    actualState.registers[instruction.registerTIndex]
+  );
 
   const operationResult = operation(registerS, registerT).toString(2);
 
@@ -123,7 +117,9 @@ export function toBinaryComplement(value) {
   if (parseInt(value, 16) >= 0) {
     return toBinary(value);
   } else {
-    const positiveBinary = Math.abs(value).toString(2).padStart(8, "0");
+    const positiveBinary = Math.abs(parseInt(value, 16))
+      .toString(2)
+      .padStart(8, "0");
     const invertedBinary = positiveBinary
       .split("")
       .map((bit) => (bit === "0" ? "1" : "0"))
