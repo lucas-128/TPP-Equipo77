@@ -70,8 +70,6 @@ export default class StoreMemFromRegister extends Instruction {
         { id: controlUnitCacheAddrBusId, address: this.memoryCell },
       ];
     }
-
-    console.log("StoreMemFromRegister execute", newExecuteState);
     return { ...oldState, execute: newExecuteState };
   }
 

@@ -118,7 +118,6 @@ export const EditorTest = ({ setEditorValue, editorValue }) => {
     addLineDecoration(decodeLine, newDecoration);
     addLineDecoration(executeLine, newDecoration);
 
-    console.log('agregando decoraciones', decorations, newDecoration);
     setDecorations(
       editorRef.current.deltaDecorations(decorations, newDecoration)
     );
