@@ -41,23 +41,29 @@ export const HeaderOption = styled.option`
   cursor: pointer;
 `;
 
-export const HeaderPipeliningColorReference = styled.div`
+export const HeaderCyclesColorReference = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   color: var(--im-lightgray);
-  background-color: var(--im-black);
+  border: 2px solid var(--im-gray);
   border-radius: 5px;
   padding: 3px 5px 3px 5px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: bold;
 `;
 
-export const FetchCycle = styled.div`
+export const FetchPipeliningCycle = styled.div`
   margin-right: 5px;
+`;
+
+export const PipeliningCycle = styled.div`
+  border-left: 2px solid var(--im-gray);
+  margin-right: 5px;
+  padding-left: 5px;
+  margin-left: 5px;
 `;
 
 export const Cycle = styled.div`
   margin-right: 5px;
-  margin-left: 15px;
 `;

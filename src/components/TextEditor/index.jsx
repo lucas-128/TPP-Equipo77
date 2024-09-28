@@ -1,17 +1,12 @@
-import { useEffect, useState } from "react";
 import {
   MdOutlineFileUpload,
   MdArrowBackIosNew,
   MdArrowForwardIos,
   MdDelete,
-  MdFullscreen,
-  MdFullscreenExit,
-  MdUndo,
   MdDownload,
 } from "react-icons/md";
 import { Resizable } from "re-resizable";
 import { useDispatch, useSelector } from "react-redux";
-import { validateSyntax } from "../../interpreter/main";
 import {
   EditorHeader,
   EditorHeaderIconContainer,
@@ -24,25 +19,13 @@ import { setShowEditor } from "../../slices/editorTextSlice";
 import { setError, setOpenInstructionsModal } from "../../slices/modalsSlice";
 import { EditorTest } from "./Editor";
 import { BsQuestionCircleFill } from "react-icons/bs";
-import { typeSimulations } from "../../interpreter/constants";
 
 export const TextEditor = ({ children, text, setText }) => {
+  const dispatch = useDispatch();
+
   const isSimulating = useSelector((state) => state.application.isSimulating);
 
   const show = useSelector((state) => state.editorText.show);
-  const fetchId = useSelector((state) => state.application.fetch.instructionId);
-  const decodeId = useSelector(
-    (state) => state.application.decode.instructionId
-  );
-  const executeId = useSelector(
-    (state) => state.application.execute.instructionId
-  );
-
-  const simulationType = useSelector(
-    (state) => state.application.typeSimulations
-  );
-
-  const dispatch = useDispatch();
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
@@ -79,13 +62,6 @@ export const TextEditor = ({ children, text, setText }) => {
     URL.revokeObjectURL(url);
   };
 
-  const getCurrentCycle = () => {
-    if (decodeId !== null) return "Decode";
-    if (fetchId !== null) return "Fetch";
-    if (executeId !== null) return "Execute";
-    return "";
-  };
-
   return show ? (
     <Resizable
       defaultSize={{ width: "300px", height: "100%" }}
@@ -104,13 +80,7 @@ export const TextEditor = ({ children, text, setText }) => {
     >
       <EditorWrapper>
         <EditorHeader>
-          <EditorHeaderText>
-            {isSimulating
-              ? simulationType === typeSimulations.CYCLES
-                ? "Ciclo " + getCurrentCycle()
-                : "Simulando"
-              : ""}
-          </EditorHeaderText>
+          <EditorHeaderText>{isSimulating ? "Simulando" : ""}</EditorHeaderText>
           <EditorHeaderIconContainer>
             {isSimulating ? (
               <></>
