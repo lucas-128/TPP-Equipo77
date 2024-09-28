@@ -22,6 +22,9 @@ export const InputPortModal = () => {
   const showModal = useSelector(
     (state) => state.application.execute.showInputPort
   );
+
+  const updateRegister = useSelector((state) => state.application.execute.registerToUpdate);
+
   const [inputValue, setInputValue] = useState("");
   const [numericBase, setNumericBase] = useState("decimal");
   const [error, setError] = useState("");
@@ -127,17 +130,17 @@ export const InputPortModal = () => {
     setInputValue("");
     const {
       execute: currentExecuteState,
-      fetch: { instructionRegister },
     } = applicationState;
     const newExecuteState = {
       ...currentExecuteState,
       registers: [...currentExecuteState.registers],
       mainMemoryCells: [...currentExecuteState.mainMemoryCells],
       showInputPort: false,
+      registerToUpdate: null,
     };
 
     const newValue = getHexaValue();
-    const registerToUpdate = parseInt(instructionRegister.slice(1, 2), 16);
+    const registerToUpdate = parseInt(updateRegister, 16);
     newExecuteState.registers[registerToUpdate] = newValue;
     newExecuteState.mainMemoryCells[254] = newValue;
     const newState = {
