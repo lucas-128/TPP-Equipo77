@@ -61,7 +61,10 @@ export default class Program {
 
   getNextValue(value, lastCycleInst) {
     if (value == null) {
-      return lastCycleInst === null ? null : 0;
+      return lastCycleInst === null ? null : lastCycleInst;
+    }
+    if(value === -1){
+      return null;
     }
     return value + 1;
   }
@@ -88,7 +91,10 @@ export default class Program {
     let newDecodeState = oldState;
     let newExecuteState = oldState;
 
-    let fetchInstructionId = this.getNextValue(oldState.fetch.instructionId, 0);
+    let fetchInstructionId = this.getNextValue(
+      oldState.fetch.instructionId,
+      oldState.execute.instructionId || 0
+    );
     let decodeInstructionId = this.getNextValue(
       oldState.decode.instructionId,
       oldState.fetch.instructionId
@@ -118,7 +124,7 @@ export default class Program {
         ...oldState,
         fetch: {
           ...oldState.fetch,
-          instructionId: fetchInstructionId,
+          instructionId: fetchInstructionId - 1,
           instructionRegister: "-",
           address: null,
           edgeAnimation: [],
@@ -134,15 +140,8 @@ export default class Program {
       );
     } else {
       newDecodeState = {
-        fetch: {
-          ...oldState.fetch,
-          instructionId: fetchInstructionId,
-          instructionRegister: "-",
-          address: null,
-          edgeAnimation: [],
-        },
+        ...oldState,
         decode: { ...oldState.decode, instructionId: null },
-        execute: { ...oldState.execute },
       };
     }
 
@@ -194,10 +193,14 @@ export default class Program {
 
   makeJumpBranch(oldState, idBranch) {
     const actualInstruction = this.instructions[idBranch];
-    const instruction = this.instructions[parseInt(actualInstruction.nextInstructionDir, 16) / 2];
-    instruction.cycle = cyclesSimulations.FETCH;
-    
+    this.instructions.forEach((instruction, index) => {
+      if (index > idBranch) {
+        instruction.resetCycle();
+      }
+    });
+
     const newState = actualInstruction.makeJump(oldState, this.typeSimulation);
+
     return newState;
   }
 }

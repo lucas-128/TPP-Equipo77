@@ -23,7 +23,7 @@ export default class Branch extends Instruction {
     const register0 = toBinary(registers[0]);
     const registerToCompare = toBinary(registers[this.registerCompareId]);
     if (register0 == registerToCompare) {
-      newExecuteState.aluOperation = { 
+      newExecuteState.aluOperation = {
         operation: "EQUAL",
         registerS: registers[0],
         registerT: registers[this.registerCompareId],
@@ -58,13 +58,20 @@ export default class Branch extends Instruction {
     newFetchState.programCounter = parseInt(this.nextInstructionDir, 16);
     newExecuteState.jumpInstruction = null;
     newExecuteState.aluOperation = null;
-    if(typeSimulation === typeSimulations.PIPELINING){
+    if (typeSimulation === typeSimulations.PIPELINING) {
       newDecodeState.edgeAnimation = [];
       newExecuteState.edgeAnimation = [];
-      newDecodeState.instructionId = null;
-      newExecuteState.instructionId = null;
+      newDecodeState.instructionId = -1;
+      newExecuteState.instructionId = -1;
+      newFetchState.instructionId =
+        parseInt(this.nextInstructionDir, 16) / 2 - 1;
     }
-    return { ...oldState, fetch: newFetchState, execute: newExecuteState };
+    return {
+      ...oldState,
+      fetch: newFetchState,
+      execute: newExecuteState,
+      decode: newDecodeState,
+    };
   }
 
   toString() {

@@ -63,18 +63,20 @@ export const EditorTest = ({ setEditorValue, editorValue }) => {
       number: fetchInstructionId + 1,
       color: colorMapper[fetchInstructionColor],
     };
-  }, [fetchInstructionId]);
+  }, [fetchInstructionId, fetchInstructionColor]);
 
   const decodeLine = useMemo(() => {
-    if (decodeInstructionId === null) return null;
+    if (decodeInstructionId === null || decodeInstructionId === -1) {
+      return null;
+    }
     return {
       number: decodeInstructionId + 1,
       color: colorMapper[decodeInstructionColor],
     };
-  }, [decodeInstructionId]);
+  }, [decodeInstructionId, decodeInstructionColor]);
 
   const executeLine = useMemo(() => {
-    if (executeInstructionId === null) return null;
+    if (executeInstructionId === null || executeInstructionId === -1) return null;
     const executeLine = {
       number:
         actualTypeSimulation === typeSimulations.PIPELINING
