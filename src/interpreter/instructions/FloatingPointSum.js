@@ -20,29 +20,15 @@ export default class FloatingPointSum extends Instruction {
     newExecuteState.instructionId = this.id + 1;
     newExecuteState.edgeAnimation = animationsAlu;
 
-    // TODO mover a funcion floatingPointSum
-    // const registerS = parseInt(
-    //   newExecuteState.registers[this.registerSIndex],
-    //   16
-    // )
-    //   .toString(2)
-    //   .padStart(8, "0");
-    // const registerT = parseInt(
-    //   newExecuteState.registers[this.registerTIndex],
-    //   16
-    // )
-    //   .toString(2)
-    //   .padStart(8, "0");
-
-    // const operationResult = floatingPointSum(registerS, registerT);
+    const resultNewExecuteState = applyBinaryOperation(
+      this,
+      floatingPointSum,
+      newExecuteState
+    );
 
     return {
       ...oldState,
-      execute: applyBinaryOperation(
-        this,
-        (a, b) => (a + b) & 0xff,
-        newExecuteState
-      ),
+      execute: resultNewExecuteState,
     };
   }
 
@@ -86,7 +72,14 @@ function floatingPointSum(registerS, registerT) {
 
   const resultSign = "0"; //TODO
 
-  return resultSign + resultExponent + resultNormalizedMantissa;
+  const res_string = resultSign + resultExponent + resultNormalizedMantissa;
+
+  const result = parseInt(
+    resultSign + resultExponent + resultNormalizedMantissa,
+    2
+  );
+
+  return res_string;
 }
 
 /*
@@ -101,7 +94,7 @@ Exponente sesgado:
 111	 4
 */
 
-function parseRegister(register) {
+export function parseRegister(register) {
   const sign = parseInt(register[0], 2);
 
   const exponentStr = register.slice(1, 4);
@@ -129,7 +122,7 @@ function getResultExponent(register1, register2) {
   return Math.max(exponent1, exponent2);
 }
 
-function alignMantissas(register1, register2) {
+export function alignMantissas(register1, register2) {
   const exp1 = register1.exponent.decimal;
   const exp2 = register2.exponent.decimal;
 
@@ -202,7 +195,7 @@ function padBinaryStrings(str1, str2) {
   return [`${paddedInt1}.${paddedFrac1}`, `${paddedInt2}.${paddedFrac2}`];
 }
 
-function addBinary(bin1, bin2) {
+export function addBinary(bin1, bin2) {
   const [intPart1, fracPart1] = bin1.split(".");
   const [intPart2, fracPart2] = bin2.split(".");
 
@@ -245,7 +238,7 @@ function addBinaryInteger(int1, int2, carry) {
   return { result };
 }
 
-function normalizeMantissa(s) {
+export function normalizeMantissa(s) {
   const dotIndex = s.indexOf(".");
   const firstOneIndex = s.indexOf("1");
   if (dotIndex === -1 || firstOneIndex === -1) {
@@ -271,7 +264,7 @@ function normalizeMantissa(s) {
   return [newString, movedValue];
 }
 
-function toBiasBinary(value, bias, bitWidth) {
+export function toBiasBinary(value, bias, bitWidth) {
   const adjustedValue = parseInt(value) + bias;
   return adjustedValue.toString(2).padStart(bitWidth, "0");
 }
