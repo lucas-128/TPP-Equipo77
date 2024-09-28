@@ -28,17 +28,18 @@ export const initialState = {
     //TODO: capaz la memoria se puede mover afuera
     mainMemoryCells: new Array(256).fill("-"),
     cacheMemoryCells: new Array(CACHE_SIZE).fill(null),
-    nodes: initialNodes,
-    edges: initialEdges,
     aluOperation: null,
     edgeAnimation: [],
     showInputPort: false,
+    registerToUpdate: null,
     endProgram: false,
     color: "var(--im-green)",
   },
   previousState: null,
   // TODO: Agregar a execute
   aluOperation: null,
+  nodes: initialNodes,
+  edges: initialEdges,
   edgeAnimation: [],
   isSimulating: false,
   typeSimulations: typeSimulations.SIMPLE,
@@ -49,25 +50,25 @@ export const applicationSlice = createSlice({
   initialState,
   reducers: {
     setNodes(state, action) {
-      state.execute.nodes = action.payload;
+      state.nodes = action.payload;
     },
     setEdges(state, action) {
-      state.execute.edges = action.payload;
+      state.edges = action.payload;
     },
     onNodesChange(state, action) {
-      state.execute.nodes = applyNodeChanges(
+      state.nodes = applyNodeChanges(
         action.payload,
-        state.execute.nodes
+        state.nodes
       );
     },
     onEdgesChange(state, action) {
-      state.execute.edges = applyEdgeChanges(
+      state.edges = applyEdgeChanges(
         action.payload,
-        state.execute.edges
+        state.edges
       );
     },
     onConnect(state, action) {
-      state.execute.edges = addEdge(action.payload, state.execute.edges);
+      state.edges = addEdge(action.payload, state.edges);
     },
     updateExecuteState(state, action) {
       state.execute = action.payload;

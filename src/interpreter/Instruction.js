@@ -1,5 +1,3 @@
-// aca tener una clase que tenga updateProgram counter, load y fetch. Después cada inst tiene su execute
-
 import {
   controlUnitCacheAddrBusId,
   controlUnitCacheId,
@@ -21,6 +19,7 @@ export default class Instruction {
 
   cleanState(oldState) {
     const cleanState = {
+      ...oldState,
       fetch: { ...oldState.fetch },
       decode: { ...oldState.decode },
       execute: { ...oldState.execute },
@@ -135,5 +134,9 @@ export default class Instruction {
     newDecodeState.instructionRegister = oldState.fetch.instructionRegister;
     newDecodeState.programCounter = oldState.fetch.programCounter;
     return { ...oldState, decode: newDecodeState };
+  }
+
+  resetCycle() {
+    this.cycle = cyclesSimulations.FETCH;
   }
 }

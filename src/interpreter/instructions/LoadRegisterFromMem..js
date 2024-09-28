@@ -28,6 +28,7 @@ export default class LoadRegisterFromMem extends Instruction {
     const { mainMemoryCells } = oldState.execute;
     if (this.memoryAddress === 254) {
       newExecuteState.showInputPort = true;
+      newExecuteState.registerToUpdate = this.register;
       newExecuteState.instructionId = this.id + 1;
       return { ...oldState, execute: newExecuteState };
     }

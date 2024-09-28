@@ -110,6 +110,15 @@ export const TextEditorButtons = ({ text }) => {
       dispatch(clearApplication());
       return;
     }
+    if (applicationState.execute.jumpInstruction) {
+      const newState = program.makeJumpBranch(
+        applicationState,
+        applicationState.execute.jumpInstruction
+      );
+      dispatch(updatePreviousState());
+      dispatch(updateCurrentState(program.getNewState(newState)));
+      return;
+    }
     dispatch(updatePreviousState());
     dispatch(updateCurrentState(program.getNewState(applicationState)));
   };
