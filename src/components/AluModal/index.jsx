@@ -19,7 +19,7 @@ import {
 } from "./styled";
 import { FloatingPointSlides } from "./FloatingPointSlides";
 import { useDispatch, useSelector } from "react-redux";
-import { IoClose } from "react-icons/io5";
+import { IoClose, IoArrowForward } from "react-icons/io5";
 import { setOpenAluZoom } from "../../slices/modalsSlice";
 import { Button } from "../Button";
 import { toBinaryComplement } from "../../interpreter/utils.js";
@@ -84,6 +84,27 @@ export const AluModal = () => {
                       prevSlide={prevSlide}
                       nextSlide={nextSlide}
                     />
+                  ) : aluOperation.operation === "Rotar a la derecha" ? (
+                    <InfoContainer>
+                      <RowOperation>
+                        Operación
+                        <OperationName>{aluOperation.operation}</OperationName>
+                      </RowOperation>
+                      <Row>{registerSbits}</Row>
+                      <Row>Rotaciones: {parseInt(registerTbits, 2)} </Row>
+                      <Line />
+                      {showResult ? (
+                        <Row>
+                          <span>{firstEightBits}</span>
+                        </Row>
+                      ) : (
+                        <ButtonContainer>
+                          <Button lightColor={true} onClick={handleShowResult}>
+                            Realizar operación
+                          </Button>
+                        </ButtonContainer>
+                      )}
+                    </InfoContainer>
                   ) : (
                     <InfoContainer>
                       <RowOperation>

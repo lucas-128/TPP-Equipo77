@@ -61,9 +61,9 @@ export function applyRotation(instruction, operation, actualState) {
     operation: operationNames[instruction.type],
     registerS: actualState.registers[instruction.register],
     registerT: rotations,
-    registerSIndex: instruction.registerSIndex,
-    registerTIndex: instruction.registerTIndex,
-    destinationIndex: instruction.destinationIndex,
+    registerSIndex: instruction.register,
+    registerTIndex: instruction.register,
+    destinationIndex: instruction.register,
     result: paddedOperationResult,
   };
 
