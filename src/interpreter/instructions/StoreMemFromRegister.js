@@ -33,14 +33,43 @@ export default class StoreMemFromRegister extends Instruction {
     );
     newExecuteState.instructionId = this.id + 1;
 
-    newExecuteState.edgeAnimation = [
-      { id: registersControlUnitId, reverse: false },
-      { id: controlUnitCacheId, reverse: true },
-      controlUnitMainMemAddrId,
-      { id: mainMemControlUnitDataId, reverse: true },
-      controlUnitCacheAddrBusId,
-    ];
 
+    //CACHE MEMORY ANIMATIONS
+    const oldLength = oldState.execute.cacheMemoryCells.filter(
+      (e) => e !== null
+    ).length;
+    const newLength = newExecuteState.cacheMemoryCells.filter(
+      (e) => e !== null
+    ).length;
+
+    // Cache memory has been updated, meaning the main memory bus should be animated
+    if (oldLength < newLength) {
+      newExecuteState.edgeAnimation = [
+        {
+          id: registersControlUnitId,
+          reverse: false,
+          data: value,
+          address: this.register,
+        },
+        { id: controlUnitCacheId, reverse: true, data: value },
+        { id: controlUnitMainMemAddrId, address: this.memoryCell },
+        { id: mainMemControlUnitDataId, reverse: true, data: value },
+        { id: controlUnitCacheAddrBusId,  address: this.memoryCell },
+
+      ];
+    } else {
+      // Cache memory has not been updated, meaning the main memory bus should not be animated
+      newExecuteState.edgeAnimation = [
+        {
+          id: registersControlUnitId,
+          reverse: true,
+          data: value,
+          address: this.register,
+        },
+        { id: controlUnitCacheId, reverse: false, data: value },
+        { id: controlUnitCacheAddrBusId, address: this.memoryCell },
+      ];
+    }
     return { ...oldState, execute: newExecuteState };
   }
 

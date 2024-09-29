@@ -59,28 +59,19 @@ export default class Program {
     return id >= this.instructions.length || id === null;
   }
 
-  getNextValue(value, lastCycleInst) {
-    if (value == null) {
-      return lastCycleInst === null ? null : 0;
-    }
-    return value + 1;
+  getNextValue(value, fallbackValue) {
+    if (value == null) return fallbackValue;
+    return value === -1 ? null : value + 1;
   }
-
+  
   getNextColor(previousColor) {
-    if (previousColor === "var(--im-pink)") {
-      return "var(--im-green)";
-    }
-    if (previousColor === "var(--im-green)") {
-      return "var(--im-blue)";
-    }
-    if (previousColor === "var(--im-yellow)") {
-      return "var(--im-pink)";
-    }
-    if (previousColor === "var(--im-blue)") {
-      return "var(--im-yellow)";
-    }
-
-    return "var(--im-blue)";
+    const colorMap = {
+      "var(--im-pink)": "var(--im-green)",
+      "var(--im-green)": "var(--im-blue)",
+      "var(--im-blue)": "var(--im-yellow)",
+      "var(--im-yellow)": "var(--im-pink)"
+    };
+    return colorMap[previousColor] || "var(--im-blue)";
   }
 
   getNewStatePipelining(oldState) {
@@ -88,7 +79,10 @@ export default class Program {
     let newDecodeState = oldState;
     let newExecuteState = oldState;
 
-    let fetchInstructionId = this.getNextValue(oldState.fetch.instructionId, 0);
+    let fetchInstructionId = this.getNextValue(
+      oldState.fetch.instructionId,
+      oldState.execute.instructionId || 0
+    );
     let decodeInstructionId = this.getNextValue(
       oldState.decode.instructionId,
       oldState.fetch.instructionId
@@ -118,7 +112,7 @@ export default class Program {
         ...oldState,
         fetch: {
           ...oldState.fetch,
-          instructionId: fetchInstructionId,
+          instructionId: fetchInstructionId > this.instructions.length ? null : fetchInstructionId,
           instructionRegister: "-",
           address: null,
           edgeAnimation: [],
@@ -134,15 +128,8 @@ export default class Program {
       );
     } else {
       newDecodeState = {
-        fetch: {
-          ...oldState.fetch,
-          instructionId: fetchInstructionId,
-          instructionRegister: "-",
-          address: null,
-          edgeAnimation: [],
-        },
+        ...oldState,
         decode: { ...oldState.decode, instructionId: null },
-        execute: { ...oldState.execute },
       };
     }
 
@@ -151,20 +138,20 @@ export default class Program {
       newFetchState.execute.cacheMemoryCells
     );
 
-    // console.log("lo que devuelvo es ", {
-    //   ...oldState,
-    //   fetch: {
-    //     ...newFetchState.fetch,
-    //     color: this.getNextColor(oldState.fetch.color),
-    //   },
-    //   decode: { ...newDecodeState.decode, color: oldState.fetch.color },
-    //   execute: {
-    //     ...newExecuteState.execute,
-    //     instructionId: executeInstructionId,
-    //     color: oldState.decode.color,
-    //     cacheMemoryCells: newCacheMemoryCells,
-    //   },
-    // });
+    console.log("lo que devuelvo es ", {
+      ...oldState,
+      fetch: {
+        ...newFetchState.fetch,
+        color: this.getNextColor(oldState.fetch.color),
+      },
+      decode: { ...newDecodeState.decode, color: oldState.fetch.color },
+      execute: {
+        ...newExecuteState.execute,
+        instructionId: executeInstructionId,
+        color: oldState.decode.color,
+        cacheMemoryCells: newCacheMemoryCells,
+      },
+    });
 
     return {
       ...oldState,
@@ -189,6 +176,19 @@ export default class Program {
     const actualInstruction =
       this.instructions[this.getCurrentInstructionId(oldState)];
     const newState = actualInstruction.nextStep(oldState, this.typeSimulation);
+    return newState;
+  }
+
+  makeJumpBranch(oldState, idBranch) {
+    const actualInstruction = this.instructions[idBranch];
+    this.instructions.forEach((instruction, index) => {
+      if (index > idBranch) {
+        instruction.resetCycle();
+      }
+    });
+
+    const newState = actualInstruction.makeJump(oldState, this.typeSimulation);
+
     return newState;
   }
 }
