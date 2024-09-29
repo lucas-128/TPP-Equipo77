@@ -23,6 +23,17 @@ export const Row = styled.div`
   gap: 10px;
 `;
 
+export const InfoRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 5px;
+  margin-bottom: 8px;
+  font-size: 16px;
+`;
+
 export const Line = styled.div`
   background-color: var(--im-lightgray);
   height: 2px;
@@ -50,6 +61,13 @@ export const ExponentBits = styled.span`
 
 export const MantissaBits = styled.span`
   color: lightblue;
+`;
+
+export const Ball = styled.div`
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
 `;
 
 export const ResultRows = styled.div`

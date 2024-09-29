@@ -12,6 +12,8 @@ import {
   ExponentBits,
   MantissaBits,
   SlidesButtonsContainer,
+  Ball,
+  InfoRow,
 } from "./styled";
 import { Button } from "../../Button";
 import {
@@ -68,6 +70,14 @@ export const FloatingPointSlides = ({
         {currentSlide === 0 && (
           <Slide>
             <Row>{"Interpretación de registros:"}</Row>
+            <InfoRow>
+              <Ball style={{ backgroundColor: "lightgreen" }} />
+              <span> Signo |</span>
+              <Ball style={{ backgroundColor: "teal" }} />
+              <span> Exponente |</span>
+              <Ball style={{ backgroundColor: "lightblue" }} />
+              <span> Mantisa </span>
+            </InfoRow>
             <Row>
               {"S: "}
               {registerSbits}
@@ -79,7 +89,7 @@ export const FloatingPointSlides = ({
               </BitsRow>
             </Row>
             <Row>
-              {"S: "}
+              {"S ="}
               <BitsRow>
                 <SignBit>
                   {registerSbits.slice(0, 1) === "0" ? "+" : "-"}
@@ -92,7 +102,8 @@ export const FloatingPointSlides = ({
                 {binaryToDecimalWithBias(registerSbits.slice(1, 4))}
               </ExponentBits>
             </Row>
-            <br></br>
+            <Line />
+
             <Row>
               {"T: "}
               {registerTbits}
@@ -104,7 +115,7 @@ export const FloatingPointSlides = ({
               </BitsRow>
             </Row>
             <Row>
-              {"T: "}
+              {"T ="}
               <BitsRow>
                 <SignBit>
                   {registerTbits.slice(0, 1) === "0" ? "+" : "-"}
