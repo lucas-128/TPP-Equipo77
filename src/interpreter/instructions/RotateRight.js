@@ -1,6 +1,6 @@
 import Instruction from "../Instruction";
 import { animationsAlu } from "../constants";
-import { animationsAluData, toHexa } from "../utils";
+import { animationsAluData, toHexa, applyRotation } from "../utils";
 
 /* 
 
@@ -17,30 +17,56 @@ export default class RotateRight extends Instruction {
   }
 
   execute(oldState) {
-    const newExecuteState = { ...oldState.state };
-    const registerValue = newExecuteState.registers[this.register];
-    const length = registerValue.length;
-    const registerT = newExecuteState.registers[this.rotations];
-    const shift = registerT;
-    const rotations = shift % length;
-    const extendedPattern = registerValue + registerValue;
-    newExecuteState.registers[this.register] = extendedPattern.substring(
-      length - rotations,
-      2 * length - rotations
-    );
-
+    const newExecuteState = { ...oldState.execute };
     newExecuteState.instructionId = this.id + 1;
-    newExecuteState.edgeAnimation = animationsAluData(
-      this.register,
-      registerValue,
-      null,
-      null,
-      this.register,
-      newExecuteState.registers[this.register]
+
+    const resultNewExecuteState = applyRotation(
+      this,
+      (a, b) => rotateRight(a, b),
+      newExecuteState
     );
 
-    return { ...oldState, execute: newExecuteState };
+    resultNewExecuteState.edgeAnimation = animationsAluData(
+      this.rotations,
+      resultNewExecuteState.registers[this.registerSIndex],
+      this.register,
+      this.rotations,
+      this.register,
+      resultNewExecuteState.registers[this.destinationIndex]
+    );
+
+    return {
+      ...oldState,
+      execute: resultNewExecuteState,
+    };
   }
+
+  // execute(oldState) {
+
+  //   const newExecuteState = { ...oldState.state };
+  //   const registerValue = newExecuteState.registers[this.register];
+  //   const length = registerValue.length;
+  //   const registerT = newExecuteState.registers[this.rotations];
+  //   const shift = registerT;
+  //   const rotations = shift % length;
+  //   const extendedPattern = registerValue + registerValue;
+  //   newExecuteState.registers[this.register] = extendedPattern.substring(
+  //     length - rotations,
+  //     2 * length - rotations
+  //   );
+
+  //   newExecuteState.instructionId = this.id + 1;
+  //   newExecuteState.edgeAnimation = animationsAluData(
+  //     this.register,
+  //     registerValue,
+  //     null,
+  //     null,
+  //     this.register,
+  //     newExecuteState.registers[this.register]
+  //   );
+
+  //   return { ...oldState, execute: newExecuteState };
+  // }
 
   toString() {
     return [
@@ -54,4 +80,11 @@ export default class RotateRight extends Instruction {
       ],
     ];
   }
+}
+
+function rotateRight(binaryString, numRotations) {
+  numRotations = numRotations % 8;
+  return (
+    binaryString.slice(-numRotations) + binaryString.slice(0, 8 - numRotations)
+  );
 }
