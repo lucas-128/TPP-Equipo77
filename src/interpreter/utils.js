@@ -24,6 +24,8 @@ export function applyBinaryOperation(instruction, operation, actualState) {
     .toString(16)
     .toUpperCase();
 
+  console.log(operationNames[instruction.type]);
+
   newState.aluOperation = {
     operation: operationNames[instruction.type],
     registerS: actualState.registers[instruction.registerSIndex],
@@ -54,8 +56,6 @@ export function applyRotation(instruction, operation, actualState) {
   const hexValue = parseInt(paddedOperationResult, 2)
     .toString(16)
     .toUpperCase();
-
-  console.log(operationNames[instruction.type]);
 
   newState.aluOperation = {
     operation: operationNames[instruction.type],

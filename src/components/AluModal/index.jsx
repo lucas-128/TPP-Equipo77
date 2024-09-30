@@ -35,6 +35,8 @@ export const AluModal = () => {
   const result = (aluOperation?.result ?? 0).toString().padStart(8, "0");
   const firstEightBits = result.slice(0, 8);
 
+  console.log(aluOperation);
+
   const registerSbits = toBinaryComplement(aluOperation?.registerS ?? "0");
 
   const registerTbits = toBinaryComplement(aluOperation?.registerT ?? "0");
@@ -91,11 +93,34 @@ export const AluModal = () => {
                         <OperationName>{aluOperation.operation}</OperationName>
                       </RowOperation>
                       <Row>{registerSbits}</Row>
-                      <Row>Rotaciones: {parseInt(registerTbits, 2)} </Row>
+                      <Row>Rotaciones: {parseInt(registerTbits, 2)}</Row>
                       <Line />
                       {showResult ? (
                         <Row>
                           <span>{firstEightBits}</span>
+                        </Row>
+                      ) : (
+                        <ButtonContainer>
+                          <Button lightColor={true} onClick={handleShowResult}>
+                            Realizar operación
+                          </Button>
+                        </ButtonContainer>
+                      )}
+                    </InfoContainer>
+                  ) : aluOperation.operation === "EQUAL" ? (
+                    <InfoContainer>
+                      <RowOperation>
+                        Operación
+                        <OperationName>{"Comparar Registros"}</OperationName>
+                      </RowOperation>
+                      <Row>{registerSbits}</Row>
+                      <Row>{registerTbits}</Row>
+                      <Line />
+                      {showResult ? (
+                        <Row>
+                          {aluOperation?.result
+                            ? "Registros iguales"
+                            : "Registros diferentes"}
                         </Row>
                       ) : (
                         <ButtonContainer>
