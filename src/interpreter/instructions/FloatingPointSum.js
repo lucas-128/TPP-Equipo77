@@ -1,6 +1,6 @@
 import Instruction from "../Instruction";
 import { animationsAlu } from "../constants";
-import { applyBinaryOperation, toHexa } from "../utils";
+import { applyBinaryOperation, toHexa, animationsAluData } from "../utils";
 
 /* 
 Instruction: 6
@@ -24,6 +24,15 @@ export default class FloatingPointSum extends Instruction {
       this,
       floatingPointSum,
       newExecuteState
+    );
+
+    resultNewExecuteState.edgeAnimation = animationsAluData(
+      this.registerSIndex,
+      resultNewExecuteState.registers[this.registerSIndex],
+      this.registerTIndex,
+      resultNewExecuteState.registers[this.registerTIndex],
+      this.destinationIndex,
+      resultNewExecuteState.registers[this.destinationIndex]
     );
 
     return {

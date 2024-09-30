@@ -24,6 +24,8 @@ export function applyBinaryOperation(instruction, operation, actualState) {
     .toString(16)
     .toUpperCase();
 
+  console.log(operationNames[instruction.type]);
+
   newState.aluOperation = {
     operation: operationNames[instruction.type],
     registerS: actualState.registers[instruction.registerSIndex],
@@ -31,6 +33,37 @@ export function applyBinaryOperation(instruction, operation, actualState) {
     registerSIndex: instruction.registerSIndex,
     registerTIndex: instruction.registerTIndex,
     destinationIndex: instruction.destinationIndex,
+    result: paddedOperationResult,
+  };
+
+  newState.registers[instruction.destinationIndex] = hexValue;
+  return newState;
+}
+
+export function applyRotation(instruction, operation, actualState) {
+  const newState = { ...actualState, registers: [...actualState.registers] };
+
+  const register = toBinaryComplement(
+    actualState.registers[instruction.register]
+  );
+
+  const rotations = instruction.rotations;
+
+  const operationResult = operation(register, rotations).toString(2);
+
+  const paddedOperationResult = operationResult.slice(0, 8).padStart(8, "0");
+
+  const hexValue = parseInt(paddedOperationResult, 2)
+    .toString(16)
+    .toUpperCase();
+
+  newState.aluOperation = {
+    operation: operationNames[instruction.type],
+    registerS: actualState.registers[instruction.register],
+    registerT: rotations,
+    registerSIndex: instruction.register,
+    registerTIndex: instruction.register,
+    destinationIndex: instruction.register,
     result: paddedOperationResult,
   };
 

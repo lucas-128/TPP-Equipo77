@@ -22,11 +22,11 @@ export default class XORInstruction extends Instruction {
     newExecuteState.instructionId = this.id + 1;
     const resultNewExecuteState = applyBinaryOperation(
       this,
-      (a, b) => a ^ b,
+      (a, b) => parseInt(a, 2) ^ parseInt(b, 2),
       newExecuteState
     );
 
-    resultNewExecuteState.animationsAlu = animationsAluData(
+    resultNewExecuteState.edgeAnimation = animationsAluData(
       this.registerSIndex,
       resultNewExecuteState.registers[this.registerSIndex],
       this.registerTIndex,
@@ -37,11 +37,6 @@ export default class XORInstruction extends Instruction {
 
     return {
       ...oldState,
-      execute: applyBinaryOperation(
-        this,
-        (a, b) => parseInt(a, 2) ^ parseInt(b, 2),
-        newExecuteState
-      ),
       execute: resultNewExecuteState,
     };
   }
