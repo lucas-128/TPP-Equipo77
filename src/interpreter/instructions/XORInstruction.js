@@ -26,7 +26,7 @@ export default class XORInstruction extends Instruction {
       newExecuteState
     );
 
-    resultNewExecuteState.animationsAlu = animationsAluData(
+    resultNewExecuteState.edgeAnimation = animationsAluData(
       this.registerSIndex,
       resultNewExecuteState.registers[this.registerSIndex],
       this.registerTIndex,

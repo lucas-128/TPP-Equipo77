@@ -23,6 +23,17 @@ export const Row = styled.div`
   gap: 10px;
 `;
 
+export const InfoRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 5px;
+  margin-bottom: 8px;
+  font-size: 16px;
+`;
+
 export const Line = styled.div`
   background-color: var(--im-lightgray);
   height: 2px;
@@ -40,16 +51,113 @@ export const RowOperation = styled(Row)`
   align-items: center;
 `;
 
+export const InitialSignBit = styled.span`
+  color: lightgreen;
+  cursor: help;
+  position: relative;
+
+  &::after {
+    content: "Bit de signo";
+    visibility: hidden;
+    width: 150px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    border-radius: 10px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -75px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    white-space: nowrap;
+  }
+
+  &:hover::after {
+    visibility: visible;
+    opacity: 75%;
+  }
+`;
+
 export const SignBit = styled.span`
   color: lightgreen;
+`;
+
+export const InitialExponentBits = styled.span`
+  color: teal;
+  cursor: help;
+  position: relative;
+
+  &::after {
+    content: "Bits de exponente";
+    visibility: hidden;
+    width: 150px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    border-radius: 10px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -75px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    white-space: nowrap;
+  }
+
+  &:hover::after {
+    visibility: visible;
+    opacity: 75%;
+  }
 `;
 
 export const ExponentBits = styled.span`
   color: teal;
 `;
 
+export const InitialMantissaBits = styled.span`
+  color: lightblue;
+  cursor: help;
+  position: relative;
+
+  &::after {
+    content: "Bits de mantisa";
+    visibility: hidden;
+    width: 150px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    border-radius: 10px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -75px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    white-space: nowrap;
+  }
+
+  &:hover::after {
+    visibility: visible;
+    opacity: 75%;
+  }
+`;
+
 export const MantissaBits = styled.span`
   color: lightblue;
+`;
+
+export const Ball = styled.div`
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
 `;
 
 export const ResultRows = styled.div`

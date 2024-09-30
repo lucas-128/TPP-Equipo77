@@ -12,6 +12,11 @@ import {
   ExponentBits,
   MantissaBits,
   SlidesButtonsContainer,
+  Ball,
+  InfoRow,
+  InitialSignBit,
+  InitialMantissaBits,
+  InitialExponentBits,
 } from "./styled";
 import { Button } from "../../Button";
 import {
@@ -68,18 +73,30 @@ export const FloatingPointSlides = ({
         {currentSlide === 0 && (
           <Slide>
             <Row>{"Interpretación de registros:"}</Row>
+            <InfoRow>
+              <Ball style={{ backgroundColor: "lightgreen" }} />
+              <span> Signo |</span>
+              <Ball style={{ backgroundColor: "teal" }} />
+              <span> Exponente |</span>
+              <Ball style={{ backgroundColor: "lightblue" }} />
+              <span> Mantisa </span>
+            </InfoRow>
             <Row>
               {"S: "}
               {registerSbits}
               <IoArrowForward />
               <BitsRow>
-                <SignBit>{registerSbits.slice(0, 1)}</SignBit>
-                <ExponentBits>{registerSbits.slice(1, 4)}</ExponentBits>
-                <MantissaBits>{registerSbits.slice(4)}</MantissaBits>
+                <InitialSignBit>{registerSbits.slice(0, 1)}</InitialSignBit>
+                <InitialExponentBits>
+                  {registerSbits.slice(1, 4)}
+                </InitialExponentBits>
+                <InitialMantissaBits>
+                  {registerSbits.slice(4)}
+                </InitialMantissaBits>
               </BitsRow>
             </Row>
             <Row>
-              {"S: "}
+              {"S ="}
               <BitsRow>
                 <SignBit>
                   {registerSbits.slice(0, 1) === "0" ? "+" : "-"}
@@ -92,19 +109,24 @@ export const FloatingPointSlides = ({
                 {binaryToDecimalWithBias(registerSbits.slice(1, 4))}
               </ExponentBits>
             </Row>
-            <br></br>
+            <Line />
+
             <Row>
               {"T: "}
               {registerTbits}
               <IoArrowForward />
               <BitsRow>
-                <SignBit>{registerTbits.slice(0, 1)}</SignBit>
-                <ExponentBits>{registerTbits.slice(1, 4)}</ExponentBits>
-                <MantissaBits>{registerTbits.slice(4)}</MantissaBits>
+                <InitialSignBit>{registerTbits.slice(0, 1)}</InitialSignBit>
+                <InitialExponentBits>
+                  {registerTbits.slice(1, 4)}
+                </InitialExponentBits>
+                <InitialMantissaBits>
+                  {registerTbits.slice(4)}
+                </InitialMantissaBits>
               </BitsRow>
             </Row>
             <Row>
-              {"T: "}
+              {"T ="}
               <BitsRow>
                 <SignBit>
                   {registerTbits.slice(0, 1) === "0" ? "+" : "-"}
@@ -113,9 +135,9 @@ export const FloatingPointSlides = ({
                 <MantissaBits>{registerTbits.slice(4)}</MantissaBits>
               </BitsRow>
               {"*2^"}
-              <ExponentBits>
+              <InitialExponentBits>
                 {binaryToDecimalWithBias(registerTbits.slice(1, 4))}
-              </ExponentBits>
+              </InitialExponentBits>
             </Row>
           </Slide>
         )}

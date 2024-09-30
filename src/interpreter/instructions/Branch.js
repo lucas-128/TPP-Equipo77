@@ -22,25 +22,26 @@ export default class Branch extends Instruction {
     const { registers } = newExecuteState;
     const register0 = toBinary(registers[0]);
     const registerToCompare = toBinary(registers[this.registerCompareId]);
-    if (register0 == registerToCompare) {
-      newExecuteState.aluOperation = {
-        operation: "EQUAL",
-        registerS: registers[0],
-        registerT: registers[this.registerCompareId],
-        registerSIndex: 0,
-        registerTIndex: this.registerCompareId,
-        destinationIndex: null,
-        result: register0 == registerToCompare,
-      };
-      newExecuteState.edgeAnimation = animationsAluData(
-        0,
-        register0,
-        this.registerCompareId,
-        registerToCompare,
-        null,
-        register0 == registerToCompare
-      );
 
+    newExecuteState.aluOperation = {
+      operation: "EQUAL",
+      registerS: registers[0],
+      registerT: registers[this.registerCompareId],
+      registerSIndex: 0,
+      registerTIndex: this.registerCompareId,
+      destinationIndex: null,
+      result: register0 == registerToCompare,
+    };
+    newExecuteState.edgeAnimation = animationsAluData(
+      0,
+      parseInt(register0, 2).toString(16),
+      this.registerCompareId,
+      parseInt(registerToCompare, 2).toString(16),
+      null,
+      null //register0 == registerToCompare
+    );
+
+    if (register0 == registerToCompare) {
       newExecuteState.jumpInstruction = this.id;
       newExecuteState.instructionId = this.id + 1;
     } else {
