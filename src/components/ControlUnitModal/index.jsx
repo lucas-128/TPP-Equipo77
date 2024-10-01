@@ -27,7 +27,9 @@ import { useMemo } from "react";
 export const ControlUnitModal = () => {
   const dispatch = useDispatch();
   const showModal = useSelector((state) => state.modals.controlUnitZoom);
-  const decodeId = useSelector((state) => state.application.decode.instructionId);
+  const decodeId = useSelector(
+    (state) => state.application.decode.instructionId
+  );
   const instructionRegister = useSelector(
     (state) => state.application.decode.instructionRegister
   );

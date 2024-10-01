@@ -44,8 +44,8 @@ export const AluContainer = styled.div`
   border-radius: 5px;
   background: var(--im-primary);
   clip-path: polygon(0 0, 100% 29%, 100% 67%, 0 100%, 0% 69%, 24% 48%, 0 29%);
-  width: 550px;
-  height: 580px;
+  width: 500px;
+  height: 500px;
   display: flex;
   flex-direction: row;
   justify-content: end;
@@ -53,8 +53,6 @@ export const AluContainer = styled.div`
 `;
 
 export const ModalContainer = styled.div`
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: row;
   overflow: hidden;
@@ -158,7 +156,7 @@ export const StartBusContainer = styled.div`
   align-items: center;
   flex-direction: column;
   z-index: 1;
-  height: 580px;
+  height: 500px;
 `;
 
 export const EndBusContainer = styled.div`
@@ -167,7 +165,7 @@ export const EndBusContainer = styled.div`
   align-items: center;
   flex-direction: column;
   z-index: 1;
-  height: 580px;
+  height: 500px;
 
   ${Bus} {
     margin: 0px 0px 20px 0px;

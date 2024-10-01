@@ -29,13 +29,15 @@ export const ModalBoxSetup = styled.div`
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  margin: 0 auto;
+
   overflow-y: hidden;
   overflow-x: hidden;
   text-align: center;
   box-sizing: border-box;
   z-index: 1;
   animation: 0.7s ${fadeIn} forwards;
+  height: 100%;
+  padding: 20px 0;
 `;
 
 export const ControlUnitContainer = styled.div`
@@ -48,16 +50,17 @@ export const ControlUnitContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: end;
+  padding-bottom: 20px;
   align-items: center;
 `;
 
 export const ModalContainer = styled.div`
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: row;
   overflow: hidden;
   justify-content: center;
+  width: 100%;
+  height: 100%;
 `;
 
 export const ModalBg = styled.div`
@@ -117,7 +120,7 @@ export const AddrBus = styled(Bus)`
 `;
 
 export const DataBus = styled(Bus)`
-  background-color:  hsl(120, 10.769230769230772%, 74.50980392156863%);
+  background-color: hsl(120, 10.769230769230772%, 74.50980392156863%);
   color: var(--im-darkgray);
 `;
 
