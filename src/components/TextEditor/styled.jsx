@@ -62,3 +62,22 @@ export const HiddenEditorContainer = styled.div`
   padding: 2px;
   transition: all 0.15s;
 `;
+
+export const CustomHandle = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 2px;
+  height: 100%;
+  border-radius: 10px;
+  position: absolute;
+  right: 3px;
+  top: 0;
+  cursor: ew-resize;
+  z-index: 1;
+  &:hover,
+  &:active {
+    background-color: #008cff;
+  }
+`;

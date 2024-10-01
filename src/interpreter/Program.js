@@ -7,7 +7,7 @@ export default class Program {
   constructor(program, typeSimulation) {
     this.program = program;
     this.typeSimulation = typeSimulation;
-    if (!validateSyntax(program)) {
+    if (!validateSyntax(program).isValid) {
       return;
     }
     this.instructions = this.createInstructions();
@@ -63,13 +63,13 @@ export default class Program {
     if (value == null) return fallbackValue;
     return value === -1 ? null : value + 1;
   }
-  
+
   getNextColor(previousColor) {
     const colorMap = {
       "var(--im-pink)": "var(--im-green)",
       "var(--im-green)": "var(--im-blue)",
       "var(--im-blue)": "var(--im-yellow)",
-      "var(--im-yellow)": "var(--im-pink)"
+      "var(--im-yellow)": "var(--im-pink)",
     };
     return colorMap[previousColor] || "var(--im-blue)";
   }
@@ -112,7 +112,10 @@ export default class Program {
         ...oldState,
         fetch: {
           ...oldState.fetch,
-          instructionId: fetchInstructionId > this.instructions.length ? null : fetchInstructionId,
+          instructionId:
+            fetchInstructionId > this.instructions.length
+              ? null
+              : fetchInstructionId,
           instructionRegister: "-",
           address: null,
           edgeAnimation: [],
