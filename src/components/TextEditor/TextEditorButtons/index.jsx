@@ -18,7 +18,7 @@ import { setError } from "../../../slices/modalsSlice";
 import { INVALID_END_ERROR } from "../../../interpreter/constants";
 import { validateSyntax } from "../../../interpreter/main";
 
-export const TextEditorButtons = ({ text }) => {
+export const TextEditorButtons = ({ text, errorLine, setErrorLine }) => {
   const [program, setProgram] = useState(null);
   const isSimulating = useSelector((state) => state.application.isSimulating);
   const dispatch = useDispatch();
@@ -45,12 +45,8 @@ export const TextEditorButtons = ({ text }) => {
   };
 
   const isSyntaxValid = (code) => {
-    if (!validateSyntax(code)) {
-      dispatch(
-        setError(
-          "El código contiene errores de sintáxis, por favor modifíquelo e intente de nuevo"
-        )
-      );
+    if (!validateSyntax(code).isValid) {
+      setErrorLine(validateSyntax(code).errorLine);
       return false;
     }
     return true;

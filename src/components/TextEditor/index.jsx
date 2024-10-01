@@ -14,13 +14,20 @@ import {
   Button,
   HiddenEditorContainer,
   EditorHeaderText,
+  CustomHandle,
 } from "./styled";
 import { setShowEditor } from "../../slices/editorTextSlice";
 import { setError, setOpenInstructionsModal } from "../../slices/modalsSlice";
-import { EditorTest } from "./Editor";
+import { MonacoEditor } from "./Editor";
 import { BsQuestionCircleFill } from "react-icons/bs";
 
-export const TextEditor = ({ children, text, setText }) => {
+export const TextEditor = ({
+  children,
+  text,
+  setText,
+  errorLine,
+  setErrorLine,
+}) => {
   const dispatch = useDispatch();
 
   const isSimulating = useSelector((state) => state.application.isSimulating);
@@ -64,9 +71,12 @@ export const TextEditor = ({ children, text, setText }) => {
 
   return show ? (
     <Resizable
-      defaultSize={{ width: "300px", height: "100%" }}
+      defaultSize={{ width: 300, height: "100%" }}
       minWidth={250}
       maxWidth={800}
+      handleStyles={{
+        right: { background: "red", width: "0px" },
+      }}
       enable={{
         top: false,
         right: true,
@@ -76,6 +86,9 @@ export const TextEditor = ({ children, text, setText }) => {
         bottomRight: false,
         bottomLeft: false,
         topLeft: false,
+      }}
+      handleComponent={{
+        right: <CustomHandle></CustomHandle>,
       }}
     >
       <EditorWrapper>
@@ -116,8 +129,12 @@ export const TextEditor = ({ children, text, setText }) => {
             </Button>
           </EditorHeaderIconContainer>
         </EditorHeader>
-        <EditorTest editorValue={text} setEditorValue={setText} />
-
+        <MonacoEditor
+          editorValue={text}
+          setEditorValue={setText}
+          errorLine={errorLine}
+          setErrorLine={setErrorLine}
+        />
         {children}
       </EditorWrapper>
     </Resizable>
