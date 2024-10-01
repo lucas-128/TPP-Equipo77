@@ -45,7 +45,7 @@ export default class Branch extends Instruction {
       newExecuteState.jumpInstruction = this.id;
       newExecuteState.instructionId = this.id + 1;
     } else {
-      newFetchState.instructionId = this.id + 1;
+      newExecuteState.instructionId = this.id + 1;
     }
 
     return { ...oldState, fetch: newFetchState, execute: newExecuteState };
