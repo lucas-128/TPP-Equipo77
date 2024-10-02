@@ -13,6 +13,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { mainMemoryId } from "../../containers/SimulatorSection/components";
 import { setOpenMainMemoryModal } from "../../slices/modalsSlice";
+import { convertValue } from "../../interpreter/utils";
 
 export const MainMemory = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,10 @@ export const MainMemory = () => {
   const mainMemoryCells = useSelector(
     (state) => state.application.execute.mainMemoryCells
   );
+  const numericBase = useSelector((state) => state.application.numericBase);
+  const mainMemryCellsToShow = useMemo(() => {
+    return mainMemoryCells?.map((value) => convertValue(value, numericBase));
+  }, [numericBase, mainMemoryCells]);
 
   const rowsPerPage = 32;
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,11 +34,11 @@ export const MainMemory = () => {
   );
   const currentData = useMemo(
     () =>
-      mainMemoryCells.slice(
+      mainMemryCellsToShow.slice(
         (currentPage - 1) * rowsPerPage,
         currentPage * rowsPerPage
       ),
-    [mainMemoryCells, currentPage, rowsPerPage]
+    [mainMemryCellsToShow, currentPage, rowsPerPage]
   );
   const offset = useMemo(
     () => currentData.length * (currentPage - 1),

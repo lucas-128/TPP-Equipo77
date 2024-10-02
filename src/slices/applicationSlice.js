@@ -4,7 +4,11 @@ import {
   initialNodes,
 } from "../containers/SimulatorSection/components";
 import { addEdge, applyNodeChanges, applyEdgeChanges } from "reactflow";
-import { CACHE_SIZE, typeSimulations } from "../interpreter/constants";
+import {
+  CACHE_SIZE,
+  numericBaseType,
+  typeSimulations,
+} from "../interpreter/constants";
 
 // LOS VALORES SE GUARDAN EN HEXADECIMAL
 export const initialState = {
@@ -43,6 +47,7 @@ export const initialState = {
   edgeAnimation: [],
   isSimulating: false,
   typeSimulations: typeSimulations.SIMPLE,
+  numericBase: numericBaseType.HEXA,
 };
 
 export const applicationSlice = createSlice({
@@ -103,6 +108,9 @@ export const applicationSlice = createSlice({
     updateProgramCounter(state, action) {
       const { programCounter } = action.payload;
       state.execute.programCounter = programCounter;
+    },
+    updateNumericBase(state, action) {
+      state.numericBase = action.payload;
     },
     goToPreviousState(state) {
       if (!state.previousState) {
@@ -166,6 +174,7 @@ export const {
   updateTypeSimulation,
   setIsSimulating,
   goToFistState,
+  updateNumericBase,
 } = applicationSlice.actions;
 
 // Thunk para manejar la actualización del estado actual

@@ -1,4 +1,4 @@
-import { operationNames, CACHE_SIZE } from "./constants";
+import { operationNames, CACHE_SIZE, numericBaseType } from "./constants";
 import {
   aluRegistersId,
   registerAluBottomId,
@@ -162,4 +162,17 @@ export function toBinaryComplement(value) {
       .padStart(8, "0");
     return binaryCOmplement;
   }
+}
+
+export function convertValue(value, base) {
+  if (value == null || value == "-") {
+    return "-";
+  }
+  if (base == numericBaseType.HEXA) {
+    return toHexaPadStart(value);
+  }
+  if (base == numericBaseType.BINARY) {
+    return toBinaryComplement(value);
+  }
+  return value;
 }
