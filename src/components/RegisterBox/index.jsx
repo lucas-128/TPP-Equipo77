@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useState, useMemo } from "react";
 import { useSelector } from "react-redux";
 import {
   MainContainer,
@@ -11,10 +11,14 @@ import {
   RegisterValue,
 } from "./styled.jsx";
 import { registersId } from "../../containers/SimulatorSection/components.jsx";
-import { toBinaryComplement } from "../../interpreter/utils.js";
+import { convertValue } from "../../interpreter/utils";
 
 export const RegisterBox = ({ id, data }) => {
   const registers = useSelector((state) => state.application.execute.registers);
+  const numericBase = useSelector((state) => state.application.numericBase);
+  const registersToShow = useMemo(() => {
+    return registers?.map((value) => convertValue(value, numericBase));
+  }, [numericBase, registers]);
 
   return (
     <>
@@ -23,12 +27,10 @@ export const RegisterBox = ({ id, data }) => {
           <TitleText>Registros</TitleText>
         </TitleContainer>
         <RegistersContainer>
-          {registers.map((value, i) => (
+          {registersToShow.map((value, i) => (
             <RegisterContainer key={i}>
               <RegisterNumeration>{i.toString(16)}</RegisterNumeration>
-              <RegisterValue>
-                {value != null ? toBinaryComplement(value) : "-"}
-              </RegisterValue>
+              <RegisterValue>{value}</RegisterValue>
             </RegisterContainer>
           ))}
         </RegistersContainer>

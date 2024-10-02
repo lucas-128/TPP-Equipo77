@@ -6,8 +6,11 @@ import {
   HeaderCyclesColorReference,
 } from "./styled";
 import { useDispatch, useSelector } from "react-redux";
-import { updateTypeSimulation } from "../../slices/applicationSlice";
-import { typeSimulations } from "../../interpreter/constants";
+import {
+  updateNumericBase,
+  updateTypeSimulation,
+} from "../../slices/applicationSlice";
+import { numericBaseType, typeSimulations } from "../../interpreter/constants";
 import { useState, useMemo } from "react";
 import {
   fetchReference,
@@ -23,6 +26,7 @@ export const Header = () => {
   const typeSimulation = useSelector(
     (state) => state.application.typeSimulation
   );
+  const numericBase = useSelector((state) => state.application.numericBase);
   const isSimulating = useSelector((state) => state.application.isSimulating);
   const mainMemoryCells = useSelector(
     (state) => state.application.execute.mainMemoryCells
@@ -52,13 +56,18 @@ export const Header = () => {
     return firstHalf + secondHalf;
   }, [executeId]);
 
-  const handleSelectChange = (e) => {
+  const handleExecutionSelectChange = (e) => {
     const selected = e.target.value;
     selected == typeSimulations.PIPELINING
       ? setIsPipelining(true)
       : setIsPipelining(false);
     selected == typeSimulations.CYCLES ? setIsCycles(true) : setIsCycles(false);
     dispatch(updateTypeSimulation(selected));
+  };
+
+  const handleNumericBaseSelectChange = (e) => {
+    const selected = e.target.value;
+    dispatch(updateNumericBase(selected));
   };
 
   return (
@@ -80,21 +89,35 @@ export const Header = () => {
           )}
         </HeaderCyclesColorReference>
       )}
-      <HeaderSelect
-        value={typeSimulation}
-        disabled={isSimulating}
-        onChange={(e) => handleSelectChange(e)}
-      >
-        <HeaderOption value={typeSimulations.SIMPLE}>
-          Ejecución simple
-        </HeaderOption>
-        <HeaderOption value={typeSimulations.CYCLES}>
-          Ejecución por ciclos
-        </HeaderOption>
-        <HeaderOption value={typeSimulations.PIPELINING}>
-          Ejecución con pipelining
-        </HeaderOption>
-      </HeaderSelect>
+      <div className="row">
+        <HeaderSelect
+          value={numericBase}
+          onChange={(e) => handleNumericBaseSelectChange(e)}
+        >
+          <HeaderOption value={numericBaseType.BINARY}>
+            Base binaria
+          </HeaderOption>
+          <HeaderOption value={numericBaseType.HEXA}>
+            Base hexadecimal
+          </HeaderOption>
+        </HeaderSelect>
+
+        <HeaderSelect
+          value={typeSimulation}
+          disabled={isSimulating}
+          onChange={(e) => handleExecutionSelectChange(e)}
+        >
+          <HeaderOption value={typeSimulations.SIMPLE}>
+            Ejecución simple
+          </HeaderOption>
+          <HeaderOption value={typeSimulations.CYCLES}>
+            Ejecución por ciclos
+          </HeaderOption>
+          <HeaderOption value={typeSimulations.PIPELINING}>
+            Ejecución con pipelining
+          </HeaderOption>
+        </HeaderSelect>
+      </div>
     </HeaderContainer>
   );
 };
