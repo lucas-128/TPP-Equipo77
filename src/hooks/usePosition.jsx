@@ -92,7 +92,7 @@ export const usePosition = ({
         };
       case registersControlUnitId:
         return {
-          sourceX: sourceComponent.position.x,
+          sourceX: sourceComponent.position.x + 10,
           sourceY: sourceComponent.height / 3.1,
           targetX: targetComponent.position.x,
           targetY: sourceComponent.height / 3.1,
