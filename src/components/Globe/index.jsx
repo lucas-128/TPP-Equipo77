@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Container, Content, Title } from "./styled";
+import { Container, Content, Title, NoWrapContainer } from "./styled";
 
 export const Globe = ({ id, arrowPosition, children, title, color }) => {
   const directionArrow = {
@@ -13,7 +13,7 @@ export const Globe = ({ id, arrowPosition, children, title, color }) => {
     <Container key={id + "_globe"} $direction={directionArrow[arrowPosition]}>
       <Content>
         <Title $color={color || "var(--im-darkgray)"}>{title}</Title>
-        {children}
+        <NoWrapContainer>{children}</NoWrapContainer>
       </Content>
     </Container>
   );

@@ -49,6 +49,14 @@ export const Title = styled.div`
   color: ${(props) => props.$color};
 `;
 
+export const NoWrapContainer = styled.div`
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`;
+
 // export const CloseButton = styled(CgClose)`
 //   width: 10px;
 //   padding-top: 6px;
