@@ -24,8 +24,6 @@ export function applyBinaryOperation(instruction, operation, actualState) {
     .toString(16)
     .toUpperCase();
 
-  console.log(operationNames[instruction.type]);
-
   newState.aluOperation = {
     operation: operationNames[instruction.type],
     registerS: actualState.registers[instruction.registerSIndex],
@@ -139,7 +137,8 @@ export function toHexa(value) {
 }
 
 export function toHexaPadStart(value) {
-  return value.toString(16).toUpperCase().padStart(2, "0");
+  const res = value.toString(16).toUpperCase();
+  return res;
 }
 
 export function toBinary(value) {

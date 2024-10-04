@@ -15,27 +15,24 @@ import { toHexaPadStart } from "../../../interpreter/utils";
 import { textAddressTitle, textDataTitle } from "../utils";
 
 export const RegistersToALUBus = ({ id, data }) => {
-
   const typeSimulation = useSelector(
     (state) => state.application.typeSimulations
   );
-
+  const color = useSelector((state) => state.application.execute.color);
 
   const animations = useSelector(
     (state) => state.application.execute.edgeAnimation
   );
 
-  const color = useSelector((state) => state.application.execute.color);
+  const animationDataTop = useMemo(() => {
+    const data = animations.find((anim) => anim.id === registerAluTopId);
+    return data;
+  }, [animations, registerAluTopId]);
 
-  const animationDataTop = useMemo(
-    () => animations.find((anim) => anim.id === registerAluTopId),
-    [animations, registerAluTopId]
-  );
-
-  const animationDataBottom = useMemo(
-    () => animations.find((anim) => anim.id === registerAluBottomId),
-    [animations, registerAluBottomId]
-  );
+  const animationDataBottom = useMemo(() => {
+    const data = animations.find((anim) => anim.id === registerAluBottomId);
+    return data;
+  }, [animations, registerAluBottomId]);
 
   const edgeAnimationAluTop = !!animationDataTop;
   const edgeAnimationAluBottom = !!animationDataBottom;
@@ -121,11 +118,17 @@ export const RegistersToALUBus = ({ id, data }) => {
             {edgeAnimationAluTop && (
               <Globe arrowPosition={"bottom"} color={color}>
                 <div className="row">
-                  <Title $color={color}>{textAddressTitle("Dirección (execute)", typeSimulation)}</Title>
-                  {animationDataTop?.address}
+                  <Title $color={color}>
+                    {textAddressTitle("Dirección (execute)", typeSimulation)}
+                  </Title>
+                  {parseInt(animationDataTop.address, 10)
+                    .toString(16)
+                    .toUpperCase()}
                 </div>
                 <div className="row">
-                  <Title $color={color}>{textDataTitle("Datos (execute)", typeSimulation)}</Title>
+                  <Title $color={color}>
+                    {textDataTitle("Datos (execute)", typeSimulation)}
+                  </Title>
                   {animationDataTop?.data}
                 </div>
               </Globe>
@@ -144,7 +147,9 @@ export const RegistersToALUBus = ({ id, data }) => {
               <Globe arrowPosition={"top"} color={color}>
                 <div className="row">
                   <Title $color={color}>Dirección</Title>
-                  {toHexaPadStart(animationDataBottom?.address)}
+                  {parseInt(animationDataBottom.address, 10)
+                    .toString(16)
+                    .toUpperCase()}
                 </div>
                 <div className="row">
                   <Title $color={color}>Datos</Title>

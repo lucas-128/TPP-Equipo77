@@ -15,7 +15,9 @@ import { textAddressTitle } from "../utils";
 
 export const ControlToMainMemAddrBus = ({ id }) => {
   const [animateInterminently, setAnimateInterminently] = useState(false);
-  const typeSimulation = useSelector((state) => state.application.typeSimulations);
+  const typeSimulation = useSelector(
+    (state) => state.application.typeSimulations
+  );
 
   const animations = useSelector(
     (state) => state.application.fetch.edgeAnimation
@@ -81,7 +83,10 @@ export const ControlToMainMemAddrBus = ({ id }) => {
               title={textAddressTitle("Dirección (fetch)", typeSimulation)}
               color={fetchColor}
             >
-              {toHexaPadStart(animationDataFetch.address)}
+              {parseInt(animationDataFetch.address, 10)
+                .toString(16)
+                .toUpperCase()
+                .padStart(2, "0")}
             </Globe>
           )}
           {animationExecute && (
@@ -90,7 +95,10 @@ export const ControlToMainMemAddrBus = ({ id }) => {
               title={textAddressTitle("Dirección (execute)", typeSimulation)}
               color={executeColor}
             >
-              {toHexaPadStart(animationDataExecute.address)}
+              {parseInt(animationDataExecute.address, 10)
+                .toString(16)
+                .toUpperCase()
+                .padStart(2, "0")}
             </Globe>
           )}
           {animationBoth && (
@@ -100,14 +108,20 @@ export const ControlToMainMemAddrBus = ({ id }) => {
                 title={"Dirección (fetch)"}
                 color={fetchColor}
               >
-                {toHexaPadStart(animationDataFetch.address)}
+                {parseInt(animationDataFetch.address, 10)
+                  .toString(16)
+                  .toUpperCase()
+                  .padStart(2, "0")}
               </Globe>
               <Globe
                 arrowPosition={"top"}
                 title={"Dirección (execute)"}
                 color={executeColor}
               >
-                {toHexaPadStart(animationDataExecute.address)}
+                {parseInt(animationDataExecute.address, 10)
+                  .toString(16)
+                  .toUpperCase()
+                  .padStart(2, "0")}
               </Globe>
             </div>
           )}

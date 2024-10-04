@@ -62,7 +62,9 @@ export const RegistersToUCBus = ({ id }) => {
                 <Title $color={color}>
                   {textAddressTitle("Dirección (execute)", typeSimulation)}
                 </Title>
-                {toHexaPadStart(animationData?.address)}
+                {parseInt(animationData?.address, 10)
+                  .toString(16)
+                  .toUpperCase()}
               </div>
               <div className="row">
                 <Title $color={color}>

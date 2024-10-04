@@ -59,7 +59,10 @@ export const ALUToRegistersBus = ({ id }) => {
             <Globe arrowPosition={"bottom"} color={color}>
               <div className="row">
                 <Title $color={color}>Dirección</Title>
-                {animationData?.address}
+
+                {parseInt(animationData?.address, 10)
+                  .toString(16)
+                  .toUpperCase()}
               </div>
               <div className="row">
                 <Title $color={color}>Datos</Title>
