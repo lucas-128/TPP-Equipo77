@@ -35,6 +35,8 @@ export const initialState = {
     aluOperation: null,
     edgeAnimation: [],
     showInputPort: false,
+    showOverflowErrorModal: false,
+    errorLine: null,
     registerToUpdate: null,
     endProgram: false,
     color: "var(--im-green)",
@@ -61,16 +63,10 @@ export const applicationSlice = createSlice({
       state.edges = action.payload;
     },
     onNodesChange(state, action) {
-      state.nodes = applyNodeChanges(
-        action.payload,
-        state.nodes
-      );
+      state.nodes = applyNodeChanges(action.payload, state.nodes);
     },
     onEdgesChange(state, action) {
-      state.edges = applyEdgeChanges(
-        action.payload,
-        state.edges
-      );
+      state.edges = applyEdgeChanges(action.payload, state.edges);
     },
     onConnect(state, action) {
       state.edges = addEdge(action.payload, state.edges);
@@ -100,6 +96,12 @@ export const applicationSlice = createSlice({
     },
     setShowInputPort(state, action) {
       state.execute.showInputPort = action.payload;
+    },
+    setShowOverflowErrorModal(state, action) {
+      state.execute.showOverflowErrorModal = action.payload;
+    },
+    setErrorLine(state, action) {
+      state.execute.errorLine = action.payload;
     },
     updateInstructionRegister(state, action) {
       const { instructionRegister } = action.payload;
@@ -170,6 +172,8 @@ export const {
   updatePreviousState,
   clearApplication,
   setShowInputPort,
+  setShowOverflowErrorModal,
+  setErrorLine,
   updateMainMemoryCells,
   updateTypeSimulation,
   setIsSimulating,
