@@ -21,13 +21,7 @@ import { setError, setOpenInstructionsModal } from "../../slices/modalsSlice";
 import { MonacoEditor } from "./Editor";
 import { BsQuestionCircleFill } from "react-icons/bs";
 
-export const TextEditor = ({
-  children,
-  text,
-  setText,
-  errorLine,
-  setErrorLine,
-}) => {
+export const TextEditor = ({ children, text, setText }) => {
   const dispatch = useDispatch();
 
   const isSimulating = useSelector((state) => state.application.isSimulating);
@@ -129,12 +123,7 @@ export const TextEditor = ({
             </Button>
           </EditorHeaderIconContainer>
         </EditorHeader>
-        <MonacoEditor
-          editorValue={text}
-          setEditorValue={setText}
-          errorLine={errorLine}
-          setErrorLine={setErrorLine}
-        />
+        <MonacoEditor editorValue={text} setEditorValue={setText} />
         {children}
       </EditorWrapper>
     </Resizable>

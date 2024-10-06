@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container } from "./styled";
 import { FaBackward, FaForward } from "react-icons/fa6";
 import { useSelector, useDispatch } from "react-redux";
@@ -17,8 +17,9 @@ import Program from "../../../interpreter/Program";
 import { setError } from "../../../slices/modalsSlice";
 import { INVALID_END_ERROR } from "../../../interpreter/constants";
 import { validateSyntax } from "../../../interpreter/main";
+import { setErrorLine } from "../../../slices/applicationSlice";
 
-export const TextEditorButtons = ({ text, errorLine, setErrorLine }) => {
+export const TextEditorButtons = ({ text }) => {
   const [program, setProgram] = useState(null);
   const isSimulating = useSelector((state) => state.application.isSimulating);
   const dispatch = useDispatch();
@@ -46,7 +47,7 @@ export const TextEditorButtons = ({ text, errorLine, setErrorLine }) => {
 
   const isSyntaxValid = (code) => {
     if (!validateSyntax(code).isValid) {
-      setErrorLine(validateSyntax(code).errorLine);
+      dispatch(setErrorLine(validateSyntax(code).errorLine));
       return false;
     }
     return true;
@@ -73,13 +74,15 @@ export const TextEditorButtons = ({ text, errorLine, setErrorLine }) => {
       },
       execute: { ...applicationState.execute, mainMemoryCells: memory },
     });
+    if (newState.execute.errorLine) {
+      dispatch(setIsSimulating(false));
+    }
     dispatch(updateCurrentState(newState));
   };
 
   const handleSimulateButtonClick = () => {
     if (!isSyntaxValid(text)) return;
     if (!isCodeLengthValid(text)) return;
-
     dispatch(clearApplication());
     const newMemory = getProgramInMemory();
     const newProgram = new Program(text, applicationState.typeSimulations);
@@ -92,7 +95,7 @@ export const TextEditorButtons = ({ text, errorLine, setErrorLine }) => {
   };
 
   const handleEditCodeButtonClick = () => {
-    dispatch(setIsSimulating(!isSimulating));
+    dispatch(setIsSimulating(false));
     dispatch(clearApplication());
   };
 
@@ -106,6 +109,7 @@ export const TextEditorButtons = ({ text, errorLine, setErrorLine }) => {
       dispatch(clearApplication());
       return;
     }
+
     if (applicationState.execute.jumpInstruction) {
       const newState = program.makeJumpBranch(
         applicationState,
@@ -115,8 +119,12 @@ export const TextEditorButtons = ({ text, errorLine, setErrorLine }) => {
       dispatch(updateCurrentState(program.getNewState(newState)));
       return;
     }
+    const newState = program.getNewState(applicationState);
+    if (newState.execute.errorLine) {
+      dispatch(setIsSimulating(false));
+    }
     dispatch(updatePreviousState());
-    dispatch(updateCurrentState(program.getNewState(applicationState)));
+    dispatch(updateCurrentState(newState));
   };
 
   const setLastLine = () => {
