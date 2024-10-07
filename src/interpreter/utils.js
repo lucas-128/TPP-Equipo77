@@ -15,10 +15,16 @@ export function applyBinaryOperation(instruction, operation, actualState) {
   const registerT = toBinaryComplement(
     actualState.registers[instruction.registerTIndex]
   );
+  const operationResult = operation(registerS, registerT);
+  if (operationResult === null) {
+    newState.registers[instruction.destinationIndex] = null;
+    return newState;
+  }
 
-  const operationResult = operation(registerS, registerT).toString(2);
-
-  const paddedOperationResult = operationResult.slice(0, 8).padStart(8, "0");
+  const paddedOperationResult = operationResult
+    .toString(2)
+    .slice(0, 8)
+    .padStart(8, "0");
 
   const hexValue = parseInt(paddedOperationResult, 2)
     .toString(16)
@@ -156,10 +162,10 @@ export function toBinaryComplement(value) {
       .split("")
       .map((bit) => (bit === "0" ? "1" : "0"))
       .join("");
-    const binaryCOmplement = (parseInt(invertedBinary, 2) + 1)
+    const binaryComplement = (parseInt(invertedBinary, 2) + 1)
       .toString(2)
       .padStart(8, "0");
-    return binaryCOmplement;
+    return binaryComplement;
   }
 }
 

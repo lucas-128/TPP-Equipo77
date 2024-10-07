@@ -3,25 +3,18 @@ import Editor from "@monaco-editor/react";
 import { useSelector } from "react-redux";
 import "./index.css";
 import { typeSimulations } from "../../../interpreter/constants";
+import { setErrorLine } from "../../../slices/applicationSlice";
+import { useDispatch } from "react-redux";
 
-export const MonacoEditor = ({
-  setEditorValue,
-  editorValue,
-  errorLine,
-  setErrorLine,
-}) => {
+export const MonacoEditor = ({ setEditorValue, editorValue }) => {
   const editorRef = useRef(null);
   const [decorations, setDecorations] = useState([]);
-
+  const dispatch = useDispatch();
+  const errorLine = useSelector((state) => state.application.execute.errorLine);
   const handleEditorChange = (value) => {
-    if (errorLine) setErrorLine(null);
+    if (errorLine) dispatch(setErrorLine(null));
     if (decorations.length > 0) updateDecorations([]);
     setEditorValue(value);
-  };
-
-  const handleEditorDidMount = (editor, monaco) => {
-    editorRef.current = editor;
-    updateDecorations();
   };
 
   const fetchInstructionId = useSelector(
@@ -59,6 +52,11 @@ export const MonacoEditor = ({
     "var(--im-pink)": "pink",
     "var(--im-yellow)": "yellow",
     "var(--im-blue)": "blue",
+  };
+
+  const handleEditorDidMount = (editor, monaco) => {
+    editorRef.current = editor;
+    updateDecorations();
   };
 
   const fetchLine = useMemo(() => {
@@ -121,7 +119,7 @@ export const MonacoEditor = ({
       setDecorations(
         editorRef.current.deltaDecorations(decorations, [
           {
-            range: new monaco.Range(errorLine, 1, errorLine, 1),
+            range: new monaco.Range(errorLine + 1, 1, errorLine + 1, 1),
             options: {
               isWholeLine: true,
               className: "line-error-highlight",
@@ -130,8 +128,12 @@ export const MonacoEditor = ({
           },
         ])
       );
+    } else if (!isSimulating) {
+      if (decorations.length > 0) {
+        setDecorations(editorRef.current.deltaDecorations(decorations, []));
+      }
     }
-  }, [errorLine]);
+  }, [errorLine, isSimulating]);
 
   const updateDecorations = () => {
     if (!editorRef.current) return;
@@ -139,15 +141,21 @@ export const MonacoEditor = ({
     addLineDecoration(fetchLine, newDecoration);
     addLineDecoration(decodeLine, newDecoration);
     addLineDecoration(executeLine, newDecoration);
-
+    if (!isSimulating) return;
     setDecorations(
       editorRef.current.deltaDecorations(decorations, newDecoration)
     );
   };
 
   useEffect(() => {
+    if (!isSimulating) return;
     updateDecorations();
-  }, [fetchInstructionId, decodeInstructionId, executeInstructionId]);
+  }, [
+    fetchInstructionId,
+    decodeInstructionId,
+    executeInstructionId,
+    isSimulating,
+  ]);
 
   return (
     <Editor
