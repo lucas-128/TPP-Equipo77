@@ -35,8 +35,6 @@ export const AluModal = () => {
   const result = (aluOperation?.result ?? 0).toString().padStart(8, "0");
   const firstEightBits = result.slice(0, 8);
 
-  console.log(aluOperation);
-
   const registerSbits = toBinaryComplement(aluOperation?.registerS ?? "0");
 
   const registerTbits = toBinaryComplement(aluOperation?.registerT ?? "0");
