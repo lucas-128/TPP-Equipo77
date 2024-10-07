@@ -54,6 +54,11 @@ export const MonacoEditor = ({ setEditorValue, editorValue }) => {
     "var(--im-blue)": "blue",
   };
 
+  const handleEditorDidMount = (editor, monaco) => {
+    editorRef.current = editor;
+    updateDecorations();
+  };
+
   const fetchLine = useMemo(() => {
     if (fetchInstructionId === null) return null;
     return {
@@ -145,7 +150,12 @@ export const MonacoEditor = ({ setEditorValue, editorValue }) => {
   useEffect(() => {
     if (!isSimulating) return;
     updateDecorations();
-  }, [fetchInstructionId, decodeInstructionId, executeInstructionId]);
+  }, [
+    fetchInstructionId,
+    decodeInstructionId,
+    executeInstructionId,
+    isSimulating,
+  ]);
 
   return (
     <Editor

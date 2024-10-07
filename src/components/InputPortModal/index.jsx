@@ -15,6 +15,7 @@ import {
   Text,
 } from "./styled";
 import { Button } from "../Button";
+import { toHexa } from "../../interpreter/utils";
 
 export const InputPortModal = () => {
   const dispatch = useDispatch();
@@ -47,6 +48,7 @@ export const InputPortModal = () => {
   const errorMessages = {
     empty: "El valor no puede estar vacío",
     outOfRange: "El valor debe estar entre -128 y 127",
+    outOfRangeHexa: "El valor debe estar entre 0 y FF",
     containsLetters: "El valor no puede contener letras",
     invalidBinary: "El valor solo puede contener unos y ceros",
     invalidBitLength: "El valor debe tener exactamente 8 bits",
@@ -80,13 +82,13 @@ export const InputPortModal = () => {
   };
 
   const isValidHex = (value) => {
-    if (!/^[0-9A-Fa-f]{1,2}$/.test(value)) {
+    if (!/^[0-9A-Fa-f]+$/.test(value)) {
       setError(errorMessages.invalidHex);
       return false;
     }
     const hexValue = parseInt(value, 16);
-    if (hexValue < -128 || hexValue > 127) {
-      setError(errorMessages.outOfRange);
+    if (hexValue < 0 || hexValue > 255) {
+      setError(errorMessages.outOfRangeHexa);
       return false;
     }
     return true;
@@ -119,7 +121,9 @@ export const InputPortModal = () => {
 
   const getHexaValue = () => {
     if (numericBase === "decimal") {
-      return parseInt(inputValue).toString(16).toUpperCase();
+      return parseInt(inputValue) < 0
+        ? toHexa(255 + parseInt(inputValue))
+        : parseInt(inputValue).toString(16).toUpperCase();
     } else if (numericBase === "binario") {
       return parseInt(inputValue, 2).toString(16).toUpperCase();
     } else if (numericBase === "hexa") {

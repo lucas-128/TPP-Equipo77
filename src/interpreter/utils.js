@@ -163,10 +163,10 @@ export function toBinaryComplement(value) {
       .split("")
       .map((bit) => (bit === "0" ? "1" : "0"))
       .join("");
-    const binaryCOmplement = (parseInt(invertedBinary, 2) + 1)
+    const binaryComplement = (parseInt(invertedBinary, 2) + 1)
       .toString(2)
       .padStart(8, "0");
-    return binaryCOmplement;
+    return binaryComplement;
   }
 }
 
