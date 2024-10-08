@@ -7,6 +7,7 @@ import { HelpButton } from "../../components/HelpButton";
 import { ErrorModal } from "../../components/ErrorModal";
 import { InputPortModal } from "../../components/InputPortModal";
 import { OverflowErrorModal } from "../../components/OverflowErrorModal";
+import { OutputPortModal } from "../../components/OutputPortModal";
 
 export const App = () => {
   return (
@@ -20,6 +21,7 @@ export const App = () => {
       <ErrorModal />
       <InputPortModal />
       <OverflowErrorModal />
+      <OutputPortModal />
     </MainContainer>
   );
 };
