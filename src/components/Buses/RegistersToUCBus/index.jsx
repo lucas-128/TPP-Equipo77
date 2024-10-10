@@ -10,7 +10,7 @@ import { useMemo } from "react";
 import { BusAnimation } from "../BusAnimation";
 import { Globe } from "../../Globe";
 import { Title } from "./styled";
-import { toHexaPadStart } from "../../../interpreter/utils";
+import { convertValue, toHexaPadStart } from "../../../interpreter/utils";
 import { textAddressTitle, textDataTitle } from "../utils";
 
 export const RegistersToUCBus = ({ id }) => {
@@ -24,10 +24,16 @@ export const RegistersToUCBus = ({ id }) => {
 
   const color = useSelector((state) => state.application.execute.color);
 
+  const numericBase = useSelector((state) => state.application.numericBase);
+
   const animationData = useMemo(
     () => animations.find((anim) => anim.id === registersControlUnitId),
     [animations, registersControlUnitId]
   );
+
+  const animationDataToShow = useMemo(() => {
+    return convertValue(animationData?.data, numericBase);
+  }, [animationData, numericBase]);
 
   const edgeAnimation = !!animationData;
 
@@ -70,7 +76,7 @@ export const RegistersToUCBus = ({ id }) => {
                 <Title $color={color}>
                   {textDataTitle("Datos (execute)", typeSimulation)}
                 </Title>
-                {animationData?.data}
+                {animationDataToShow}
               </div>
             </Globe>
           )}
