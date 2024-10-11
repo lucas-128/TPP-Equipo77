@@ -62,6 +62,7 @@ export default class Branch extends Instruction {
     if (typeSimulation === typeSimulations.PIPELINING) {
       newDecodeState.edgeAnimation = [];
       newExecuteState.edgeAnimation = [];
+      newDecodeState.instructionRegister = "-";
       newDecodeState.instructionId = -1;
       newExecuteState.instructionId = -1;
       newFetchState.instructionId =

@@ -60,7 +60,7 @@ export const MonacoEditor = ({ setEditorValue, editorValue }) => {
   };
 
   const fetchLine = useMemo(() => {
-    if (fetchInstructionId === null) return null;
+    if (fetchInstructionId === null || fetchInstructionId === -1) return null;
     return {
       number: fetchInstructionId + 1,
       color: colorMapper[fetchInstructionColor],

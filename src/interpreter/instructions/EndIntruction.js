@@ -16,6 +16,7 @@ export default class End extends Instruction {
     const newExecuteState = { ...oldState.execute };
     newExecuteState.instructionId = this.id + 1;
     newExecuteState.endProgram = true;
+    newExecuteState.edgeAnimation = [];
     return { ...oldState, execute: newExecuteState };
   }
 

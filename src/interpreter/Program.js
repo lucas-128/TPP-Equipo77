@@ -113,8 +113,8 @@ export default class Program {
         fetch: {
           ...oldState.fetch,
           instructionId:
-            fetchInstructionId > this.instructions.length
-              ? null
+            fetchInstructionId >= this.instructions.length
+              ? -1
               : fetchInstructionId,
           instructionRegister: "-",
           address: null,
@@ -132,7 +132,7 @@ export default class Program {
     } else {
       newDecodeState = {
         ...oldState,
-        decode: { ...oldState.decode, instructionId: null },
+        decode: { ...oldState.decode, instructionId: null},
       };
     }
 
@@ -141,20 +141,20 @@ export default class Program {
       newFetchState.execute.cacheMemoryCells
     );
 
-    console.log("lo que devuelvo es ", {
-      ...oldState,
-      fetch: {
-        ...newFetchState.fetch,
-        color: this.getNextColor(oldState.fetch.color),
-      },
-      decode: { ...newDecodeState.decode, color: oldState.fetch.color },
-      execute: {
-        ...newExecuteState.execute,
-        instructionId: executeInstructionId,
-        color: oldState.decode.color,
-        cacheMemoryCells: newCacheMemoryCells,
-      },
-    });
+    // console.log("lo que devuelvo es ", {
+    //   ...oldState,
+    //   fetch: {
+    //     ...newFetchState.fetch,
+    //     color: this.getNextColor(oldState.fetch.color),
+    //   },
+    //   decode: { ...newDecodeState.decode, color: oldState.fetch.color },
+    //   execute: {
+    //     ...newExecuteState.execute,
+    //     instructionId: executeInstructionId,
+    //     color: oldState.decode.color,
+    //     cacheMemoryCells: newCacheMemoryCells,
+    //   },
+    // });
 
     return {
       ...oldState,
@@ -178,6 +178,8 @@ export default class Program {
     }
     const actualInstruction =
       this.instructions[this.getCurrentInstructionId(oldState)];
+      console.log("actualInstruction", actualInstruction);
+
     const newState = actualInstruction.nextStep(oldState, this.typeSimulation);
     return newState;
   }

@@ -47,7 +47,6 @@ export const initialState = {
   aluOperation: null,
   nodes: initialNodes,
   edges: initialEdges,
-  edgeAnimation: [],
   isSimulating: false,
   typeSimulations: typeSimulations.SIMPLE,
   numericBase: numericBaseType.HEXA,
