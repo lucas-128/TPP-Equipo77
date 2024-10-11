@@ -3,23 +3,20 @@ import Editor from "@monaco-editor/react";
 import { useSelector } from "react-redux";
 import "./index.css";
 import { typeSimulations } from "../../../interpreter/constants";
+import { setErrorLine } from "../../../slices/applicationSlice";
+import { useDispatch } from "react-redux";
 
-export const EditorTest = ({ setEditorValue, editorValue }) => {
+export const MonacoEditor = ({ setEditorValue, editorValue }) => {
   const editorRef = useRef(null);
   const [decorations, setDecorations] = useState([]);
-
+  const dispatch = useDispatch();
+  const errorLine = useSelector((state) => state.application.execute.errorLine);
   const handleEditorChange = (value) => {
+    if (errorLine) dispatch(setErrorLine(null));
+    if (decorations.length > 0) updateDecorations([]);
     setEditorValue(value);
   };
 
-  const handleEditorDidMount = (editor, monaco) => {
-    editorRef.current = editor;
-    updateDecorations();
-  };
-
-  //Tomar los ids y ver cual no es null para ver cual no es null
-
-  //Pipelining traer los ids de los 3 y los colores
   const fetchInstructionId = useSelector(
     (state) => state.application.fetch.instructionId
   );
@@ -57,8 +54,13 @@ export const EditorTest = ({ setEditorValue, editorValue }) => {
     "var(--im-blue)": "blue",
   };
 
+  const handleEditorDidMount = (editor, monaco) => {
+    editorRef.current = editor;
+    updateDecorations();
+  };
+
   const fetchLine = useMemo(() => {
-    if (fetchInstructionId === null) return null;
+    if (fetchInstructionId === null || fetchInstructionId === -1) return null;
     return {
       number: fetchInstructionId + 1,
       color: colorMapper[fetchInstructionColor],
@@ -76,7 +78,8 @@ export const EditorTest = ({ setEditorValue, editorValue }) => {
   }, [decodeInstructionId, decodeInstructionColor]);
 
   const executeLine = useMemo(() => {
-    if (executeInstructionId === null || executeInstructionId === -1) return null;
+    if (executeInstructionId === null || executeInstructionId === -1)
+      return null;
     const executeLine = {
       number:
         actualTypeSimulation === typeSimulations.PIPELINING
@@ -95,7 +98,7 @@ export const EditorTest = ({ setEditorValue, editorValue }) => {
     lineNumbersMinChars: 3,
     lineDecorationsWidth: "0px",
     minimap: { enabled: false },
-    glyphMargin: isSimulating,
+    glyphMargin: isSimulating || errorLine !== null,
     readOnly: isSimulating,
   };
 
@@ -111,32 +114,57 @@ export const EditorTest = ({ setEditorValue, editorValue }) => {
     }
   };
 
+  useEffect(() => {
+    if (errorLine && !isSimulating) {
+      setDecorations(
+        editorRef.current.deltaDecorations(decorations, [
+          {
+            range: new monaco.Range(errorLine + 1, 1, errorLine + 1, 1),
+            options: {
+              isWholeLine: true,
+              className: "line-error-highlight",
+              glyphMarginClassName: `fa fa-solid fa-times fa-xs glyph-margin-color-red glyph-margin`,
+            },
+          },
+        ])
+      );
+    } else if (!isSimulating) {
+      if (decorations.length > 0) {
+        setDecorations(editorRef.current.deltaDecorations(decorations, []));
+      }
+    }
+  }, [errorLine, isSimulating]);
+
   const updateDecorations = () => {
     if (!editorRef.current) return;
     let newDecoration = [];
     addLineDecoration(fetchLine, newDecoration);
     addLineDecoration(decodeLine, newDecoration);
     addLineDecoration(executeLine, newDecoration);
-
+    if (!isSimulating) return;
     setDecorations(
       editorRef.current.deltaDecorations(decorations, newDecoration)
     );
   };
 
   useEffect(() => {
+    if (!isSimulating) return;
     updateDecorations();
-  }, [fetchInstructionId, decodeInstructionId, executeInstructionId]);
+  }, [
+    fetchInstructionId,
+    decodeInstructionId,
+    executeInstructionId,
+    isSimulating,
+  ]);
 
   return (
-    <>
-      <Editor
-        height="100%"
-        theme="vs-dark"
-        value={editorValue}
-        onChange={handleEditorChange}
-        options={options}
-        onMount={handleEditorDidMount}
-      />
-    </>
+    <Editor
+      height="100%"
+      theme="vs-dark"
+      value={editorValue}
+      onChange={handleEditorChange}
+      options={options}
+      onMount={handleEditorDidMount}
+    />
   );
 };

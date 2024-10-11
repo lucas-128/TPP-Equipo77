@@ -1,4 +1,4 @@
-import { operationNames, CACHE_SIZE } from "./constants";
+import { operationNames, CACHE_SIZE, numericBaseType } from "./constants";
 import {
   aluRegistersId,
   registerAluBottomId,
@@ -15,16 +15,20 @@ export function applyBinaryOperation(instruction, operation, actualState) {
   const registerT = toBinaryComplement(
     actualState.registers[instruction.registerTIndex]
   );
+  const operationResult = operation(registerS, registerT);
+  if (operationResult === null) {
+    newState.registers[instruction.destinationIndex] = null;
+    return newState;
+  }
 
-  const operationResult = operation(registerS, registerT).toString(2);
-
-  const paddedOperationResult = operationResult.slice(0, 8).padStart(8, "0");
+  const paddedOperationResult = operationResult
+    .toString(2)
+    .slice(0, 8)
+    .padStart(8, "0");
 
   const hexValue = parseInt(paddedOperationResult, 2)
     .toString(16)
     .toUpperCase();
-
-  console.log(operationNames[instruction.type]);
 
   newState.aluOperation = {
     operation: operationNames[instruction.type],
@@ -139,7 +143,8 @@ export function toHexa(value) {
 }
 
 export function toHexaPadStart(value) {
-  return value.toString(16).toUpperCase().padStart(2, "0");
+  const res = value.toString(16).toUpperCase();
+  return res;
 }
 
 export function toBinary(value) {
@@ -157,9 +162,22 @@ export function toBinaryComplement(value) {
       .split("")
       .map((bit) => (bit === "0" ? "1" : "0"))
       .join("");
-    const binaryCOmplement = (parseInt(invertedBinary, 2) + 1)
+    const binaryComplement = (parseInt(invertedBinary, 2) + 1)
       .toString(2)
       .padStart(8, "0");
-    return binaryCOmplement;
+    return binaryComplement;
   }
+}
+
+export function convertValue(value, base) {
+  if (value == null || value == "-") {
+    return "-";
+  }
+  if (base == numericBaseType.HEXA) {
+    return toHexaPadStart(value);
+  }
+  if (base == numericBaseType.BINARY) {
+    return toBinaryComplement(value);
+  }
+  return value;
 }

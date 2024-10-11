@@ -43,7 +43,7 @@ export default class Branch extends Instruction {
       newExecuteState.jumpInstruction = this.id;
       newExecuteState.instructionId = this.id + 1;
     } else {
-      newFetchState.instructionId = this.id + 1;
+      newExecuteState.instructionId = this.id + 1;
     }
 
     return { ...oldState, fetch: newFetchState, execute: newExecuteState };
@@ -60,6 +60,7 @@ export default class Branch extends Instruction {
     if (typeSimulation === typeSimulations.PIPELINING) {
       newDecodeState.edgeAnimation = [];
       newExecuteState.edgeAnimation = [];
+      newDecodeState.instructionRegister = "-";
       newDecodeState.instructionId = -1;
       newExecuteState.instructionId = -1;
       newFetchState.instructionId =

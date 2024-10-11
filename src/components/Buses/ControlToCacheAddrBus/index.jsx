@@ -50,7 +50,6 @@ export const ControlToCacheAddrBus = ({ id }) => {
     targetComponentId: cacheMemoryId,
   });
 
-
   // Timer to animate interminently the bus when fetch and execute are active
   useEffect(() => {
     const interval = setInterval(() => {
@@ -85,7 +84,10 @@ export const ControlToCacheAddrBus = ({ id }) => {
               title={textAddressTitle("Dirección (fetch)", typeSimulation)}
               color={fetchColor}
             >
-              {toHexaPadStart(animationDataFetch.address)}
+              {parseInt(animationDataFetch.address, 10)
+                .toString(16)
+                .toUpperCase()
+                .padStart(2, "0")}
             </Globe>
           )}
           {animationExecute && (
@@ -94,24 +96,33 @@ export const ControlToCacheAddrBus = ({ id }) => {
               title={textAddressTitle("Dirección (execute)", typeSimulation)}
               color={executeColor}
             >
-              {toHexaPadStart(animationDataExecute.address)}
+              {parseInt(animationDataExecute.address, 10)
+                .toString(16)
+                .toUpperCase()
+                .padStart(2, "0")}
             </Globe>
           )}
           {animationBoth && (
-            <div className="column" style={{marginTop: '-40px'}}>
+            <div className="column" style={{ marginTop: "-40px" }}>
               <Globe
                 arrowPosition={"left"}
                 title={"Dirección (fetch)"}
                 color={fetchColor}
               >
-                {toHexaPadStart(animationDataFetch.address)}
+                {parseInt(animationDataFetch.address, 10)
+                  .toString(16)
+                  .toUpperCase()
+                  .padStart(2, "0")}
               </Globe>
               <Globe
                 arrowPosition={"left"}
                 title={"Dirección (execute)"}
                 color={executeColor}
               >
-                {toHexaPadStart(animationDataExecute.address)}
+                {parseInt(animationDataExecute.address, 10)
+                  .toString(16)
+                  .toUpperCase()
+                  .padStart(2, "0")}
               </Globe>
             </div>
           )}

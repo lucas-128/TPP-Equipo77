@@ -1,4 +1,4 @@
-import { registersId } from "../../containers/SimulatorSection/components";
+import { initialState } from "../../slices/applicationSlice";
 import Instruction from "../Instruction";
 import { animationsAlu } from "../constants";
 import { toHexa, applyBinaryOperation, animationsAluData } from "../utils";
@@ -28,7 +28,19 @@ export default class AdditionTwoComplement extends Instruction {
       additionTwoComplement,
       newExecuteState
     );
-
+    if (resultNewExecuteState.registers[this.destinationIndex] === null) {
+      resultNewExecuteState.showOverflowErrorModal = true;
+      resultNewExecuteState.errorLine = this.id;
+      const newExecute = {
+        ...initialState.execute,
+        showOverflowErrorModal: true,
+        errorLine: this.id,
+      };
+      return {
+        ...oldState,
+        execute: newExecute,
+      };
+    }
     resultNewExecuteState.edgeAnimation = animationsAluData(
       this.registerSIndex,
       resultNewExecuteState.registers[this.registerSIndex],
@@ -37,25 +49,11 @@ export default class AdditionTwoComplement extends Instruction {
       this.destinationIndex,
       resultNewExecuteState.registers[this.destinationIndex]
     );
-
     return {
       ...oldState,
       execute: resultNewExecuteState,
     };
   }
-
-  // execute(oldState) {
-  //   const newExecuteState = { ...oldState.execute };
-  //   newExecuteState.registers = [...oldState.execute.registers];
-  //   const registerS = newExecuteState.registers[this.registerS];
-  //   const registerT = newExecuteState.registers[this.registerT];
-  //   const operationResult = (registerS + registerT) & 0xff;
-  //   newExecuteState.registers[this.destinationIndex] = operationResult;
-  //   newExecuteState.instructionId = this.id + 1;
-  //   newExecuteState.edgeAnimation = animationsAlu;
-
-  //   return { ...oldState, execute: newExecuteState };
-  // }
 
   toString() {
     return [
@@ -70,14 +68,7 @@ export default class AdditionTwoComplement extends Instruction {
 function additionTwoComplement(registerS, registerT) {
   const s = twosComplementToDecimal(registerS);
   const t = twosComplementToDecimal(registerT);
-
   const decimalResult = s + t;
-
-  if (decimalResult > 127 || decimalResult < -128) {
-    //TODO handle overflow
-    console.log("overflow");
-  }
-
   return decimalToTwosComplement(decimalResult);
 }
 
@@ -91,7 +82,7 @@ function twosComplementToDecimal(binaryStr) {
 
 function decimalToTwosComplement(num) {
   if (num < -128 || num > 127) {
-    throw new RangeError("Number out of 8-bit range (-128 to 127)");
+    return null;
   }
 
   // Convert the number to a binary string, and mask it to get the last 8 bits

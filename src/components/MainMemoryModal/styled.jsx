@@ -65,7 +65,6 @@ export const InfoContainer = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
-  flex-direction: row;
 `;
 
 export const Title = styled.div`
@@ -91,8 +90,14 @@ export const IconContainer = styled(IoClose)`
 export const Table = styled.div`
   display: flex;
   justify-content: center;
-  border-collapse: collapse;
-  margin: 10px 0 0 0;
+  height: 100%;
+  margin-top: 10px;
+
+  max-height: 500px;
+  overflow-y: auto;
+  border-radius: 2px;
+  box-shadow: var(--im-shadow);
+  gap: 5px;
 `;
 
 export const DirectionColumn = styled.div`
@@ -107,6 +112,7 @@ export const DataColumn = styled.div`
   border-left: 2px solid var(--im-darkgray);
   width: 95px;
   font-size: 12px;
+  height: 100%;
 `;
 
 export const Cell = styled.div`
@@ -116,4 +122,11 @@ export const Cell = styled.div`
   &:last-child {
     border: none;
   }
+`;
+
+export const ColumnContainer = styled.div`
+  display: flex;
+  background: var(--im-white);
+  height: 100%;
+  border-radius: 2px;
 `;

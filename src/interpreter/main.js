@@ -10,32 +10,24 @@ export function validateSyntax(code) {
 
 export function splitCode(text) {
   return text.split(/\r?\n/).map((row) => {
-    return row.trim().length > 0
-      ? row.trim().substring(0, 4)
-      : row.substring(0, 4);
+    const trimmedRow = row.trim();
+    const instruction = trimmedRow.match(/^[^\s\t\n]+/)?.[0] || "";
+    return instruction;
   });
 }
 
-// export const getNewState = (actualState, line, selectedLine) => {
-//   const lineSplit = line.split("");
-//   const instruction = lineSplit[0].toLowerCase();
-//   const newState = getStateAfterInstruction(
-//     actualState,
-//     instruction,
-//     lineSplit,
-//     selectedLine,
-//   );
-//   return newState;
-// };
-
 function isValidCode(rows) {
-  return rows.every((row) => {
-    return (
-      validateLength(row) &&
-      validateInstructionCode(row) &&
-      validatePattern(row)
-    );
-  });
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i];
+    if (
+      !validateLength(row) ||
+      !validateInstructionCode(row) ||
+      !validatePattern(row)
+    ) {
+      return { isValid: false, errorLine: i + 1 };
+    }
+  }
+  return { isValid: true, errorLine: null };
 }
 
 function validateLength(row) {

@@ -33,7 +33,6 @@ export default class StoreMemFromRegister extends Instruction {
     );
     newExecuteState.instructionId = this.id + 1;
 
-
     //CACHE MEMORY ANIMATIONS
     const oldLength = oldState.execute.cacheMemoryCells.filter(
       (e) => e !== null
@@ -54,8 +53,7 @@ export default class StoreMemFromRegister extends Instruction {
         { id: controlUnitCacheId, reverse: true, data: value },
         { id: controlUnitMainMemAddrId, address: this.memoryCell },
         { id: mainMemControlUnitDataId, reverse: true, data: value },
-        { id: controlUnitCacheAddrBusId,  address: this.memoryCell },
-
+        { id: controlUnitCacheAddrBusId, address: this.memoryCell },
       ];
     } else {
       // Cache memory has not been updated, meaning the main memory bus should not be animated
@@ -70,6 +68,12 @@ export default class StoreMemFromRegister extends Instruction {
         { id: controlUnitCacheAddrBusId, address: this.memoryCell },
       ];
     }
+
+    if (this.memoryCell === 255) {
+      newExecuteState.showOutputPort = true;
+      return { ...oldState, execute: newExecuteState };
+    }
+
     return { ...oldState, execute: newExecuteState };
   }
 

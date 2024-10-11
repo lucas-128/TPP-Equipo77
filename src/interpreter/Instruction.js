@@ -4,10 +4,7 @@ import {
   controlUnitMainMemAddrId,
   mainMemControlUnitDataId,
 } from "../containers/SimulatorSection/components";
-import {
-  cyclesSimulations,
-  typeSimulations,
-} from "./constants";
+import { cyclesSimulations, typeSimulations } from "./constants";
 import { updateCache } from "./utils";
 
 export default class Instruction {

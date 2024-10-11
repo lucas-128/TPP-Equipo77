@@ -7,7 +7,7 @@ export default class Program {
   constructor(program, typeSimulation) {
     this.program = program;
     this.typeSimulation = typeSimulation;
-    if (!validateSyntax(program)) {
+    if (!validateSyntax(program).isValid) {
       return;
     }
     this.instructions = this.createInstructions();
@@ -63,13 +63,13 @@ export default class Program {
     if (value == null) return fallbackValue;
     return value === -1 ? null : value + 1;
   }
-  
+
   getNextColor(previousColor) {
     const colorMap = {
       "var(--im-pink)": "var(--im-green)",
       "var(--im-green)": "var(--im-blue)",
       "var(--im-blue)": "var(--im-yellow)",
-      "var(--im-yellow)": "var(--im-pink)"
+      "var(--im-yellow)": "var(--im-pink)",
     };
     return colorMap[previousColor] || "var(--im-blue)";
   }
@@ -112,7 +112,10 @@ export default class Program {
         ...oldState,
         fetch: {
           ...oldState.fetch,
-          instructionId: fetchInstructionId > this.instructions.length ? null : fetchInstructionId,
+          instructionId:
+            fetchInstructionId >= this.instructions.length
+              ? -1
+              : fetchInstructionId,
           instructionRegister: "-",
           address: null,
           edgeAnimation: [],
@@ -129,7 +132,7 @@ export default class Program {
     } else {
       newDecodeState = {
         ...oldState,
-        decode: { ...oldState.decode, instructionId: null },
+        decode: { ...oldState.decode, instructionId: null},
       };
     }
 
@@ -138,20 +141,20 @@ export default class Program {
       newFetchState.execute.cacheMemoryCells
     );
 
-    console.log("lo que devuelvo es ", {
-      ...oldState,
-      fetch: {
-        ...newFetchState.fetch,
-        color: this.getNextColor(oldState.fetch.color),
-      },
-      decode: { ...newDecodeState.decode, color: oldState.fetch.color },
-      execute: {
-        ...newExecuteState.execute,
-        instructionId: executeInstructionId,
-        color: oldState.decode.color,
-        cacheMemoryCells: newCacheMemoryCells,
-      },
-    });
+    // console.log("lo que devuelvo es ", {
+    //   ...oldState,
+    //   fetch: {
+    //     ...newFetchState.fetch,
+    //     color: this.getNextColor(oldState.fetch.color),
+    //   },
+    //   decode: { ...newDecodeState.decode, color: oldState.fetch.color },
+    //   execute: {
+    //     ...newExecuteState.execute,
+    //     instructionId: executeInstructionId,
+    //     color: oldState.decode.color,
+    //     cacheMemoryCells: newCacheMemoryCells,
+    //   },
+    // });
 
     return {
       ...oldState,
@@ -175,6 +178,8 @@ export default class Program {
     }
     const actualInstruction =
       this.instructions[this.getCurrentInstructionId(oldState)];
+      console.log("actualInstruction", actualInstruction);
+
     const newState = actualInstruction.nextStep(oldState, this.typeSimulation);
     return newState;
   }

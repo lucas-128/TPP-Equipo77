@@ -4,7 +4,11 @@ import {
   initialNodes,
 } from "../containers/SimulatorSection/components";
 import { addEdge, applyNodeChanges, applyEdgeChanges } from "reactflow";
-import { CACHE_SIZE, typeSimulations } from "../interpreter/constants";
+import {
+  CACHE_SIZE,
+  numericBaseType,
+  typeSimulations,
+} from "../interpreter/constants";
 
 // LOS VALORES SE GUARDAN EN HEXADECIMAL
 export const initialState = {
@@ -31,6 +35,9 @@ export const initialState = {
     aluOperation: null,
     edgeAnimation: [],
     showInputPort: false,
+    showOutputPort: false,
+    showOverflowErrorModal: false,
+    errorLine: null,
     registerToUpdate: null,
     endProgram: false,
     color: "var(--im-green)",
@@ -40,9 +47,9 @@ export const initialState = {
   aluOperation: null,
   nodes: initialNodes,
   edges: initialEdges,
-  edgeAnimation: [],
   isSimulating: false,
   typeSimulations: typeSimulations.SIMPLE,
+  numericBase: numericBaseType.HEXA,
 };
 
 export const applicationSlice = createSlice({
@@ -56,16 +63,10 @@ export const applicationSlice = createSlice({
       state.edges = action.payload;
     },
     onNodesChange(state, action) {
-      state.nodes = applyNodeChanges(
-        action.payload,
-        state.nodes
-      );
+      state.nodes = applyNodeChanges(action.payload, state.nodes);
     },
     onEdgesChange(state, action) {
-      state.edges = applyEdgeChanges(
-        action.payload,
-        state.edges
-      );
+      state.edges = applyEdgeChanges(action.payload, state.edges);
     },
     onConnect(state, action) {
       state.edges = addEdge(action.payload, state.edges);
@@ -96,6 +97,15 @@ export const applicationSlice = createSlice({
     setShowInputPort(state, action) {
       state.execute.showInputPort = action.payload;
     },
+    setShowOutputPort(state, action) {
+      state.execute.showOutputPort = action.payload;
+    },
+    setShowOverflowErrorModal(state, action) {
+      state.execute.showOverflowErrorModal = action.payload;
+    },
+    setErrorLine(state, action) {
+      state.execute.errorLine = action.payload;
+    },
     updateInstructionRegister(state, action) {
       const { instructionRegister } = action.payload;
       state.execute.instructionRegister = instructionRegister;
@@ -103,6 +113,9 @@ export const applicationSlice = createSlice({
     updateProgramCounter(state, action) {
       const { programCounter } = action.payload;
       state.execute.programCounter = programCounter;
+    },
+    updateNumericBase(state, action) {
+      state.numericBase = action.payload;
     },
     goToPreviousState(state) {
       if (!state.previousState) {
@@ -162,10 +175,14 @@ export const {
   updatePreviousState,
   clearApplication,
   setShowInputPort,
+  setShowOutputPort,
+  setShowOverflowErrorModal,
+  setErrorLine,
   updateMainMemoryCells,
   updateTypeSimulation,
   setIsSimulating,
   goToFistState,
+  updateNumericBase,
 } = applicationSlice.actions;
 
 // Thunk para manejar la actualización del estado actual

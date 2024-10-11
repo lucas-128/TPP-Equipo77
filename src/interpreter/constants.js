@@ -57,6 +57,11 @@ export const cyclesSimulations = {
   EXECUTE: "execute",
 };
 
+export const numericBaseType = {
+  BINARY: "binary",
+  HEXA: "hexadecimal",
+};
+
 export const instructionCodes = [
   LOAD_REGISTER_FROM_MEM,
   LOAD_REGISTER_FROM_PATTERN,
