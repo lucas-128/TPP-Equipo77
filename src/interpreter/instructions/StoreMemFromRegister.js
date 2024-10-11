@@ -42,32 +42,33 @@ export default class StoreMemFromRegister extends Instruction {
     ).length;
 
     // Cache memory has been updated, meaning the main memory bus should be animated
-    if (oldLength < newLength) {
-      newExecuteState.edgeAnimation = [
-        {
-          id: registersControlUnitId,
-          reverse: false,
-          data: value,
-          address: this.register,
-        },
-        { id: controlUnitCacheId, reverse: true, data: value },
-        { id: controlUnitMainMemAddrId, address: this.memoryCell },
-        { id: mainMemControlUnitDataId, reverse: true, data: value },
-        { id: controlUnitCacheAddrBusId, address: this.memoryCell },
-      ];
-    } else {
-      // Cache memory has not been updated, meaning the main memory bus should not be animated
-      newExecuteState.edgeAnimation = [
-        {
-          id: registersControlUnitId,
-          reverse: true,
-          data: value,
-          address: this.register,
-        },
-        { id: controlUnitCacheId, reverse: false, data: value },
-        { id: controlUnitCacheAddrBusId, address: this.memoryCell },
-      ];
-    }
+    // if (oldLength < newLength) {
+    newExecuteState.edgeAnimation = [
+      {
+        id: registersControlUnitId,
+        reverse: false,
+        data: value,
+        address: this.register,
+      },
+      { id: controlUnitCacheId, reverse: true, data: value },
+      { id: controlUnitMainMemAddrId, address: this.memoryCell },
+      { id: mainMemControlUnitDataId, reverse: true, data: value },
+      { id: controlUnitCacheAddrBusId, address: this.memoryCell },
+    ];
+
+    //} else {
+    // Cache memory has not been updated, meaning the main memory bus should not be animated
+    //   newExecuteState.edgeAnimation = [
+    //     {
+    //       id: registersControlUnitId,
+    //       reverse: true,
+    //       data: value,
+    //       address: this.register,
+    //     },
+    //     { id: controlUnitCacheId, reverse: false, data: value },
+    //     { id: controlUnitCacheAddrBusId, address: this.memoryCell },
+    //   ];
+    // }
 
     if (this.memoryCell === 255) {
       newExecuteState.showOutputPort = true;
