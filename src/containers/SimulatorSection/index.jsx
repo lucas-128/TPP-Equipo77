@@ -26,6 +26,7 @@ export const SimulatorContainer = () => {
   return (
     <Container>
       <ReactFlow
+        id="simulatorContainer"
         nodes={nodes}
         edges={edges}
         nodeTypes={nodeTypes}

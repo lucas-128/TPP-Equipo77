@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { INTRODUCTION } from '../components/Tutorial/constants';
+import { INTRODUCTION } from '../components/Tutorial/constants.jsx';
 
 const initialState = {
   error: false,

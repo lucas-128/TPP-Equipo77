@@ -13,25 +13,26 @@ const fadeIn = keyframes`
 export const Container = styled.div`
   height: 7 0px;
   background-color: var(--im-lightgray);
-  z-index: 1;
+  z-index: 12;
   min-width: 80px;
-  max-width: 500px;
+  max-width: ${(props) => props.$width ? props.$width : '600px'};
   border-radius: 16px;
   filter: drop-shadow(0px 1px 8px rgba(112, 135, 165, 0.39));
   display: flex !important;
   cursor: default !important;
-  padding: 10px;
-  margin: 5px;
+  padding: 10px 20px 20px 20px;
+  margin: 30px;
 
   &:before {
     content: "";
     position: absolute;
     border-radius: 0;
-    height: 15px;
-    width: 15px;
+    height: 25px;
+    width: 25px;
     background-color: var(--im-lightgray);
     top: ${(props) => props.$direction.top};
     left: ${(props) => props.$direction.left};
+    display: ${(props) => props.$direction.hide ? 'none' :  ''};
     transform: rotate(45deg);
   }
 `;
@@ -85,27 +86,27 @@ export const ModalWrapper = styled.div`
   top: 0;
   left: 0;
   bottom: 0;
-  top: 0;
-  z-index: 10;
+  z-index: 1;
   display: flex;
   align-items: center;
   overflow: hidden;
+  justify-content: center;
 `;
 
 export const ModalBoxSetup = styled.div`
   position: absolute;
-  left: 0;
-  right: 0;
+  left: ${(props) => props.$position.left};
+  top: ${(props) => props.$position.top};
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  margin: 0 auto;
   overflow-y: hidden;
   overflow-x: hidden;
   text-align: center;
   z-index: 1;
   animation: 0.7s ${fadeIn} forwards;
+  transition: 0.3s;
 `;
 
 export const ModalBg = styled.div`
