@@ -15,7 +15,7 @@ export const Container = styled.div`
   background-color: var(--im-lightgray);
   z-index: 12;
   min-width: 80px;
-  max-width: ${(props) => props.$width ? props.$width : '600px'};
+  max-width: ${(props) => (props.$width ? props.$width : "600px")};
   border-radius: 16px;
   filter: drop-shadow(0px 1px 8px rgba(112, 135, 165, 0.39));
   display: flex !important;
@@ -32,7 +32,7 @@ export const Container = styled.div`
     background-color: var(--im-lightgray);
     top: ${(props) => props.$direction.top};
     left: ${(props) => props.$direction.left};
-    display: ${(props) => props.$direction.hide ? 'none' :  ''};
+    display: ${(props) => (props.$direction.hide ? "none" : "")};
     transform: rotate(45deg);
   }
 `;
@@ -62,7 +62,7 @@ export const Content = styled.div`
   flex-direction: column;
   align-items: center;
   color: var(--im-darkgray);
-  font-size: 16px;
+  font-size: 15px;
   justify-content: center;
   width: 100%;
 `;
@@ -78,7 +78,10 @@ export const Title = styled.div`
 `;
 
 export const TextContainer = styled.div`
-  padding: 5px 0px;
+  margin-top: 5px;
+  p {
+    margin: 0px 10px 15px 10px;
+  }
 `;
 
 export const ModalWrapper = styled.div`

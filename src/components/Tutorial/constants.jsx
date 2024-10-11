@@ -36,38 +36,40 @@ const introTutorial = (
   </>
 );
 
-// TODO: cambiar este texto
 const simulatorTutorial = (
   <>
     <p>
-      En esta sección vas a poder visualizar el estado de la computadora en
-      tiempo real.
+      Eta sección es el simulador de la computadora, donde vas a poder ver cómo
+      se ejecutan las instrucciones de un programa y cómo interactúan los
+      diferentes componentes de la máquina, la comunicación entre ellos, y el
+      flujo de datos a través de los buses.
     </p>
     <p>
-      En la parte superior de la pantalla vas a encontrar el contador de
-      programa, el registro de instrucción y el estado de los registros de la
-      computadora.
-    </p>
-    <p>
-      En la parte inferior de la pantalla vas a encontrar los botones de
-      control, que te permitirán ejecutar el programa paso a paso o de manera
-      automática.
+      Durante la simulación, vas a poder hacerle click a algunos de los
+      componentes de la computadora para visualizar más información sobre ellos.
     </p>
   </>
 );
 
-// TODO: cambiar este texto
 const textEditorTutorial = (
   <>
-    <p>En esta sección vas a poder visualizar el editor de texto.</p>
     <p>
-      En la parte superior de la pantalla vas a encontrar botones con diferentes
-      funcionalidades: subir un programa, limpiar el editor, descargar el
-      programa, y un atajo a la lista de instrucciones que interpreta el simulador.
+      En esta sección vas a poder visualizar el editor de texto, donde cargarás
+      o crearás tus programas para que sean interpretados por el simulador.
     </p>
     <p>
-      En la parte inferior de la pantalla vas a encontrar los botones de
-      control, que te permitirán ejecutar el programa paso a paso, 
+      En la parte superior de la pantalla vas a encontrar botones para subir un
+      programa, limpiar el editor, descargar el programa del editor, y abrir un
+      atajo a la lista de instrucciones que interpreta el simulador.
+    </p>
+    <p>
+      Abajo encontrarás botones de control para empezar la simulación, ejecutar
+      paso a paso, avanzar o retroceder al inicio o fin, y detener la ejecución.
+    </p>
+    <p>
+      Para comenzar a correr la simulación, cargá un programa en el editor de
+      texto y hacé click en el botón de 'Simular'. Para terminar la simulación,
+      hacé click en el botón de 'Editar'.
     </p>
   </>
 );

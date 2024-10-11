@@ -10,7 +10,7 @@ import {
   TextContainer,
   Title,
 } from "./styled";
-import { INTRODUCTION, tutorialTexts } from "./constants.jsx";
+import { tutorialTexts } from "./constants.jsx";
 import { Button } from "../Button";
 import { IoClose } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
