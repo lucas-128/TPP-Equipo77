@@ -8,9 +8,7 @@ export const END = 4;
 
 const introTutorial = (
   <>
-    <div>
-      Hola, gracias por utilizar nuestro simulador de una máquina RISC ideal.
-    </div>
+    <div>Hola, gracias por utilizar nuestra aplicación.</div>
     <p>
       Este simulador te permitirá aprender y experimentar con los principios
       básicos de una arquitectura de computadora RISC (Reduced Instruction Set
@@ -23,7 +21,7 @@ const introTutorial = (
       aplicación de manera sencilla y rápida.
     </p>
     <p>
-      Con este tutorial vas a aprender a utilizar la aplicación de manera
+      Con este tutorial vas a aprender a utilizar el simulador de manera
       sencilla y rápida.
     </p>
   </>
@@ -34,8 +32,8 @@ const simulatorTutorial = (
     <p>
       Esta sección es el simulador de la computadora, donde vas a poder ver cómo
       se ejecutan las instrucciones de un programa y cómo interactúan los
-      diferentes componentes de la máquina, la comunicación entre ellos, y el
-      flujo de datos a través de los buses.
+      diferentes componentes de la máquina, y el flujo de datos a través de los
+      buses.
     </p>
     <p>
       Durante la simulación, vas a poder hacerle click a algunos de los
@@ -47,8 +45,8 @@ const simulatorTutorial = (
 const textEditorTutorial = (
   <>
     <p>
-      En esta sección vas a poder visualizar el editor de texto, donde cargarás
-      o crearás tus programas para que sean interpretados por el simulador.
+      En esta sección vas a poder visualizar el editor de texto, donde se pueden
+      cargar o crear programas para que sean interpretados por el simulador.
     </p>
     <p>
       En la parte superior de la pantalla vas a encontrar botones para subir un
@@ -61,8 +59,8 @@ const textEditorTutorial = (
     </p>
     <p>
       Para comenzar a correr la simulación, cargá un programa en el editor de
-      texto y hacé click en el botón de 'Simular'. Para terminar la simulación,
-      hacé click en el botón de 'Editar'.
+      texto y hacé click en el botón de 'Simular'. Para terminar la simulación o
+      cambiar el programa hacé click en el botón de 'Editar'.
     </p>
   </>
 );
@@ -80,6 +78,17 @@ const simulationOptionsTutorial = (
       ciclos de ejecución, con ciclos de ejecución o con ciclos utilizando
       pipelining.
     </p>
+  </>
+);
+
+const endTutorial = (
+  <>
+    <p>¡Eso es todo! Ya podés empezar a simular.</p>
+    <p>
+      Para volver a reproducir este tutorial, siempre va a estar disponible el
+      botón de Ayuda en la parte inferior derecha de la pantalla
+    </p>
+    <p>¡Disfrutá de la experiencia!</p>
   </>
 );
 
@@ -113,12 +122,7 @@ export const tutorialTexts = {
   },
   [END]: {
     title: "Fin del tutorial",
-    content: (
-      <>
-        <p>¡Eso es todo! Ahora estás listo para empezar a simular.</p>
-        <p>¡Disfrutá de la experiencia!</p>
-      </>
-    ),
+    content: endTutorial,
     arrow: "none",
     position: { top: "35%", left: "35%" },
   },
