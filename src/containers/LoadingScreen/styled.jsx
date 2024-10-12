@@ -35,17 +35,16 @@ export const LoadingContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: var(--im-secondary);
+  background: linear-gradient(135deg, #023445 0%, #014055 50%, #012633 100%);
   color: white;
   font-size: 24px;
   z-index: 20;
-  animation: ${fadeOut} 0.75s ease-out forwards;
-  animation-delay: 3s;
-`;
-
-/*&.fade-out {
+  backdrop-filter: blur(8px);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+  &.fade-out {
     animation: ${fadeOut} 0.75s ease-out forwards;
-  }*/
+  }
+`;
 
 export const Icon = styled.img`
   width: 100px;
@@ -74,7 +73,7 @@ export const Subtitle = styled.h2`
   margin-bottom: 40px;
 `;
 
-/*export const StartButton = styled.button`
+export const StartButton = styled.button`
   margin-top: 20px;
   padding: 10px 20px;
   font-size: 18px;
@@ -85,7 +84,6 @@ export const Subtitle = styled.h2`
   border-radius: 10px;
   cursor: pointer;
   animation: ${fadeIn} 0.75s ease-in-out forwards;
-  animation-delay: 1s; 
+  animation-delay: 1s;
   opacity: 0;
 `;
-*/

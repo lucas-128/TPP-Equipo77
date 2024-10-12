@@ -80,7 +80,7 @@ export const initialNodes = [
     id: inputOutputId,
     type: "inputOutput",
     data: { label: "Input Output" },
-    position: { x: 1520, y: 1020 },
+    position: { x: 1530, y: 1020 },
     selectable: false,
   },
 ];
