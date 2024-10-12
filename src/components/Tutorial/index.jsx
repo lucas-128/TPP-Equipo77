@@ -26,7 +26,7 @@ export const Tutorial = () => {
     left: { top: "50%", left: "-5px" },
     right: { top: "50%", left: "calc(100% - 15px)" },
     bottom: { top: "90%", left: "45%" },
-    top: { top: "-5px", left: "40%" },
+    top: { top: "-5px", left: "50%" },
     none: { hide: true },
   };
 
@@ -39,8 +39,10 @@ export const Tutorial = () => {
       if (!!lastHighlightedElement) {
         lastHighlightedElement.style.zIndex = 0;
       }
-      const elementToHighlight = document.getElementById(tutorialStep.highlight);
-      if(!!elementToHighlight) {
+      const elementToHighlight = document.getElementById(
+        tutorialStep.highlight
+      );
+      if (!!elementToHighlight) {
         elementToHighlight.style.zIndex = 5;
         setLastHighlighted(elementToHighlight);
       }
@@ -65,25 +67,27 @@ export const Tutorial = () => {
               <Title>{tutorialStep.title}</Title>
               <TextContainer>{tutorialStep.content}</TextContainer>
               <div className="row">
+                <Button
+                  disabled={step === 0}
+                  onClick={() => dispatch(setTutorialStep(step - 1))}
+                >
+                  {"Anterior"}
+                </Button>
+
                 {step === 0 ? (
                   <Button onClick={() => dispatch(setTutorialStep(step + 1))}>
                     {"Empezar"}
                   </Button>
-                ) : (
+                ) : step === Object.keys(tutorialTexts).length - 1 ? (
                   <>
-                    <Button
-                      disabled={step === 0}
-                      onClick={() => dispatch(setTutorialStep(step - 1))}
-                    >
-                      {"Anterior"}
-                    </Button>
-                    <Button
-                      disabled={Object.keys(tutorialTexts).length - 1 === step}
-                      onClick={() => dispatch(setTutorialStep(step + 1))}
-                    >
-                      {"Siguiente"}
+                    <Button onClick={() => dispatch(setShowTutorial(false))}>
+                      {"Finalizar"}
                     </Button>
                   </>
+                ) : (
+                  <Button onClick={() => dispatch(setTutorialStep(step + 1))}>
+                    {"Siguiente"}
+                  </Button>
                 )}
               </div>
             </Content>

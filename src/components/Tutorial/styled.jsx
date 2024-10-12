@@ -68,7 +68,6 @@ export const Content = styled.div`
 `;
 
 export const Title = styled.div`
-  margin-top: -5px;
   font-size: 18px;
   font-weight: 700;
   display: flex;
