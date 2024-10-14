@@ -170,7 +170,7 @@ export function toBinaryComplement(value) {
 }
 
 export function convertValue(value, base) {
-  if (value == null || value == "-") {
+  if (value == null || value == "-" || value == "") {
     return "-";
   }
   if (base == numericBaseType.HEXA) {

@@ -106,7 +106,7 @@ export const MonacoEditor = ({ setEditorValue, editorValue }) => {
   const options = {
     selectOnLineNumbers: true,
     lineNumbers: (lineNumber) => {
-      return ((lineNumber - 1) * 2).toString(16).padStart(2, "0");
+      return ((lineNumber - 1) * 2).toString(16).padStart(2, "0").toUpperCase();
     },
     lineNumbersMinChars: 3,
     lineDecorationsWidth: "0px",
