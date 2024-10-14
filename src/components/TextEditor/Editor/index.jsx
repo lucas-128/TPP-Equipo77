@@ -16,6 +16,7 @@ export const MonacoEditor = ({ setEditorValue, editorValue }) => {
     if (decorations.length > 0) updateDecorations([]);
     setEditorValue(value);
   };
+  const [highLightedLineMapper, setHighLightedLineMapper] = useState({});
 
   const fetchInstructionId = useSelector(
     (state) => state.application.fetch.instructionId
@@ -47,6 +48,18 @@ export const MonacoEditor = ({ setEditorValue, editorValue }) => {
 
   const isSimulating = useSelector((state) => state.application.isSimulating);
 
+  useEffect(() => {
+    if (!isSimulating) return;
+    const lineMapping = editorValue.split("\n").reduce((acc, line, index) => {
+      if (line.trim() !== "") {
+        acc[Object.keys(acc).length + 1] = index + 1;
+      }
+      return acc;
+    }, {});
+
+    setHighLightedLineMapper(lineMapping);
+  }, [editorValue, isSimulating]);
+
   const colorMapper = {
     "var(--im-green)": "green",
     "var(--im-pink)": "pink",
@@ -60,7 +73,7 @@ export const MonacoEditor = ({ setEditorValue, editorValue }) => {
   };
 
   const fetchLine = useMemo(() => {
-    if (fetchInstructionId === null) return null;
+    if (fetchInstructionId === null || fetchInstructionId === -1) return null;
     return {
       number: fetchInstructionId + 1,
       color: colorMapper[fetchInstructionColor],
@@ -104,8 +117,14 @@ export const MonacoEditor = ({ setEditorValue, editorValue }) => {
 
   const addLineDecoration = (line, decorations) => {
     if (line) {
+      const highLightedLineNumber = highLightedLineMapper[line.number];
       decorations.push({
-        range: new monaco.Range(line.number, 1, line.number, 1),
+        range: new monaco.Range(
+          highLightedLineNumber,
+          1,
+          highLightedLineNumber,
+          1
+        ),
         options: {
           isWholeLine: true,
           glyphMarginClassName: `fa fa-solid fa-arrow-right fa-xs glyph-margin-color-${line.color} glyph-margin`,

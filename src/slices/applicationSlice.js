@@ -35,6 +35,7 @@ export const initialState = {
     aluOperation: null,
     edgeAnimation: [],
     showInputPort: false,
+    showOutputPort: false,
     showOverflowErrorModal: false,
     errorLine: null,
     registerToUpdate: null,
@@ -46,7 +47,6 @@ export const initialState = {
   aluOperation: null,
   nodes: initialNodes,
   edges: initialEdges,
-  edgeAnimation: [],
   isSimulating: false,
   typeSimulations: typeSimulations.SIMPLE,
   numericBase: numericBaseType.HEXA,
@@ -96,6 +96,9 @@ export const applicationSlice = createSlice({
     },
     setShowInputPort(state, action) {
       state.execute.showInputPort = action.payload;
+    },
+    setShowOutputPort(state, action) {
+      state.execute.showOutputPort = action.payload;
     },
     setShowOverflowErrorModal(state, action) {
       state.execute.showOverflowErrorModal = action.payload;
@@ -172,6 +175,7 @@ export const {
   updatePreviousState,
   clearApplication,
   setShowInputPort,
+  setShowOutputPort,
   setShowOverflowErrorModal,
   setErrorLine,
   updateMainMemoryCells,

@@ -46,14 +46,12 @@ export const fetchReference = (fetchInstruction, fetchColor) => {
       <FetchPipeliningCycle>
         {fetchInstruction + " (fetch)"}
       </FetchPipeliningCycle>
-      <FaCircle color={fetchColor} />
+      <FaCircle color={fetchInstruction != '-' ? fetchColor : ''} />
     </>
   );
 };
 
 export const decodeReference = (decodeInstruction, decodeColor) => {
-  console.log("decode instruction: ", decodeInstruction);
-  console.log("length: ", decodeInstruction.length);
   const description = invalidInstruction(decodeInstruction)
     ? "-"
     : decodeInstruction + " (decode)";

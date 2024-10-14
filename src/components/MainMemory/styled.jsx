@@ -10,7 +10,7 @@ export const Container = styled.div`
   align-items: center;
   background-color: var(--im-primary);
   border-radius: 10px;
-  width: 220px;
+  width: 230px;
   gap: 5px;
   height: 975px;
   padding: 15px;

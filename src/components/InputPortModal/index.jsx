@@ -122,8 +122,8 @@ export const InputPortModal = () => {
   const getHexaValue = () => {
     if (numericBase === "decimal") {
       return parseInt(inputValue) < 0
-        ? toHexa(255 + parseInt(inputValue))
-        : parseInt(inputValue).toString(16).toUpperCase();
+        ? toHexa(256 + parseInt(inputValue))
+        : toHexa(parseInt(inputValue));
     } else if (numericBase === "binario") {
       return parseInt(inputValue, 2).toString(16).toUpperCase();
     } else if (numericBase === "hexa") {

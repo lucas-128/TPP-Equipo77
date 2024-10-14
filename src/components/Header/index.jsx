@@ -38,6 +38,7 @@ export const Header = () => {
   const fetchInstruction = useSelector(
     (state) => state.application.fetch.instructionRegister
   );
+
   const decodeInstruction = useSelector(
     (state) => state.application.decode.instructionRegister
   );
@@ -49,8 +50,8 @@ export const Header = () => {
     (state) => state.application.execute.instructionId
   );
   const executeInstruction = useMemo(() => {
-    let execId = executeId ? executeId : 0;
-    execId = isCycles ? execId - 1 : execId;
+    if(executeId === null || executeId === -1) return null;
+    const execId = isCycles ? executeId - 1 : executeId;
     const firstHalf = mainMemoryCells[execId + 1 * execId];
     const secondHalf = mainMemoryCells[execId + 1 * execId + 1];
     return firstHalf + secondHalf;

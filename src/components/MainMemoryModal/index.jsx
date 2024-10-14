@@ -13,6 +13,7 @@ import {
   DirectionColumn,
   Cell,
   DataColumn,
+  ColumnContainer,
 } from "./styled";
 import { convertValue } from "../../interpreter/utils";
 
@@ -48,13 +49,7 @@ const MainMemoryModal = () => {
             <Table>
               {columnsIndex.map((i) => {
                 return (
-                  <div
-                    style={{
-                      background: "var(--im-white)",
-                      display: "flex",
-                      marginLeft: "5px",
-                    }}
-                  >
+                  <ColumnContainer>
                     <DirectionColumn>
                       {mainMemoryCells
                         .slice(i * 32, (i + 1) * 32)
@@ -69,7 +64,7 @@ const MainMemoryModal = () => {
                           <Cell>{value}</Cell>
                         ))}
                     </DataColumn>
-                  </div>
+                  </ColumnContainer>
                 );
               })}
             </Table>

@@ -62,7 +62,7 @@ export const ALUToRegistersBus = ({ id }) => {
           }}
           className="nodrag nopan"
         >
-          {edgeAnimation && (
+          {edgeAnimation && animationData?.data && (
             <Globe arrowPosition={"bottom"} color={color}>
               <div className="row">
                 <Title $color={color}>Dirección</Title>
