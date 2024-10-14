@@ -1,22 +1,21 @@
-import React, { useMemo } from "react";
 import ReactFlow, { Controls, Background } from "reactflow";
 import {
   onNodesChange,
   onEdgesChange,
   onConnect,
 } from "../../slices/applicationSlice";
-
+import { useState } from "react";
 import "reactflow/dist/style.css";
 import { Container } from "./styled";
 import { nodeTypes, edgeTypes } from "./components";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { AluModal } from "../../components/AluModal";
 import { ControlUnitModal } from "../../components/ControlUnitModal";
 import MainMemoryModal from "../../components/MainMemoryModal";
 import { InstructionsModal } from "../../components/InstructionsModal";
 
 export const SimulatorContainer = () => {
+  const [colorMode, setColorMode] = useState("dark");
   const nodes = useSelector((state) => state.application.nodes);
   const edges = useSelector((state) => state.application.edges);
   const proOptions = { hideAttribution: true };
@@ -41,6 +40,7 @@ export const SimulatorContainer = () => {
         zoomOnDoubleClick={false}
         fitView
         minZoom={0.4}
+        colorMode={colorMode}
       >
         <Controls showInteractive={false} />
         <Background gap={20} />

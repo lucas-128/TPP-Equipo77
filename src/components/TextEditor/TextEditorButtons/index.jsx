@@ -30,7 +30,7 @@ export const TextEditorButtons = ({ text }) => {
     const parsedCode = splitCode(text).join("");
     return Array.from(
       { length: 256 },
-      (_, i) => parsedCode.slice(i * 2, i * 2 + 2) || "-"
+      (_, i) => parsedCode.slice(i * 2, i * 2 + 2).toUpperCase() || "-"
     );
   };
 
