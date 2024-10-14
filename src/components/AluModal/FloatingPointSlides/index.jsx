@@ -37,30 +37,34 @@ export const FloatingPointSlides = ({
   prevSlide,
   nextSlide,
 }) => {
-  const binaryToDecimalWithBias = (binaryStr) => {
+  let binaryToDecimalWithBias = (binaryStr) => {
     const decimalValue = parseInt(binaryStr, 2);
     const result = decimalValue - 3;
     return result;
   };
 
-  const parsedS = parseRegister(registerSbits);
-  const parsedT = parseRegister(registerTbits);
+  let parsedS = parseRegister(registerSbits);
+  let parsedT = parseRegister(registerTbits);
 
-  const alignedRegisters = alignMantissas(parsedS, parsedT);
+  let alignedRegisters = alignMantissas(parsedS, parsedT);
 
-  const sumResultMantissa = addBinary(
+  let sumResultMantissa = addBinary(
     alignedRegisters.register1.mantissa.implied,
     alignedRegisters.register2.mantissa.implied
   );
 
-  const [normalizedMantissa, placesMoved] =
-    normalizeMantissa(sumResultMantissa);
+  let [normalizedMantissa, placesMoved] = normalizeMantissa(sumResultMantissa);
 
-  const resultExponent = toBiasBinary(
+  let resultExponent = toBiasBinary(
     alignedRegisters.register1.exponent.decimal + placesMoved,
     3,
     3
   );
+
+  const isUnderflow =
+    alignedRegisters.register1.exponent.decimal + placesMoved < -3;
+  const isOverflow =
+    alignedRegisters.register1.exponent.decimal + placesMoved > 4;
 
   return (
     <InfoContainer>
@@ -135,9 +139,9 @@ export const FloatingPointSlides = ({
                 <MantissaBits>{registerTbits.slice(4)}</MantissaBits>
               </BitsRow>
               {"*2^"}
-              <InitialExponentBits>
+              <ExponentBits>
                 {binaryToDecimalWithBias(registerTbits.slice(1, 4))}
-              </InitialExponentBits>
+              </ExponentBits>
             </Row>
           </Slide>
         )}
@@ -262,42 +266,28 @@ export const FloatingPointSlides = ({
             <br></br>
             <Row>
               <BitsRow>
-                <SignBit>
-                  {alignedRegisters.register1.sign === 0 ? "+" : "-"}
-                </SignBit>
-                <MantissaBits>
-                  {alignedRegisters.register1.mantissa.implied}
-                </MantissaBits>
+                {alignedRegisters.register1.sign === 0 ? "+" : "-"}
+                {alignedRegisters.register1.mantissa.implied}
               </BitsRow>
               {"*2^"}
-              <ExponentBits>
-                {alignedRegisters.register1.exponent.decimal}
-              </ExponentBits>
+              {alignedRegisters.register1.exponent.decimal}
             </Row>
             <Row>
               <BitsRow>
-                <SignBit>
-                  {alignedRegisters.register2.sign === 0 ? "+" : "-"}
-                </SignBit>
-                <MantissaBits>
-                  {alignedRegisters.register2.mantissa.implied}
-                </MantissaBits>
+                {alignedRegisters.register2.sign === 0 ? "+" : "-"}
+                {alignedRegisters.register2.mantissa.implied}
               </BitsRow>
               {"*2^"}
-              <ExponentBits>
-                {alignedRegisters.register2.exponent.decimal}
-              </ExponentBits>
+              {alignedRegisters.register2.exponent.decimal}
             </Row>
             <Line />
             <Row>
               <BitsRow>
-                <SignBit>{"+"}</SignBit>
-                <MantissaBits>{sumResultMantissa}</MantissaBits>
+                {"+"}
+                {sumResultMantissa}
               </BitsRow>
-              {"*2^ "}
-              <ExponentBits>
-                {alignedRegisters.register2.exponent.decimal}
-              </ExponentBits>
+              {"*2^"}
+              {alignedRegisters.register2.exponent.decimal}
             </Row>
           </Slide>
         )}
@@ -307,13 +297,12 @@ export const FloatingPointSlides = ({
             <br></br>
             <Row>
               <BitsRow>
-                <SignBit>{"+"}</SignBit>
-                <MantissaBits>{sumResultMantissa}</MantissaBits>
+                {"+"}
+                {sumResultMantissa}
               </BitsRow>
-              {"*2^ "}
-              <ExponentBits>
-                {alignedRegisters.register2.exponent.decimal}
-              </ExponentBits>
+              {"*2^"}
+
+              {alignedRegisters.register2.exponent.decimal}
             </Row>
             <IoArrowDown></IoArrowDown>
             <Row>
@@ -322,45 +311,64 @@ export const FloatingPointSlides = ({
                 {"1."}
                 <MantissaBits>{normalizedMantissa.slice(2, 6)}</MantissaBits>
               </BitsRow>
-              {"*2^ "}
+              {"*2^"}
               <ExponentBits>
-                {binaryToDecimalWithBias(resultExponent)}
+                {alignedRegisters.register2.exponent.decimal + placesMoved}
               </ExponentBits>
             </Row>
+            {binaryToDecimalWithBias(resultExponent) + placesMoved < -3 ? (
+              <span>Underflow exponente</span>
+            ) : binaryToDecimalWithBias(resultExponent) + placesMoved > 4 ? (
+              <span>Overflow exponente</span>
+            ) : null}
           </Slide>
         )}
         {currentSlide === 4 && (
           <Slide>
-            <Row>{"Almacenamiento del resultado:"}</Row>
-            <Row>
-              <BitsRow>
-                <SignBit>{"+"}</SignBit>
-                {"1."}
-                <MantissaBits>{normalizedMantissa.slice(2, 6)}</MantissaBits>
-              </BitsRow>
-              {"*2^ "}
-              <ExponentBits>
-                {binaryToDecimalWithBias(resultExponent)}
-              </ExponentBits>
-            </Row>
-            <IoArrowDown></IoArrowDown>
-            <Row>
-              <BitsRow>
-                <SignBit>{"+"}</SignBit>
-                {"1."}
-                <MantissaBits>{normalizedMantissa.slice(2, 6)}</MantissaBits>
-              </BitsRow>
-              {"*2^ "}
-              <ExponentBits>{resultExponent}</ExponentBits>
-            </Row>
-            <IoArrowDown></IoArrowDown>
-            <Row>
-              <BitsRow>
-                <SignBit>{0}</SignBit>
-                <ExponentBits>{resultExponent}</ExponentBits>
-                <MantissaBits>{normalizedMantissa.slice(2, 6)}</MantissaBits>
-              </BitsRow>
-            </Row>
+            {isUnderflow ? (
+              <Row>{"Underflow"}</Row>
+            ) : isOverflow ? (
+              <Row>{"Overflow"}</Row>
+            ) : (
+              <>
+                <Row>{"Almacenamiento del resultado:"}</Row>
+                <Row>
+                  <BitsRow>
+                    <SignBit>{"+"}</SignBit>
+                    {"1."}
+                    <MantissaBits>
+                      {normalizedMantissa.slice(2, 6)}
+                    </MantissaBits>
+                  </BitsRow>
+                  {"*2^ "}
+                  <ExponentBits>
+                    {binaryToDecimalWithBias(resultExponent)}
+                  </ExponentBits>
+                </Row>
+                <IoArrowDown></IoArrowDown>
+                <Row>
+                  <BitsRow>
+                    <SignBit>{"+"}</SignBit>
+                    {"1."}
+                    <MantissaBits>
+                      {normalizedMantissa.slice(2, 6)}
+                    </MantissaBits>
+                  </BitsRow>
+                  {"*2^ "}
+                  <ExponentBits>{resultExponent}</ExponentBits>
+                </Row>
+                <IoArrowDown></IoArrowDown>
+                <Row>
+                  <BitsRow>
+                    <SignBit>{0}</SignBit>
+                    <ExponentBits>{resultExponent}</ExponentBits>
+                    <MantissaBits>
+                      {normalizedMantissa.slice(2, 6)}
+                    </MantissaBits>
+                  </BitsRow>
+                </Row>
+              </>
+            )}
           </Slide>
         )}
       </SlidesContainer>
