@@ -10,6 +10,7 @@ import { useEffect, useMemo, useState } from "react";
 import { BusAnimation } from "../BusAnimation";
 import { Globe } from "../../Globe";
 import { textDataTitle } from "../utils";
+import { convertValue } from "../../../interpreter/utils";
 
 export const CacheToControlUnitBus = ({ id }) => {
   const typeSimulation = useSelector(
@@ -27,6 +28,7 @@ export const CacheToControlUnitBus = ({ id }) => {
 
   const fetchColor = useSelector((state) => state.application.fetch.color);
   const executeColor = useSelector((state) => state.application.execute.color);
+
 
   const animationDataFetch = useMemo(() => {
     return animations.find((anim) => anim.id === controlUnitCacheId);

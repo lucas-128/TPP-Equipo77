@@ -143,8 +143,8 @@ export function toHexa(value) {
 }
 
 export function toHexaPadStart(value) {
-  const res = value.toString(16).toUpperCase();
-  return res;
+  // NO CAMBIAR, POR FAVOR, GRACIAS !!!!
+  return value.toString(16).toUpperCase().padStart(2, "0");
 }
 
 export function toBinary(value) {
