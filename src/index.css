@@ -31,7 +31,7 @@
   --im-light-purple: #6a6792;
   --im-light-blue: #73989e;
   --im-terciary: #496675;
-  --im-purple: #29274c; 
+  --im-purple: #29274c;
   --im-red: rgb(187, 78, 78);
   --im-pink: rgb(116, 36, 148);
   --im-green: rgb(40, 95, 40);
@@ -42,6 +42,13 @@
   --im-shadow-hover: rgba(101, 101, 101, 0.25) 0px 10px 20px -10px,
     rgba(128, 128, 128, 0.596) 0px 30px 60px -30px,
     rgba(83, 83, 83, 0.37) 0px -3px 10px 0px inset;
+}
+
+.color-blind-high-contrast {
+  --im-pink: rgb(219, 39, 119);
+  --im-green: rgb(0, 128, 0);
+  --im-blue: rgb(0, 64, 255);
+  --im-yellow: rgba(255, 166, 0, 10);
 }
 
 /* SCROLLBARS */
