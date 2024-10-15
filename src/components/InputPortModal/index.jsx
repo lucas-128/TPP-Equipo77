@@ -16,6 +16,7 @@ import {
 } from "./styled";
 import { Button } from "../Button";
 import { toHexa } from "../../interpreter/utils";
+import { numericBaseType } from "../../interpreter/constants";
 
 export const InputPortModal = () => {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ export const InputPortModal = () => {
   );
 
   const [inputValue, setInputValue] = useState("");
-  const [numericBase, setNumericBase] = useState("decimal");
+  const [numericBase, setNumericBase] = useState(numericBaseType.DECIMAL);
   const [error, setError] = useState("");
 
   const handleChange = (event) => {
@@ -101,11 +102,11 @@ export const InputPortModal = () => {
     }
 
     switch (numericBase) {
-      case "decimal":
+      case numericBaseType.DECIMAL:
         return isValidDecimal(inputValue);
-      case "binario":
+      case numericBaseType.BINARY:
         return isValidBinary(inputValue);
-      case "hexa":
+      case numericBaseType.HEXA:
         return isValidHex(inputValue);
       default:
         setError(errorMessages.invalidValue);
@@ -120,13 +121,13 @@ export const InputPortModal = () => {
   };
 
   const getHexaValue = () => {
-    if (numericBase === "decimal") {
+    if (numericBase === numericBaseType.DECIMAL) {
       return parseInt(inputValue) < 0
         ? toHexa(256 + parseInt(inputValue))
         : toHexa(parseInt(inputValue));
-    } else if (numericBase === "binario") {
+    } else if (numericBase === numericBaseType.BINARY) {
       return parseInt(inputValue, 2).toString(16).toUpperCase();
-    } else if (numericBase === "hexa") {
+    } else if (numericBase === numericBaseType.HEXA) {
       return inputValue.toUpperCase();
     }
   };
@@ -152,6 +153,7 @@ export const InputPortModal = () => {
     };
     dispatch(updateCurrentState(newState));
     setError("");
+    setNumericBase(numericBaseType.DECIMAL);
   };
 
   return (
@@ -174,8 +176,8 @@ export const InputPortModal = () => {
                 <RadioInput
                   type="radio"
                   name="number-system"
-                  value="decimal"
-                  checked={numericBase === "decimal"}
+                  value={numericBaseType.DECIMAL}
+                  checked={numericBase === numericBaseType.DECIMAL}
                   onChange={handleChange}
                 />
                 Decimal
@@ -184,8 +186,8 @@ export const InputPortModal = () => {
                 <RadioInput
                   type="radio"
                   name="number-system"
-                  value="binario"
-                  checked={numericBase === "binario"}
+                  value={numericBaseType.BINARY}
+                  checked={numericBase === numericBaseType.BINARY}
                   onChange={handleChange}
                 />
                 Binario
@@ -194,8 +196,8 @@ export const InputPortModal = () => {
                 <RadioInput
                   type="radio"
                   name="number-system"
-                  value="hexa"
-                  checked={numericBase === "hexa"}
+                  value={numericBaseType.HEXA}
+                  checked={numericBase === numericBaseType.HEXA}
                   onChange={handleChange}
                 />
                 Hexadecimal
