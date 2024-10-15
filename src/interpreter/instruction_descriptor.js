@@ -1,4 +1,4 @@
-const instructions = {
+export const instructions = {
   //1RXY
   1: [
     "Cargar en el registro R el contenido de la celda con dirección XY",
@@ -90,6 +90,21 @@ export const instructionCodes = [
   "A",
   "B",
   "C",
+];
+
+export const operators = [
+  "RXY",
+  "RXY",
+  "RXY",
+  "0RS",
+  "RST",
+  "RST",
+  "RST",
+  "RST",
+  "RST",
+  "R0X",
+  "RXY",
+  "000",
 ];
 
 export function getInstructionLog(instruction, row) {

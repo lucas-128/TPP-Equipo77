@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 
 const grow = keyframes`
   0% {
@@ -23,6 +23,15 @@ const fadeIn = keyframes`
 const fadeOut = keyframes`
   from { opacity: 1; }
   to { opacity: 0; }
+`;
+
+const spin = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 `;
 
 export const LoadingContainer = styled.div`
@@ -51,7 +60,15 @@ export const Icon = styled.img`
   height: 100px;
   margin-bottom: 20px;
   color: white;
-  animation: ${grow} 1.25s ease-in-out;
+
+  animation: ${(props) =>
+    props.fadeOut
+      ? css`
+          ${spin} 1s ease-in-out
+        `
+      : css`
+          ${grow} 1.25s ease-in-out forwards
+        `};
 `;
 
 export const Title = styled.h1`

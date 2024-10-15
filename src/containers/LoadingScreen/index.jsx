@@ -35,7 +35,7 @@ export const LoadingScreen = () => {
   return (
     <LoadingContainer className={fadeOut ? "fade-out" : ""}>
       {" "}
-      <Icon src="/favicon.png" alt="Cargando..." />
+      <Icon src="/favicon.png" alt="Cargando..." fadeOut={fadeOut} />
       <Title>Intérprete Máquina Ideal RISC</Title>
       <Subtitle>
         Una mirada interactiva a la arquitectura de una computadora en

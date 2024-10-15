@@ -90,7 +90,12 @@ export const TextEditor = ({ children, text, setText }) => {
           <EditorHeaderText>{isSimulating ? "Simulando" : ""}</EditorHeaderText>
           <EditorHeaderIconContainer>
             {isSimulating ? (
-              <></>
+              <Button
+                title="Ayuda"
+                onClick={() => dispatch(setOpenInstructionsModal(true))}
+              >
+                <BsQuestionCircleFill size={18} />
+              </Button>
             ) : (
               <>
                 <Button htmlFor="file-upload" title="Subir archivo">
