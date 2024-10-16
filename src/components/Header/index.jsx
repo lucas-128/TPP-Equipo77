@@ -18,11 +18,14 @@ import {
   executeReference,
   cycleReference,
 } from "./utils";
+import { Switch } from "@mui/material";
 
 export const Header = () => {
   const dispatch = useDispatch();
   const [isPipelining, setIsPipelining] = useState(false);
   const [isCycles, setIsCycles] = useState(false);
+  const [colorBlindMode, setColorBlindMode] = useState("none");
+
   const typeSimulation = useSelector(
     (state) => state.application.typeSimulation
   );
@@ -50,7 +53,7 @@ export const Header = () => {
     (state) => state.application.execute.instructionId
   );
   const executeInstruction = useMemo(() => {
-    if(executeId === null || executeId === -1) return null;
+    if (executeId === null || executeId === -1) return null;
     const execId = isCycles ? executeId - 1 : executeId;
     const firstHalf = mainMemoryCells[execId + 1 * execId];
     const secondHalf = mainMemoryCells[execId + 1 * execId + 1];
@@ -69,6 +72,15 @@ export const Header = () => {
   const handleNumericBaseSelectChange = (e) => {
     const selected = e.target.value;
     dispatch(updateNumericBase(selected));
+  };
+
+  const handleColorBlindModeChange = (event) => {
+    const newMode = event.target.checked ? "high-contrast" : "none";
+    setColorBlindMode(newMode);
+    document.body.classList.remove("color-blind-high-contrast");
+    if (newMode === "high-contrast") {
+      document.body.classList.add(`color-blind-${newMode}`);
+    }
   };
 
   return (
@@ -91,6 +103,13 @@ export const Header = () => {
         </HeaderCyclesColorReference>
       )}
       <div className="row">
+        <HeaderTitle>Alto contraste</HeaderTitle>
+        <Switch
+          checked={colorBlindMode === "high-contrast"}
+          onChange={handleColorBlindModeChange}
+          color="primary"
+        />
+
         <HeaderSelect
           value={numericBase}
           onChange={(e) => handleNumericBaseSelectChange(e)}

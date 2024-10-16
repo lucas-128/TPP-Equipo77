@@ -7,6 +7,7 @@ import { BusAnimation } from "../BusAnimation";
 import { Globe } from "../../Globe";
 import { typeSimulations } from "../../../interpreter/constants";
 import { textDataTitle } from "../utils";
+import { convertValue } from "../../../interpreter/utils";
 
 export const MainMemControlDataBus = ({ id, source, target }) => {
   const [animateInterminently, setAnimateInterminently] = useState(false);
@@ -29,6 +30,8 @@ export const MainMemControlDataBus = ({ id, source, target }) => {
   const fetchColor = useSelector((state) => state.application.fetch.color);
   const executeColor = useSelector((state) => state.application.execute.color);
 
+  const numericBase = useSelector((state) => state.application.numericBase);
+
   const animationDataFetch = useMemo(() => {
     return animations.find((anim) => anim.id === mainMemControlUnitDataId);
   }, [animations, mainMemControlUnitDataId]);
@@ -38,6 +41,14 @@ export const MainMemControlDataBus = ({ id, source, target }) => {
       (anim) => anim.id === mainMemControlUnitDataId
     );
   }, [executeAnimations, mainMemControlUnitDataId]);
+
+  const animationDataFetchToShow = useMemo(() => {
+    return convertValue(animationDataFetch?.data, numericBase);
+  }, [animationDataFetch, numericBase]);
+
+  const animationDataExecuteToShow = useMemo(() => {
+    return convertValue(animationDataExecute?.data, numericBase);
+  }, [animationDataExecute, numericBase]);
 
   const animationFetch = animationDataFetch && !animationDataExecute;
   const animationExecute = animationDataExecute && !animationDataFetch;
@@ -92,7 +103,7 @@ export const MainMemControlDataBus = ({ id, source, target }) => {
               title={textDataTitle("Datos (execute)", typeSimulation)}
               color={executeColor}
             >
-              {animationDataExecute.data}
+              {animationDataExecuteToShow}
             </Globe>
           )}
           {animationBoth && (
@@ -102,14 +113,14 @@ export const MainMemControlDataBus = ({ id, source, target }) => {
                 title={"Datos (fetch)"}
                 color={fetchColor}
               >
-                {animationDataFetch.data}
+                {animationDataFetchToShow}
               </Globe>
               <Globe
                 arrowPosition={"bottom"}
                 title={"Datos (execute)"}
                 color={executeColor}
               >
-                {animationDataExecute.data}
+                {animationDataExecuteToShow}
               </Globe>
             </div>
           )}

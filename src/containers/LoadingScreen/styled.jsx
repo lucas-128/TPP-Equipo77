@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 
 const grow = keyframes`
   0% {
@@ -25,6 +25,15 @@ const fadeOut = keyframes`
   to { opacity: 0; }
 `;
 
+const spin = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+`;
+
 export const LoadingContainer = styled.div`
   position: fixed;
   top: 0;
@@ -35,24 +44,31 @@ export const LoadingContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: var(--im-secondary);
+  background: linear-gradient(135deg, #023445 0%, #014055 50%, #012633 100%);
   color: white;
   font-size: 24px;
   z-index: 20;
-  animation: ${fadeOut} 0.75s ease-out forwards;
-  animation-delay: 3s;
-`;
-
-/*&.fade-out {
+  backdrop-filter: blur(8px);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+  &.fade-out {
     animation: ${fadeOut} 0.75s ease-out forwards;
-  }*/
+  }
+`;
 
 export const Icon = styled.img`
   width: 100px;
   height: 100px;
   margin-bottom: 20px;
   color: white;
-  animation: ${grow} 1.25s ease-in-out;
+
+  animation: ${(props) =>
+    props.fadeOut
+      ? css`
+          ${spin} 1s ease-in-out
+        `
+      : css`
+          ${grow} 1.25s ease-in-out forwards
+        `};
 `;
 
 export const Title = styled.h1`
@@ -74,7 +90,7 @@ export const Subtitle = styled.h2`
   margin-bottom: 40px;
 `;
 
-/*export const StartButton = styled.button`
+export const StartButton = styled.button`
   margin-top: 20px;
   padding: 10px 20px;
   font-size: 18px;
@@ -85,7 +101,6 @@ export const Subtitle = styled.h2`
   border-radius: 10px;
   cursor: pointer;
   animation: ${fadeIn} 0.75s ease-in-out forwards;
-  animation-delay: 1s; 
+  animation-delay: 1s;
   opacity: 0;
 `;
-*/

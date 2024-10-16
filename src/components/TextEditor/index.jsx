@@ -33,7 +33,8 @@ export const TextEditor = ({ children, text, setText }) => {
     if (file && file.type === "text/plain") {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setText(e.target.result);
+        const inputText = formatText(e.target.result);
+        setText(inputText);
         event.target.value = null;
       };
       reader.onerror = () => {
@@ -42,6 +43,18 @@ export const TextEditor = ({ children, text, setText }) => {
       reader.readAsText(file);
     } else {
       dispatch(setError("Please select a valid .txt file."));
+    }
+  };
+
+  const formatText = (enteredText) => {
+    const lines = enteredText.split("\n");
+    const areAllDirs = lines
+      .map((line) => line.split(" ")[0])
+      .every((line) => line.length == 2);
+    if (areAllDirs) {
+      return lines.map((line) => line.split(" ").slice(1).join(" ")).join("\n");
+    } else {
+      return enteredText;
     }
   };
 
@@ -90,7 +103,12 @@ export const TextEditor = ({ children, text, setText }) => {
           <EditorHeaderText>{isSimulating ? "Simulando" : ""}</EditorHeaderText>
           <EditorHeaderIconContainer>
             {isSimulating ? (
-              <></>
+              <Button
+                title="Ayuda"
+                onClick={() => dispatch(setOpenInstructionsModal(true))}
+              >
+                <BsQuestionCircleFill size={18} />
+              </Button>
             ) : (
               <>
                 <Button htmlFor="file-upload" title="Subir archivo">

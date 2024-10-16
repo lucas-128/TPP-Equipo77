@@ -60,6 +60,7 @@ export const cyclesSimulations = {
 export const numericBaseType = {
   BINARY: "binary",
   HEXA: "hexadecimal",
+  DECIMAL: "decimal",
 };
 
 export const instructionCodes = [

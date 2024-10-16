@@ -11,7 +11,7 @@ import {
 import { BusAnimation } from "../BusAnimation";
 import { Globe } from "../../Globe";
 import { Title } from "./styled";
-import { toHexaPadStart } from "../../../interpreter/utils";
+import { convertValue, toHexaPadStart } from "../../../interpreter/utils";
 import { textAddressTitle, textDataTitle } from "../utils";
 
 export const RegistersToALUBus = ({ id, data }) => {
@@ -24,6 +24,8 @@ export const RegistersToALUBus = ({ id, data }) => {
     (state) => state.application.execute.edgeAnimation
   );
 
+  const numericBase = useSelector((state) => state.application.numericBase);
+
   const animationDataTop = useMemo(() => {
     const data = animations.find((anim) => anim.id === registerAluTopId);
     return data;
@@ -33,6 +35,14 @@ export const RegistersToALUBus = ({ id, data }) => {
     const data = animations.find((anim) => anim.id === registerAluBottomId);
     return data;
   }, [animations, registerAluBottomId]);
+
+  const animationDataTopToShow = useMemo(() => {
+    return convertValue(animationDataTop?.data, numericBase);
+  }, [animationDataTop, numericBase]);
+
+  const animationDataBottomToShow = useMemo(() => {
+    return convertValue(animationDataBottom?.data, numericBase);
+  }, [animationDataBottom, numericBase]);
 
   const edgeAnimationAluTop = !!animationDataTop;
   const edgeAnimationAluBottom = !!animationDataBottom;
@@ -129,7 +139,7 @@ export const RegistersToALUBus = ({ id, data }) => {
                   <Title $color={color}>
                     {textDataTitle("Datos (execute)", typeSimulation)}
                   </Title>
-                  {animationDataTop?.data}
+                  {animationDataTopToShow}
                 </div>
               </Globe>
             )}
@@ -153,7 +163,7 @@ export const RegistersToALUBus = ({ id, data }) => {
                 </div>
                 <div className="row">
                   <Title $color={color}>Datos</Title>
-                  {animationDataBottom?.data}
+                  {animationDataBottomToShow}
                 </div>
               </Globe>
             )}
