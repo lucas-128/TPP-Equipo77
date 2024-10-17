@@ -53,13 +53,17 @@ export default class FloatingPointSum extends Instruction {
 
 // registerS + register T
 function floatingPointSum(registerS, registerT) {
+  // esta funcion tiene que pinchar como el comp2 si hay overflow
+  // si hay underflow del exponente, todo 0
+  // manejar el signo opuesto
+  // tiene que devolver el resultado final que se guarda en el registro (res_string)
+
   const parsedS = parseRegister(registerS);
   const parsedT = parseRegister(registerT);
 
-  // console.log(parsedS);
-  // console.log(parsedT);
+  console.log(parsedS);
+  console.log(parsedT);
 
-  // TODO Manejar casos especiales (infinito, 0)
   const alignedRegisters = alignMantissas(parsedS, parsedT);
 
   const resultMantissa = addBinary(
@@ -79,7 +83,7 @@ function floatingPointSum(registerS, registerT) {
     .split(".")[1]
     .substring(0, 4);
 
-  const resultSign = "0"; //TODO
+  const resultSign = "0";
 
   const res_string = resultSign + resultExponent + resultNormalizedMantissa;
 
@@ -270,7 +274,7 @@ export function normalizeMantissa(s) {
   newString =
     newString.slice(0, newDotIndex) + "." + newString.slice(newDotIndex);
 
-  return [newString, movedValue];
+  return [newString, -movedValue];
 }
 
 export function toBiasBinary(value, bias, bitWidth) {
