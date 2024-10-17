@@ -64,14 +64,46 @@ function floatingPointSum(registerS, registerT) {
   console.log(parsedS);
   console.log(parsedT);
 
-  const alignedRegisters = alignMantissas(parsedS, parsedT);
+  let resultSign = "0";
 
-  const resultMantissa = addBinary(
+  // register1: newBiggerRegister,
+  // register2: newSmallerRegister,
+  let alignedRegisters = alignMantissas(parsedS, parsedT);
+  let diffSigns = parsedS.sign !== parsedT.sign;
+
+  // if diff signos -> comp 2 al smaller register
+  if (diffSigns) {
+    alignedRegisters.register2.mantissa.implied = twosComplementMantissa(
+      alignedRegisters.register2.mantissa.implied
+    );
+  }
+
+  let resultMantissa = addBinary(
     alignedRegisters.register1.mantissa.implied,
     alignedRegisters.register2.mantissa.implied
   );
 
+  console.log("res mantisa post suma: ", resultMantissa);
+
+  if (diffSigns) {
+    if (hasCarry(resultMantissa)) {
+      console.log("tienen signo dif y hay acarreo");
+      resultSign = "0";
+      resultMantissa = resultMantissa.slice(1);
+    } else {
+      console.log("tienen signo dif pero no hay acarreo");
+      resultSign = "1";
+    }
+  } else {
+    console.log("tienen mismo sig");
+    // nada
+  }
+
+  console.log("res mantisa post sign check: ", resultMantissa);
+
   const [normalizedMantissa, placesMoved] = normalizeMantissa(resultMantissa);
+
+  console.log("normalized tisa", normalizedMantissa);
 
   const resultExponent = toBiasBinary(
     alignedRegisters.register1.exponent.decimal + placesMoved,
@@ -83,8 +115,6 @@ function floatingPointSum(registerS, registerT) {
     .split(".")[1]
     .substring(0, 4);
 
-  const resultSign = "0";
-
   const res_string = resultSign + resultExponent + resultNormalizedMantissa;
 
   const result = parseInt(
@@ -92,6 +122,7 @@ function floatingPointSum(registerS, registerT) {
     2
   );
 
+  console.log("res: ", res_string);
   return res_string;
 }
 
@@ -251,6 +282,25 @@ function addBinaryInteger(int1, int2, carry) {
   return { result };
 }
 
+function invertBinaryString(binaryStr) {
+  return binaryStr
+    .split("")
+    .map((char) => (char === "0" ? "1" : char === "1" ? "0" : char))
+    .join("");
+}
+
+function hasCarry(str) {
+  const dotIndex = str.indexOf(".");
+  return dotIndex > 1;
+}
+
+function twosComplementMantissa(register) {
+  const inverted = invertBinaryString(register);
+  const result = addBinary(inverted, "0.0001");
+  return result;
+}
+
+/*
 export function normalizeMantissa(s) {
   const dotIndex = s.indexOf(".");
   const firstOneIndex = s.indexOf("1");
@@ -275,6 +325,48 @@ export function normalizeMantissa(s) {
     newString.slice(0, newDotIndex) + "." + newString.slice(newDotIndex);
 
   return [newString, -movedValue];
+}
+*/
+
+export function normalizeMantissa(binaryStr) {
+  const firstOneIndex = binaryStr.indexOf("1");
+
+  // If no '1' is found, return the default values
+  if (firstOneIndex === -1) {
+    return ["0.0000", 0];
+  }
+
+  const dotIndex = binaryStr.indexOf(".");
+  let binaryWithoutDot = binaryStr.replace(".", "");
+
+  // Remove leading zeros
+  let trimmedBinary = binaryWithoutDot.replace(/^0+/, "");
+
+  // Add the decimal point after the first digit
+  let processedString =
+    trimmedBinary.slice(0, 1) + "." + trimmedBinary.slice(1);
+
+  // Calculate the displacement of the '.'
+  const displacement =
+    dotIndex < firstOneIndex
+      ? firstOneIndex - dotIndex
+      : firstOneIndex + 1 - dotIndex;
+
+  // Adjust the decimal part to ensure it's 4 characters long
+  let parts = processedString.split(".");
+  if (parts.length === 2) {
+    let decimalPart = parts[1];
+
+    // Ensure the decimal part has exactly 4 characters
+    decimalPart =
+      decimalPart.length < 4
+        ? decimalPart.padEnd(4, "0")
+        : decimalPart.slice(0, 4);
+
+    processedString = parts[0] + "." + decimalPart;
+  }
+
+  return [processedString, displacement];
 }
 
 export function toBiasBinary(value, bias, bitWidth) {

@@ -265,18 +265,12 @@ export const FloatingPointSlides = ({
             <Row>{"Suma:"}</Row>
             <br></br>
             <Row>
-              <BitsRow>
-                {alignedRegisters.register1.sign === 0 ? "+" : "-"}
-                {alignedRegisters.register1.mantissa.implied}
-              </BitsRow>
+              <BitsRow>{alignedRegisters.register1.mantissa.implied}</BitsRow>
               {"*2^"}
               {alignedRegisters.register1.exponent.decimal}
             </Row>
             <Row>
-              <BitsRow>
-                {alignedRegisters.register2.sign === 0 ? "+" : "-"}
-                {alignedRegisters.register2.mantissa.implied}
-              </BitsRow>
+              <BitsRow>{alignedRegisters.register2.mantissa.implied}</BitsRow>
               {"*2^"}
               {alignedRegisters.register2.exponent.decimal}
             </Row>
