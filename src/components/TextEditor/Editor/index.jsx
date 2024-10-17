@@ -1,10 +1,9 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import Editor from "@monaco-editor/react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import "./index.css";
 import { typeSimulations } from "../../../interpreter/constants";
 import { setErrorLine } from "../../../slices/applicationSlice";
-import { useDispatch } from "react-redux";
 
 export const MonacoEditor = ({ setEditorValue, editorValue }) => {
   const editorRef = useRef(null);
@@ -103,11 +102,26 @@ export const MonacoEditor = ({ setEditorValue, editorValue }) => {
     return executeLine;
   }, [executeInstructionId]);
 
+  const lineNumberFormatter = useCallback((lineNumber) => {
+    if (!editorRef || !editorRef.current) return lineNumber;
+    const model = editorRef.current.getModel();
+    const totalLines = model.getLineCount();
+    let hexCounter = 0;
+    for (let i = 1; i <= totalLines; i++) {
+      const lineContent = model.getLineContent(i);
+      if (lineContent.trim() !== "") {
+        if (i === lineNumber) {
+          return hexCounter.toString(16).padStart(2, "0").toUpperCase();
+        }
+        hexCounter += 2;
+      }
+    }
+    return " ";
+  }, []);
+
   const options = {
     selectOnLineNumbers: true,
-    lineNumbers: (lineNumber) => {
-      return ((lineNumber - 1) * 2).toString(16).padStart(2, "0").toUpperCase();
-    },
+    lineNumbers: lineNumberFormatter,
     lineNumbersMinChars: 3,
     lineDecorationsWidth: "0px",
     minimap: { enabled: false },
