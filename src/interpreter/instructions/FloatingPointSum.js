@@ -1,6 +1,8 @@
 import Instruction from "../Instruction";
 import { animationsAlu } from "../constants";
 import { applyBinaryOperation, toHexa, animationsAluData } from "../utils";
+import { initialState } from "../../slices/applicationSlice";
+import { combineSlices } from "@reduxjs/toolkit";
 
 /* 
 Instruction: 6
@@ -25,6 +27,20 @@ export default class FloatingPointSum extends Instruction {
       floatingPointSum,
       newExecuteState
     );
+
+    if (resultNewExecuteState.registers[this.destinationIndex] === null) {
+      resultNewExecuteState.showOverflowErrorModal = true;
+      resultNewExecuteState.errorLine = this.id;
+      const newExecute = {
+        ...initialState.execute,
+        showOverflowErrorModal: true,
+        errorLine: this.id,
+      };
+      return {
+        ...oldState,
+        execute: newExecute,
+      };
+    }
 
     resultNewExecuteState.edgeAnimation = animationsAluData(
       this.registerSIndex,
@@ -58,8 +74,6 @@ function floatingPointSum(registerS, registerT) {
 
   let resultSign = parsedS.sign;
 
-  // register1: newBiggerRegister,
-  // register2: newSmallerRegister,
   let alignedRegisters = alignMantissas(parsedS, parsedT);
 
   let diffSigns = parsedS.sign !== parsedT.sign;
@@ -93,11 +107,17 @@ function floatingPointSum(registerS, registerT) {
 
   const [normalizedMantissa, placesMoved] = normalizeMantissa(resultMantissa);
 
-  const resultExponent = toBiasBinary(
-    alignedRegisters.register1.exponent.decimal - placesMoved,
-    3,
-    3
-  );
+  const resultExponentInt =
+    alignedRegisters.register1.exponent.decimal - placesMoved;
+
+  if (resultExponentInt < -3) {
+    // Underflow
+    return "00000000";
+  } else if (resultExponentInt > 4) {
+    return null;
+  }
+
+  const resultExponent = toBiasBinary(resultExponentInt, 3, 3);
 
   const resultNormalizedMantissa = normalizedMantissa
     .split(".")[1]
