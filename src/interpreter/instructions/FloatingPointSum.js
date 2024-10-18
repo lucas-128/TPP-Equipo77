@@ -53,22 +53,15 @@ export default class FloatingPointSum extends Instruction {
 
 // registerS + register T
 function floatingPointSum(registerS, registerT) {
-  // esta funcion tiene que pinchar como el comp2 si hay overflow
-  // si hay underflow del exponente, todo 0
-  // manejar el signo opuesto
-  // tiene que devolver el resultado final que se guarda en el registro (res_string)
-
   const parsedS = parseRegister(registerS);
   const parsedT = parseRegister(registerT);
-
-  // console.log(parsedS);
-  // console.log(parsedT);
 
   let resultSign = parsedS.sign;
 
   // register1: newBiggerRegister,
   // register2: newSmallerRegister,
   let alignedRegisters = alignMantissas(parsedS, parsedT);
+
   let diffSigns = parsedS.sign !== parsedT.sign;
 
   if (diffSigns) {
@@ -91,15 +84,13 @@ function floatingPointSum(registerS, registerT) {
   if (diffSigns) {
     if (hasCarry(resultMantissa)) {
       resultSign = "0";
-      console.log("result mantisa,", resultMantissa);
       resultMantissa = resultMantissa.slice(1);
-      console.log("result mantisa,", resultMantissa);
     } else {
       resultSign = "1";
-
       resultMantissa = twosComplementMantissa(resultMantissa);
     }
   }
+
   const [normalizedMantissa, placesMoved] = normalizeMantissa(resultMantissa);
 
   const resultExponent = toBiasBinary(
@@ -188,20 +179,24 @@ export function alignMantissas(register1, register2) {
     biggerExponentRegister.mantissa.implied
   );
 
+  const deepClone = (obj) => JSON.parse(JSON.stringify(obj));
+
   const newBiggerRegister = {
-    ...biggerExponentRegister,
+    ...deepClone(biggerExponentRegister),
     mantissa: {
-      ...biggerExponentRegister.mantissa,
+      raw: biggerExponentRegister.mantissa.raw,
       implied: alignedMantissas[1],
     },
+    sign: biggerExponentRegister.sign,
   };
 
   const newSmallerRegister = {
-    ...biggerExponentRegister,
+    ...deepClone(biggerExponentRegister),
     mantissa: {
       raw: smallerExponentRegister.mantissa.raw,
       implied: alignedMantissas[0],
     },
+    sign: smallerExponentRegister.sign,
   };
 
   return {
@@ -292,8 +287,25 @@ function hasCarry(str) {
 
 function twosComplementMantissa(register) {
   const inverted = invertBinaryString(register);
-  const result = addBinary(inverted, "0.0001");
+  const result = addBinary(inverted, prepareInvertedForAddBinary(inverted));
   return result;
+}
+
+function prepareInvertedForAddBinary(inverted) {
+  let binaryZeros = inverted
+    .split("")
+    .map((char) => (char === "." ? "." : "0"))
+    .join("");
+
+  const lastZeroIndex = binaryZeros.lastIndexOf("0");
+  if (lastZeroIndex !== -1) {
+    binaryZeros =
+      binaryZeros.substring(0, lastZeroIndex) +
+      "1" +
+      binaryZeros.substring(lastZeroIndex + 1);
+  }
+
+  return binaryZeros;
 }
 
 export function normalizeMantissa(binaryStr) {
