@@ -38,7 +38,7 @@ export const CacheMemory = () => {
             <TableRow key={index} colSpan="2">
               <TableCell>
                 {cell
-                  ? parseInt(cell.address, 10).toString(16).padStart(2, "0")
+                  ? parseInt(cell.address, 10).toString(16).padStart(2, "0").toUpperCase()
                   : "-"}
               </TableCell>
               <TableCell>{cellsContentToShow[index]}</TableCell>
