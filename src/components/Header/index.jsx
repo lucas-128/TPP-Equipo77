@@ -84,7 +84,7 @@ export const Header = () => {
   };
 
   return (
-    <HeaderContainer>
+    <HeaderContainer id="headerContainer">
       <HeaderTitle>Intérprete Máquina Ideal RISC</HeaderTitle>
       {isSimulating && isPipelining && (
         <HeaderCyclesColorReference>

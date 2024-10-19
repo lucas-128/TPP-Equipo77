@@ -78,6 +78,7 @@ export const TextEditor = ({ children, text, setText }) => {
 
   return show ? (
     <Resizable
+      id="editorContainer"
       defaultSize={{ width: 300, height: "100%" }}
       minWidth={250}
       maxWidth={800}

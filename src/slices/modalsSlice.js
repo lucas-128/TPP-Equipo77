@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { INTRODUCTION } from '../components/Tutorial/constants.jsx';
 
 const initialState = {
   error: false,
@@ -7,6 +8,8 @@ const initialState = {
   controlUnitZoom: false,
   mainMemoryModal: false,
   instructionsModal: false,
+  tutorial: false,
+  tutorialStep: INTRODUCTION
 };
 
 export const modalsSlice = createSlice({
@@ -32,6 +35,13 @@ export const modalsSlice = createSlice({
     },
     setOpenInstructionsModal(state, action) {
       state.instructionsModal = action.payload;
+    },
+    setShowTutorial(state, action) {
+      state.tutorial = action.payload;
+      state.tutorialStep = INTRODUCTION;
+    },
+    setTutorialStep(state, action) {
+      state.tutorialStep = action.payload;
     }
   },
 });
@@ -42,7 +52,9 @@ export const {
   setOpenAluZoom,
   setOpenMainMemoryModal,
   setOpenControlUnitZoom,
-  setOpenInstructionsModal
+  setOpenInstructionsModal,
+  setShowTutorial,
+  setTutorialStep
 } = modalsSlice.actions;
 
 export default modalsSlice.reducer;

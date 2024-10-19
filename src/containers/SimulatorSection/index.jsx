@@ -13,6 +13,7 @@ import { AluModal } from "../../components/AluModal";
 import { ControlUnitModal } from "../../components/ControlUnitModal";
 import MainMemoryModal from "../../components/MainMemoryModal";
 import { InstructionsModal } from "../../components/InstructionsModal";
+import { Tutorial } from "../../components/Tutorial";
 
 export const SimulatorContainer = () => {
   const [colorMode, setColorMode] = useState("dark");
@@ -24,6 +25,7 @@ export const SimulatorContainer = () => {
   return (
     <Container>
       <ReactFlow
+        id="simulatorContainer"
         nodes={nodes}
         edges={edges}
         nodeTypes={nodeTypes}
@@ -49,6 +51,7 @@ export const SimulatorContainer = () => {
       <ControlUnitModal />
       <MainMemoryModal />
       <InstructionsModal />
+      <Tutorial />
     </Container>
   );
 };

@@ -14,8 +14,6 @@ export default class Branch extends Instruction {
     this.nextInstructionDir = instruction[2] + instruction[3];
   }
 
-  // en pipelining limpiar los fetch y decode yta hechos porque se hace el salto
-  // en el execute mostrar como la alu compara los registros
   execute(oldState) {
     const newExecuteState = { ...oldState.execute };
     const newFetchState = { ...oldState.fetch };
