@@ -51,7 +51,7 @@ export const LoadingContainer = styled.div`
   backdrop-filter: blur(8px);
   box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
   &.fade-out {
-    animation: ${fadeOut} 0.75s ease-out forwards;
+    animation: ${fadeOut} 1s ease-out forwards;
   }
 `;
 
@@ -75,7 +75,7 @@ export const Title = styled.h1`
   margin: 0;
   font-size: 36px;
   font-weight: bold;
-  animation: ${fadeIn} 0.75s ease-in-out;
+  animation: ${fadeIn} 1s ease-in-out;
 `;
 
 export const Subtitle = styled.h2`
@@ -83,7 +83,7 @@ export const Subtitle = styled.h2`
   font-size: 18px;
   font-weight: normal;
   margin-top: 10px;
-  animation: ${fadeIn} 0.75s ease-in-out;
+  animation: ${fadeIn} 1s ease-in-out;
   opacity: 0;
   animation-fill-mode: forwards;
   animation-delay: 0.5s;
@@ -100,7 +100,7 @@ export const StartButton = styled.button`
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  animation: ${fadeIn} 0.75s ease-in-out forwards;
+  animation: ${fadeIn} 1s ease-in-out forwards;
   animation-delay: 1s;
   opacity: 0;
 `;

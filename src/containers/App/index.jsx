@@ -11,32 +11,22 @@ import { OutputPortModal } from "../../components/OutputPortModal";
 import { LoadingScreen } from "../LoadingScreen";
 
 export const App = () => {
-  const [showMainContainer, setShowMainContainer] = React.useState(false);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setShowMainContainer(true);
-    }, 10);
-  }, []);
-
   return (
     <>
       {" "}
       <LoadingScreen />
-      {showMainContainer && (
-        <MainContainer>
-          <Header />
-          <AppContainer>
-            <EditorSection />
-            <SimulatorContainer />
-          </AppContainer>
-          <HelpButton />
-          <ErrorModal />
-          <InputPortModal />
-          <OverflowErrorModal />
-          <OutputPortModal />
-        </MainContainer>
-      )}
+      <MainContainer>
+        <Header />
+        <AppContainer>
+          <EditorSection />
+          <SimulatorContainer />
+        </AppContainer>
+        <HelpButton />
+        <ErrorModal />
+        <InputPortModal />
+        <OverflowErrorModal />
+        <OutputPortModal />
+      </MainContainer>
     </>
   );
 };

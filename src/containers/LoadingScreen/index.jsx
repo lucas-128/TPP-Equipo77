@@ -6,22 +6,11 @@ export const LoadingScreen = () => {
   const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
-    const hasLoadedBefore = localStorage.getItem("appLoaded");
+    const hasLoadedBefore = sessionStorage.getItem("appLoaded");
     if (!hasLoadedBefore) {
       setIsVisible(true);
-      localStorage.setItem("appLoaded", "true");
     }
   }, []);
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setIsVisible(false);
-    }, 8000);
-
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [isVisible]);
 
   if (!isVisible) {
     return null;
@@ -30,6 +19,7 @@ export const LoadingScreen = () => {
   const handleStartClick = () => {
     setFadeOut(true);
     setTimeout(() => setIsVisible(false), 750);
+    sessionStorage.setItem("appLoaded", "true");
   };
 
   return (

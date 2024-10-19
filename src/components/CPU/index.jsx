@@ -11,7 +11,7 @@ export const CPU = () => {
         <h1
           style={{
             margin: "0px",
-            fontSize: "45px",
+            fontSize: "55px",
           }}
         >
           CPU
