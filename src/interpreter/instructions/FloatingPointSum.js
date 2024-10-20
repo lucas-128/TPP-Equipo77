@@ -2,7 +2,6 @@ import Instruction from "../Instruction";
 import { animationsAlu } from "../constants";
 import { applyBinaryOperation, toHexa, animationsAluData } from "../utils";
 import { initialState } from "../../slices/applicationSlice";
-import { combineSlices } from "@reduxjs/toolkit";
 
 /* 
 Instruction: 6
@@ -67,8 +66,7 @@ export default class FloatingPointSum extends Instruction {
   }
 }
 
-// registerS + register T
-function floatingPointSum(registerS, registerT) {
+export function floatingPointSum(registerS, registerT) {
   const parsedS = parseRegister(registerS);
   const parsedT = parseRegister(registerT);
 
@@ -300,12 +298,12 @@ function invertBinaryString(binaryStr) {
     .join("");
 }
 
-function hasCarry(str) {
+export function hasCarry(str) {
   const dotIndex = str.indexOf(".");
   return dotIndex > 1;
 }
 
-function twosComplementMantissa(register) {
+export function twosComplementMantissa(register) {
   const inverted = invertBinaryString(register);
   const result = addBinary(inverted, prepareInvertedForAddBinary(inverted));
   return result;

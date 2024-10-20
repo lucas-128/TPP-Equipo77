@@ -25,9 +25,18 @@ import {
   addBinary,
   normalizeMantissa,
   toBiasBinary,
+  floatingPointSum,
+  twosComplementMantissa,
+  hasCarry,
 } from "../../../interpreter/instructions/FloatingPointSum";
 
 import { IoArrowForward, IoArrowBack, IoArrowDown } from "react-icons/io5";
+
+const initialSlide = 0;
+const lastSlide = 6;
+const underflowLimit = -3;
+const overflowLimit = 4;
+const exponentBias = 3;
 
 export const FloatingPointSlides = ({
   aluOperation,
@@ -39,32 +48,79 @@ export const FloatingPointSlides = ({
 }) => {
   let binaryToDecimalWithBias = (binaryStr) => {
     const decimalValue = parseInt(binaryStr, 2);
-    const result = decimalValue - 3;
+    const result = decimalValue - exponentBias;
     return result;
   };
 
+  // Slide 0: Interpretar registros
   let parsedS = parseRegister(registerSbits);
   let parsedT = parseRegister(registerTbits);
 
+  let resultSign = parsedS.sign;
+
+  // Slide 1: Alinear registros
   let alignedRegisters = alignMantissas(parsedS, parsedT);
 
+  // Slide 2: if diffSign --> comp2 mantisa
+  let registerToComplement = null;
+  let complementedRegister = null;
+
+  const diffSigns = parsedS.sign !== parsedT.sign;
+  if (diffSigns) {
+    if (alignedRegisters.register2.sign === 1) {
+      registerToComplement = alignedRegisters.register2.mantissa.implied;
+      complementedRegister = twosComplementMantissa(registerToComplement);
+      alignedRegisters.register2.mantissa.implied = complementedRegister;
+    } else {
+      registerToComplement = alignedRegisters.register1.mantissa.implied;
+      complementedRegister = twosComplementMantissa(registerToComplement);
+      alignedRegisters.register1.mantissa.implied = complementedRegister;
+    }
+  }
+
+  // Slide 3: Suma de registros
   let sumResultMantissa = addBinary(
     alignedRegisters.register1.mantissa.implied,
     alignedRegisters.register2.mantissa.implied
   );
 
+  const sumResultMantissaFull = sumResultMantissa;
+
+  let carry = false;
+  // Slide 4: Solo si hay diffSign, revisar si hay carry y actualizar resultado de mantisa
+  if (diffSigns) {
+    if (hasCarry(sumResultMantissa)) {
+      carry = true;
+      resultSign = "0";
+      sumResultMantissa = sumResultMantissa.slice(1);
+    } else {
+      resultSign = "1";
+      sumResultMantissa = twosComplementMantissa(sumResultMantissa);
+    }
+  }
+
+  const resultSignStr = resultSign === "0" ? "+" : "-";
+
+  // Slide 5: Normalizar mantisa y chequear underflow
   let [normalizedMantissa, placesMoved] = normalizeMantissa(sumResultMantissa);
 
-  let resultExponent = toBiasBinary(
-    alignedRegisters.register1.exponent.decimal + placesMoved,
-    3,
-    3
-  );
+  const resultExponentInt =
+    alignedRegisters.register1.exponent.decimal - placesMoved;
 
-  const isUnderflow =
-    alignedRegisters.register1.exponent.decimal + placesMoved < -3;
-  const isOverflow =
-    alignedRegisters.register1.exponent.decimal + placesMoved > 4;
+  if (resultExponentInt < underflowLimit) {
+    //console.log("Underflow");
+  } else if (resultExponentInt > overflowLimit) {
+    //console.log("Overflow");
+  }
+
+  // Slide 6: almacenar el resultado final.
+  const resultExponent = toBiasBinary(
+    resultExponentInt,
+    exponentBias,
+    exponentBias
+  );
+  const finalResult = floatingPointSum(registerSbits, registerTbits);
+  //console.log(finalResult);
 
   return (
     <InfoContainer>
@@ -262,6 +318,31 @@ export const FloatingPointSlides = ({
         )}
         {currentSlide === 2 && (
           <Slide>
+            <Row>{"Manejo de Signo:"}</Row>
+
+            {diffSigns ? (
+              <>
+                <Row>
+                  {
+                    "Aplicación de complemento a 2 al registro con signo negativo."
+                  }
+                </Row>
+                <Row>{registerToComplement}</Row>
+                <IoArrowDown></IoArrowDown>
+                <Row>{complementedRegister}</Row>
+              </>
+            ) : (
+              <>
+                <IoArrowDown></IoArrowDown>
+
+                <Row>{"Los registros tienen el mismo signo, "}</Row>
+                <Row>{"no debemos aplicar complemento a 2."}</Row>
+              </>
+            )}
+          </Slide>
+        )}
+        {currentSlide === 3 && (
+          <Slide>
             <Row>{"Suma:"}</Row>
             <br></br>
             <Row>
@@ -276,24 +357,52 @@ export const FloatingPointSlides = ({
             </Row>
             <Line />
             <Row>
-              <BitsRow>
-                {"+"}
-                {sumResultMantissa}
-              </BitsRow>
+              <BitsRow>{sumResultMantissaFull}</BitsRow>
               {"*2^"}
               {alignedRegisters.register2.exponent.decimal}
             </Row>
           </Slide>
         )}
-        {currentSlide === 3 && (
+        {currentSlide === 4 && (
+          <Slide>
+            <Row>{"Manejo de Acarreo:"}</Row>
+
+            {diffSigns ? (
+              <>
+                {carry ? (
+                  <>
+                    <Row>{"Descarte del acarreo por signos diferentes."}</Row>
+                    <Row>{sumResultMantissaFull}</Row>
+                    <IoArrowDown />
+                    <Row>{sumResultMantissa}</Row>
+                  </>
+                ) : (
+                  <>
+                    <Row>
+                      {`Bit más significativo =  ${sumResultMantissaFull[0]} (sin acarreo)`}
+                    </Row>
+                    <Row>{"Complemento a 2 el resultado:"}</Row>
+                    <Row>{sumResultMantissaFull}</Row>
+                    <IoArrowDown />
+                    <Row>-{sumResultMantissa}</Row>
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                <IoArrowDown />
+                <Row>{"Los registros tienen el mismo signo,"} </Row>
+                <Row>{"saltamos el control de acarreo."}</Row>
+              </>
+            )}
+          </Slide>
+        )}
+        {currentSlide === 5 && (
           <Slide>
             <Row>{"Normalización y redondeo:"}</Row>
             <br></br>
             <Row>
-              <BitsRow>
-                {"+"}
-                {sumResultMantissa}
-              </BitsRow>
+              <BitsRow>{sumResultMantissa}</BitsRow>
               {"*2^"}
 
               {alignedRegisters.register2.exponent.decimal}
@@ -301,79 +410,60 @@ export const FloatingPointSlides = ({
             <IoArrowDown></IoArrowDown>
             <Row>
               <BitsRow>
-                <SignBit>{"+"}</SignBit>
                 {"1."}
                 <MantissaBits>{normalizedMantissa.slice(2, 6)}</MantissaBits>
               </BitsRow>
               {"*2^"}
               <ExponentBits>
-                {alignedRegisters.register2.exponent.decimal + placesMoved}
+                {alignedRegisters.register2.exponent.decimal - placesMoved}
               </ExponentBits>
             </Row>
-            {binaryToDecimalWithBias(resultExponent) + placesMoved < -3 ? (
-              <span>Underflow exponente</span>
-            ) : binaryToDecimalWithBias(resultExponent) + placesMoved > 4 ? (
-              <span>Overflow exponente</span>
-            ) : null}
+            {/*  UNDERFLOW == 0000000*/}
           </Slide>
         )}
-        {currentSlide === 4 && (
+        {currentSlide === 6 && (
           <Slide>
-            {isUnderflow ? (
-              <Row>{"Underflow"}</Row>
-            ) : isOverflow ? (
-              <Row>{"Overflow"}</Row>
-            ) : (
-              <>
-                <Row>{"Almacenamiento del resultado:"}</Row>
-                <Row>
-                  <BitsRow>
-                    <SignBit>{"+"}</SignBit>
-                    {"1."}
-                    <MantissaBits>
-                      {normalizedMantissa.slice(2, 6)}
-                    </MantissaBits>
-                  </BitsRow>
-                  {"*2^ "}
-                  <ExponentBits>
-                    {binaryToDecimalWithBias(resultExponent)}
-                  </ExponentBits>
-                </Row>
-                <IoArrowDown></IoArrowDown>
-                <Row>
-                  <BitsRow>
-                    <SignBit>{"+"}</SignBit>
-                    {"1."}
-                    <MantissaBits>
-                      {normalizedMantissa.slice(2, 6)}
-                    </MantissaBits>
-                  </BitsRow>
-                  {"*2^ "}
+            <>
+              <Row>{"Almacenamiento del resultado:"}</Row>
+              <Row>
+                <BitsRow>
+                  <SignBit>{resultSignStr}</SignBit>
+                  {"1."}
+                  <MantissaBits>{normalizedMantissa.slice(2, 6)}</MantissaBits>
+                </BitsRow>
+                {"*2^ "}
+                <ExponentBits>{resultExponentInt}</ExponentBits>
+              </Row>
+              <IoArrowDown></IoArrowDown>
+              <Row>
+                <BitsRow>
+                  <SignBit>{resultSignStr}</SignBit>
+                  {"1."}
+                  <MantissaBits>{normalizedMantissa.slice(2, 6)}</MantissaBits>
+                </BitsRow>
+                {"*2^ "}
+                <ExponentBits>{resultExponent}</ExponentBits>
+              </Row>
+              <IoArrowDown></IoArrowDown>
+              <Row>
+                <BitsRow>
+                  <SignBit>{resultSign}</SignBit>
                   <ExponentBits>{resultExponent}</ExponentBits>
-                </Row>
-                <IoArrowDown></IoArrowDown>
-                <Row>
-                  <BitsRow>
-                    <SignBit>{0}</SignBit>
-                    <ExponentBits>{resultExponent}</ExponentBits>
-                    <MantissaBits>
-                      {normalizedMantissa.slice(2, 6)}
-                    </MantissaBits>
-                  </BitsRow>
-                </Row>
-              </>
-            )}
+                  <MantissaBits>{normalizedMantissa.slice(2, 6)}</MantissaBits>
+                </BitsRow>
+              </Row>
+            </>
           </Slide>
         )}
       </SlidesContainer>
 
       <SlidesButtonsContainer>
-        {currentSlide != 0 && (
+        {currentSlide != initialSlide && (
           <Button lightColor={true} onClick={prevSlide}>
             <IoArrowBack />
           </Button>
         )}
-        {currentSlide != 4 && (
+        {currentSlide != lastSlide && (
           <Button lightColor={true} onClick={nextSlide}>
             <IoArrowForward />
           </Button>
