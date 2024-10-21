@@ -16,7 +16,6 @@ import { InstructionsModal } from "../../components/InstructionsModal";
 import { Tutorial } from "../../components/Tutorial";
 
 export const SimulatorContainer = () => {
-  const [colorMode, setColorMode] = useState("dark");
   const nodes = useSelector((state) => state.application.nodes);
   const edges = useSelector((state) => state.application.edges);
   const proOptions = { hideAttribution: true };
@@ -42,7 +41,6 @@ export const SimulatorContainer = () => {
         zoomOnDoubleClick={false}
         fitView
         minZoom={0.4}
-        colorMode={colorMode}
       >
         <Controls showInteractive={false} />
         <Background gap={20} />

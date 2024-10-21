@@ -14,7 +14,7 @@ export const HeaderContainer = styled.div`
 
 export const HeaderTitle = styled.div`
   font-size: 15px;
-  color: var(--im-lighgray);
+  color: var(--im-lightgray);
   font-weight: 700;
   user-select: none;
 `;
