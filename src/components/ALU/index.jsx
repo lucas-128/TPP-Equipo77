@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { aluId } from "../../containers/SimulatorSection/components";
-import { ButtonContainer, Container, CustomHandle } from "./styled";
+import { AluTitle, Container, CustomHandle } from "./styled";
 import { setOpenAluZoom } from "../../slices/modalsSlice";
 import { Button } from "../Button";
 
@@ -35,7 +35,7 @@ export const ALU = () => {
           className="column"
           style={{ marginTop: aluOperation ? "25px" : "0px" }}
         >
-          ALU
+          <AluTitle>ALU</AluTitle>
           {aluOperation && (
             <Button
               lightColor={true}

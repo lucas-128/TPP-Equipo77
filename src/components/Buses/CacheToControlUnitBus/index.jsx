@@ -29,7 +29,6 @@ export const CacheToControlUnitBus = ({ id }) => {
   const fetchColor = useSelector((state) => state.application.fetch.color);
   const executeColor = useSelector((state) => state.application.execute.color);
 
-
   const animationDataFetch = useMemo(() => {
     return animations.find((anim) => anim.id === controlUnitCacheId);
   }, [animations]);
@@ -63,7 +62,7 @@ export const CacheToControlUnitBus = ({ id }) => {
         path={edgePath}
         interactionWidth={20}
         style={{
-          stroke: "hsl(120, 10.769230769230772%, 74.50980392156863%)",
+          stroke: "var(--im-data)",
           strokeWidth: 30,
           filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5))",
         }}

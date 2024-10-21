@@ -9,11 +9,23 @@ import {
   CustomHandle,
   CellNumeration,
   CellValue,
+  PaginationControls,
+  CurrentPage,
+  ViewAllButton,
+  WrapperContainer,
 } from "./styled";
 import { useDispatch, useSelector } from "react-redux";
 import { mainMemoryId } from "../../containers/SimulatorSection/components";
 import { setOpenMainMemoryModal } from "../../slices/modalsSlice";
 import { convertValue } from "../../interpreter/utils";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChevronLeft,
+  faChevronRight,
+  faAngleDoubleRight,
+  faAngleDoubleLeft,
+  faExpand,
+} from "@fortawesome/free-solid-svg-icons";
 
 export const MainMemory = () => {
   const dispatch = useDispatch();
@@ -61,26 +73,42 @@ export const MainMemory = () => {
             </TableRow>
           ))}
         </TableContainer>
-        <ButtonsContainer>
-          <span>
-            Página {currentPage} de {totalPages}
-          </span>
-          <div>
-            <PaginationButton
-              onClick={() => setCurrentPage(currentPage - 1)}
-              disabled={currentPage === 1}
-            >
-              Anterior
-            </PaginationButton>
-            <PaginationButton onClick={openModal}>Ver todo</PaginationButton>
-            <PaginationButton
-              onClick={() => setCurrentPage(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            >
-              Siguiente
-            </PaginationButton>
-          </div>
-        </ButtonsContainer>
+        <WrapperContainer>
+          <ButtonsContainer>
+            <PaginationControls>
+              <PaginationButton
+                onClick={() => setCurrentPage(1)}
+                disabled={currentPage === 1}
+              >
+                <FontAwesomeIcon icon={faAngleDoubleLeft} />
+              </PaginationButton>
+              <PaginationButton
+                onClick={() => setCurrentPage(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                <FontAwesomeIcon icon={faChevronLeft} />
+              </PaginationButton>
+              <CurrentPage>{currentPage}</CurrentPage>
+              <PaginationButton
+                onClick={() => setCurrentPage(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                <FontAwesomeIcon icon={faChevronRight} />
+              </PaginationButton>
+              <PaginationButton
+                onClick={() => setCurrentPage(totalPages)}
+                disabled={currentPage === totalPages}
+              >
+                <FontAwesomeIcon icon={faAngleDoubleRight} />
+              </PaginationButton>
+            </PaginationControls>
+          </ButtonsContainer>
+
+          <ViewAllButton onClick={openModal} title="Ver todo">
+            <FontAwesomeIcon icon={faExpand} />
+          </ViewAllButton>
+        </WrapperContainer>
+
         <CustomHandle type="source" position="left" />
         <CustomHandle type="target" position="left" />
       </Container>

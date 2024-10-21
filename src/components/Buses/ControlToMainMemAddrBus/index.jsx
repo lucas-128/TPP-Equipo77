@@ -64,7 +64,7 @@ export const ControlToMainMemAddrBus = ({ id }) => {
         path={edgePath}
         interactionWidth={20}
         style={{
-          stroke: "hsl(120, 10.769230769230772%, 74.50980392156863%)",
+          stroke: "var(--im-address)",
           strokeWidth: 30,
           filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5))",
         }}
