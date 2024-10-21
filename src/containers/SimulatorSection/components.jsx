@@ -52,7 +52,7 @@ export const initialNodes = [
     id: mainMemoryId,
     type: "mainMemory",
     data: { label: "Main Memory" },
-    position: { x: 1550, y: 0 },
+    position: { x: 1530, y: 0 },
     selectable: false,
   },
   {
