@@ -91,15 +91,15 @@ export const FloatingPointSlides = ({
   if (diffSigns) {
     if (hasCarry(sumResultMantissa)) {
       carry = true;
-      resultSign = "0";
+      resultSign = 0;
       sumResultMantissa = sumResultMantissa.slice(1);
     } else {
-      resultSign = "1";
+      resultSign = 1;
       sumResultMantissa = twosComplementMantissa(sumResultMantissa);
     }
   }
 
-  const resultSignStr = resultSign === "0" ? "+" : "-";
+  const resultSignStr = resultSign === 0 ? "+" : "-";
 
   // Slide 5: Normalizar mantisa y chequear underflow
   let [normalizedMantissa, placesMoved] = normalizeMantissa(sumResultMantissa);
@@ -107,8 +107,10 @@ export const FloatingPointSlides = ({
   const resultExponentInt =
     alignedRegisters.register1.exponent.decimal - placesMoved;
 
+  let isUnderflow = false;
   if (resultExponentInt < underflowLimit) {
     //console.log("Underflow");
+    isUnderflow = true;
   } else if (resultExponentInt > overflowLimit) {
     //console.log("Overflow");
   }
@@ -384,7 +386,7 @@ export const FloatingPointSlides = ({
                     <Row>{"Complemento a 2 el resultado:"}</Row>
                     <Row>{sumResultMantissaFull}</Row>
                     <IoArrowDown />
-                    <Row>-{sumResultMantissa}</Row>
+                    <Row>{sumResultMantissa}</Row>
                   </>
                 )}
               </>
@@ -400,7 +402,6 @@ export const FloatingPointSlides = ({
         {currentSlide === 5 && (
           <Slide>
             <Row>{"Normalización y redondeo:"}</Row>
-            <br></br>
             <Row>
               <BitsRow>{sumResultMantissa}</BitsRow>
               {"*2^"}
@@ -418,40 +419,78 @@ export const FloatingPointSlides = ({
                 {alignedRegisters.register2.exponent.decimal - placesMoved}
               </ExponentBits>
             </Row>
-            {/*  UNDERFLOW == 0000000*/}
+            {isUnderflow && (
+              <>
+                <Row>{"Underflow detectado"}</Row>
+              </>
+            )}
           </Slide>
         )}
         {currentSlide === 6 && (
           <Slide>
             <>
               <Row>{"Almacenamiento del resultado:"}</Row>
-              <Row>
-                <BitsRow>
-                  <SignBit>{resultSignStr}</SignBit>
-                  {"1."}
-                  <MantissaBits>{normalizedMantissa.slice(2, 6)}</MantissaBits>
-                </BitsRow>
-                {"*2^ "}
-                <ExponentBits>{resultExponentInt}</ExponentBits>
-              </Row>
-              <IoArrowDown></IoArrowDown>
-              <Row>
-                <BitsRow>
-                  <SignBit>{resultSignStr}</SignBit>
-                  {"1."}
-                  <MantissaBits>{normalizedMantissa.slice(2, 6)}</MantissaBits>
-                </BitsRow>
-                {"*2^ "}
-                <ExponentBits>{resultExponent}</ExponentBits>
-              </Row>
-              <IoArrowDown></IoArrowDown>
-              <Row>
-                <BitsRow>
-                  <SignBit>{resultSign}</SignBit>
-                  <ExponentBits>{resultExponent}</ExponentBits>
-                  <MantissaBits>{normalizedMantissa.slice(2, 6)}</MantissaBits>
-                </BitsRow>
-              </Row>
+              {isUnderflow ? (
+                <>
+                  <Row>
+                    <BitsRow>
+                      <SignBit>{resultSignStr}</SignBit>
+                      {"1."}
+                      <MantissaBits>
+                        {normalizedMantissa.slice(2, 6)}
+                      </MantissaBits>
+                    </BitsRow>
+                    {"*2^ "}
+                    <ExponentBits>{resultExponentInt}</ExponentBits>
+                  </Row>
+
+                  <IoArrowDown></IoArrowDown>
+                  <Row>
+                    <BitsRow>
+                      <SignBit>0</SignBit>
+                      <ExponentBits>000</ExponentBits>
+                      <MantissaBits>0000</MantissaBits>
+                    </BitsRow>
+                  </Row>
+                  <Row>Resultado por consecuencia del underflow.</Row>
+                </>
+              ) : (
+                <>
+                  <Row>
+                    <BitsRow>
+                      <SignBit>{resultSignStr}</SignBit>
+                      {"1."}
+                      <MantissaBits>
+                        {normalizedMantissa.slice(2, 6)}
+                      </MantissaBits>
+                    </BitsRow>
+                    {"*2^ "}
+                    <ExponentBits>{resultExponentInt}</ExponentBits>
+                  </Row>
+                  <IoArrowDown></IoArrowDown>
+                  <Row>
+                    <BitsRow>
+                      <SignBit>{resultSignStr}</SignBit>
+                      {"1."}
+                      <MantissaBits>
+                        {normalizedMantissa.slice(2, 6)}
+                      </MantissaBits>
+                    </BitsRow>
+                    {"*2^ "}
+                    <ExponentBits>{resultExponent}</ExponentBits>
+                  </Row>
+                  <IoArrowDown></IoArrowDown>
+                  <Row>
+                    <BitsRow>
+                      <SignBit>{resultSign}</SignBit>
+                      <ExponentBits>{resultExponent}</ExponentBits>
+                      <MantissaBits>
+                        {normalizedMantissa.slice(2, 6)}
+                      </MantissaBits>
+                    </BitsRow>
+                  </Row>
+                </>
+              )}
             </>
           </Slide>
         )}

@@ -123,11 +123,6 @@ export function floatingPointSum(registerS, registerT) {
 
   const res_string = resultSign + resultExponent + resultNormalizedMantissa;
 
-  const result = parseInt(
-    resultSign + resultExponent + resultNormalizedMantissa,
-    2
-  );
-
   return res_string;
 }
 
