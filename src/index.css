@@ -37,6 +37,9 @@
   --im-green: rgb(40, 95, 40);
   --im-blue: rgb(29, 64, 139);
   --im-yellow: rgb(218, 120, 23);
+  --im-lightgreen: #90ee90;
+  --im-teal: #008080;
+  --im-lightblue: #add8e6;
 
   --im-primary-hover: #1a516c;
   --im-shadow-hover: rgba(101, 101, 101, 0.25) 0px 10px 20px -10px,
@@ -49,6 +52,9 @@
   --im-green: rgb(0, 128, 0);
   --im-blue: rgb(0, 64, 255);
   --im-yellow: rgba(255, 166, 0, 10);
+  --im-lightgreen: rgb(0, 255, 0);
+  --im-teal: rgb(0, 200, 200);
+  --im-lightblue: rgb(0, 100, 255);
 }
 
 /* SCROLLBARS */

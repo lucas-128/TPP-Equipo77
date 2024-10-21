@@ -136,11 +136,11 @@ export const FloatingPointSlides = ({
           <Slide>
             <Row>{"Interpretación de registros:"}</Row>
             <InfoRow>
-              <Ball style={{ backgroundColor: "lightgreen" }} />
+              <Ball style={{ backgroundColor: "var(--im-lightgreen)" }} />
               <span> Signo |</span>
-              <Ball style={{ backgroundColor: "teal" }} />
+              <Ball style={{ backgroundColor: "var(--im-teal)" }} />
               <span> Exponente |</span>
-              <Ball style={{ backgroundColor: "lightblue" }} />
+              <Ball style={{ backgroundColor: "var(--im-lightblue)" }} />
               <span> Mantisa </span>
             </InfoRow>
             <Row>

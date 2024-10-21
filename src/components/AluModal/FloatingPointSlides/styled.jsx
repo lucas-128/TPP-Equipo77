@@ -52,7 +52,7 @@ export const RowOperation = styled(Row)`
 `;
 
 export const InitialSignBit = styled.span`
-  color: lightgreen;
+  color: var(--im-lightgreen);
   cursor: help;
   position: relative;
 
@@ -82,11 +82,11 @@ export const InitialSignBit = styled.span`
 `;
 
 export const SignBit = styled.span`
-  color: lightgreen;
+  color: var(--im-lightgreen);
 `;
 
 export const InitialExponentBits = styled.span`
-  color: teal;
+  color: var(--im-teal);
   cursor: help;
   position: relative;
 
@@ -116,11 +116,11 @@ export const InitialExponentBits = styled.span`
 `;
 
 export const ExponentBits = styled.span`
-  color: teal;
+  color: var(--im-teal);
 `;
 
 export const InitialMantissaBits = styled.span`
-  color: lightblue;
+  color: var(--im-lightblue);
   cursor: help;
   position: relative;
 
@@ -150,7 +150,7 @@ export const InitialMantissaBits = styled.span`
 `;
 
 export const MantissaBits = styled.span`
-  color: lightblue;
+  color: var(--im-lightblue);
 `;
 
 export const Ball = styled.div`
