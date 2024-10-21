@@ -1,7 +1,7 @@
 import styled, { keyframes, css } from "styled-components";
 import { Handle } from "reactflow";
 
-const shine =  (color) => keyframes`
+const shine = (color) => keyframes`
   100% {
     background-color: ${color};
     box-shadow: 0 0 5px rgba(255, 255, 255, 0.2),
@@ -45,7 +45,6 @@ export const CustomHandle = styled(Handle)`
   pointer-events: none;
 `;
 
-
 export const ButtonContainer = styled.div`
   position: absolute;
   top: 60px;
@@ -54,4 +53,10 @@ export const ButtonContainer = styled.div`
   justify-self: center;
   display: flex;
   top: auto;
-`
+`;
+
+export const AluTitle = styled.p`
+  color: var(--im-white);
+  font-weight: bold;
+  font-size: 22px;
+`;

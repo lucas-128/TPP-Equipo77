@@ -22,7 +22,7 @@ export const Container = styled.div`
 export const Title = styled.h1`
   margin: 0;
   margin-bottom: 5px;
-  font-size: 24px;
+  font-size: 25px;
   color: var(--im-white);
 `;
 
