@@ -40,6 +40,8 @@
   --im-lightgreen: #90ee90;
   --im-teal: #008080;
   --im-lightblue: #add8e6;
+  --im-address: hsl(0, 60.769230769230772%, 74.50980392156863%);
+  --im-data: hsl(120, 20.769230769230772%, 64.50980392156863%);
 
   --im-primary-hover: #1a516c;
   --im-shadow-hover: rgba(101, 101, 101, 0.25) 0px 10px 20px -10px,
