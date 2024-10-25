@@ -56,8 +56,8 @@ export const LoadingContainer = styled.div`
 `;
 
 export const Icon = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   margin-bottom: 20px;
   color: white;
 
@@ -87,7 +87,7 @@ export const Subtitle = styled.h2`
   opacity: 0;
   animation-fill-mode: forwards;
   animation-delay: 0.5s;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 `;
 
 export const StartButton = styled.button`
@@ -103,4 +103,8 @@ export const StartButton = styled.button`
   animation: ${fadeIn} 1s ease-in-out forwards;
   animation-delay: 1s;
   opacity: 0;
+  &:hover {
+    background-color: var(--im-light-blue);
+    box-shadow: var(--im-shadow-hover);
+  }
 `;
