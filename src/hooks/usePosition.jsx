@@ -1,4 +1,4 @@
-import { getSmoothStepPath, Position } from "reactflow";
+import { getSmoothStepPath, Position } from "@xyflow/react";
 import { useSelector } from "react-redux";
 import {
   aluRegistersId,

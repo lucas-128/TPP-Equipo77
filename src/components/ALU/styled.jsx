@@ -1,5 +1,5 @@
 import styled, { keyframes, css } from "styled-components";
-import { Handle } from "reactflow";
+import { Handle } from "@xyflow/react";
 
 const shine = (color) => keyframes`
   100% {
@@ -59,4 +59,5 @@ export const AluTitle = styled.p`
   color: var(--im-white);
   font-weight: bold;
   font-size: 22px;
+  margin: 0;
 `;

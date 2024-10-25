@@ -1,4 +1,4 @@
-import { BaseEdge, EdgeLabelRenderer } from "reactflow";
+import { BaseEdge, EdgeLabelRenderer } from "@xyflow/react";
 import {
   controlUnitId,
   registersControlUnitId,
@@ -66,7 +66,7 @@ export const RegistersToUCBus = ({ id }) => {
             <Globe arrowPosition={"bottom"}>
               <div className="row">
                 <Title $color={color}>
-                  {textAddressTitle("Dirección (execute)", typeSimulation)}
+                  {textAddressTitle("Dirección (Execute)", typeSimulation)}
                 </Title>
                 {parseInt(animationData?.address, 10)
                   .toString(16)
@@ -74,7 +74,7 @@ export const RegistersToUCBus = ({ id }) => {
               </div>
               <div className="row">
                 <Title $color={color}>
-                  {textDataTitle("Datos (execute)", typeSimulation)}
+                  {textDataTitle("Datos (Execute)", typeSimulation)}
                 </Title>
                 {animationDataToShow}
               </div>

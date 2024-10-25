@@ -80,26 +80,38 @@ export const MainMemory = () => {
                 onClick={() => setCurrentPage(1)}
                 disabled={currentPage === 1}
               >
-                <FontAwesomeIcon icon={faAngleDoubleLeft} />
+                <FontAwesomeIcon
+                  icon={faAngleDoubleLeft}
+                  style={{ color: "var(--im-white)" }}
+                />
               </PaginationButton>
               <PaginationButton
                 onClick={() => setCurrentPage(currentPage - 1)}
                 disabled={currentPage === 1}
               >
-                <FontAwesomeIcon icon={faChevronLeft} />
+                <FontAwesomeIcon
+                  icon={faChevronLeft}
+                  style={{ color: "var(--im-white)" }}
+                />
               </PaginationButton>
               <CurrentPage>{currentPage}</CurrentPage>
               <PaginationButton
                 onClick={() => setCurrentPage(currentPage + 1)}
                 disabled={currentPage === totalPages}
               >
-                <FontAwesomeIcon icon={faChevronRight} />
+                <FontAwesomeIcon
+                  icon={faChevronRight}
+                  style={{ color: "var(--im-white)" }}
+                />
               </PaginationButton>
               <PaginationButton
                 onClick={() => setCurrentPage(totalPages)}
                 disabled={currentPage === totalPages}
               >
-                <FontAwesomeIcon icon={faAngleDoubleRight} />
+                <FontAwesomeIcon
+                  icon={faAngleDoubleRight}
+                  style={{ color: "var(--im-white)" }}
+                />
               </PaginationButton>
             </PaginationControls>
           </ButtonsContainer>

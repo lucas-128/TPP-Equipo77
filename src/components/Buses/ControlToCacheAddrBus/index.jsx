@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { BaseEdge, EdgeLabelRenderer } from "reactflow";
+import { BaseEdge, EdgeLabelRenderer } from "@xyflow/react";
 import {
   controlUnitId,
   controlUnitCacheAddrBusId,
@@ -65,7 +65,7 @@ export const ControlToCacheAddrBus = ({ id }) => {
         path={edgePath}
         interactionWidth={20}
         style={{
-          stroke: "var(--im-address)",
+          stroke: "var(--im-gray-lighter)",
           strokeWidth: 30,
           filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5))",
         }}
@@ -81,7 +81,7 @@ export const ControlToCacheAddrBus = ({ id }) => {
           {animationFetch && (
             <Globe
               arrowPosition={"left"}
-              title={textAddressTitle("Dirección (fetch)", typeSimulation)}
+              title={textAddressTitle("Dirección (Fetch)", typeSimulation)}
               color={fetchColor}
             >
               {parseInt(animationDataFetch.address, 10)
@@ -93,7 +93,7 @@ export const ControlToCacheAddrBus = ({ id }) => {
           {animationExecute && (
             <Globe
               arrowPosition={"left"}
-              title={textAddressTitle("Dirección (execute)", typeSimulation)}
+              title={textAddressTitle("Dirección (Execute)", typeSimulation)}
               color={executeColor}
             >
               {parseInt(animationDataExecute.address, 10)
@@ -106,7 +106,7 @@ export const ControlToCacheAddrBus = ({ id }) => {
             <div className="column" style={{ marginTop: "-40px" }}>
               <Globe
                 arrowPosition={"left"}
-                title={"Dirección (fetch)"}
+                title={"Dirección (Fetch)"}
                 color={fetchColor}
               >
                 {parseInt(animationDataFetch.address, 10)
@@ -116,7 +116,7 @@ export const ControlToCacheAddrBus = ({ id }) => {
               </Globe>
               <Globe
                 arrowPosition={"left"}
-                title={"Dirección (execute)"}
+                title={"Dirección (Execute)"}
                 color={executeColor}
               >
                 {parseInt(animationDataExecute.address, 10)

@@ -52,9 +52,9 @@ export const typeSimulations = {
 };
 
 export const cyclesSimulations = {
-  FETCH: "fetch",
-  DECODE: "decode",
-  EXECUTE: "execute",
+  FETCH: "Fetch",
+  DECODE: "Decode",
+  EXECUTE: "Execute",
 };
 
 export const numericBaseType = {

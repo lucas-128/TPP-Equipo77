@@ -1,11 +1,11 @@
-import ReactFlow, { Controls, Background } from "reactflow";
+import { ReactFlow, Controls, Background } from "@xyflow/react";
 import {
   onNodesChange,
   onEdgesChange,
   onConnect,
 } from "../../slices/applicationSlice";
+import "@xyflow/react/dist/style.css";
 import { useState } from "react";
-import "reactflow/dist/style.css";
 import { Container } from "./styled";
 import { nodeTypes, edgeTypes } from "./components";
 import { useSelector, useDispatch } from "react-redux";
@@ -41,6 +41,7 @@ export const SimulatorContainer = () => {
         zoomOnDoubleClick={false}
         fitView
         minZoom={0.4}
+        colorMode="dark"
       >
         <Controls showInteractive={false} />
         <Background gap={20} />

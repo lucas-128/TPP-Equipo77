@@ -1,4 +1,4 @@
-import { Handle } from "reactflow";
+import { Handle } from "@xyflow/react";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -92,7 +92,8 @@ export const PaginationButton = styled.button`
   justify-content: center;
 
   &:disabled {
-    opacity: 0.5;
+    opacity: 0.3;
+    cursor: default;
   }
 
   svg {

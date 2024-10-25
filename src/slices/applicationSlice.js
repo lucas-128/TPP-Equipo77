@@ -3,7 +3,7 @@ import {
   initialEdges,
   initialNodes,
 } from "../containers/SimulatorSection/components";
-import { addEdge, applyNodeChanges, applyEdgeChanges } from "reactflow";
+import { addEdge, applyNodeChanges, applyEdgeChanges } from "@xyflow/react";
 import {
   CACHE_SIZE,
   numericBaseType,

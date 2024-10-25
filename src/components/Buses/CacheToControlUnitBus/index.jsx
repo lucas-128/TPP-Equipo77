@@ -1,4 +1,4 @@
-import { BaseEdge, EdgeLabelRenderer } from "reactflow";
+import { BaseEdge, EdgeLabelRenderer } from "@xyflow/react";
 import {
   cacheMemoryId,
   controlUnitId,
@@ -62,7 +62,7 @@ export const CacheToControlUnitBus = ({ id }) => {
         path={edgePath}
         interactionWidth={20}
         style={{
-          stroke: "var(--im-data)",
+          stroke: "var(--im-gray-lighter)",
           strokeWidth: 30,
           filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5))",
         }}
@@ -113,7 +113,7 @@ export const CacheToControlUnitBus = ({ id }) => {
           {animationFetch && (
             <Globe
               arrowPosition={"right"}
-              title={textDataTitle("Datos (fetch)", typeSimulation)}
+              title={textDataTitle("Datos (Fetch)", typeSimulation)}
               color={fetchColor}
             >
               {animationDataFetch.data}
@@ -122,7 +122,7 @@ export const CacheToControlUnitBus = ({ id }) => {
           {animationExecute && (
             <Globe
               arrowPosition={"right"}
-              title={textDataTitle("Datos (execute)", typeSimulation)}
+              title={textDataTitle("Datos (Execute)", typeSimulation)}
               color={executeColor}
             >
               {animationDataExecute.data}
@@ -132,14 +132,14 @@ export const CacheToControlUnitBus = ({ id }) => {
             <div className="column" style={{ marginTop: "-40px" }}>
               <Globe
                 arrowPosition={"right"}
-                title={textDataTitle("Datos (fetch)", typeSimulation)}
+                title={textDataTitle("Datos (Fetch)", typeSimulation)}
                 color={fetchColor}
               >
                 {animationDataFetch.data}
               </Globe>
               <Globe
                 arrowPosition={"right"}
-                title={textDataTitle("Datos (execute)", typeSimulation)}
+                title={textDataTitle("Datos (Execute)", typeSimulation)}
                 color={executeColor}
               >
                 {animationDataExecute.data}

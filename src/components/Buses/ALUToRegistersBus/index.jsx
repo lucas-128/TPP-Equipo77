@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { useMemo } from "react";
-import { BaseEdge, EdgeLabelRenderer } from "reactflow";
+import { BaseEdge, EdgeLabelRenderer } from "@xyflow/react";
 import {
   aluId,
   registersId,

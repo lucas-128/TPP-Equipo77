@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { useEffect, useMemo, useState } from "react";
-import { BaseEdge, EdgeLabelRenderer } from "reactflow";
+import { BaseEdge, EdgeLabelRenderer } from "@xyflow/react";
 import { usePosition } from "../../../hooks/usePosition";
 import { mainMemControlUnitDataId } from "../../../containers/SimulatorSection/components";
 import { BusAnimation } from "../BusAnimation";
@@ -75,7 +75,7 @@ export const MainMemControlDataBus = ({ id, source, target }) => {
         path={edgePath}
         interactionWidth={20}
         style={{
-          stroke: "var(--im-data)",
+          stroke: "var(--im-gray-lighter)",
           strokeWidth: 30,
           filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5))",
         }}
@@ -91,7 +91,7 @@ export const MainMemControlDataBus = ({ id, source, target }) => {
           {animationFetch && (
             <Globe
               arrowPosition={"bottom"}
-              title={textDataTitle("Datos (fetch)", typeSimulation)}
+              title={textDataTitle("Datos (Fetch)", typeSimulation)}
               color={fetchColor}
             >
               {instructionRegister}
@@ -100,7 +100,7 @@ export const MainMemControlDataBus = ({ id, source, target }) => {
           {animationExecute && (
             <Globe
               arrowPosition={"bottom"}
-              title={textDataTitle("Datos (execute)", typeSimulation)}
+              title={textDataTitle("Datos (Execute)", typeSimulation)}
               color={executeColor}
             >
               {animationDataExecuteToShow}
@@ -110,14 +110,14 @@ export const MainMemControlDataBus = ({ id, source, target }) => {
             <div className="row">
               <Globe
                 arrowPosition={"bottom"}
-                title={"Datos (fetch)"}
+                title={"Datos (Fetch)"}
                 color={fetchColor}
               >
                 {animationDataFetchToShow}
               </Globe>
               <Globe
                 arrowPosition={"bottom"}
-                title={"Datos (execute)"}
+                title={"Datos (Execute)"}
                 color={executeColor}
               >
                 {animationDataExecuteToShow}

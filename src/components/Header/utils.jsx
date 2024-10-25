@@ -44,9 +44,9 @@ export const fetchReference = (fetchInstruction, fetchColor) => {
   return (
     <>
       <FetchPipeliningCycle>
-        {fetchInstruction + " (fetch)"}
+        {fetchInstruction + " (Fetch)"}
       </FetchPipeliningCycle>
-      <FaCircle color={fetchInstruction != '-' ? fetchColor : ''} />
+      <FaCircle color={fetchInstruction != "-" ? fetchColor : ""} />
     </>
   );
 };
@@ -54,7 +54,7 @@ export const fetchReference = (fetchInstruction, fetchColor) => {
 export const decodeReference = (decodeInstruction, decodeColor) => {
   const description = invalidInstruction(decodeInstruction)
     ? "-"
-    : decodeInstruction + " (decode)";
+    : decodeInstruction + " (Decode)";
   const color = invalidInstruction(decodeInstruction)
     ? whiteColor
     : decodeColor;
@@ -69,7 +69,7 @@ export const decodeReference = (decodeInstruction, decodeColor) => {
 export const executeReference = (executeInstruction, executeColor) => {
   const description = invalidInstruction(executeInstruction)
     ? "-"
-    : executeInstruction + " (execute)";
+    : executeInstruction + " (Execute)";
   const color = invalidInstruction(executeInstruction)
     ? whiteColor
     : executeColor;

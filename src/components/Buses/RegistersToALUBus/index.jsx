@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { BaseEdge, EdgeLabelRenderer } from "reactflow";
+import { BaseEdge, EdgeLabelRenderer } from "@xyflow/react";
 import { usePosition } from "../../../hooks/usePosition";
 import { useMemo } from "react";
 import {
@@ -129,7 +129,7 @@ export const RegistersToALUBus = ({ id, data }) => {
               <Globe arrowPosition={"bottom"} color={color}>
                 <div className="row">
                   <Title $color={color}>
-                    {textAddressTitle("Dirección (execute)", typeSimulation)}
+                    {textAddressTitle("Dirección (Execute)", typeSimulation)}
                   </Title>
                   {parseInt(animationDataTop.address, 10)
                     .toString(16)
@@ -137,7 +137,7 @@ export const RegistersToALUBus = ({ id, data }) => {
                 </div>
                 <div className="row">
                   <Title $color={color}>
-                    {textDataTitle("Datos (execute)", typeSimulation)}
+                    {textDataTitle("Datos (Execute)", typeSimulation)}
                   </Title>
                   {animationDataTopToShow}
                 </div>
