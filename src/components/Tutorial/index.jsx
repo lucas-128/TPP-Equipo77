@@ -6,7 +6,6 @@ import {
   Header,
   ModalBg,
   ModalBoxSetup,
-  ModalWrapper,
   TextContainer,
   Title,
 } from "./styled";
@@ -51,7 +50,7 @@ export const Tutorial = () => {
 
   return (
     showTutorial && (
-      <ModalWrapper>
+      <div>
         <ModalBoxSetup $position={tutorialStep.position}>
           <Container
             $direction={directionArrow[tutorialStep.arrow]}
@@ -94,7 +93,7 @@ export const Tutorial = () => {
           </Container>
         </ModalBoxSetup>
         <ModalBg />
-      </ModalWrapper>
+      </div>
     )
   );
 };

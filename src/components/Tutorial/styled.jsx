@@ -83,20 +83,13 @@ export const TextContainer = styled.div`
   }
 `;
 
-export const ModalWrapper = styled.div`
+export const ModalBoxSetup = styled.div`
   position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  z-index: 1;
+  z-index: 3;
   display: flex;
   align-items: center;
   overflow: hidden;
   justify-content: center;
-`;
-
-export const ModalBoxSetup = styled.div`
-  position: absolute;
   left: ${(props) => props.$position.left};
   top: ${(props) => props.$position.top};
   display: flex;
@@ -106,14 +99,18 @@ export const ModalBoxSetup = styled.div`
   overflow-y: hidden;
   overflow-x: hidden;
   text-align: center;
-  z-index: 1;
+  z-index: 5;
   animation: 0.7s ${fadeIn} forwards;
   transition: 0.3s;
 `;
 
 export const ModalBg = styled.div`
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
   background: rgba(14, 13, 13, 0.589);
 `;
