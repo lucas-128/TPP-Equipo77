@@ -61,7 +61,6 @@ export const TextEditorButtons = ({ text }) => {
     return true;
   };
 
-
   const simulateProgram = (program, memory) => {
     dispatch(setIsSimulating(!isSimulating));
     setProgram(program);

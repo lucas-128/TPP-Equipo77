@@ -2,9 +2,7 @@
 import { instructionCodes } from "./constants.js";
 
 export function validateSyntax(code) {
-  let rows = splitCode(code)
-    .filter((row) => row.length > 0)
-    .map((row) => row.toLowerCase());
+  let rows = splitCode(code).map((row) => row.toLowerCase());
   return isValidCode(rows);
 }
 
@@ -20,11 +18,12 @@ function isValidCode(rows) {
   for (let i = 0; i < rows.length; i++) {
     const row = rows[i];
     if (
-      !validateLength(row) ||
-      !validateInstructionCode(row) ||
-      !validatePattern(row)
+      row.length > 0 &&
+      (!validateLength(row) ||
+        !validateInstructionCode(row) ||
+        !validatePattern(row))
     ) {
-      return { isValid: false, errorLine: i + 1 };
+      return { isValid: false, errorLine: i };
     }
   }
   return { isValid: true, errorLine: null };

@@ -11,11 +11,10 @@ export const MonacoEditor = ({ setEditorValue, editorValue }) => {
   const dispatch = useDispatch();
   const errorLine = useSelector((state) => state.application.execute.errorLine);
   const handleEditorChange = (value) => {
-    if (errorLine) dispatch(setErrorLine(null));
+    if (errorLine !== null) dispatch(setErrorLine(null));
     if (decorations.length > 0) updateDecorations([]);
     setEditorValue(value);
   };
-  const [highLightedLineMapper, setHighLightedLineMapper] = useState({});
 
   const fetchInstructionId = useSelector(
     (state) => state.application.fetch.instructionId
@@ -47,8 +46,8 @@ export const MonacoEditor = ({ setEditorValue, editorValue }) => {
 
   const isSimulating = useSelector((state) => state.application.isSimulating);
 
-  useEffect(() => {
-    if (!isSimulating) return;
+  const highLightedLineMapper = useMemo(() => {
+    if (!isSimulating) return {};
     const lineMapping = editorValue.split("\n").reduce((acc, line, index) => {
       if (line.trim() !== "") {
         acc[Object.keys(acc).length + 1] = index + 1;
@@ -56,7 +55,7 @@ export const MonacoEditor = ({ setEditorValue, editorValue }) => {
       return acc;
     }, {});
 
-    setHighLightedLineMapper(lineMapping);
+    return lineMapping;
   }, [editorValue, isSimulating]);
 
   const colorMapper = {
@@ -148,7 +147,7 @@ export const MonacoEditor = ({ setEditorValue, editorValue }) => {
   };
 
   useEffect(() => {
-    if (errorLine && !isSimulating) {
+    if (errorLine !== null && !isSimulating) {
       setDecorations(
         editorRef.current.deltaDecorations(decorations, [
           {
