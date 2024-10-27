@@ -15,7 +15,6 @@ import {
   Text,
 } from "./styled";
 import { Button } from "../Button";
-import { toHexa } from "../../interpreter/utils";
 import { numericBaseType } from "../../interpreter/constants";
 
 export const InputPortModal = () => {
@@ -30,7 +29,7 @@ export const InputPortModal = () => {
   );
 
   const [inputValue, setInputValue] = useState("");
-  const [numericBase, setNumericBase] = useState(numericBaseType.DECIMAL);
+  const [numericBase, setNumericBase] = useState(numericBaseType.HEXA);
   const [error, setError] = useState("");
 
   const handleChange = (event) => {
@@ -55,19 +54,6 @@ export const InputPortModal = () => {
     invalidBitLength: "El valor debe tener exactamente 8 bits",
     invalidHex: "El valor debe estar en base hexadecimal y tener 1 o 2 dígitos",
     invalidValue: "Tipo de valor no válido",
-  };
-
-  const isValidDecimal = (value) => {
-    const numericValue = parseInt(value, 10);
-    if (numericValue < -128 || numericValue > 127) {
-      setError(errorMessages.outOfRange);
-      return false;
-    }
-    if (!/^-?\d+$/.test(value)) {
-      setError(errorMessages.containsLetters);
-      return false;
-    }
-    return true;
   };
 
   const isValidBinary = (value) => {
@@ -102,8 +88,6 @@ export const InputPortModal = () => {
     }
 
     switch (numericBase) {
-      case numericBaseType.DECIMAL:
-        return isValidDecimal(inputValue);
       case numericBaseType.BINARY:
         return isValidBinary(inputValue);
       case numericBaseType.HEXA:
@@ -121,11 +105,7 @@ export const InputPortModal = () => {
   };
 
   const getHexaValue = () => {
-    if (numericBase === numericBaseType.DECIMAL) {
-      return parseInt(inputValue) < 0
-        ? toHexa(256 + parseInt(inputValue))
-        : toHexa(parseInt(inputValue));
-    } else if (numericBase === numericBaseType.BINARY) {
+    if (numericBase === numericBaseType.BINARY) {
       return parseInt(inputValue, 2).toString(16).toUpperCase();
     } else if (numericBase === numericBaseType.HEXA) {
       return inputValue.toUpperCase();
@@ -153,7 +133,7 @@ export const InputPortModal = () => {
     };
     dispatch(updateCurrentState(newState));
     setError("");
-    setNumericBase(numericBaseType.DECIMAL);
+    setNumericBase(numericBaseType.HEXA);
   };
 
   return (
@@ -176,11 +156,11 @@ export const InputPortModal = () => {
                 <RadioInput
                   type="radio"
                   name="number-system"
-                  value={numericBaseType.DECIMAL}
-                  checked={numericBase === numericBaseType.DECIMAL}
+                  value={numericBaseType.HEXA}
+                  checked={numericBase === numericBaseType.HEXA}
                   onChange={handleChange}
                 />
-                Decimal
+                Hexadecimal
               </RadioLabel>
               <RadioLabel>
                 <RadioInput
@@ -191,16 +171,6 @@ export const InputPortModal = () => {
                   onChange={handleChange}
                 />
                 Binario
-              </RadioLabel>
-              <RadioLabel>
-                <RadioInput
-                  type="radio"
-                  name="number-system"
-                  value={numericBaseType.HEXA}
-                  checked={numericBase === numericBaseType.HEXA}
-                  onChange={handleChange}
-                />
-                Hexadecimal
               </RadioLabel>
             </RadioGroup>
           </BodyContainer>
