@@ -18,7 +18,9 @@ import {
   executeReference,
   cycleReference,
 } from "./utils";
-import { Switch } from "@mui/material";
+import { IconButton, Switch, Tooltip } from "@mui/material";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+import Brightness5Icon from "@mui/icons-material/Brightness5";
 
 export const Header = () => {
   const dispatch = useDispatch();
@@ -74,15 +76,17 @@ export const Header = () => {
     dispatch(updateNumericBase(selected));
   };
 
-  const handleColorBlindModeChange = (event) => {
-    const newMode = event.target.checked ? "high-contrast" : "none";
+  const handleColorBlindModeChange = () => {
+    // Toggle mode between "none" and "high-contrast"
+    const newMode = colorBlindMode === "none" ? "high-contrast" : "none";
     setColorBlindMode(newMode);
+
+    // Update the body class list based on the new mode
     document.body.classList.remove("color-blind-high-contrast");
     if (newMode === "high-contrast") {
-      document.body.classList.add(`color-blind-${newMode}`);
+      document.body.classList.add("color-blind-high-contrast");
     }
   };
-
   return (
     <HeaderContainer id="headerContainer">
       <HeaderTitle>Intérprete Máquina Ideal RISC</HeaderTitle>
@@ -103,12 +107,18 @@ export const Header = () => {
         </HeaderCyclesColorReference>
       )}
       <div className="row">
-        <HeaderTitle>Alto contraste</HeaderTitle>
-        <Switch
-          checked={colorBlindMode === "high-contrast"}
-          onChange={handleColorBlindModeChange}
-          color="primary"
-        />
+        <Tooltip
+          title={colorBlindMode === "high-contrast" ? "Contraste" : "Contraste"}
+          placement="left"
+        >
+          <IconButton color="inherit" onClick={handleColorBlindModeChange}>
+            {colorBlindMode === "high-contrast" ? (
+              <Brightness7Icon />
+            ) : (
+              <Brightness5Icon />
+            )}
+          </IconButton>
+        </Tooltip>
 
         <HeaderSelect
           value={numericBase}
