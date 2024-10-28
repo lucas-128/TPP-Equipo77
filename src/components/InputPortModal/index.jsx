@@ -16,6 +16,7 @@ import {
 } from "./styled";
 import { Button } from "../Button";
 import { numericBaseType } from "../../interpreter/constants";
+import { controlUnitMainMemAddrId, mainMemControlUnitDataId, registersControlUnitId } from "../../containers/SimulatorSection/components";
 
 export const InputPortModal = () => {
   const dispatch = useDispatch();
@@ -127,6 +128,16 @@ export const InputPortModal = () => {
     const newValue = getHexaValue();
     newExecuteState.registers[updateRegister] = newValue;
     newExecuteState.mainMemoryCells[254] = newValue;
+    newExecuteState.edgeAnimation = [
+      {
+        id: registersControlUnitId,
+        reverse: true,
+        data: newValue,
+        address: updateRegister,
+      },
+      { id: controlUnitMainMemAddrId, address: 254 },
+      { id: mainMemControlUnitDataId, reverse: false, data: newValue },
+    ];
     const newState = {
       ...applicationState,
       execute: newExecuteState,
