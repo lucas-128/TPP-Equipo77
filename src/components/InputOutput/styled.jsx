@@ -51,7 +51,7 @@ export const TableRow = styled.div`
   align-items: center;
 `;
 
-export const TableCell = styled.td`
+export const TableCell = styled.div`
   padding: 2px;
   text-align: center;
   color: black;

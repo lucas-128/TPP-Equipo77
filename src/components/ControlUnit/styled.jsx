@@ -1,4 +1,4 @@
-import { Handle } from "reactflow";
+import { Handle } from "@xyflow/react";
 import styled, { keyframes, css } from "styled-components";
 
 const shine = (color) => keyframes`

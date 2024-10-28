@@ -41,7 +41,7 @@ export const ModalBoxSetup = styled.div`
   border: 0.5px solid var(--im-gray);
   border-radius: 5px;
   box-shadow: 0 0 20px 0 rgba(10, 27, 45, 0.15);
-  background: var(--im-primary);
+  background: var(--im-secondary);
   animation: 0.7s ${fadeIn} forwards;
 `;
 
@@ -51,6 +51,7 @@ export const ModalContainer = styled.div`
   flex-direction: column;
   color: var(--im-darkgray);
   overflow: hidden;
+  background-color: var(--im-primary);
 `;
 
 export const ModalBg = styled.div`
@@ -61,36 +62,87 @@ export const ModalBg = styled.div`
 `;
 
 export const Title = styled.div`
-  font-size: 18px;
-  font-weight: 800;
+  font-size: 24px;
+  font-weight: 700;
   padding: 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   text-align: left;
   color: var(--im-lightgray);
+  background-color: var(--im-secondary);
+  box-shadow: 0 0 20px 0 rgba(10, 27, 45, 0.15);
 `;
 
 export const IconContainer = styled(IoClose)`
   cursor: pointer;
   right: 0;
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
   margin-left: auto;
   text-align: right;
   color: var(--im-lightgray);
 `;
 
-export const Img = styled.img`
-  width: 97%;
-  height: 100%;
-  padding: 10px;
+export const ScrollableContainer = styled.div`
+  width: 100%;
+  max-height: 400px;
+  overflow: auto;
 `;
 
-export const ImgContainer = styled.div`
+export const TableContainer = styled.table`
   width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
+  border-collapse: collapse;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+`;
+
+export const TableHeader = styled.thead`
+  background-color: var(--im-secondary);
+`;
+
+export const TableHeaderRow = styled.tr`
+  border-bottom: 2px solid var(--im-terciary);
+  border-top: 2px solid var(--im-terciary);
+`;
+
+export const TableHeaderCell = styled.th`
+  padding: 12px 16px;
+  font-weight: bold;
+  font-size: 14px;
+  color: var(--im-lightgray);
+`;
+
+export const TableBody = styled.tbody`
+  background-color: var(--im-primary);
+`;
+
+export const TableBodyRow = styled.tr`
+  &:nth-child(even) {
+    background-color: var(--im-secondary);
+  }
+
+  transition: background-color 0.2s ease;
+`;
+
+export const TableData = styled.td`
+  font-size: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--im-terciary);
+  text-align: center;
+  color: var(--im-lightgray);
+  font-weight: bold;
+  &:nth-child(3) {
+    font-weight: normal;
+    color: var(--im-lightgray);
+  }
+`;
+
+export const OperatingContainer = styled.div`
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
+  background-color: #012733;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 0 10px;
 `;

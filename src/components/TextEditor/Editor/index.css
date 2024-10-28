@@ -11,6 +11,10 @@
   background: rgba(40, 40, 40, 0.7);
 }
 
+.glyph-margin-color-red {
+  color: var(--im-red);
+}
+
 .glyph-margin-color-green {
   color: var(--im-green);
 }
@@ -29,4 +33,7 @@
 
 .glyph-margin {
   margin-left: 3px;
+}
+.line-error-highlight {
+  background-color: rgba(255, 0, 0, 0.2);
 }

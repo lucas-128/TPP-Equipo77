@@ -52,9 +52,15 @@ export const typeSimulations = {
 };
 
 export const cyclesSimulations = {
-  FETCH: "fetch",
-  DECODE: "decode",
-  EXECUTE: "execute",
+  FETCH: "Fetch",
+  DECODE: "Decode",
+  EXECUTE: "Execute",
+};
+
+export const numericBaseType = {
+  BINARY: "binary",
+  HEXA: "hexadecimal",
+  DECIMAL: "decimal",
 };
 
 export const instructionCodes = [
@@ -95,3 +101,6 @@ export const animationsAlu = [
   registerAluBottomId,
   aluRegistersId,
 ];
+
+export const INVALID_END_ERROR =
+  "La instrucción C000 debe ser la ultima en ser ejecutada.";

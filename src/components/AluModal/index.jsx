@@ -14,12 +14,15 @@ import {
   Line,
   CircledNumber,
   ButtonContainer,
-  ExtraBits,
+  Row,
+  RowOperation,
 } from "./styled";
+import { FloatingPointSlides } from "./FloatingPointSlides";
 import { useDispatch, useSelector } from "react-redux";
-import { IoClose } from "react-icons/io5";
+import { IoClose, IoArrowForward } from "react-icons/io5";
 import { setOpenAluZoom } from "../../slices/modalsSlice";
 import { Button } from "../Button";
+import { toBinaryComplement } from "../../interpreter/utils.js";
 
 export const AluModal = () => {
   const dispatch = useDispatch();
@@ -31,14 +34,26 @@ export const AluModal = () => {
 
   const result = (aluOperation?.result ?? 0).toString().padStart(8, "0");
   const firstEightBits = result.slice(0, 8);
-  const extraBits = result.slice(8);
+
+  const registerSbits = toBinaryComplement(aluOperation?.registerS ?? "0");
+
+  const registerTbits = toBinaryComplement(aluOperation?.registerT ?? "0");
 
   const handleShowResult = () => {
     setShowResult(true);
   };
 
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const nextSlide = () => {
+    setCurrentSlide((prevSlide) => prevSlide + 1);
+  };
+  const prevSlide = () => {
+    setCurrentSlide((prevSlide) => prevSlide - 1);
+  };
+
   useEffect(() => {
     setShowResult(false);
+    setCurrentSlide(0);
   }, [showModal]);
 
   return (
@@ -56,37 +71,89 @@ export const AluModal = () => {
                 <CircledNumber>{aluOperation.registerTIndex}</CircledNumber>
               </Bus>
             </StartBusContainer>
+
             <AluContainer>
-              <InfoContainer>
-                <div className="row" style={{ marginBottom: "20px" }}>
-                  Operación
-                  <OperationName>{aluOperation.operation}</OperationName>
-                </div>
-                <div className="row">
-                  {parseInt(aluOperation.registerS, 16)
-                    .toString(2)
-                    .padStart(8, "0")}
-                </div>
-                <div className="row">
-                  {parseInt(aluOperation.registerT, 16)
-                    .toString(2)
-                    .padStart(8, "0")}
-                </div>
-                <Line />
-                {showResult ? (
-                  <div className="row" style={{ display: "flex", gap: "0" }}>
-                    <span>{firstEightBits}</span>
-                    {extraBits && <ExtraBits>{extraBits}</ExtraBits>}
-                  </div>
-                ) : (
-                  <ButtonContainer>
-                    <Button lightColor={true} onClick={handleShowResult}>
-                      Realizar operación
-                    </Button>
-                  </ButtonContainer>
-                )}
-              </InfoContainer>
+              {aluOperation && (
+                <>
+                  {aluOperation.operation === "Suma en punto flotante" ? (
+                    <FloatingPointSlides
+                      aluOperation={aluOperation}
+                      registerSbits={registerSbits}
+                      registerTbits={registerTbits}
+                      currentSlide={currentSlide}
+                      prevSlide={prevSlide}
+                      nextSlide={nextSlide}
+                    />
+                  ) : aluOperation.operation === "Rotar a la derecha" ? (
+                    <InfoContainer>
+                      <RowOperation>
+                        Operación
+                        <OperationName>{aluOperation.operation}</OperationName>
+                      </RowOperation>
+                      <Row>{registerSbits}</Row>
+                      <Row>Rotaciones: {parseInt(registerTbits, 2)}</Row>
+                      <Line />
+                      {showResult ? (
+                        <Row>
+                          <span>{firstEightBits}</span>
+                        </Row>
+                      ) : (
+                        <ButtonContainer>
+                          <Button lightColor={true} onClick={handleShowResult}>
+                            Realizar operación
+                          </Button>
+                        </ButtonContainer>
+                      )}
+                    </InfoContainer>
+                  ) : aluOperation.operation === "EQUAL" ? (
+                    <InfoContainer>
+                      <RowOperation>
+                        Operación
+                        <OperationName>{"Comparar Registros"}</OperationName>
+                      </RowOperation>
+                      <Row>{registerSbits}</Row>
+                      <Row>{registerTbits}</Row>
+                      <Line />
+                      {showResult ? (
+                        <Row>
+                          {aluOperation?.result
+                            ? "Registros iguales"
+                            : "Registros diferentes"}
+                        </Row>
+                      ) : (
+                        <ButtonContainer>
+                          <Button lightColor={true} onClick={handleShowResult}>
+                            Realizar operación
+                          </Button>
+                        </ButtonContainer>
+                      )}
+                    </InfoContainer>
+                  ) : (
+                    <InfoContainer>
+                      <RowOperation>
+                        Operación
+                        <OperationName>{aluOperation.operation}</OperationName>
+                      </RowOperation>
+                      <Row>{registerSbits}</Row>
+                      <Row>{registerTbits}</Row>
+                      <Line />
+                      {showResult ? (
+                        <Row>
+                          <span>{firstEightBits}</span>
+                        </Row>
+                      ) : (
+                        <ButtonContainer>
+                          <Button lightColor={true} onClick={handleShowResult}>
+                            Realizar operación
+                          </Button>
+                        </ButtonContainer>
+                      )}
+                    </InfoContainer>
+                  )}
+                </>
+              )}
             </AluContainer>
+
             <EndBusContainer>
               <Bus>
                 Registro R (destino):

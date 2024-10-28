@@ -1,29 +1,12 @@
 import styled from "styled-components";
 
-export const Container = styled.div.withConfig({
-  shouldForwardProp: (prop) => !["fullscreen"].includes(prop),
-})`
-  display: flex;
-  flex: 1.5;
-  flex-direction: column;
-  position: ${(props) => (props.fullscreen ? "fixed" : "relative")};
-  top: 0;
-  left: 0;
-  width: ${(props) => (props.fullscreen ? "100%" : "auto")};
-  height: ${(props) => (props.fullscreen ? "100%" : "auto")};
-  z-index: ${(props) => (props.fullscreen ? "1000" : "auto")};
-  background-color: ${(props) =>
-    props.fullscreen ? "var(--im-white)" : "auto"};
-  overflow: ${(props) => (props.fullscreen ? "hidden" : "auto")};
-`;
-
 export const EditorWrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 0;
-  height: 100%;
   background-color: var(--im-gray);
   transition: all 0.15s;
+  height: 100%;
 `;
 
 export const EditorHeader = styled.div`
@@ -78,4 +61,23 @@ export const Button = styled.label`
 export const HiddenEditorContainer = styled.div`
   padding: 2px;
   transition: all 0.15s;
+`;
+
+export const CustomHandle = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 2px;
+  height: 100%;
+  border-radius: 10px;
+  position: absolute;
+  right: 3px;
+  top: 0;
+  cursor: ew-resize;
+  z-index: 1;
+  &:hover,
+  &:active {
+    background-color: #008cff;
+  }
 `;

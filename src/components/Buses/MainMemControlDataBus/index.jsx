@@ -1,14 +1,22 @@
 import { useSelector } from "react-redux";
-import { useMemo } from "react";
-import { BaseEdge, EdgeLabelRenderer } from "reactflow";
+import { useEffect, useMemo, useState } from "react";
+import { BaseEdge, EdgeLabelRenderer } from "@xyflow/react";
 import { usePosition } from "../../../hooks/usePosition";
 import { mainMemControlUnitDataId } from "../../../containers/SimulatorSection/components";
 import { BusAnimation } from "../BusAnimation";
 import { Globe } from "../../Globe";
+import { typeSimulations } from "../../../interpreter/constants";
+import { textDataTitle } from "../utils";
+import { convertValue } from "../../../interpreter/utils";
 
 export const MainMemControlDataBus = ({ id, source, target }) => {
+  const [animateInterminently, setAnimateInterminently] = useState(false);
   const instructionRegister = useSelector(
     (state) => state.application.fetch.instructionRegister
+  );
+
+  const typeSimulation = useSelector(
+    (state) => state.application.typeSimulations
   );
 
   const animations = useSelector(
@@ -22,22 +30,29 @@ export const MainMemControlDataBus = ({ id, source, target }) => {
   const fetchColor = useSelector((state) => state.application.fetch.color);
   const executeColor = useSelector((state) => state.application.execute.color);
 
-  const animationData = useMemo(() => {
-    const combinedAnimations = [...animations, ...executeAnimations];
-    return combinedAnimations.find(
-      (anim) => anim.id === mainMemControlUnitDataId
-    );
-  }, [animations, executeAnimations, mainMemControlUnitDataId]);
+  const numericBase = useSelector((state) => state.application.numericBase);
 
-  const color = useMemo(() => {
+  const animationDataFetch = useMemo(() => {
+    return animations.find((anim) => anim.id === mainMemControlUnitDataId);
+  }, [animations, mainMemControlUnitDataId]);
+
+  const animationDataExecute = useMemo(() => {
     return executeAnimations.find(
       (anim) => anim.id === mainMemControlUnitDataId
-    )
-      ? executeColor
-      : fetchColor;
-  }, [executeAnimations, fetchColor, executeColor]);
+    );
+  }, [executeAnimations, mainMemControlUnitDataId]);
 
-  const edgeAnimation = !!animationData;
+  const animationDataFetchToShow = useMemo(() => {
+    return convertValue(animationDataFetch?.data, numericBase);
+  }, [animationDataFetch, numericBase]);
+
+  const animationDataExecuteToShow = useMemo(() => {
+    return convertValue(animationDataExecute?.data, numericBase);
+  }, [animationDataExecute, numericBase]);
+
+  const animationFetch = animationDataFetch && !animationDataExecute;
+  const animationExecute = animationDataExecute && !animationDataFetch;
+  const animationBoth = animationDataFetch && animationDataExecute;
 
   const [edgePath, labelX, labelY] = usePosition({
     edgeId: id,
@@ -45,13 +60,22 @@ export const MainMemControlDataBus = ({ id, source, target }) => {
     targetComponentId: target,
   });
 
+  // Timer to animate interminently the bus when fetch and execute are active
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAnimateInterminently((prev) => !prev);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [animateInterminently]);
+
   return (
     <g>
       <BaseEdge
         path={edgePath}
         interactionWidth={20}
         style={{
-          stroke: "hsl(120, 10.769230769230772%, 74.50980392156863%)",
+          stroke: "var(--im-gray-lighter)",
           strokeWidth: 30,
           filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5))",
         }}
@@ -64,20 +88,78 @@ export const MainMemControlDataBus = ({ id, source, target }) => {
           }}
           className="nodrag nopan"
         >
-          {edgeAnimation && (
-            <Globe arrowPosition={"bottom"} title={"Datos"} color={color}>
+          {animationFetch && (
+            <Globe
+              arrowPosition={"bottom"}
+              title={textDataTitle("Datos (Fetch)", typeSimulation)}
+              color={fetchColor}
+            >
               {instructionRegister}
             </Globe>
           )}
+          {animationExecute && (
+            <Globe
+              arrowPosition={"bottom"}
+              title={textDataTitle("Datos (Execute)", typeSimulation)}
+              color={executeColor}
+            >
+              {animationDataExecuteToShow}
+            </Globe>
+          )}
+          {animationBoth && (
+            <div className="row">
+              <Globe
+                arrowPosition={"bottom"}
+                title={"Datos (Fetch)"}
+                color={fetchColor}
+              >
+                {animationDataFetchToShow}
+              </Globe>
+              <Globe
+                arrowPosition={"bottom"}
+                title={"Datos (Execute)"}
+                color={executeColor}
+              >
+                {animationDataExecuteToShow}
+              </Globe>
+            </div>
+          )}
         </div>
       </EdgeLabelRenderer>
-      {edgeAnimation && (
+      {animationFetch && (
         <BusAnimation
           edgePath={edgePath}
           id={id}
-          reverse={animationData.reverse}
-          color={color}
+          reverse={animationDataFetch.reverse}
+          color={fetchColor}
         />
+      )}
+      {animationExecute && (
+        <BusAnimation
+          edgePath={edgePath}
+          id={id}
+          reverse={animationDataExecute.reverse}
+          color={executeColor}
+        />
+      )}
+      {animationBoth && (
+        <>
+          {animateInterminently ? (
+            <BusAnimation
+              edgePath={edgePath}
+              id={id}
+              reverse={animationDataFetch.reverse}
+              color={fetchColor}
+            />
+          ) : (
+            <BusAnimation
+              edgePath={edgePath}
+              id={id}
+              reverse={animationDataExecute.reverse}
+              color={executeColor}
+            />
+          )}
+        </>
       )}
     </g>
   );

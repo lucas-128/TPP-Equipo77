@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container } from "./styled";
 import { FaBackward, FaForward } from "react-icons/fa6";
 import { useSelector, useDispatch } from "react-redux";
@@ -10,9 +10,14 @@ import {
   updateCurrentState,
   clearApplication,
   setIsSimulating,
+  goToFistState,
 } from "../../../slices/applicationSlice";
 import { Button } from "../../Button";
 import Program from "../../../interpreter/Program";
+import { setError } from "../../../slices/modalsSlice";
+import { INVALID_END_ERROR } from "../../../interpreter/constants";
+import { validateSyntax } from "../../../interpreter/main";
+import { setErrorLine } from "../../../slices/applicationSlice";
 
 export const TextEditorButtons = ({ text }) => {
   const [program, setProgram] = useState(null);
@@ -23,31 +28,74 @@ export const TextEditorButtons = ({ text }) => {
   // TODO: Esto se puede pasar al state directamente (dispatchear memory)
   const getProgramInMemory = () => {
     const parsedCode = splitCode(text).join("");
-    if (parsedCode.length > 512) {
-      // TODO: ERROR => el programa no entra en memoria
-    }
     return Array.from(
       { length: 256 },
-      (_, i) => parsedCode.slice(i * 2, i * 2 + 2) || "x"
+      (_, i) => parsedCode.slice(i * 2, i * 2 + 2).toUpperCase() || "-"
     );
   };
 
-  const handleSimulateButtonClick = () => {
+  const isCodeLengthValid = (code) => {
+    const codeLength = splitCode(code).join("").length;
+    if (codeLength > 508) {
+      dispatch(
+        setError("El código excede la cantidad de instrucciones permitidas.")
+      );
+      return false;
+    }
+    return true;
+  };
+
+  const isSyntaxValid = (code) => {
+    if (!validateSyntax(code).isValid) {
+      dispatch(setErrorLine(validateSyntax(code).errorLine));
+      return false;
+    }
+    return true;
+  };
+
+  const isValidEndInstruction = (program) => {
+    if (program.invalidEndInstruction()) {
+      dispatch(setError(INVALID_END_ERROR));
+      return false;
+    }
+    return true;
+  };
+
+  const simulateProgram = (program, memory) => {
     dispatch(setIsSimulating(!isSimulating));
-    const newMemory = getProgramInMemory();
-    const newProgram = new Program(text, applicationState.typeSimulations);
-    setProgram(newProgram);
-    const newState = newProgram.getNewState({
+    setProgram(program);
+
+    const newState = program.getNewState({
       ...applicationState,
-      fetch: { ...applicationState.fetch, programCounter: 0, instructionId: null },
-      execute: { ...applicationState.execute, mainMemoryCells: newMemory},
+      fetch: {
+        ...applicationState.fetch,
+        programCounter: 0,
+        instructionId: null,
+      },
+      execute: { ...applicationState.execute, mainMemoryCells: memory },
     });
-    dispatch(updatePreviousState()); //TODO: Revisar esto porque creo que el primer estado guarda un previous state que no deberia
+    if (newState.execute.errorLine) {
+      dispatch(setIsSimulating(false));
+    }
     dispatch(updateCurrentState(newState));
   };
 
+  const handleSimulateButtonClick = () => {
+    if (!isSyntaxValid(text)) return;
+    if (!isCodeLengthValid(text)) return;
+    dispatch(clearApplication());
+    const newMemory = getProgramInMemory();
+    const newProgram = new Program(text, applicationState.typeSimulations);
+    if (newProgram.invalidEndInstruction()) {
+      dispatch(setError(INVALID_END_ERROR));
+      return;
+    }
+    if (!isValidEndInstruction(newProgram)) return;
+    simulateProgram(newProgram, newMemory);
+  };
+
   const handleEditCodeButtonClick = () => {
-    dispatch(setIsSimulating(!isSimulating));
+    dispatch(setIsSimulating(false));
     dispatch(clearApplication());
   };
 
@@ -56,21 +104,65 @@ export const TextEditorButtons = ({ text }) => {
   };
 
   const setNextLine = () => {
-    if(applicationState.execute.endProgram) {
+    if (applicationState.execute.endProgram) {
       dispatch(setIsSimulating(false));
       dispatch(clearApplication());
       return;
     }
-    dispatch(updatePreviousState()); //TODO: Revisar esto porque creo que el primer estado guarda un previous state que no deberia
-    dispatch(updateCurrentState(program.getNewState(applicationState)));
+
+    if (applicationState.execute.jumpInstruction) {
+      const newState = program.makeJumpBranch(
+        applicationState,
+        applicationState.execute.jumpInstruction
+      );
+      dispatch(updatePreviousState());
+      dispatch(updateCurrentState(program.getNewState(newState)));
+      return;
+    }
+    const newState = program.getNewState(applicationState);
+    if (newState.execute.errorLine) {
+      dispatch(setIsSimulating(false));
+    }
+    dispatch(updatePreviousState());
+    dispatch(updateCurrentState(newState));
+  };
+
+  const setLastLine = () => {
+    let oldState = applicationState;
+    while (
+      !oldState.execute.endProgram &&
+      !oldState.execute.showOutputPort &&
+      !oldState.execute.showInputPort
+    ) {
+      const newState = program.getNewState(oldState);
+      oldState = newState;
+
+      if (oldState.execute.jumpInstruction) {
+        const newStateBranch = program.makeJumpBranch(
+          oldState,
+          oldState.execute.jumpInstruction
+        );
+        const nextState = program.getNewState(newStateBranch);
+        oldState = nextState;
+        dispatch(updatePreviousState());
+        dispatch(updateCurrentState(nextState));
+        continue;
+      }
+
+      dispatch(updatePreviousState());
+      dispatch(updateCurrentState(newState));
+    }
+  };
+
+  const setFirstLine = () => {
+    dispatch(goToFistState());
   };
 
   return (
     <Container>
       {isSimulating ? (
         <>
-          {/* TODO> ver forma de volver al principio de todo, primera inst. De ultima sacar flecha */}
-          <Button onClick={() => {}}>
+          <Button onClick={setFirstLine}>
             <FaBackward />
           </Button>
           <Button onClick={setPrevLine}>
@@ -79,8 +171,7 @@ export const TextEditorButtons = ({ text }) => {
           <Button onClick={setNextLine}>
             <BiSolidRightArrow />
           </Button>
-          {/* TODO> ver forma de ir al final de todo, estado de ultima inst. De ultima sacar flecha */}
-          <Button onClick={() => {}}>
+          <Button onClick={setLastLine}>
             <FaForward />
           </Button>
           <Button onClick={handleEditCodeButtonClick}> Editar</Button>

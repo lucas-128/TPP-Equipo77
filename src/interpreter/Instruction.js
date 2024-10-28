@@ -1,15 +1,10 @@
-// aca tener una clase que tenga updateProgram counter, load y fetch. Después cada inst tiene su execute
-
 import {
   controlUnitCacheAddrBusId,
   controlUnitCacheId,
   controlUnitMainMemAddrId,
   mainMemControlUnitDataId,
 } from "../containers/SimulatorSection/components";
-import {
-  cyclesSimulations,
-  typeSimulations,
-} from "./constants";
+import { cyclesSimulations, typeSimulations } from "./constants";
 import { updateCache } from "./utils";
 
 export default class Instruction {
@@ -21,6 +16,7 @@ export default class Instruction {
 
   cleanState(oldState) {
     const cleanState = {
+      ...oldState,
       fetch: { ...oldState.fetch },
       decode: { ...oldState.decode },
       execute: { ...oldState.execute },
@@ -34,7 +30,7 @@ export default class Instruction {
     return cleanState;
   }
 
-  nextStep(oldState, typeSimulation) {
+  nextStep(oldState, typeSimulation, cycle) {
     if (typeSimulation === typeSimulations.SIMPLE) {
       const stateAfterFetch = this.fetch(oldState);
       const stateAfterDecode = this.decode(stateAfterFetch);
@@ -60,13 +56,13 @@ export default class Instruction {
       }
     } else if (typeSimulation === typeSimulations.PIPELINING) {
       let newState = oldState;
-      if (this.cycle === cyclesSimulations.FETCH) {
+      if (cycle === cyclesSimulations.FETCH) {
         this.cycle = cyclesSimulations.DECODE;
         newState = this.fetch(oldState);
-      } else if (this.cycle === cyclesSimulations.DECODE) {
+      } else if (cycle === cyclesSimulations.DECODE) {
         this.cycle = cyclesSimulations.EXECUTE;
         newState = this.decode(oldState);
-      } else if (this.cycle === cyclesSimulations.EXECUTE) {
+      } else if (cycle === cyclesSimulations.EXECUTE) {
         this.cycle = cyclesSimulations.FETCH;
         newState = this.execute(oldState);
       }
@@ -132,6 +128,12 @@ export default class Instruction {
   decode(oldState) {
     const newDecodeState = { ...oldState.decode };
     newDecodeState.instructionId = this.id;
+    newDecodeState.instructionRegister = oldState.fetch.instructionRegister;
+    newDecodeState.programCounter = oldState.fetch.programCounter;
     return { ...oldState, decode: newDecodeState };
+  }
+
+  resetCycle() {
+    this.cycle = cyclesSimulations.FETCH;
   }
 }

@@ -1,30 +1,30 @@
-import React, { useMemo } from "react";
-import ReactFlow, { Controls, Background } from "reactflow";
+import { ReactFlow, Controls, Background } from "@xyflow/react";
 import {
   onNodesChange,
   onEdgesChange,
   onConnect,
 } from "../../slices/applicationSlice";
-
-import "reactflow/dist/style.css";
+import "@xyflow/react/dist/style.css";
+import { useState } from "react";
 import { Container } from "./styled";
 import { nodeTypes, edgeTypes } from "./components";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { AluModal } from "../../components/AluModal";
 import { ControlUnitModal } from "../../components/ControlUnitModal";
 import MainMemoryModal from "../../components/MainMemoryModal";
 import { InstructionsModal } from "../../components/InstructionsModal";
+import { Tutorial } from "../../components/Tutorial";
 
 export const SimulatorContainer = () => {
-  const nodes = useSelector((state) => state.application.execute.nodes);
-  const edges = useSelector((state) => state.application.execute.edges);
+  const nodes = useSelector((state) => state.application.nodes);
+  const edges = useSelector((state) => state.application.edges);
   const proOptions = { hideAttribution: true };
   const dispatch = useDispatch();
 
   return (
     <Container>
       <ReactFlow
+        id="simulatorContainer"
         nodes={nodes}
         edges={edges}
         nodeTypes={nodeTypes}
@@ -35,11 +35,13 @@ export const SimulatorContainer = () => {
         onNodeClick={() => {}} // permite que se pueda hacer click al nodo
         onEdgeMouseEnter={() => {}}
         proOptions={proOptions}
-        fitView
         nodesDraggable={false}
         elementsSelectable={true}
         zoomOnPinch={false}
         zoomOnDoubleClick={false}
+        fitView
+        minZoom={0.4}
+        colorMode="dark"
       >
         <Controls showInteractive={false} />
         <Background gap={20} />
@@ -47,7 +49,8 @@ export const SimulatorContainer = () => {
       <AluModal />
       <ControlUnitModal />
       <MainMemoryModal />
-      <InstructionsModal/>
+      <InstructionsModal />
+      <Tutorial />
     </Container>
   );
 };

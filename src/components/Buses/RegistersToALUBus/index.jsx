@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { BaseEdge, EdgeLabelRenderer } from "reactflow";
+import { BaseEdge, EdgeLabelRenderer } from "@xyflow/react";
 import { usePosition } from "../../../hooks/usePosition";
 import { useMemo } from "react";
 import {
@@ -11,23 +11,38 @@ import {
 import { BusAnimation } from "../BusAnimation";
 import { Globe } from "../../Globe";
 import { Title } from "./styled";
+import { convertValue, toHexaPadStart } from "../../../interpreter/utils";
+import { textAddressTitle, textDataTitle } from "../utils";
 
 export const RegistersToALUBus = ({ id, data }) => {
+  const typeSimulation = useSelector(
+    (state) => state.application.typeSimulations
+  );
+  const color = useSelector((state) => state.application.execute.color);
+
   const animations = useSelector(
     (state) => state.application.execute.edgeAnimation
   );
 
-  const color = useSelector((state) => state.application.execute.color);
+  const numericBase = useSelector((state) => state.application.numericBase);
 
-  const animationDataTop = useMemo(
-    () => animations.find((anim) => anim.id === registerAluTopId),
-    [animations, registerAluTopId]
-  );
+  const animationDataTop = useMemo(() => {
+    const data = animations.find((anim) => anim.id === registerAluTopId);
+    return data;
+  }, [animations, registerAluTopId]);
 
-  const animationDataBottom = useMemo(
-    () => animations.find((anim) => anim.id === registerAluBottomId),
-    [animations, registerAluBottomId]
-  );
+  const animationDataBottom = useMemo(() => {
+    const data = animations.find((anim) => anim.id === registerAluBottomId);
+    return data;
+  }, [animations, registerAluBottomId]);
+
+  const animationDataTopToShow = useMemo(() => {
+    return convertValue(animationDataTop?.data, numericBase);
+  }, [animationDataTop, numericBase]);
+
+  const animationDataBottomToShow = useMemo(() => {
+    return convertValue(animationDataBottom?.data, numericBase);
+  }, [animationDataBottom, numericBase]);
 
   const edgeAnimationAluTop = !!animationDataTop;
   const edgeAnimationAluBottom = !!animationDataBottom;
@@ -113,12 +128,18 @@ export const RegistersToALUBus = ({ id, data }) => {
             {edgeAnimationAluTop && (
               <Globe arrowPosition={"bottom"} color={color}>
                 <div className="row">
-                  <Title $color={color}>Dirección</Title>
-                  {animationDataTop?.address}
+                  <Title $color={color}>
+                    {textAddressTitle("Dirección (Execute)", typeSimulation)}
+                  </Title>
+                  {parseInt(animationDataTop.address, 10)
+                    .toString(16)
+                    .toUpperCase()}
                 </div>
                 <div className="row">
-                  <Title $color={color}>Datos</Title>
-                  {animationDataTop?.data}
+                  <Title $color={color}>
+                    {textDataTitle("Datos (Execute)", typeSimulation)}
+                  </Title>
+                  {animationDataTopToShow}
                 </div>
               </Globe>
             )}
@@ -136,11 +157,13 @@ export const RegistersToALUBus = ({ id, data }) => {
               <Globe arrowPosition={"top"} color={color}>
                 <div className="row">
                   <Title $color={color}>Dirección</Title>
-                  {animationDataBottom?.address}
+                  {parseInt(animationDataBottom.address, 10)
+                    .toString(16)
+                    .toUpperCase()}
                 </div>
                 <div className="row">
                   <Title $color={color}>Datos</Title>
-                  {animationDataBottom?.data}
+                  {animationDataBottomToShow}
                 </div>
               </Globe>
             )}

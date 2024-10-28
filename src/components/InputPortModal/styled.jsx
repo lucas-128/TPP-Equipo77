@@ -1,5 +1,4 @@
-import { Handle } from 'reactflow';
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
@@ -20,7 +19,7 @@ export const Input = styled.input`
   padding: 5px 10px;
   border-radius: 5px;
   border: 1px solid
-    ${(props) => (props.$hasError ? 'red' : 'var(--im-primary)')};
+    ${(props) => (props.$hasError ? "red" : "var(--im-primary)")};
   background-color: white;
   color: black;
   box-sizing: border-box;

@@ -15,6 +15,7 @@ import {
   Text,
 } from "./styled";
 import { Button } from "../Button";
+import { numericBaseType } from "../../interpreter/constants";
 
 export const InputPortModal = () => {
   const dispatch = useDispatch();
@@ -22,8 +23,13 @@ export const InputPortModal = () => {
   const showModal = useSelector(
     (state) => state.application.execute.showInputPort
   );
+
+  const updateRegister = useSelector(
+    (state) => state.application.execute.registerToUpdate
+  );
+
   const [inputValue, setInputValue] = useState("");
-  const [numericBase, setNumericBase] = useState("decimal");
+  const [numericBase, setNumericBase] = useState(numericBaseType.HEXA);
   const [error, setError] = useState("");
 
   const handleChange = (event) => {
@@ -42,24 +48,12 @@ export const InputPortModal = () => {
   const errorMessages = {
     empty: "El valor no puede estar vacío",
     outOfRange: "El valor debe estar entre -128 y 127",
+    outOfRangeHexa: "El valor debe estar entre 0 y FF",
     containsLetters: "El valor no puede contener letras",
     invalidBinary: "El valor solo puede contener unos y ceros",
     invalidBitLength: "El valor debe tener exactamente 8 bits",
     invalidHex: "El valor debe estar en base hexadecimal y tener 1 o 2 dígitos",
     invalidValue: "Tipo de valor no válido",
-  };
-
-  const isValidDecimal = (value) => {
-    const numericValue = parseInt(value, 10);
-    if (numericValue < -128 || numericValue > 127) {
-      setError(errorMessages.outOfRange);
-      return false;
-    }
-    if (!/^-?\d+$/.test(value)) {
-      setError(errorMessages.containsLetters);
-      return false;
-    }
-    return true;
   };
 
   const isValidBinary = (value) => {
@@ -75,13 +69,13 @@ export const InputPortModal = () => {
   };
 
   const isValidHex = (value) => {
-    if (!/^[0-9A-Fa-f]{1,2}$/.test(value)) {
+    if (!/^[0-9A-Fa-f]+$/.test(value)) {
       setError(errorMessages.invalidHex);
       return false;
     }
     const hexValue = parseInt(value, 16);
-    if (hexValue < -128 || hexValue > 127) {
-      setError(errorMessages.outOfRange);
+    if (hexValue < 0 || hexValue > 255) {
+      setError(errorMessages.outOfRangeHexa);
       return false;
     }
     return true;
@@ -94,11 +88,9 @@ export const InputPortModal = () => {
     }
 
     switch (numericBase) {
-      case "decimal":
-        return isValidDecimal(inputValue);
-      case "binario":
+      case numericBaseType.BINARY:
         return isValidBinary(inputValue);
-      case "hexa":
+      case numericBaseType.HEXA:
         return isValidHex(inputValue);
       default:
         setError(errorMessages.invalidValue);
@@ -113,11 +105,9 @@ export const InputPortModal = () => {
   };
 
   const getHexaValue = () => {
-    if (numericBase === "decimal") {
-      return parseInt(inputValue).toString(16).toUpperCase();
-    } else if (numericBase === "binario") {
+    if (numericBase === numericBaseType.BINARY) {
       return parseInt(inputValue, 2).toString(16).toUpperCase();
-    } else if (numericBase === "hexa") {
+    } else if (numericBase === numericBaseType.HEXA) {
       return inputValue.toUpperCase();
     }
   };
@@ -125,20 +115,17 @@ export const InputPortModal = () => {
   const handleSave = () => {
     if (!isValidInput()) return;
     setInputValue("");
-    const {
-      execute: currentExecuteState,
-      fetch: { instructionRegister },
-    } = applicationState;
+    const { execute: currentExecuteState } = applicationState;
     const newExecuteState = {
       ...currentExecuteState,
       registers: [...currentExecuteState.registers],
       mainMemoryCells: [...currentExecuteState.mainMemoryCells],
       showInputPort: false,
+      registerToUpdate: null,
     };
 
     const newValue = getHexaValue();
-    const registerToUpdate = parseInt(instructionRegister.slice(1, 2), 16);
-    newExecuteState.registers[registerToUpdate] = newValue;
+    newExecuteState.registers[updateRegister] = newValue;
     newExecuteState.mainMemoryCells[254] = newValue;
     const newState = {
       ...applicationState,
@@ -146,6 +133,7 @@ export const InputPortModal = () => {
     };
     dispatch(updateCurrentState(newState));
     setError("");
+    setNumericBase(numericBaseType.HEXA);
   };
 
   return (
@@ -168,31 +156,21 @@ export const InputPortModal = () => {
                 <RadioInput
                   type="radio"
                   name="number-system"
-                  value="decimal"
-                  checked={numericBase === "decimal"}
-                  onChange={handleChange}
-                />
-                Decimal
-              </RadioLabel>
-              <RadioLabel>
-                <RadioInput
-                  type="radio"
-                  name="number-system"
-                  value="binario"
-                  checked={numericBase === "binario"}
-                  onChange={handleChange}
-                />
-                Binario
-              </RadioLabel>
-              <RadioLabel>
-                <RadioInput
-                  type="radio"
-                  name="number-system"
-                  value="hexa"
-                  checked={numericBase === "hexa"}
+                  value={numericBaseType.HEXA}
+                  checked={numericBase === numericBaseType.HEXA}
                   onChange={handleChange}
                 />
                 Hexadecimal
+              </RadioLabel>
+              <RadioLabel>
+                <RadioInput
+                  type="radio"
+                  name="number-system"
+                  value={numericBaseType.BINARY}
+                  checked={numericBase === numericBaseType.BINARY}
+                  onChange={handleChange}
+                />
+                Binario
               </RadioLabel>
             </RadioGroup>
           </BodyContainer>

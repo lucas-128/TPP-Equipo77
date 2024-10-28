@@ -28,6 +28,7 @@ export default class LoadRegisterFromMem extends Instruction {
     const { mainMemoryCells } = oldState.execute;
     if (this.memoryAddress === 254) {
       newExecuteState.showInputPort = true;
+      newExecuteState.registerToUpdate = this.register;
       newExecuteState.instructionId = this.id + 1;
       return { ...oldState, execute: newExecuteState };
     }
@@ -60,8 +61,8 @@ export default class LoadRegisterFromMem extends Instruction {
         },
         { id: controlUnitCacheId, reverse: true, data: value },
         { id: controlUnitCacheAddrBusId, address: this.memoryAddress },
-        { id: controlUnitMainMemAddrId, data: value },
-        { id: mainMemControlUnitDataId, reverse: true, data: value },
+        { id: controlUnitMainMemAddrId, address: this.memoryAddress },
+        { id: mainMemControlUnitDataId, reverse: false, data: value },
       ];
     } else {
       // Cache memory has not been updated, meaning the main memory bus should not be animated

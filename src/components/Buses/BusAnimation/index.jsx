@@ -1,5 +1,5 @@
 import React from "react";
-import { BaseEdge } from "reactflow";
+import { BaseEdge } from "@xyflow/react";
 
 export const BusAnimation = ({ edgePath, id, reverse, color }) => {
   return (

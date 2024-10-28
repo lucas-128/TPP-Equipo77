@@ -1,4 +1,4 @@
-import { getSmoothStepPath, Position } from "reactflow";
+import { getSmoothStepPath, Position } from "@xyflow/react";
 import { useSelector } from "react-redux";
 import {
   aluRegistersId,
@@ -18,7 +18,7 @@ export const usePosition = ({
   targetComponentId,
   position,
 }) => {
-  const nodes = useSelector((state) => state.application.execute.nodes);
+  const nodes = useSelector((state) => state.application.nodes);
 
   const getComponentInfo = (id) => {
     return {
@@ -92,7 +92,7 @@ export const usePosition = ({
         };
       case registersControlUnitId:
         return {
-          sourceX: sourceComponent.position.x,
+          sourceX: sourceComponent.position.x + 10,
           sourceY: sourceComponent.height / 3.1,
           targetX: targetComponent.position.x,
           targetY: sourceComponent.height / 3.1,

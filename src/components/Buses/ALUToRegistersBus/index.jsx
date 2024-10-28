@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { useMemo } from "react";
-import { BaseEdge, EdgeLabelRenderer } from "reactflow";
+import { BaseEdge, EdgeLabelRenderer } from "@xyflow/react";
 import {
   aluId,
   registersId,
@@ -10,6 +10,7 @@ import { usePosition } from "../../../hooks/usePosition";
 import { BusAnimation } from "../BusAnimation";
 import { Globe } from "../../Globe";
 import { Title } from "./styled";
+import { convertValue } from "../../../interpreter/utils";
 
 export const ALUToRegistersBus = ({ id }) => {
   const animations = useSelector(
@@ -17,6 +18,8 @@ export const ALUToRegistersBus = ({ id }) => {
   );
 
   const color = useSelector((state) => state.application.execute.color);
+
+  const numericBase = useSelector((state) => state.application.numericBase);
 
   // const edgeAnimation = useMemo(
   //   () => animations.find((anim) => anim.id === aluRegistersId),
@@ -27,6 +30,10 @@ export const ALUToRegistersBus = ({ id }) => {
     () => animations.find((anim) => anim.id === aluRegistersId),
     [animations, aluRegistersId]
   );
+
+  const animationDataToShow = useMemo(() => {
+    return convertValue(animationData?.data, numericBase);
+  }, [animationData, numericBase]);
 
   const edgeAnimation = !!animationData;
 
@@ -55,15 +62,18 @@ export const ALUToRegistersBus = ({ id }) => {
           }}
           className="nodrag nopan"
         >
-          {edgeAnimation && (
+          {edgeAnimation && animationData?.data && (
             <Globe arrowPosition={"bottom"} color={color}>
               <div className="row">
                 <Title $color={color}>Dirección</Title>
-                {animationData?.address}
+
+                {parseInt(animationData?.address, 10)
+                  .toString(16)
+                  .toUpperCase()}
               </div>
               <div className="row">
                 <Title $color={color}>Datos</Title>
-                {animationData?.data}
+                {animationDataToShow}
               </div>
             </Globe>
           )}

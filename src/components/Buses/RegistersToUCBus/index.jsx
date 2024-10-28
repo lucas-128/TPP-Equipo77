@@ -1,4 +1,4 @@
-import { BaseEdge, EdgeLabelRenderer } from "reactflow";
+import { BaseEdge, EdgeLabelRenderer } from "@xyflow/react";
 import {
   controlUnitId,
   registersControlUnitId,
@@ -10,18 +10,30 @@ import { useMemo } from "react";
 import { BusAnimation } from "../BusAnimation";
 import { Globe } from "../../Globe";
 import { Title } from "./styled";
+import { convertValue, toHexaPadStart } from "../../../interpreter/utils";
+import { textAddressTitle, textDataTitle } from "../utils";
 
 export const RegistersToUCBus = ({ id }) => {
   const animations = useSelector(
     (state) => state.application.execute.edgeAnimation
   );
 
+  const typeSimulation = useSelector(
+    (state) => state.application.typeSimulations
+  );
+
   const color = useSelector((state) => state.application.execute.color);
+
+  const numericBase = useSelector((state) => state.application.numericBase);
 
   const animationData = useMemo(
     () => animations.find((anim) => anim.id === registersControlUnitId),
     [animations, registersControlUnitId]
   );
+
+  const animationDataToShow = useMemo(() => {
+    return convertValue(animationData?.data, numericBase);
+  }, [animationData, numericBase]);
 
   const edgeAnimation = !!animationData;
 
@@ -46,19 +58,25 @@ export const RegistersToUCBus = ({ id }) => {
         <div
           style={{
             position: "absolute",
-            transform: `translate(100%, -135%) translate(${labelX}px,${labelY}px)`,
+            transform: `translate(50%, -135%) translate(${labelX}px,${labelY}px)`,
           }}
           className="nodrag nopan"
         >
           {edgeAnimation && (
             <Globe arrowPosition={"bottom"}>
               <div className="row">
-                <Title $color={color}>Dirección</Title>
-                {animationData?.address}
+                <Title $color={color}>
+                  {textAddressTitle("Dirección (Execute)", typeSimulation)}
+                </Title>
+                {parseInt(animationData?.address, 10)
+                  .toString(16)
+                  .toUpperCase()}
               </div>
               <div className="row">
-                <Title $color={color}>Datos</Title>
-                {animationData?.data}
+                <Title $color={color}>
+                  {textDataTitle("Datos (Execute)", typeSimulation)}
+                </Title>
+                {animationDataToShow}
               </div>
             </Globe>
           )}

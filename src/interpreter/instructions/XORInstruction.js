@@ -20,9 +20,13 @@ export default class XORInstruction extends Instruction {
   execute(oldState) {
     const newExecuteState = { ...oldState.execute };
     newExecuteState.instructionId = this.id + 1;
-    const resultNewExecuteState = applyBinaryOperation(this, (a, b) => a ^ b, newExecuteState);
+    const resultNewExecuteState = applyBinaryOperation(
+      this,
+      (a, b) => parseInt(a, 2) ^ parseInt(b, 2),
+      newExecuteState
+    );
 
-    resultNewExecuteState.animationsAlu = animationsAluData(
+    resultNewExecuteState.edgeAnimation = animationsAluData(
       this.registerSIndex,
       resultNewExecuteState.registers[this.registerSIndex],
       this.registerTIndex,
@@ -30,6 +34,7 @@ export default class XORInstruction extends Instruction {
       this.destinationIndex,
       resultNewExecuteState.registers[this.destinationIndex]
     );
+
     return {
       ...oldState,
       execute: resultNewExecuteState,
@@ -38,7 +43,7 @@ export default class XORInstruction extends Instruction {
 
   toString() {
     return [
-      ["Opcode: ","9 (XOR)"],
+      ["Opcode: ", "9 (XOR)"],
       ["Operando 1: ", "Registro " + toHexa(this.registerSIndex)],
       ["Operando 2: ", "Registro " + toHexa(this.registerTIndex)],
       ["Destino: ", "Registro " + toHexa(this.destinationIndex)],
