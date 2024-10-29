@@ -1,19 +1,20 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { INTRODUCTION } from '../components/Tutorial/constants.jsx';
+import { createSlice } from "@reduxjs/toolkit";
+import { INTRODUCTION } from "../components/Tutorial/constants.jsx";
 
 const initialState = {
   error: false,
-  errorMessage: '',
+  errorMessage: "",
   aluZoom: false,
   controlUnitZoom: false,
   mainMemoryModal: false,
   instructionsModal: false,
+  calculatorModal: false,
   tutorial: false,
-  tutorialStep: INTRODUCTION
+  tutorialStep: INTRODUCTION,
 };
 
 export const modalsSlice = createSlice({
-  name: 'modals',
+  name: "modals",
   initialState,
   reducers: {
     setError(state, action) {
@@ -22,7 +23,7 @@ export const modalsSlice = createSlice({
     },
     closeError(state) {
       state.error = false;
-      state.errorMessage = '';
+      state.errorMessage = "";
     },
     setOpenAluZoom(state, action) {
       state.aluZoom = action.payload;
@@ -42,7 +43,10 @@ export const modalsSlice = createSlice({
     },
     setTutorialStep(state, action) {
       state.tutorialStep = action.payload;
-    }
+    },
+    setOpenCalculatorModal(state, action) {
+      state.calculatorModal = action.payload;
+    },
   },
 });
 
@@ -54,7 +58,8 @@ export const {
   setOpenControlUnitZoom,
   setOpenInstructionsModal,
   setShowTutorial,
-  setTutorialStep
+  setTutorialStep,
+  setOpenCalculatorModal,
 } = modalsSlice.actions;
 
 export default modalsSlice.reducer;
