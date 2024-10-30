@@ -116,7 +116,6 @@ export const Header = () => {
           onChange={handleColorBlindModeChange}
           color="primary"
         />
-
         <HeaderSelect
           value={numericBase}
           onChange={(e) => handleNumericBaseSelectChange(e)}
