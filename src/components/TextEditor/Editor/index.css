@@ -46,7 +46,6 @@
   position: absolute;
   top: -3px;
   left: 40px;
-  color: var(--im-gray);
-  pointer-events: none;
+  color: var(--im-gray-lighter);
   display: inline-block;
 }
