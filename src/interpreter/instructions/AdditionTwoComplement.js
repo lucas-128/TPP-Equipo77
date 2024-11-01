@@ -57,7 +57,7 @@ export default class AdditionTwoComplement extends Instruction {
 
   toString() {
     return [
-      ["Opcode: ", "5 (ADD)"],
+      ["Opcode: ", "5 (Suma)"],
       ["Operando 1: ", "Registro " + toHexa(this.registerSIndex)],
       ["Operando 2: ", "Registro " + toHexa(this.registerTIndex)],
       ["Destino: ", "Registro " + toHexa(this.destinationIndex)],

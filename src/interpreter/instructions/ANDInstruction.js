@@ -39,7 +39,7 @@ export default class ANDInstruction extends Instruction {
 
   toString() {
     return [
-      ["Opcode: ", "8 (AND)"],
+      ["Opcode: ", "8 (Conjunción)"],
       ["Operando 1: ", "Registro " + toHexa(this.registerSIndex)],
       ["Operando 2: ", "Registro " + toHexa(this.registerTIndex)],
       ["Destino: ", "Registro " + toHexa(this.destinationIndex)],

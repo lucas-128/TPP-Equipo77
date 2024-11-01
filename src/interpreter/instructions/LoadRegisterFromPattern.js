@@ -22,15 +22,23 @@ export default class LoadRegisterFromPattern extends Instruction {
     newExecuteState.registers[this.register] = this.pattern;
     newExecuteState.instructionId = this.id + 1;
     newExecuteState.edgeAnimation = [
-      { id: registersControlUnitId, reverse: true, address: this.register, data: this.pattern },
+      {
+        id: registersControlUnitId,
+        reverse: true,
+        address: this.register,
+        data: this.pattern,
+      },
     ];
     return { ...oldState, execute: newExecuteState };
   }
 
   toString() {
     return [
-      ["Opcode: ", "2 (LOAD_PATTERN)"],
-      ["Origen: ", "Patrón 0x" + this.pattern + " = " + toBinary(this.pattern)+"b"],
+      ["Opcode: ", "2 (Cargar patrón)"],
+      [
+        "Origen: ",
+        "Patrón: 0x" + this.pattern + " = " + toBinary(this.pattern),
+      ],
       ["Destino: ", "Registro " + toHexa(this.register)],
     ];
   }
