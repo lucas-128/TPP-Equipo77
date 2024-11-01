@@ -74,3 +74,42 @@ export const CalculatorButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
 `;
+
+export const TooltipText = styled.span`
+  visibility: hidden;
+  opacity: 0;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px 10px;
+  position: absolute;
+  z-index: 1;
+  top: 110%;
+  left: 50%;
+  font-size: 14px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  transition: opacity 0.1s ease-in-out;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #333 transparent;
+  }
+`;
+
+export const TooltipWrapper = styled.div`
+  position: relative;
+  display: inline-block;
+
+  &:hover ${TooltipText} {
+    visibility: visible;
+    opacity: 1;
+  }
+`;

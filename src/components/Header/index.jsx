@@ -4,6 +4,8 @@ import {
   HeaderSelect,
   HeaderOption,
   HeaderCyclesColorReference,
+  TooltipText,
+  TooltipWrapper,
   CalculatorButton,
 } from "./styled";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,9 +21,11 @@ import {
   executeReference,
   cycleReference,
 } from "./utils";
-import { Switch } from "@mui/material";
+import { IconButton, Switch, Tooltip } from "@mui/material";
 import { setOpenCalculatorModal } from "../../slices/modalsSlice";
 import { FaCalculator } from "react-icons/fa";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+import Brightness5Icon from "@mui/icons-material/Brightness5";
 
 export const Header = () => {
   const dispatch = useDispatch();
@@ -77,19 +81,21 @@ export const Header = () => {
     dispatch(updateNumericBase(selected));
   };
 
-  const handleColorBlindModeChange = (event) => {
-    const newMode = event.target.checked ? "high-contrast" : "none";
+  const handleColorBlindModeChange = () => {
+    // Toggle mode between "none" and "high-contrast"
+    const newMode = colorBlindMode === "none" ? "high-contrast" : "none";
     setColorBlindMode(newMode);
+
+    // Update the body class list based on the new mode
     document.body.classList.remove("color-blind-high-contrast");
     if (newMode === "high-contrast") {
-      document.body.classList.add(`color-blind-${newMode}`);
+      document.body.classList.add("color-blind-high-contrast");
     }
   };
 
   const handleCalculatorModal = () => {
     dispatch(setOpenCalculatorModal(true));
   };
-
   return (
     <HeaderContainer id="headerContainer">
       <HeaderTitle>Intérprete Máquina Ideal RISC</HeaderTitle>
@@ -109,13 +115,19 @@ export const Header = () => {
           )}
         </HeaderCyclesColorReference>
       )}
+
       <div className="row">
-        <HeaderTitle>Alto contraste</HeaderTitle>
-        <Switch
-          checked={colorBlindMode === "high-contrast"}
-          onChange={handleColorBlindModeChange}
-          color="primary"
-        />
+        <TooltipWrapper>
+          <IconButton color="inherit" onClick={handleColorBlindModeChange}>
+            {colorBlindMode === "high-contrast" ? (
+              <Brightness7Icon />
+            ) : (
+              <Brightness5Icon />
+            )}
+          </IconButton>
+          <TooltipText>Contraste</TooltipText>
+        </TooltipWrapper>
+
         <HeaderSelect
           value={numericBase}
           onChange={(e) => handleNumericBaseSelectChange(e)}
