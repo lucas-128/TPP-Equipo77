@@ -68,6 +68,13 @@ export const Cycle = styled.div`
   margin-right: 5px;
 `;
 
+export const CalculatorButton = styled.button`
+  padding-top: 5px;
+  border: 2px solid var(--im-gray);
+  border-radius: 5px;
+  cursor: pointer;
+`;
+
 export const TooltipText = styled.span`
   visibility: hidden;
   opacity: 0;

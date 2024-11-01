@@ -11,6 +11,8 @@ export const ALU = () => {
     (state) => state.application.execute.aluOperation
   );
 
+  const isSimulating = useSelector((state) => state.application.isSimulating);
+
   const color = useSelector((state) => state.application.execute.color);
 
   return (

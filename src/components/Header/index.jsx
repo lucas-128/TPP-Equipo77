@@ -6,6 +6,7 @@ import {
   HeaderCyclesColorReference,
   TooltipText,
   TooltipWrapper,
+  CalculatorButton,
 } from "./styled";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -21,6 +22,8 @@ import {
   cycleReference,
 } from "./utils";
 import { IconButton, Switch, Tooltip } from "@mui/material";
+import { setOpenCalculatorModal } from "../../slices/modalsSlice";
+import { FaCalculator } from "react-icons/fa";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import Brightness5Icon from "@mui/icons-material/Brightness5";
 
@@ -89,6 +92,10 @@ export const Header = () => {
       document.body.classList.add("color-blind-high-contrast");
     }
   };
+
+  const handleCalculatorModal = () => {
+    dispatch(setOpenCalculatorModal(true));
+  };
   return (
     <HeaderContainer id="headerContainer">
       <HeaderTitle>Intérprete Máquina Ideal RISC</HeaderTitle>
@@ -148,6 +155,10 @@ export const Header = () => {
             Ejecución con pipelining
           </HeaderOption>
         </HeaderSelect>
+
+        <CalculatorButton onClick={handleCalculatorModal}>
+          <FaCalculator />
+        </CalculatorButton>
       </div>
     </HeaderContainer>
   );

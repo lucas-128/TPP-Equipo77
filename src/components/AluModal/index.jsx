@@ -23,6 +23,7 @@ import { IoClose, IoArrowForward } from "react-icons/io5";
 import { setOpenAluZoom } from "../../slices/modalsSlice";
 import { Button } from "../Button";
 import { toBinaryComplement } from "../../interpreter/utils.js";
+import OperationInfo from "./OperationInfo/index.jsx";
 
 export const AluModal = () => {
   const dispatch = useDispatch();
@@ -84,71 +85,16 @@ export const AluModal = () => {
                       prevSlide={prevSlide}
                       nextSlide={nextSlide}
                     />
-                  ) : aluOperation.operation === "Rotar a la derecha" ? (
-                    <InfoContainer>
-                      <RowOperation>
-                        Operación
-                        <OperationName>{aluOperation.operation}</OperationName>
-                      </RowOperation>
-                      <Row>{registerSbits}</Row>
-                      <Row>Rotaciones: {parseInt(registerTbits, 2)}</Row>
-                      <Line />
-                      {showResult ? (
-                        <Row>
-                          <span>{firstEightBits}</span>
-                        </Row>
-                      ) : (
-                        <ButtonContainer>
-                          <Button lightColor={true} onClick={handleShowResult}>
-                            Realizar operación
-                          </Button>
-                        </ButtonContainer>
-                      )}
-                    </InfoContainer>
-                  ) : aluOperation.operation === "EQUAL" ? (
-                    <InfoContainer>
-                      <RowOperation>
-                        Operación
-                        <OperationName>{"Comparar Registros"}</OperationName>
-                      </RowOperation>
-                      <Row>{registerSbits}</Row>
-                      <Row>{registerTbits}</Row>
-                      <Line />
-                      {showResult ? (
-                        <Row>
-                          {aluOperation?.result
-                            ? "Registros iguales"
-                            : "Registros diferentes"}
-                        </Row>
-                      ) : (
-                        <ButtonContainer>
-                          <Button lightColor={true} onClick={handleShowResult}>
-                            Realizar operación
-                          </Button>
-                        </ButtonContainer>
-                      )}
-                    </InfoContainer>
-                  ) : (
-                    <InfoContainer>
-                      <RowOperation>
-                        Operación
-                        <OperationName>{aluOperation.operation}</OperationName>
-                      </RowOperation>
-                      <Row>{registerSbits}</Row>
-                      <Row>{registerTbits}</Row>
-                      <Line />
-                      {showResult ? (
-                        <Row>
-                          <span>{firstEightBits}</span>
-                        </Row>
-                      ) : (
-                        <ButtonContainer>
-                          <Button lightColor={true} onClick={handleShowResult}>
-                            Realizar operación
-                          </Button>
-                        </ButtonContainer>
-                      )}
-                    </InfoContainer>
+                  )  : (
+                    <OperationInfo
+                      aluOperationName={aluOperation.operation}
+                      registerSbits={registerSbits}
+                      registerTbits={registerTbits}
+                      firstEightBits={firstEightBits}
+                      showResult={showResult}
+                      result={result}
+                      handleShowResult={handleShowResult}
+                    />
                   )}
                 </>
               )}

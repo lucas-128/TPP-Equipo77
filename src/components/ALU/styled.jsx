@@ -31,12 +31,11 @@ export const Container = styled.div`
           ${shine(props.$color)} 0.7s infinite alternate
         `
       : "none"};
-
-  &:hover {
+  /*&:hover {
     background-color: var(--im-primary-hover);
     box-shadow: var(--im-shadow-hover);
     animation-play-state: paused;
-  }
+  }*/
 `;
 
 export const CustomHandle = styled(Handle)`

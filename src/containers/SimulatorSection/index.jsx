@@ -14,6 +14,7 @@ import { ControlUnitModal } from "../../components/ControlUnitModal";
 import MainMemoryModal from "../../components/MainMemoryModal";
 import { InstructionsModal } from "../../components/InstructionsModal";
 import { Tutorial } from "../../components/Tutorial";
+import CalculatorModal from "../../components/CalculatorModal";
 
 export const SimulatorContainer = () => {
   const nodes = useSelector((state) => state.application.nodes);
@@ -51,6 +52,7 @@ export const SimulatorContainer = () => {
       <MainMemoryModal />
       <InstructionsModal />
       <Tutorial />
+      <CalculatorModal />
     </Container>
   );
 };
