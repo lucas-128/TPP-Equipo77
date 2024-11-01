@@ -4,6 +4,8 @@ import {
   HeaderSelect,
   HeaderOption,
   HeaderCyclesColorReference,
+  TooltipText,
+  TooltipWrapper,
 } from "./styled";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -106,11 +108,9 @@ export const Header = () => {
           )}
         </HeaderCyclesColorReference>
       )}
+
       <div className="row">
-        <Tooltip
-          title={colorBlindMode === "high-contrast" ? "Contraste" : "Contraste"}
-          placement="left"
-        >
+        <TooltipWrapper>
           <IconButton color="inherit" onClick={handleColorBlindModeChange}>
             {colorBlindMode === "high-contrast" ? (
               <Brightness7Icon />
@@ -118,7 +118,8 @@ export const Header = () => {
               <Brightness5Icon />
             )}
           </IconButton>
-        </Tooltip>
+          <TooltipText>Contraste</TooltipText>
+        </TooltipWrapper>
 
         <HeaderSelect
           value={numericBase}
