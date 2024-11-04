@@ -41,7 +41,7 @@ export default class ORInstruction extends Instruction {
 
   toString() {
     return [
-      ["Opcode: ", "7 (OR)"],
+      ["Opcode: ", "7 (Disyunción)"],
       ["Operando 1: ", "Registro " + toHexa(this.registerSIndex)],
       ["Operando 2: ", "Registro " + toHexa(this.registerTIndex)],
       ["Destino: ", "Registro " + toHexa(this.destinationIndex)],
