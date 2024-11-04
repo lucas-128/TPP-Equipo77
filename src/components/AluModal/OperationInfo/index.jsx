@@ -12,14 +12,27 @@ import {
   SlidesContainer,
   OperationDescription,
   SlidesButtonsContainer,
+  TooltipText,
 } from "./styled";
-import { IoArrowForward, IoArrowBack } from "react-icons/io5";
-
+import { IoArrowBack } from "react-icons/io5";
+import { FaQuestion } from "react-icons/fa";
+import { FaTable } from "react-icons/fa";
+import { BsPlusSlashMinus } from "react-icons/bs";
+import { CiCalculator2 } from "react-icons/ci";
+import { AiFillCalculator } from "react-icons/ai";
 import { Button } from "../../Button";
-import { instructions } from "../../../interpreter/instruction_descriptor";
+import {
+  AddTwoComplement,
+  AndOperation,
+  EqualOperation,
+  OrOperation,
+  RotateOperation,
+  XorOperation,
+} from "./Operations";
 
-const initialSlide = 0;
-const lastSlide = 2;
+const firstSlide = 0;
+const secondSlide = 1;
+const thirdSlide = 2;
 
 const operationCodeMapByName = {
   "Suma en complemento a 2": "5",
@@ -29,6 +42,15 @@ const operationCodeMapByName = {
   XOR: "9",
   "Rotar a la derecha": "A",
   EQUAL: "B",
+};
+
+const operationDescMapByCode = {
+  5: "En esta operación se realiza la suma binaria bit a bit representando a los negativos en complemento a 2.",
+  7: "En esta operación cada bit del resultado es 1 si al menos uno de los bits correspondientes en los números de entrada es 1.",
+  8: "En esta operación cada bit del resultado es 1 solo si ambos bits correspondientes en los números de entrada son 1.",
+  9: "En esta operación cada bit del resultado es 1 si los bits correspondientes en los números de entrada son diferentes (uno es 1 y el otro es 0).",
+  A: "En esta operación todos los bits se desplazan la cantidad de lugares indicados hacia la derecha, y el bit que sale del extremo derecho se mueve al extremo izquierdo.",
+  B: "En esta operación se comparan ambos números bit a bit. El resultado es 1 si todos los bits son iguales, y 0 si hay alguna diferencia.",
 };
 
 const OperationInfo = ({
@@ -41,15 +63,18 @@ const OperationInfo = ({
   handleShowResult,
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const nextSlide = () => {
-    setCurrentSlide((prevSlide) => prevSlide + 1);
+  const setFirstSlide = () => {
+    setCurrentSlide(firstSlide);
   };
-  const prevSlide = () => {
-    setCurrentSlide((prevSlide) => prevSlide - 1);
+  const setSecondSlide = () => {
+    setCurrentSlide(secondSlide);
+  };
+  const setThirdSlide = () => {
+    setCurrentSlide(thirdSlide);
   };
 
   const aluOpCode = operationCodeMapByName[aluOperationName];
-  const aluOpDesc = instructions[aluOpCode][0];
+  const aluOpDesc = operationDescMapByCode[aluOpCode];
 
   return (
     <InfoContainer>
@@ -63,82 +88,7 @@ const OperationInfo = ({
       </RowOperation>
       <SlidesContainer>
         <Slide>
-          {currentSlide == 0 && (
-            <>
-              {"Descripción:"}
-              <OperationDescription>{aluOpDesc}</OperationDescription>
-            </>
-          )}
-        </Slide>
-        <Slide>
-          {currentSlide == 1 && (
-            <div>
-              Tabla lógica de la operación
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-                className="row"
-              >
-                <div>X</div>
-                <div>Y</div>
-                <div>Z</div>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-                className="row"
-              >
-                <div>0</div>
-                <div>0</div>
-                <div>0</div>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-                className="row"
-              >
-                <div>0</div>
-                <div>1</div>
-                <div>1</div>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-                className="row"
-              >
-                <div>1</div>
-                <div>0</div>
-                <div>1</div>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-                className="row"
-              >
-                <div>1</div>
-                <div>1</div>
-                <div>0</div>
-              </div>
-            </div>
-          )}
-        </Slide>
-        <Slide>
-          {currentSlide == 2 && (
+          {currentSlide == firstSlide && (
             <>
               {aluOperationName === "Rotar a la derecha" ? (
                 <>
@@ -195,17 +145,64 @@ const OperationInfo = ({
             </>
           )}
         </Slide>
+        <Slide>
+          {currentSlide == secondSlide && (
+            <>
+              <OperationDescription>{aluOpDesc}</OperationDescription>
+            </>
+          )}
+        </Slide>
+        <Slide>
+          {currentSlide == thirdSlide && (
+            <>
+              {aluOpCode == "5" ? (
+                <AddTwoComplement />
+              ) : aluOpCode == "7" ? (
+                <OrOperation />
+              ) : aluOpCode == "8" ? (
+                <AndOperation />
+              ) : aluOpCode == "9" ? (
+                <XorOperation />
+              ) : aluOpCode == "A" ? (
+                <RotateOperation />
+              ) : (
+                aluOpCode == "B" && <EqualOperation />
+              )}
+            </>
+          )}
+        </Slide>
       </SlidesContainer>
-
       <SlidesButtonsContainer>
-        {currentSlide != initialSlide && (
-          <Button lightColor={true} onClick={prevSlide}>
-            <IoArrowBack />
-          </Button>
+        {currentSlide == firstSlide && (
+          <>
+            <Button lightColor={true} onClick={setSecondSlide}>
+              <FaQuestion
+                onMouseEnter={(e) =>
+                  (e.currentTarget.nextSibling.style.visibility = "visible")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.nextSibling.style.visibility = "hidden")
+                }
+              />
+              <TooltipText>Descripción</TooltipText>
+            </Button>
+            <Button lightColor={true} onClick={setThirdSlide}>
+              <AiFillCalculator
+                size="25"
+                onMouseEnter={(e) =>
+                  (e.currentTarget.nextSibling.style.visibility = "visible")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.nextSibling.style.visibility = "hidden")
+                }
+              />
+              <TooltipText>Operación bit a bit</TooltipText>
+            </Button>
+          </>
         )}
-        {currentSlide != lastSlide && (
-          <Button lightColor={true} onClick={nextSlide}>
-            <IoArrowForward />
+        {(currentSlide == secondSlide || currentSlide == thirdSlide) && (
+          <Button lightColor={true} onClick={setFirstSlide}>
+            <IoArrowBack />
           </Button>
         )}
       </SlidesButtonsContainer>
