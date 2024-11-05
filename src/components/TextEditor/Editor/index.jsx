@@ -18,6 +18,10 @@ export const MonacoEditor = ({ setEditorValue, editorValue }) => {
     setEditorValue(value);
   };
 
+  useEffect(() => {
+    setPlaceholderVisible(editorValue === "");
+  }, [editorValue]);
+
   const fetchInstructionId = useSelector(
     (state) => state.application.fetch.instructionId
   );
