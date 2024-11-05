@@ -214,7 +214,7 @@ export const MonacoEditor = ({ setEditorValue, editorValue }) => {
         onMount={handleEditorDidMount}
       />
       {isPlaceholderVisible && (
-        <div className="monaco-placeholder"># Escribe tu código aquí...</div>
+        <div className="monaco-placeholder">Escribí tu código acá...</div>
       )}
     </div>
   );
