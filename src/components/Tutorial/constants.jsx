@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export const INTRODUCTION = 0;
 export const SIMULATOR = 1;
@@ -89,36 +89,36 @@ const endTutorial = (
 
 export const tutorialTexts = {
   [INTRODUCTION]: {
-    title: 'Bienvenido al Tutorial',
+    title: "Bienvenido al Tutorial",
     content: introTutorial,
-    arrow: 'none',
-    position: { top: '35%', left: '30%', maxWidth: '500px' },
+    arrow: "none",
+    position: { top: "35%", left: "35%", maxWidth: "500px" },
   },
   [SIMULATOR]: {
-    title: 'Simulador',
+    title: "Simulador",
     content: simulatorTutorial,
-    arrow: 'right',
-    position: { top: '25%', left: 0, maxWidth: '400px' },
-    highlight: 'simulatorContainer',
+    arrow: "right",
+    position: { top: "25%", left: 0, maxWidth: "400px" },
+    highlight: "simulatorContainer",
   },
   [TEXT_EDITOR]: {
-    title: 'Editor de texto',
+    title: "Editor de texto",
     content: textEditorTutorial,
-    arrow: 'left',
-    position: { top: '25%', left: '17%', maxWidth: '500px' },
-    highlight: 'editorContainer',
+    arrow: "left",
+    position: { top: "25%", left: "17%", maxWidth: "500px" },
+    highlight: "editorContainer",
   },
   [EXECUTION_OPTIONS]: {
-    title: 'Opciones de simulación',
+    title: "Opciones de simulación",
     content: simulationOptionsTutorial,
-    arrow: 'top',
-    position: { top: '5%', left: '70%', maxWidth: '500px' },
-    highlight: 'headerContainer',
+    arrow: "top",
+    position: { top: "5%", left: "70%", maxWidth: "500px" },
+    highlight: "headerContainer",
   },
   [END]: {
-    title: 'Fin del tutorial',
+    title: "Fin del tutorial",
     content: endTutorial,
-    arrow: 'none',
-    position: { top: '35%', left: '30%', maxWidth: '500px' },
+    arrow: "none",
+    position: { top: "35%", left: "35%", maxWidth: "500px" },
   },
 };

@@ -143,7 +143,6 @@ export function toHexa(value) {
 }
 
 export function toHexaPadStart(value) {
-  // NO CAMBIAR, POR FAVOR, GRACIAS !!!!
   return value.toString(16).toUpperCase().padStart(2, "0");
 }
 
@@ -181,3 +180,49 @@ export function convertValue(value, base) {
   }
   return value;
 }
+
+const errorMessages = {
+  empty: "El valor no puede estar vacío",
+  outOfRange: "El valor debe estar entre -128 y 127",
+  outOfRangeHexa: "El valor debe estar entre 0 y FF",
+  containsLetters: "El valor no puede contener letras",
+  invalidBinary: "El valor solo puede contener unos y ceros",
+  invalidBitLength: "El valor debe tener exactamente 8 bits",
+  invalidHex: "El valor debe estar en base hexadecimal y tener 1 o 2 dígitos",
+  invalidValue: "Tipo de valor no válido",
+};
+
+const isValidBinary = (value) => {
+  if (!/^[01]+$/.test(value)) {
+    return errorMessages.invalidBinary;
+  }
+  if (value.length !== 8) {
+    return errorMessages.invalidBitLength;
+  }
+  return null;
+};
+
+const isValidHex = (value) => {
+  if (!/^[0-9A-Fa-f]+$/.test(value)) {
+    return errorMessages.invalidHex;
+  }
+  const hexValue = parseInt(value, 16);
+  if (hexValue < 0 || hexValue > 255) {
+    return errorMessages.outOfRangeHexa;
+  }
+  return null;
+};
+
+export const inputHasError = (inputValue, numericBase) => {
+  if (inputValue === "") {
+    return errorMessages.empty;
+  }
+  switch (numericBase) {
+    case numericBaseType.BINARY:
+      return isValidBinary(inputValue);
+    case numericBaseType.HEXA:
+      return isValidHex(inputValue);
+    default:
+      return errorMessages.invalidValue;
+  }
+};

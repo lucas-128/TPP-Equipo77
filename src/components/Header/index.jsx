@@ -82,20 +82,23 @@ export const Header = () => {
   };
 
   const handleColorBlindModeChange = () => {
-    // Toggle mode between "none" and "high-contrast"
     const newMode = colorBlindMode === "none" ? "high-contrast" : "none";
     setColorBlindMode(newMode);
 
-    // Update the body class list based on the new mode
     document.body.classList.remove("color-blind-high-contrast");
     if (newMode === "high-contrast") {
       document.body.classList.add("color-blind-high-contrast");
     }
   };
 
+  const showCalculatorModal = useSelector(
+    (state) => state.modals.calculatorModal
+  );
+
   const handleCalculatorModal = () => {
-    dispatch(setOpenCalculatorModal(true));
+    dispatch(setOpenCalculatorModal(!showCalculatorModal));
   };
+
   return (
     <HeaderContainer id="headerContainer">
       <HeaderTitle>Intérprete Máquina Ideal RISC</HeaderTitle>
@@ -156,7 +159,7 @@ export const Header = () => {
           </HeaderOption>
         </HeaderSelect>
 
-        <CalculatorButton onClick={handleCalculatorModal}>
+        <CalculatorButton id="calculatorButton" onClick={handleCalculatorModal}>
           <FaCalculator />
         </CalculatorButton>
       </div>
