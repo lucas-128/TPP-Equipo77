@@ -94,12 +94,7 @@ export const Header = () => {
     }
   };
 
-  const showCalculatorModal = useSelector(
-    (state) => state.modals.calculatorModal
-  );
-
   const handleCalculatorModal = () => {
-    dispatch(setOpenCalculatorModal(!showCalculatorModal));
     dispatch(setOpenCalculatorModal(!showCalculatorModal));
   };
 
