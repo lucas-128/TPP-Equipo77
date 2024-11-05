@@ -1,3 +1,9 @@
+import { useDispatch, useSelector } from "react-redux";
+import { IoClose } from "react-icons/io5";
+import { setOpenControlUnitZoom } from "../../slices/modalsSlice";
+import { getInstructionLog } from "../../interpreter/instruction_descriptor";
+import { InstructionFactory } from "../../interpreter/InstructionFactory";
+import { useMemo } from "react";
 import {
   ControlUnitContainer,
   Bus,
@@ -11,23 +17,24 @@ import {
   AddrBus,
   DataBus,
   InfoContainer,
-  Info,
   InfoTile,
   InfoBox,
-  DataBox,
+  AdditionalInfoCard,
+  InfoRow,
+  InfoLabel,
+  InfoValue,
+  InfoDescription,
+  InfoSubtitle,
+  DescriptionTitle,
   BlankDataBox,
 } from "./styled";
-import { useDispatch, useSelector } from "react-redux";
-import { IoClose } from "react-icons/io5";
-import { setOpenControlUnitZoom } from "../../slices/modalsSlice";
-import { getInstructionLog } from "../../interpreter/instruction_descriptor";
-import { InstructionFactory } from "../../interpreter/InstructionFactory";
-import { useMemo } from "react";
 
 export const ControlUnitModal = () => {
   const dispatch = useDispatch();
   const showModal = useSelector((state) => state.modals.controlUnitZoom);
-  const decodeId = useSelector((state) => state.application.decode.instructionId);
+  const decodeId = useSelector(
+    (state) => state.application.decode.instructionId
+  );
   const instructionRegister = useSelector(
     (state) => state.application.decode.instructionRegister
   );
@@ -47,6 +54,22 @@ export const ControlUnitModal = () => {
     };
   }, [decodeId, instructionRegister, programCounter]);
 
+  const marginMapping = {
+    1: "72px",
+    2: "50px",
+    3: "35px",
+    4: "0px",
+  };
+
+  const instructions =
+    InstructionFactory.createInstruction(
+      controlUnitInfo.instruction,
+      0
+    )?.toString() || [];
+  const instructionCount = instructions.length;
+
+  const marginTop = marginMapping[instructionCount] || "0px";
+
   return (
     showModal && (
       <ModalWrapper>
@@ -56,40 +79,39 @@ export const ControlUnitModal = () => {
               <InfoTile>{"Unidad de control"}</InfoTile>
 
               <InfoBox>
-                <Info>
-                  <BlankDataBox>{"Contador de programa:"}</BlankDataBox>
-                  <DataBox>{controlUnitInfo.programCounter}</DataBox>
-                </Info>
-                <Info>
-                  <BlankDataBox>{"Instrucción:"}</BlankDataBox>
-                  <DataBox>{controlUnitInfo.instruction}</DataBox>
-                </Info>
-                <Info>
-                  <BlankDataBox>
-                    {controlUnitInfo.instructionDescription}
-                  </BlankDataBox>
-                </Info>
+                <InfoRow>
+                  <InfoLabel>Contador de programa:</InfoLabel>
+                  <InfoValue>{controlUnitInfo.programCounter}</InfoValue>
+                </InfoRow>
+                <InfoRow>
+                  <InfoLabel>Registro de instrucción:</InfoLabel>
+                  <InfoValue>{controlUnitInfo.instruction}</InfoValue>
+                </InfoRow>
               </InfoBox>
-
-              <InfoTile>{"Información adicional"}</InfoTile>
-              <InfoBox>
+              <InfoSubtitle>{"Decodificación de instrucción:"}</InfoSubtitle>
+              <AdditionalInfoCard>
                 {InstructionFactory.createInstruction(
                   controlUnitInfo.instruction,
                   0
                 )
                   ?.toString()
-                  .map((instructionData, i) => {
-                    return (
-                      <Info key={i}>
-                        <BlankDataBox key={i}>
-                          {instructionData[0]}
-                        </BlankDataBox>
-                        <DataBox key={i}>{instructionData[1]}</DataBox>
-                      </Info>
-                    );
-                  })}
-              </InfoBox>
+                  .map((instructionData, i) => (
+                    <InfoRow key={i}>
+                      <InfoLabel>{instructionData[0]}</InfoLabel>
+                      <BlankDataBox>{instructionData[1]}</BlankDataBox>
+                    </InfoRow>
+                  ))}
+
+                <DescriptionTitle style={{ marginTop }}>
+                  Descripción:
+                </DescriptionTitle>
+
+                <InfoDescription>
+                  {controlUnitInfo.instructionDescription}
+                </InfoDescription>
+              </AdditionalInfoCard>
             </InfoContainer>
+
             <StartBusContainer>
               <Bus>Bus hacia los registros</Bus>
             </StartBusContainer>

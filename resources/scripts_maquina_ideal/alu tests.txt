@@ -1,7 +1,7 @@
 203a cargo 00111010 en reg 0
 2115 cargo 00010101 en reg 1
-5201 suma en comp 2
 6201 suma pto flotante
+5201 suma en comp 2
 7201 operacion OR
 8201 operacion AND
 9201 operacion XOR

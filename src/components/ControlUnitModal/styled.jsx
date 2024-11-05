@@ -14,7 +14,7 @@ export const ModalWrapper = styled.div`
   top: 0;
   left: 0;
   bottom: 0;
-  top: 0;
+  right: 0;
   z-index: 10;
   display: flex;
   align-items: center;
@@ -44,7 +44,7 @@ export const ControlUnitContainer = styled.div`
   border-radius: 10px;
   background: var(--im-primary);
   width: 480px;
-  max-height: 500px;
+  max-height: 510px;
   display: flex;
   flex-direction: row;
   justify-content: end;
@@ -72,7 +72,7 @@ export const CloseButton = styled.div`
   right: 0;
   color: var(--im-lightgray);
   background-color: var(--im-red);
-  border-radius: 5px;
+  border-radius: 10px;
   width: fit-content;
   padding: 5px 10px;
   font-weight: 600;
@@ -117,7 +117,7 @@ export const AddrBus = styled(Bus)`
 `;
 
 export const DataBus = styled(Bus)`
-  background-color:  hsl(120, 10.769230769230772%, 74.50980392156863%);
+  background-color: hsl(120, 10.769230769230772%, 74.50980392156863%);
   color: var(--im-darkgray);
 `;
 
@@ -142,14 +142,74 @@ export const EndBusContainer = styled.div`
 
 export const InfoContainer = styled.div`
   position: absolute;
-  font-size: 13px;
+  font-size: 14px;
   width: 450px;
+  max-width: 100%;
 `;
 
 export const InfoTile = styled.p`
-  text-decoration: underline;
   font-size: 20px;
   font-weight: bold;
+`;
+
+export const InfoSubtitle = styled.p`
+  font-size: 16px;
+  font-weight: bold;
+  text-align: left;
+  align-self: flex-start;
+  margin-bottom: 7px;
+  margin-left: 5px;
+  margin-top: 20px;
+`;
+
+export const InfoBox = styled.div`
+  background-color: var(--im-white);
+  color: var(--im-gray);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+`;
+
+export const DescriptionTitle = styled.p`
+  font-size: 14px;
+  margin-bottom: 0px;
+  font-weight: bold;
+  text-align: left;
+  align-self: flex-start;
+`;
+
+export const InfoRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-left: 5px;
+  border: 1px solid var(--im-lightgray);
+  border-radius: 5px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+`;
+
+export const InfoLabel = styled.span`
+  font-weight: bold;
+  text-align: left;
+  flex: 1;
+`;
+
+export const InfoValue = styled.span`
+  background-color: var(--im-primary);
+  color: var(--im-white);
+  padding: 5px 10px;
+  font-weight: bold;
+  min-width: 100px;
+`;
+
+export const InfoDescription = styled.div`
+  font-style: italic;
+  margin-top: 5px;
+  text-align: left;
 `;
 
 export const Info = styled.p`
@@ -158,22 +218,26 @@ export const Info = styled.p`
   font-weight: bold;
 `;
 
-export const InfoBox = styled.div`
-  background-color: var(--im-white);
-  color: var(--im-gray);
-  padding: 1px 5px 5px 5px;
-  border-radius: 10px;
-`;
-
 export const DataBox = styled.div`
-  border-radius: 15px;
   background-color: var(--im-primary);
   color: var(--im-white);
   padding: 5px 10px;
+  min-width: 100px;
 `;
 
 export const BlankDataBox = styled.div`
-  border-radius: 15px;
+  background-color: var(--im-primary);
+  color: var(--im-white);
   padding: 5px 10px;
-  font-style: italic;
+  font-weight: bold;
+  min-width: 175px;
+`;
+
+export const AdditionalInfoCard = styled.div`
+  background-color: var(--im-white);
+  color: var(--im-gray);
+  padding: 15px;
+  border-radius: 10px;
+  min-height: 240px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
 `;

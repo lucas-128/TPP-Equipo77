@@ -76,10 +76,10 @@ export default class Branch extends Instruction {
 
   toString() {
     return [
-      ["Opcode: ", "B (BRANCH)"],
+      ["Opcode: ", "B (Salto)"],
       ["Operando 1: ", "Registro " + this.registerCompareId],
       ["Operando 2: ", "Registro 0"],
-      ["Siguiente instrucción: ", "Dirección " + this.nextInstructionDir],
+      ["Dirección siguiente instrucción: ", this.nextInstructionDir],
     ];
   }
 }

@@ -10,6 +10,8 @@ import { textDataTitle } from "../utils";
 import { convertValue } from "../../../interpreter/utils";
 
 export const MainMemControlDataBus = ({ id, source, target }) => {
+  const numericBase = useSelector((state) => state.application.numericBase);
+
   const [animateInterminently, setAnimateInterminently] = useState(false);
   const instructionRegister = useSelector(
     (state) => state.application.fetch.instructionRegister
@@ -30,7 +32,9 @@ export const MainMemControlDataBus = ({ id, source, target }) => {
   const fetchColor = useSelector((state) => state.application.fetch.color);
   const executeColor = useSelector((state) => state.application.execute.color);
 
-  const numericBase = useSelector((state) => state.application.numericBase);
+  const instructionRegisterToShow = useMemo(() => {
+    return convertValue(instructionRegister, numericBase);
+  }, [instructionRegister, numericBase]);
 
   const animationDataFetch = useMemo(() => {
     return animations.find((anim) => anim.id === mainMemControlUnitDataId);
@@ -94,7 +98,7 @@ export const MainMemControlDataBus = ({ id, source, target }) => {
               title={textDataTitle("Datos (Fetch)", typeSimulation)}
               color={fetchColor}
             >
-              {instructionRegister}
+              {instructionRegisterToShow}
             </Globe>
           )}
           {animationExecute && (

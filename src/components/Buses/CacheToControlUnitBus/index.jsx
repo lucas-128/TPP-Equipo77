@@ -13,6 +13,7 @@ import { textDataTitle } from "../utils";
 import { convertValue } from "../../../interpreter/utils";
 
 export const CacheToControlUnitBus = ({ id }) => {
+  const numericBase = useSelector((state) => state.application.numericBase);
   const typeSimulation = useSelector(
     (state) => state.application.typeSimulations
   );
@@ -33,9 +34,17 @@ export const CacheToControlUnitBus = ({ id }) => {
     return animations.find((anim) => anim.id === controlUnitCacheId);
   }, [animations]);
 
+  const animationDataFetchToShow = useMemo(() => {
+    return convertValue(animationDataFetch?.data, numericBase);
+  }, [animationDataFetch, numericBase]);
+
   const animationDataExecute = useMemo(() => {
     return executeAnimations.find((anim) => anim.id === controlUnitCacheId);
   }, [executeAnimations]);
+
+  const animationDataExecuteToShow = useMemo(() => {
+    return convertValue(animationDataExecute?.data, numericBase);
+  }, [animationDataExecute, numericBase]);
 
   const animationFetch = animationDataFetch && !animationDataExecute;
   const animationExecute = animationDataExecute && !animationDataFetch;
@@ -116,7 +125,7 @@ export const CacheToControlUnitBus = ({ id }) => {
               title={textDataTitle("Datos (Fetch)", typeSimulation)}
               color={fetchColor}
             >
-              {animationDataFetch.data}
+              {animationDataFetchToShow}
             </Globe>
           )}
           {animationExecute && (
@@ -125,7 +134,7 @@ export const CacheToControlUnitBus = ({ id }) => {
               title={textDataTitle("Datos (Execute)", typeSimulation)}
               color={executeColor}
             >
-              {animationDataExecute.data}
+              {animationDataExecuteToShow}
             </Globe>
           )}
           {animationBoth && (
@@ -135,14 +144,14 @@ export const CacheToControlUnitBus = ({ id }) => {
                 title={textDataTitle("Datos (Fetch)", typeSimulation)}
                 color={fetchColor}
               >
-                {animationDataFetch.data}
+                {animationDataFetchToShow}
               </Globe>
               <Globe
                 arrowPosition={"right"}
                 title={textDataTitle("Datos (Execute)", typeSimulation)}
                 color={executeColor}
               >
-                {animationDataExecute.data}
+                {animationDataExecuteToShow}
               </Globe>
             </div>
           )}

@@ -33,6 +33,9 @@ export const Header = () => {
   const [isCycles, setIsCycles] = useState(false);
   const [colorBlindMode, setColorBlindMode] = useState("none");
 
+  const showCalculatorModal = useSelector(
+    (state) => state.modals.calculatorModal
+  );
   const typeSimulation = useSelector(
     (state) => state.application.typeSimulation
   );
@@ -96,6 +99,7 @@ export const Header = () => {
   );
 
   const handleCalculatorModal = () => {
+    dispatch(setOpenCalculatorModal(!showCalculatorModal));
     dispatch(setOpenCalculatorModal(!showCalculatorModal));
   };
 

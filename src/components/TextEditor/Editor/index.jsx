@@ -6,11 +6,13 @@ import { typeSimulations } from "../../../interpreter/constants";
 import { setErrorLine } from "../../../slices/applicationSlice";
 
 export const MonacoEditor = ({ setEditorValue, editorValue }) => {
+  const [isPlaceholderVisible, setPlaceholderVisible] = useState(true);
   const editorRef = useRef(null);
   const [decorations, setDecorations] = useState([]);
   const dispatch = useDispatch();
   const errorLine = useSelector((state) => state.application.execute.errorLine);
   const handleEditorChange = (value) => {
+    setPlaceholderVisible(value === "");
     if (errorLine !== null) dispatch(setErrorLine(null));
     if (decorations.length > 0) updateDecorations([]);
     setEditorValue(value);
@@ -68,6 +70,15 @@ export const MonacoEditor = ({ setEditorValue, editorValue }) => {
   const handleEditorDidMount = (editor, monaco) => {
     editorRef.current = editor;
     updateDecorations();
+
+    // Show or hide placeholder based on editor focus
+    editor.onDidBlurEditorWidget(() => {
+      setPlaceholderVisible(editor.getValue() === ""); // Show if empty
+    });
+
+    editor.onDidFocusEditorWidget(() => {
+      setPlaceholderVisible(false); // Hide placeholder on focus
+    });
   };
 
   const fetchLine = useMemo(() => {
@@ -190,13 +201,21 @@ export const MonacoEditor = ({ setEditorValue, editorValue }) => {
   ]);
 
   return (
-    <Editor
-      height="100%"
-      theme="vs-dark"
-      value={editorValue}
-      onChange={handleEditorChange}
-      options={options}
-      onMount={handleEditorDidMount}
-    />
+    <div
+      className="editor-container"
+      style={{ position: "relative", height: "100%" }}
+    >
+      <Editor
+        height="100%"
+        theme="vs-dark"
+        value={editorValue}
+        onChange={handleEditorChange}
+        options={options}
+        onMount={handleEditorDidMount}
+      />
+      {isPlaceholderVisible && (
+        <div className="monaco-placeholder"># Escribe tu código aquí...</div>
+      )}
+    </div>
   );
 };
