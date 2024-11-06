@@ -43,8 +43,8 @@ export const ControlUnit = () => {
     execute: "Ejecutando instrucción",
   };
 
-  const textToShow = () =>{
-    if(typeSimulation == typeSimulations.CYCLES){
+  const textToShow = () => {
+    if (typeSimulation == typeSimulations.CYCLES) {
       if (fetchId !== null) {
         return texts.fetch;
       } else if (decodeId !== null) {
@@ -54,7 +54,7 @@ export const ControlUnit = () => {
       }
     }
     return "";
-  }
+  };
 
   return (
     <MainContainer
@@ -70,13 +70,13 @@ export const ControlUnit = () => {
           <SpecialRegisterValue id="PC">
             {programCounter !== null
               ? programCounter.toString(16).padStart(2, "0")
-              : " - "}
+              : "00"}
           </SpecialRegisterValue>
         </SpecialRegisterContainer>
         <SpecialRegisterContainer>
           <CustomText>Registro de instrucción</CustomText>
           <SpecialRegisterValue id="IR">
-            {instructionRegister}
+            {instructionRegister || "-"}
           </SpecialRegisterValue>
         </SpecialRegisterContainer>
       </BodyContainer>
@@ -88,9 +88,7 @@ export const ControlUnit = () => {
       <CustomHandle type="source" position="right" />
       {/* cache to control unit */}
       <CustomHandle type="target" position="bottom" />
-        <IndicatorText animate={false}>
-          {textToShow()}
-        </IndicatorText>     
+      <IndicatorText animate={false}>{textToShow()}</IndicatorText>
     </MainContainer>
   );
 };

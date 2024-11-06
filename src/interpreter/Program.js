@@ -122,7 +122,10 @@ export default class Program {
         },
       };
     }
-    if (!this.isLastId(decodeInstructionId) && executeInstructionId !== this.instructions.length - 1) {
+    if (
+      !this.isLastId(decodeInstructionId) &&
+      executeInstructionId !== this.instructions.length - 1
+    ) {
       const intructionDecode = this.instructions[decodeInstructionId];
       newDecodeState = intructionDecode.nextStep(
         oldState,
@@ -132,7 +135,11 @@ export default class Program {
     } else {
       newDecodeState = {
         ...oldState,
-        decode: { ...oldState.decode, instructionId: null, instructionRegister: ""},
+        decode: {
+          ...oldState.decode,
+          instructionId: null,
+          instructionRegister: "",
+        },
       };
     }
 
@@ -178,7 +185,6 @@ export default class Program {
     }
     const actualInstruction =
       this.instructions[this.getCurrentInstructionId(oldState)];
-      console.log("actualInstruction", actualInstruction);
 
     const newState = actualInstruction.nextStep(oldState, this.typeSimulation);
     return newState;

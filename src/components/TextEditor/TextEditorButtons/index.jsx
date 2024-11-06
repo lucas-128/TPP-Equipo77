@@ -25,7 +25,6 @@ export const TextEditorButtons = ({ text }) => {
   const dispatch = useDispatch();
   const applicationState = useSelector((state) => state.application);
 
-  // TODO: Esto se puede pasar al state directamente (dispatchear memory)
   const getProgramInMemory = () => {
     const parsedCode = splitCode(text).join("");
     return Array.from(
@@ -72,7 +71,10 @@ export const TextEditorButtons = ({ text }) => {
         programCounter: 0,
         instructionId: null,
       },
-      execute: { ...applicationState.execute, mainMemoryCells: memory },
+      execute: {
+        ...applicationState.execute,
+        mainMemoryCells: memory,
+      },
     });
     if (newState.execute.errorLine) {
       dispatch(setIsSimulating(false));

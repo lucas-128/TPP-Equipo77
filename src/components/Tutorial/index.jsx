@@ -40,7 +40,6 @@ export const Tutorial = () => {
   }, [step]);
 
   useEffect(() => {
-    console.log('Show tutorial: ', showTutorial);
     if (showTutorial) {
       if (lastHighlightedElement) {
         lastHighlightedElement.style.zIndex = 0;
