@@ -16,6 +16,12 @@ import {
 } from "./styled";
 import { Button } from "../Button";
 import { numericBaseType } from "../../interpreter/constants";
+import {
+  controlUnitMainMemAddrId,
+  mainMemControlUnitDataId,
+  registersControlUnitId,
+} from "../../containers/SimulatorSection/components";
+import { inputHasError } from "../../interpreter/utils";
 
 export const InputPortModal = () => {
   const dispatch = useDispatch();
@@ -45,59 +51,6 @@ export const InputPortModal = () => {
     }
   }, [showModal]);
 
-  const errorMessages = {
-    empty: "El valor no puede estar vacío",
-    outOfRange: "El valor debe estar entre -128 y 127",
-    outOfRangeHexa: "El valor debe estar entre 0 y FF",
-    containsLetters: "El valor no puede contener letras",
-    invalidBinary: "El valor solo puede contener unos y ceros",
-    invalidBitLength: "El valor debe tener exactamente 8 bits",
-    invalidHex: "El valor debe estar en base hexadecimal y tener 1 o 2 dígitos",
-    invalidValue: "Tipo de valor no válido",
-  };
-
-  const isValidBinary = (value) => {
-    if (!/^[01]+$/.test(value)) {
-      setError(errorMessages.invalidBinary);
-      return false;
-    }
-    if (value.length !== 8) {
-      setError(errorMessages.invalidBitLength);
-      return false;
-    }
-    return true;
-  };
-
-  const isValidHex = (value) => {
-    if (!/^[0-9A-Fa-f]+$/.test(value)) {
-      setError(errorMessages.invalidHex);
-      return false;
-    }
-    const hexValue = parseInt(value, 16);
-    if (hexValue < 0 || hexValue > 255) {
-      setError(errorMessages.outOfRangeHexa);
-      return false;
-    }
-    return true;
-  };
-
-  const isValidInput = () => {
-    if (inputValue === "") {
-      setError(errorMessages.empty);
-      return false;
-    }
-
-    switch (numericBase) {
-      case numericBaseType.BINARY:
-        return isValidBinary(inputValue);
-      case numericBaseType.HEXA:
-        return isValidHex(inputValue);
-      default:
-        setError(errorMessages.invalidValue);
-        return false;
-    }
-  };
-
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       handleSave();
@@ -113,7 +66,11 @@ export const InputPortModal = () => {
   };
 
   const handleSave = () => {
-    if (!isValidInput()) return;
+    const applicationError = inputHasError(inputValue, numericBase);
+    if (applicationError !== null) {
+      setError(applicationError);
+      return;
+    }
     setInputValue("");
     const { execute: currentExecuteState } = applicationState;
     const newExecuteState = {
@@ -127,6 +84,16 @@ export const InputPortModal = () => {
     const newValue = getHexaValue();
     newExecuteState.registers[updateRegister] = newValue;
     newExecuteState.mainMemoryCells[254] = newValue;
+    newExecuteState.edgeAnimation = [
+      {
+        id: registersControlUnitId,
+        reverse: true,
+        data: newValue,
+        address: updateRegister,
+      },
+      { id: controlUnitMainMemAddrId, address: 254 },
+      { id: mainMemControlUnitDataId, reverse: false, data: newValue },
+    ];
     const newState = {
       ...applicationState,
       execute: newExecuteState,

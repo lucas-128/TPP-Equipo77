@@ -4,6 +4,7 @@ import {
   HeaderSelect,
   HeaderOption,
   HeaderCyclesColorReference,
+  CalculatorButton,
 } from "./styled";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -18,14 +19,17 @@ import {
   executeReference,
   cycleReference,
 } from "./utils";
-import { Switch } from "@mui/material";
+import { setOpenCalculatorModal } from "../../slices/modalsSlice";
+import { FaCalculator } from "react-icons/fa";
 
 export const Header = () => {
   const dispatch = useDispatch();
   const [isPipelining, setIsPipelining] = useState(false);
   const [isCycles, setIsCycles] = useState(false);
-  const [colorBlindMode, setColorBlindMode] = useState("none");
 
+  const showCalculatorModal = useSelector(
+    (state) => state.modals.calculatorModal
+  );
   const typeSimulation = useSelector(
     (state) => state.application.typeSimulation
   );
@@ -74,13 +78,8 @@ export const Header = () => {
     dispatch(updateNumericBase(selected));
   };
 
-  const handleColorBlindModeChange = (event) => {
-    const newMode = event.target.checked ? "high-contrast" : "none";
-    setColorBlindMode(newMode);
-    document.body.classList.remove("color-blind-high-contrast");
-    if (newMode === "high-contrast") {
-      document.body.classList.add(`color-blind-${newMode}`);
-    }
+  const handleCalculatorModal = () => {
+    dispatch(setOpenCalculatorModal(!showCalculatorModal));
   };
 
   return (
@@ -102,14 +101,8 @@ export const Header = () => {
           )}
         </HeaderCyclesColorReference>
       )}
-      <div className="row">
-        <HeaderTitle>Alto contraste</HeaderTitle>
-        <Switch
-          checked={colorBlindMode === "high-contrast"}
-          onChange={handleColorBlindModeChange}
-          color="primary"
-        />
 
+      <div className="row">
         <HeaderSelect
           value={numericBase}
           onChange={(e) => handleNumericBaseSelectChange(e)}
@@ -137,6 +130,10 @@ export const Header = () => {
             Ejecución con pipelining
           </HeaderOption>
         </HeaderSelect>
+
+        <CalculatorButton id="calculatorButton" onClick={handleCalculatorModal}>
+          <FaCalculator />
+        </CalculatorButton>
       </div>
     </HeaderContainer>
   );

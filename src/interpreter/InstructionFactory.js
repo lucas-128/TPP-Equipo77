@@ -21,6 +21,7 @@ import XORInstruction from "./instructions/XORInstruction";
 
 export class InstructionFactory {
   static createInstruction(instruction, id) {
+    if(!instruction.length) return null;
     const type = instruction[0].toLowerCase();
 
     const register = parseInt(instruction[1], 16);

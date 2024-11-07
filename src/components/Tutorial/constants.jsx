@@ -8,21 +8,15 @@ export const END = 4;
 
 const introTutorial = (
   <>
-    <div>Hola, gracias por utilizar nuestra aplicación.</div>
     <p>
-      Este simulador te permitirá aprender y experimentar con los principios
-      básicos de una arquitectura de computadora RISC (Reduced Instruction Set
-      Computer)
+      Este simulador te permite explorar y experimentar con los principios
+      fundamentales de una arquitectura de computadora RISC (Reduced Instruction
+      Set Computer).
     </p>
     <p>
-      Vas a poder ejecutar programas, visualizar el comportamiento de los
-      diferentes componentes de la computadora y observar cómo las instrucciones
-      se procesan en tiempo real. Con este tutorial vas a aprender a utilizar la
-      aplicación de manera sencilla y rápida.
-    </p>
-    <p>
-      Con este tutorial vas a aprender a utilizar el simulador de manera
-      sencilla y rápida.
+      Podrás ejecutar programas, observar el funcionamiento de los distintos
+      componentes de la computadora y ver en tiempo real cómo se procesan las
+      instrucciones.
     </p>
   </>
 );
@@ -30,14 +24,15 @@ const introTutorial = (
 const simulatorTutorial = (
   <>
     <p>
-      Esta sección es el simulador de la computadora, donde vas a poder ver cómo
-      se ejecutan las instrucciones de un programa y cómo interactúan los
-      diferentes componentes de la máquina, y el flujo de datos a través de los
-      buses.
+      En esta sección encontrarás el simulador de la computadora, donde podrás
+      observar cómo se ejecutan las instrucciones de un programa, cómo
+      interactúan los distintos componentes de la máquina y cómo fluye la
+      información a través de los buses.
     </p>
     <p>
-      Durante la simulación, vas a poder hacerle click a algunos de los
-      componentes de la computadora para visualizar más información sobre ellos.
+      Durante la simulación, también podrás hacer clic en algunos de los
+      componentes de la computadora para ver más detalles sobre su
+      funcionamiento.
     </p>
   </>
 );
@@ -45,36 +40,36 @@ const simulatorTutorial = (
 const textEditorTutorial = (
   <>
     <p>
-      En esta sección vas a poder visualizar el editor de texto, donde se pueden
-      cargar o crear programas para que sean interpretados por el simulador.
+      En esta sección podrás ver el editor de texto, donde puedes cargar o crear
+      programas para que sean interpretados por el simulador.
     </p>
     <p>
-      En la parte superior de la pantalla vas a encontrar botones para subir un
-      programa, limpiar el editor, descargar el programa del editor, y abrir un
-      atajo a la lista de instrucciones que interpreta el simulador.
+      En la parte superior de la pantalla encontrarás botones para subir un
+      programa, limpiar el editor, descargar el programa del editor y acceder a
+      un atajo con la lista de instrucciones interpretadas por el simulador.
     </p>
     <p>
-      Abajo están los botones de control para empezar la simulación, ejecutar
-      paso a paso, avanzar o retroceder al inicio o fin, y detener la ejecución.
+      En la parte inferior están los controles para iniciar la simulación,
+      ejecutar paso a paso, avanzar o retroceder al inicio o fin, y detener la
+      ejecución.
     </p>
     <p>
-      Para comenzar a correr la simulación, cargá un programa en el editor de
-      texto y hacé click en el botón de 'Simular'. Para terminar la simulación o
-      cambiar el programa hacé click en el botón de 'Editar'.
+      Para comenzar la simulación, carga un programa en el editor y haz clic en
+      el botón "Simular". Para finalizar la simulación o cambiar de programa,
+      haz clic en "Editar".
     </p>
   </>
 );
 
 const simulationOptionsTutorial = (
   <>
-    <p>En esta sección se encuentran distintas opciones para la simulación.</p>
+    <p>En esta sección encontrarás diversas opciones para la simulación.</p>
     <p>
-      Por un lado, está la opción de seleccionar la base numérica en la que se
-      van a mostrar los valores de los datos de la simulación: binaria o
-      hexadecimal.
+      Primero, podrás seleccionar la base numérica para mostrar los valores de
+      los datos de la simulación: binaria o hexadecimal.
     </p>
     <p>
-      Por otro lado, se va a poder elegir el modo de ejecución del programa: sin
+      También tendrás la opción de elegir el modo de ejecución del programa: sin
       ciclos de ejecución, con ciclos de ejecución o con ciclos utilizando
       pipelining.
     </p>
@@ -83,47 +78,47 @@ const simulationOptionsTutorial = (
 
 const endTutorial = (
   <>
-    <p>¡Eso es todo! Ya podés empezar a simular.</p>
+    <p>¡Eso es todo! Ahora puedes comenzar a simular.</p>
     <p>
-      Para volver a reproducir este tutorial, siempre va a estar disponible el
-      botón de Ayuda en la parte inferior derecha de la pantalla
+      Para volver a ver este tutorial, siempre podrás encontrar el botón de
+      Ayuda en la parte inferior derecha de la pantalla.
     </p>
-    <p>¡Disfrutá de la experiencia!</p>
+    <p>¡Disfruta de la experiencia!</p>
   </>
 );
 
 export const tutorialTexts = {
   [INTRODUCTION]: {
-    title: "Introducción",
+    title: "Bienvenido al Tutorial",
     content: introTutorial,
     arrow: "none",
-    position: { top: "30%", left: "30%" },
+    position: { top: "35%", left: "35%", maxWidth: "500px" },
   },
   [SIMULATOR]: {
     title: "Simulador",
     content: simulatorTutorial,
     arrow: "right",
-    position: { top: "20%", left: 0, maxWidth: "300px" },
+    position: { top: "25%", left: 0, maxWidth: "400px" },
     highlight: "simulatorContainer",
   },
   [TEXT_EDITOR]: {
     title: "Editor de texto",
     content: textEditorTutorial,
     arrow: "left",
-    position: { top: "20%", left: "16%", maxWidth: "400px" },
+    position: { top: "25%", left: "17%", maxWidth: "500px" },
     highlight: "editorContainer",
   },
   [EXECUTION_OPTIONS]: {
     title: "Opciones de simulación",
     content: simulationOptionsTutorial,
     arrow: "top",
-    position: { top: "5%", left: "80%", maxWidth: "300px" },
+    position: { top: "5%", left: "70%", maxWidth: "500px" },
     highlight: "headerContainer",
   },
   [END]: {
     title: "Fin del tutorial",
     content: endTutorial,
     arrow: "none",
-    position: { top: "35%", left: "35%" },
+    position: { top: "35%", left: "35%", maxWidth: "500px" },
   },
 };

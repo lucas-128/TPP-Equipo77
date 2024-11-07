@@ -31,7 +31,7 @@ export default class CopyRegisterToRegister extends Instruction {
 
   toString() {
     return [
-      ["Opcode: ", "4 (COPY)"],
+      ["Opcode: ", "4 (Copiar registro)"],
       ["Origen: ", "Registro " + toHexa(this.sourceRegister)],
       ["Destino: ", "Registro " + toHexa(this.destinationRegister)],
     ];

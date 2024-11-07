@@ -80,7 +80,7 @@ export default class StoreMemFromRegister extends Instruction {
 
   toString() {
     return [
-      ["Opcode: ", "3 (STORE)"],
+      ["Opcode: ", "3 (Almacenar en memoria)"],
       ["Origen: ", "Registro " + toHexa(this.register)],
       ["Destino: ", "Dirección " + toHexaPadStart(this.memoryCell)],
     ];

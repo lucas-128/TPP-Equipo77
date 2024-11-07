@@ -41,10 +41,11 @@ const invalidInstruction = (instruction) => {
 };
 
 export const fetchReference = (fetchInstruction, fetchColor) => {
+  const description = invalidInstruction(fetchInstruction) ? "-" : fetchInstruction + " (Fetch)";
   return (
     <>
       <FetchPipeliningCycle>
-        {fetchInstruction + " (Fetch)"}
+        {description}
       </FetchPipeliningCycle>
       <FaCircle color={fetchInstruction != "-" ? fetchColor : ""} />
     </>

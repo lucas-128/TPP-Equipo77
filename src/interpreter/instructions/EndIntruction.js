@@ -21,6 +21,6 @@ export default class End extends Instruction {
   }
 
   toString() {
-    return [["Opcode: ", "C (END)"]];
+    return [["Opcode: ", "C (Fin)"]];
   }
 }

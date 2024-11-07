@@ -37,3 +37,15 @@
 .line-error-highlight {
   background-color: rgba(255, 0, 0, 0.2);
 }
+
+.editor-container {
+  position: relative;
+}
+
+.monaco-placeholder {
+  position: absolute;
+  top: -3px;
+  left: 40px;
+  color: var(--im-gray-lighter);
+  display: inline-block;
+}
