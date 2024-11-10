@@ -22,7 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { IoClose, IoArrowForward } from "react-icons/io5";
 import { setOpenAluZoom } from "../../slices/modalsSlice";
 import { Button } from "../Button";
-import { toBinaryComplement } from "../../interpreter/utils.js";
+import { toBinaryComplement, toHexa } from "../../interpreter/utils.js";
 import OperationInfo from "./OperationInfo/index.jsx";
 
 export const AluModal = () => {
@@ -65,11 +65,19 @@ export const AluModal = () => {
             <StartBusContainer>
               <Bus>
                 Registro S:
-                <CircledNumber>{aluOperation.registerSIndex}</CircledNumber>
+                <CircledNumber>
+                  {aluOperation.registerSIndex == null
+                    ? aluOperation.registerSIndex
+                    : toHexa(aluOperation.registerSIndex)}
+                </CircledNumber>
               </Bus>
               <Bus>
                 Registro T:
-                <CircledNumber>{aluOperation.registerTIndex}</CircledNumber>
+                <CircledNumber>
+                  {aluOperation.registerTIndex == null
+                    ? aluOperation.registerTIndex
+                    : toHexa(aluOperation.registerTIndex)}
+                </CircledNumber>
               </Bus>
             </StartBusContainer>
 
@@ -85,7 +93,7 @@ export const AluModal = () => {
                       prevSlide={prevSlide}
                       nextSlide={nextSlide}
                     />
-                  )  : (
+                  ) : (
                     <OperationInfo
                       aluOperationName={aluOperation.operation}
                       registerSbits={registerSbits}
@@ -103,7 +111,11 @@ export const AluModal = () => {
             <EndBusContainer>
               <Bus>
                 Registro R (destino):
-                <CircledNumber>{aluOperation.destinationIndex}</CircledNumber>
+                <CircledNumber>
+                  {aluOperation?.destinationIndex == null
+                    ? aluOperation?.destinationIndex
+                    : toHexa(aluOperation?.destinationIndex)}
+                </CircledNumber>
               </Bus>
             </EndBusContainer>
           </ModalContainer>
