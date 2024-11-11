@@ -174,12 +174,12 @@ const OperationInfo = ({
       <SlidesButtonsContainer>
         {currentSlide == firstSlide && (
           <>
-            <DescriptionTooltip tooltipText={"Descripción"}>
+            <DescriptionTooltip>
               <CustomButton $lightColor={true} onClick={setSecondSlide}>
                 <FaQuestion />
               </CustomButton>
             </DescriptionTooltip>
-            <OperationTooltip tooltipText={"Operación"}>
+            <OperationTooltip>
               <CustomButton $lightColor={true} onClick={setThirdSlide}>
                 <AiFillCalculator size="25" />
               </CustomButton>
