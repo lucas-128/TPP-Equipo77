@@ -33,8 +33,13 @@ export const AluModal = () => {
     (state) => state.application.execute.aluOperation
   );
 
-  const result = (aluOperation?.result ?? 0).toString().padStart(8, "0");
-  const firstEightBits = result.slice(0, 8);
+  const result =
+    typeof aluOperation?.result === "boolean"
+      ? aluOperation.result
+      : (aluOperation?.result ?? 0).toString().padStart(8, "0");
+
+  const firstEightBits =
+    typeof result === "boolean" ? result : result.slice(0, 8);
 
   const registerSbits = toBinaryComplement(aluOperation?.registerS ?? "0");
 
