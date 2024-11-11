@@ -5,6 +5,8 @@ import {
   controlUnitMainMemAddrId,
   // controlUnitMainMemDataId,
   mainMemControlUnitDataId,
+  controlUnitCacheId,
+  controlUnitCacheAddrBusId,
 } from "../containers/SimulatorSection/components";
 
 // Data Tranfer Instructions
@@ -50,9 +52,15 @@ export const typeSimulations = {
 };
 
 export const cyclesSimulations = {
-  FETCH: "fetch",
-  DECODE: "decode",
-  EXECUTE: "execute",
+  FETCH: "Fetch",
+  DECODE: "Decode",
+  EXECUTE: "Execute",
+};
+
+export const numericBaseType = {
+  BINARY: "binary",
+  HEXA: "hexadecimal",
+  DECIMAL: "decimal",
 };
 
 export const instructionCodes = [
@@ -71,23 +79,31 @@ export const instructionCodes = [
 ];
 
 export const operationNames = {
-  ADDITION_TWO_COMPLEMENT: "Suma en complemento a 2",
-  FLOATING_POINT_SUM: "Suma en punto flotante",
-  OR: "OR",
-  AND: "AND",
-  XOR: "XOR",
-  ROTATE_RIGHT: "Rotar a la derecha",
+  [ADDITION_TWO_COMPLEMENT]: "Suma en complemento a 2",
+  [FLOATING_POINT_SUM]: "Suma en punto flotante",
+  [OR]: "OR",
+  [AND]: "AND",
+  [XOR]: "XOR",
+  [ROTATE_RIGHT]: "Rotar a la derecha",
 };
 
 export const CACHE_SIZE = 16;
 
-export const animationsFetch = [
-  controlUnitMainMemAddrId,
-  mainMemControlUnitDataId,
-];
+// export const animationsFetch = [
+//   { id: controlUnitMainMemAddrId },
+//   { id: mainMemControlUnitDataId, reverse: false, data: "" },
+//   { id: controlUnitCacheId, reverse: false, data: "" },
+//   { id: controlUnitCacheAddrBusId },
+// ];
 
 export const animationsAlu = [
   registerAluTopId,
   registerAluBottomId,
   aluRegistersId,
 ];
+
+export const INVALID_END_ERROR =
+  "La instrucción C000 debe ser la ultima en ser ejecutada.";
+
+export const INFINITE_LOOP_ERROR =
+  "El programa ha entrado en un bucle infinito.";

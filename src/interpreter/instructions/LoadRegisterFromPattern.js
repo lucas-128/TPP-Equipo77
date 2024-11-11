@@ -1,4 +1,6 @@
 import Instruction from "../Instruction";
+import { registersControlUnitId } from "../../containers/SimulatorSection/components";
+import { toHexa, toBinary } from "../utils";
 
 /* 
 
@@ -8,8 +10,8 @@ Load the register R with the pattern XY
 */
 
 export default class LoadRegisterFromPattern extends Instruction {
-  constructor(register, pattern, id) {
-    super(id);
+  constructor(type, register, pattern, id) {
+    super(type, id);
     this.register = register;
     this.pattern = pattern;
   }
@@ -19,7 +21,25 @@ export default class LoadRegisterFromPattern extends Instruction {
     newExecuteState.registers = [...oldState.execute.registers];
     newExecuteState.registers[this.register] = this.pattern;
     newExecuteState.instructionId = this.id + 1;
-    newExecuteState.edgeAnimation = []; //Actualizar las aristas correspondientes
+    newExecuteState.edgeAnimation = [
+      {
+        id: registersControlUnitId,
+        reverse: true,
+        address: this.register,
+        data: this.pattern,
+      },
+    ];
     return { ...oldState, execute: newExecuteState };
+  }
+
+  toString() {
+    return [
+      ["Opcode: ", "2 (Cargar patrón)"],
+      [
+        "Origen: ",
+        "Patrón: 0x" + this.pattern + " = " + toBinary(this.pattern),
+      ],
+      ["Destino: ", "Registro " + toHexa(this.register)],
+    ];
   }
 }

@@ -1,16 +1,15 @@
 import Instruction from "../Instruction";
-import { applyBinaryOperation } from "../utils";
-import { animationsAlu } from "../constants";
+import { animationsAluData, applyBinaryOperation, toHexa } from "../utils";
 /* 
 
-Instruction: 4
-Copy the content of register R1 to register R2
+Instruction: 8
+AND operation
 
 */
 
 export default class ANDInstruction extends Instruction {
-  constructor(registerSIndex, registerTIndex, destinationIndex, id) {
-    super(id);
+  constructor(type, registerSIndex, registerTIndex, destinationIndex, id) {
+    super(type, id);
     this.registerSIndex = registerSIndex;
     this.registerTIndex = registerTIndex;
     this.destinationIndex = destinationIndex;
@@ -19,10 +18,31 @@ export default class ANDInstruction extends Instruction {
   execute(oldState) {
     const newExecuteState = { ...oldState.execute };
     newExecuteState.instructionId = this.id + 1;
-    newExecuteState.edgeAnimation = animationsAlu;
+    const resultNewExecuteState = applyBinaryOperation(
+      this,
+      (a, b) => parseInt(a, 2) & parseInt(b, 2),
+      newExecuteState
+    );
+    resultNewExecuteState.edgeAnimation = animationsAluData(
+      this.registerSIndex,
+      resultNewExecuteState.registers[this.registerSIndex],
+      this.registerTIndex,
+      resultNewExecuteState.registers[this.registerTIndex],
+      this.destinationIndex,
+      resultNewExecuteState.registers[this.destinationIndex]
+    );
     return {
       ...oldState,
-      execute: applyBinaryOperation(this, (a, b) => a & b, newExecuteState),
+      execute: resultNewExecuteState,
     };
+  }
+
+  toString() {
+    return [
+      ["Opcode: ", "8 (Conjunción)"],
+      ["Operando 1: ", "Registro " + toHexa(this.registerSIndex)],
+      ["Operando 2: ", "Registro " + toHexa(this.registerTIndex)],
+      ["Destino: ", "Registro " + toHexa(this.destinationIndex)],
+    ];
   }
 }

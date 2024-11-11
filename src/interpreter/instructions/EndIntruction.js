@@ -8,14 +8,19 @@ Jumps to the instruction at address XY if the content of register R is equal to 
 */
 
 export default class End extends Instruction {
-  constructor(instruction, id) {
-    super(id);
-    this.type = instruction[0];
-    this.cycle = "";
+  constructor(type, instruction, id) {
+    super(type, id);
   }
 
   execute(oldState) {
     const newExecuteState = { ...oldState.execute };
-    return {...oldState, execute: newExecuteState};
+    newExecuteState.instructionId = this.id + 1;
+    newExecuteState.endProgram = true;
+    newExecuteState.edgeAnimation = [];
+    return { ...oldState, execute: newExecuteState };
+  }
+
+  toString() {
+    return [["Opcode: ", "C (Fin)"]];
   }
 }

@@ -189,7 +189,54 @@ export const CircledNumber = styled.div`
 export const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
-  width: 100%;
-  margin-top: 20px;
 `;
+
+export const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+`;
+
+export const BitsRow = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+export const RowOperation = styled(Row)`
+  margin-bottom: 15px;
+  align-items: center;
+`;
+
+export const SignBit = styled.span`
+  color: lightgreen;
+`;
+
+export const ExponentBits = styled.span`
+  color: teal;
+`;
+
+export const MantissaBits = styled.span`
+  color: lightblue;
+`;
+
+export const ResultRows = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+
+export const SlidesButtonsContainer = styled.div`
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+`;
+
+export const SlidesContainer = styled.div`
+  min-height: 170px;
+`;
+
+export const Slide = styled.div``;

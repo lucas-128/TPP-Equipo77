@@ -14,7 +14,7 @@ export const ModalWrapper = styled.div`
   top: 0;
   left: 0;
   bottom: 0;
-  top: 0;
+  right: 0;
   z-index: 10;
   display: flex;
   align-items: center;
@@ -44,7 +44,7 @@ export const ControlUnitContainer = styled.div`
   border-radius: 10px;
   background: var(--im-primary);
   width: 480px;
-  height: 530px;
+  max-height: 510px;
   display: flex;
   flex-direction: row;
   justify-content: end;
@@ -67,49 +67,17 @@ export const ModalBg = styled.div`
   background: rgba(2, 2, 2, 0.857);
 `;
 
-export const InfoContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 70%;
-  align-items: center;
-  padding: 30px;
-  margin-right: 20px;
-  justify-content: center;
-  color: var(--im-lightgray);
-  font-size: 18px;
-  font-weight: 700;
-  text-align: center;
-`;
-
-export const OperationName = styled.div`
-  border-radius: 15px;
-  background-color: var(--im-white);
-  padding: 5px 10px;
-  color: var(--im-primary);
-  font-size: 18px;
-  font-weight: 700;
-  text-align: center;
-`;
-
-export const Info = styled.div`
-  width: 100%;
-  font-size: 14px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
 export const CloseButton = styled.div`
   cursor: pointer;
   right: 0;
   color: var(--im-lightgray);
   background-color: var(--im-red);
-  border-radius: 5px;
+  border-radius: 10px;
   width: fit-content;
   padding: 5px 10px;
   font-weight: 600;
   font-size: 15px;
-  margin: 30px;
+  margin: 5px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -141,16 +109,17 @@ export const Bus = styled.div`
     rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px,
     rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px,
     rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
-
 `;
 
 export const AddrBus = styled(Bus)`
-    background-color: var(--im-light-purple);
-`
+  background-color: hsl(120, 10.769230769230772%, 74.50980392156863%);
+  color: var(--im-darkgray);
+`;
 
 export const DataBus = styled(Bus)`
-    background-color: var(--im-light-blue);
-`
+  background-color: hsl(120, 10.769230769230772%, 74.50980392156863%);
+  color: var(--im-darkgray);
+`;
 
 export const StartBusContainer = styled.div`
   display: flex;
@@ -169,4 +138,106 @@ export const EndBusContainer = styled.div`
   z-index: 1;
   height: 530px;
   gap: 200px;
+`;
+
+export const InfoContainer = styled.div`
+  position: absolute;
+  font-size: 14px;
+  width: 450px;
+  max-width: 100%;
+`;
+
+export const InfoTile = styled.p`
+  font-size: 20px;
+  font-weight: bold;
+`;
+
+export const InfoSubtitle = styled.p`
+  font-size: 16px;
+  font-weight: bold;
+  text-align: left;
+  align-self: flex-start;
+  margin-bottom: 7px;
+  margin-left: 5px;
+  margin-top: 20px;
+`;
+
+export const InfoBox = styled.div`
+  background-color: var(--im-white);
+  color: var(--im-gray);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+`;
+
+export const DescriptionTitle = styled.p`
+  font-size: 14px;
+  margin-bottom: 0px;
+  font-weight: bold;
+  text-align: left;
+  align-self: flex-start;
+`;
+
+export const InfoRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-left: 5px;
+  border: 1px solid var(--im-lightgray);
+  border-radius: 5px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+`;
+
+export const InfoLabel = styled.span`
+  font-weight: bold;
+  text-align: left;
+  flex: 1;
+`;
+
+export const InfoValue = styled.span`
+  background-color: var(--im-primary);
+  color: var(--im-white);
+  padding: 5px 10px;
+  font-weight: bold;
+  min-width: 100px;
+`;
+
+export const InfoDescription = styled.div`
+  font-style: italic;
+  margin-top: 5px;
+  text-align: left;
+`;
+
+export const Info = styled.p`
+  display: flex;
+  text-align: left;
+  font-weight: bold;
+`;
+
+export const DataBox = styled.div`
+  background-color: var(--im-primary);
+  color: var(--im-white);
+  padding: 5px 10px;
+  min-width: 100px;
+`;
+
+export const BlankDataBox = styled.div`
+  background-color: var(--im-primary);
+  color: var(--im-white);
+  padding: 5px 10px;
+  font-weight: bold;
+  min-width: 175px;
+`;
+
+export const AdditionalInfoCard = styled.div`
+  background-color: var(--im-white);
+  color: var(--im-gray);
+  padding: 15px;
+  border-radius: 10px;
+  min-height: 240px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
 `;

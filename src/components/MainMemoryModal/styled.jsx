@@ -27,10 +27,10 @@ export const ModalBoxSetup = styled.div`
   left: 0;
   right: 0;
   display: block;
-  max-width: 85%;
-  max-height: 90%;
+  width: 1000px;
+  max-height: 700px;
+  padding: 10px;
   margin: 0 auto;
-  padding: 12px;
   overflow-y: auto;
   overflow-x: auto;
   text-align: center;
@@ -49,6 +49,8 @@ export const ModalContainer = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   color: var(--im-darkgray);
 `;
 
@@ -62,46 +64,67 @@ export const ModalBg = styled.div`
 export const InfoContainer = styled.div`
   display: flex;
   width: 100%;
+  height: 100%;
   align-items: center;
-  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 10px;
 `;
 
-export const Title = styled.div`
-  width: 100%;
-  font-size: 18px;
+export const Title = styled.h1`
+  margin: 0;
+  font-size: 20px;
   font-weight: bold;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: var(--im-lightgray);
+  color: var(--im-white);
+  padding-left: 10px;
 `;
 
 export const IconContainer = styled(IoClose)`
   cursor: pointer;
   right: 0;
-  width: 18px;
-  height: 18px;
-  margin-left: auto;
-  text-align: right;
+  width: 24px;
+  height: 24px;
   color: var(--im-lightgray);
 `;
 
-export const Table = styled.table`
+export const Table = styled.div`
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(32, 1fr);
+  gap: 3px;
+  height: 500px;
+  border-radius: 2px;
+  width: 100%;
+  overflow-y: auto;
+`;
+
+export const Cell = styled.div`
   display: flex;
   justify-content: center;
-  border-collapse: collapse;
-  margin: 10px 0 0 0;
+  align-items: center;
+  height: 20px;
+  border: 1px solid var(--im-gray);
+  width: 100px;
 `;
 
-export const Column = styled.td`
-  border-right: 1px solid var(--im-darkgray);
-  border-left: 1px solid var(--im-darkgray);
+export const CellData = styled.div`
+  margin: 0;
+  color: var(--im-white);
+  font-size: 10px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 `;
 
-export const HeaderCell = styled.th`
-  border-bottom: 1px solid var(--im-darkgray);
-`;
-
-export const Cell = styled.tr`
-  border-top: 1px solid var(--im-darkgray);
+export const CellDirection = styled.div`
+  margin: 0;
+  color: var(--im-white);
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background-color: var(--im-terciary);
+  width: 25px;
 `;

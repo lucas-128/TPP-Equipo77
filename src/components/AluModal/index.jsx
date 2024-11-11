@@ -14,11 +14,16 @@ import {
   Line,
   CircledNumber,
   ButtonContainer,
+  Row,
+  RowOperation,
 } from "./styled";
+import { FloatingPointSlides } from "./FloatingPointSlides";
 import { useDispatch, useSelector } from "react-redux";
-import { IoClose } from "react-icons/io5";
+import { IoClose, IoArrowForward } from "react-icons/io5";
 import { setOpenAluZoom } from "../../slices/modalsSlice";
 import { Button } from "../Button";
+import { toBinaryComplement, toHexa } from "../../interpreter/utils.js";
+import OperationInfo from "./OperationInfo/index.jsx";
 
 export const AluModal = () => {
   const dispatch = useDispatch();
@@ -28,8 +33,33 @@ export const AluModal = () => {
     (state) => state.application.execute.aluOperation
   );
 
+  const result =
+    typeof aluOperation?.result === "boolean"
+      ? aluOperation.result
+      : (aluOperation?.result ?? 0).toString().padStart(8, "0");
+
+  const firstEightBits =
+    typeof result === "boolean" ? result : result.slice(0, 8);
+
+  const registerSbits = toBinaryComplement(aluOperation?.registerS ?? "0");
+
+  const registerTbits = toBinaryComplement(aluOperation?.registerT ?? "0");
+
+  const handleShowResult = () => {
+    setShowResult(true);
+  };
+
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const nextSlide = () => {
+    setCurrentSlide((prevSlide) => prevSlide + 1);
+  };
+  const prevSlide = () => {
+    setCurrentSlide((prevSlide) => prevSlide - 1);
+  };
+
   useEffect(() => {
     setShowResult(false);
+    setCurrentSlide(0);
   }, [showModal]);
 
   return (
@@ -40,46 +70,57 @@ export const AluModal = () => {
             <StartBusContainer>
               <Bus>
                 Registro S:
-                <CircledNumber>{aluOperation.registerSIndex}</CircledNumber>
+                <CircledNumber>
+                  {aluOperation.registerSIndex == null
+                    ? aluOperation.registerSIndex
+                    : toHexa(aluOperation.registerSIndex)}
+                </CircledNumber>
               </Bus>
               <Bus>
                 Registro T:
-                <CircledNumber>{aluOperation.registerTIndex}</CircledNumber>
+                <CircledNumber>
+                  {aluOperation.registerTIndex == null
+                    ? aluOperation.registerTIndex
+                    : toHexa(aluOperation.registerTIndex)}
+                </CircledNumber>
               </Bus>
             </StartBusContainer>
+
             <AluContainer>
-              <InfoContainer>
-                <div className="row" style={{ marginBottom: "20px" }}>
-                  Operación
-                  <OperationName>{aluOperation.operation}</OperationName>
-                </div>
-                <div className="row">
-                  {aluOperation.registerS.toString(2).padStart(8, "0")}
-                </div>
-                <div className="row">
-                  {aluOperation.registerT.toString(2).padStart(8, "0")}
-                </div>
-                <Line />
-                {showResult ? (
-                  <div className="row">
-                    {aluOperation.result.toString(2).padStart(8, "0")}
-                  </div>
-                ) : (
-                  <ButtonContainer>
-                    <Button
-                      lightColor={true}
-                      onClick={() => setShowResult(true)}
-                    >
-                      Realizar operación
-                    </Button>
-                  </ButtonContainer>
-                )}
-              </InfoContainer>
+              {aluOperation && (
+                <>
+                  {aluOperation.operation === "Suma en punto flotante" ? (
+                    <FloatingPointSlides
+                      aluOperation={aluOperation}
+                      registerSbits={registerSbits}
+                      registerTbits={registerTbits}
+                      currentSlide={currentSlide}
+                      prevSlide={prevSlide}
+                      nextSlide={nextSlide}
+                    />
+                  ) : (
+                    <OperationInfo
+                      aluOperationName={aluOperation.operation}
+                      registerSbits={registerSbits}
+                      registerTbits={registerTbits}
+                      firstEightBits={firstEightBits}
+                      showResult={showResult}
+                      result={result}
+                      handleShowResult={handleShowResult}
+                    />
+                  )}
+                </>
+              )}
             </AluContainer>
+
             <EndBusContainer>
               <Bus>
                 Registro R (destino):
-                <CircledNumber>{aluOperation.destinationIndex}</CircledNumber>
+                <CircledNumber>
+                  {aluOperation?.destinationIndex == null
+                    ? aluOperation?.destinationIndex
+                    : toHexa(aluOperation?.destinationIndex)}
+                </CircledNumber>
               </Bus>
             </EndBusContainer>
           </ModalContainer>

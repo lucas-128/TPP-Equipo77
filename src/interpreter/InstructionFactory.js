@@ -21,7 +21,8 @@ import XORInstruction from "./instructions/XORInstruction";
 
 export class InstructionFactory {
   static createInstruction(instruction, id) {
-    const type = instruction[0];
+    if(!instruction.length) return null;
+    const type = instruction[0].toLowerCase();
 
     const register = parseInt(instruction[1], 16);
     const payload = parseInt(instruction[2] + instruction[3], 16);
@@ -34,38 +35,74 @@ export class InstructionFactory {
 
     switch (type) {
       case constants.COPY_REGISTER_TO_REGISTER: {
-        return new CopyRegisterToRegister(registerDestination, registerSource, id);
+        return new CopyRegisterToRegister(
+          type,
+          registerDestination,
+          registerSource,
+          id
+        );
       }
       case constants.LOAD_REGISTER_FROM_MEM: {
-        return new LoadRegisterFromMem(register, payload, id);
+        return new LoadRegisterFromMem(type, register, payload, id);
       }
       case constants.LOAD_REGISTER_FROM_PATTERN: {
         // sin parsear, guardo todo como hexa
-        return new LoadRegisterFromPattern(register, instruction[2] + instruction[3], id);
+        return new LoadRegisterFromPattern(
+          type,
+          register,
+          instruction[2] + instruction[3],
+          id
+        );
       }
       case constants.STORE_MEM_FROM_REGISTER: {
-        return new StoreMemFromRegister(register, payload, id);
+        return new StoreMemFromRegister(type, register, payload, id);
       }
       case constants.ADDITION_TWO_COMPLEMENT:
         return new AdditionTwoComplement(
+          type,
           registerSIndex,
           registerTIndex,
-          register, id
+          register,
+          id
         );
       case constants.FLOATING_POINT_SUM:
-        return new FloatingPointSum(registerSIndex, registerTIndex, register, id);
+        return new FloatingPointSum(
+          type,
+          registerSIndex,
+          registerTIndex,
+          register,
+          id
+        );
       case constants.ROTATE_RIGHT:
-        return new RotateRight(register, registerTIndex, id);
+        return new RotateRight(type, register, registerTIndex, id);
       case constants.OR:
-        return new ORInstruction(registerSIndex, registerTIndex, register, id);
+        return new ORInstruction(
+          type,
+          registerSIndex,
+          registerTIndex,
+          register,
+          id
+        );
       case constants.AND:
-        return new ANDInstruction(registerSIndex, registerTIndex, register, id);
+        return new ANDInstruction(
+          type,
+          registerSIndex,
+          registerTIndex,
+          register,
+          id
+        );
       case constants.XOR:
-        return new XORInstruction(registerSIndex, registerTIndex, register, id);
+        return new XORInstruction(
+          type,
+          registerSIndex,
+          registerTIndex,
+          register,
+          id
+        );
       case constants.JUMP_TO:
-        return new Branch(instruction, id);
+        return new Branch(type, instruction, id);
       case constants.END:
-        return new End(instruction, id);
+        return new End(type, instruction, id);
     }
   }
 }

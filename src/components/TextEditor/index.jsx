@@ -1,132 +1,151 @@
-import { useEffect } from "react";
 import {
   MdOutlineFileUpload,
   MdArrowBackIosNew,
   MdArrowForwardIos,
+  MdDelete,
+  MdDownload,
 } from "react-icons/md";
+import { Resizable } from "re-resizable";
 import { useDispatch, useSelector } from "react-redux";
-import { validateSyntax } from "../../interpreter/main";
 import {
-  EditorText,
   EditorHeader,
   EditorHeaderIconContainer,
   EditorWrapper,
-  EditorTextWrapper,
-  LineCounter,
-  LineNumber,
-  LineCounterText,
-  EditorTextContainer,
   Button,
-  Container,
   HiddenEditorContainer,
+  EditorHeaderText,
+  CustomHandle,
 } from "./styled";
 import { setShowEditor } from "../../slices/editorTextSlice";
-import { setError } from "../../slices/modalsSlice";
+import { setError, setOpenInstructionsModal } from "../../slices/modalsSlice";
+import { MonacoEditor } from "./Editor";
+import { BsQuestionCircleFill } from "react-icons/bs";
 
-export const TextEditor = ({ children, isSimulating, text, setText }) => {
-  const show = useSelector((state) => state.editorText.show);
-  const currentInstruction = useSelector(
-    (state) =>
-      state.application.execute.instructionId ||
-      state.application.fetch.instructionId ||
-      state.application.decode.instructionId
-  );
-
+export const TextEditor = ({ children, text, setText }) => {
   const dispatch = useDispatch();
 
+  const isSimulating = useSelector((state) => state.application.isSimulating);
 
-  const getLineNumbers = (text) => {
-    const lines = text.split("\n").length;
-    return Array.from({ length: lines }, (_, i) =>
-      (i * 2).toString(16).padStart(2, "0")
-    );
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Tab") {
-      e.preventDefault();
-      const { selectionStart, selectionEnd, value } = e.target;
-      const newValue =
-        value.substring(0, selectionStart) +
-        "\t" +
-        value.substring(selectionEnd);
-      setText(newValue);
-    }
-  };
+  const show = useSelector((state) => state.editorText.show);
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
-    try {
-      if (file && file.type === "text/plain") {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          setText(e.target.result);
-        };
-        reader.readAsText(file);
-      } else {
-        alert("Please select a valid .txt file");
-      }
-    } catch (error) {
-      console.log(error);
+    if (file && file.type === "text/plain") {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const inputText = formatText(e.target.result);
+        setText(inputText);
+        event.target.value = null;
+      };
+      reader.onerror = () => {
+        dispatch(setError("Error reading file."));
+      };
+      reader.readAsText(file);
+    } else {
+      dispatch(setError("Please select a valid .txt file."));
     }
   };
 
-  useEffect(() => {
-    if (!text || !isSimulating) return;
-    if (!validateSyntax(text) && isSimulating) {
-      dispatch(
-        setError(
-          "El código contiene errores de sintáxis, por favor modifíquelo e intente de nuevo"
-        )
-      );
+  const formatText = (enteredText) => {
+    const lines = enteredText.split("\n");
+    const areAllDirs = lines
+      .map((line) => line.split(" ")[0])
+      .every((line) => line.length == 2);
+    if (areAllDirs) {
+      return lines.map((line) => line.split(" ").slice(1).join(" ")).join("\n");
+    } else {
+      return enteredText;
     }
-  }, [isSimulating]);
+  };
+
+  const handleClearText = () => {
+    if (!isSimulating) {
+      setText("");
+    } else {
+      // no se puede editar el codigo mientras se simula
+    }
+  };
+
+  const handleFileDownload = () => {
+    const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "programa.txt";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
   return show ? (
-    <Container>
+    <Resizable
+      id="editorContainer"
+      defaultSize={{ width: 300, height: "100%" }}
+      minWidth={250}
+      maxWidth={800}
+      handleStyles={{
+        right: { background: "red", width: "0px" },
+      }}
+      enable={{
+        top: false,
+        right: true,
+        bottom: false,
+        left: false,
+        topRight: false,
+        bottomRight: false,
+        bottomLeft: false,
+        topLeft: false,
+      }}
+      handleComponent={{
+        right: <CustomHandle></CustomHandle>,
+      }}
+    >
       <EditorWrapper>
         <EditorHeader>
+          <EditorHeaderText>{isSimulating ? "Simulando" : ""}</EditorHeaderText>
           <EditorHeaderIconContainer>
-            <Button htmlFor="file-upload">
-              <MdOutlineFileUpload size={20} />
-            </Button>
-            <input
-              id="file-upload"
-              type="file"
-              style={{ display: "none" }}
-              accept=".txt"
-              onChange={handleFileUpload}
-              disabled={isSimulating}
-            />
+            {isSimulating ? (
+              <Button
+                title="Ayuda"
+                onClick={() => dispatch(setOpenInstructionsModal(true))}
+              >
+                <BsQuestionCircleFill size={18} />
+              </Button>
+            ) : (
+              <>
+                <Button htmlFor="file-upload" title="Subir archivo">
+                  <MdOutlineFileUpload size={20} />
+                </Button>
+                <input
+                  id="file-upload"
+                  type="file"
+                  style={{ display: "none" }}
+                  accept=".txt"
+                  onChange={handleFileUpload}
+                  disabled={isSimulating}
+                />
+                <Button onClick={handleClearText} title="Borrar">
+                  <MdDelete size={20} />
+                </Button>
+                <Button onClick={handleFileDownload} title="Descargar">
+                  <MdDownload size={20} />
+                </Button>
+                <Button
+                  title="Ayuda"
+                  onClick={() => dispatch(setOpenInstructionsModal(true))}
+                >
+                  <BsQuestionCircleFill size={18} />
+                </Button>
+              </>
+            )}
             <Button onClick={() => dispatch(setShowEditor(!show))}>
               <MdArrowBackIosNew size={15} />
             </Button>
           </EditorHeaderIconContainer>
         </EditorHeader>
-        <EditorTextWrapper>
-          <EditorTextContainer>
-            <LineCounter>
-              {getLineNumbers(text).map((lineNumber, i) => (
-                <LineNumber
-                  key={lineNumber}
-                  selected={isSimulating && i == (currentInstruction || 0)}
-                >
-                  <LineCounterText>{lineNumber}</LineCounterText>
-                </LineNumber>
-              ))}
-            </LineCounter>
-            <EditorText
-              disabled={isSimulating}
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              onKeyDown={handleKeyDown}
-              readOnly={isSimulating}
-            />
-          </EditorTextContainer>
-        </EditorTextWrapper>
+        <MonacoEditor editorValue={text} setEditorValue={setText} />
         {children}
       </EditorWrapper>
-    </Container>
+    </Resizable>
   ) : (
     <EditorWrapper>
       <HiddenEditorContainer>

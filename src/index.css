@@ -17,7 +17,9 @@
     rgba(50, 50, 50, 0.596) 0px 30px 60px -30px,
     rgba(114, 114, 114, 0.37) 0px -3px 10px 0px inset;
 
+  --im-black: #000000;
   --im-white: #f4f4f4;
+  --im-white-gray: #e7e7e7;
   --im-darkgray: #272727;
   --im-gray: #626262;
   --im-gray-lighter: #848484;
@@ -29,13 +31,32 @@
   --im-light-purple: #6a6792;
   --im-light-blue: #73989e;
   --im-terciary: #496675;
-  --im-purple: #29274c; 
+  --im-purple: #29274c;
   --im-red: rgb(187, 78, 78);
+  --im-pink: rgb(116, 36, 148);
+  --im-green: rgb(40, 95, 40);
+  --im-blue: rgb(29, 64, 139);
+  --im-yellow: rgb(218, 120, 23);
+  --im-lightgreen: #90ee90;
+  --im-teal: #008080;
+  --im-lightblue: #add8e6;
+  --im-address: hsl(178, 100%, 87%);
+  --im-data: hsl(188, 48%, 63%);
 
   --im-primary-hover: #1a516c;
   --im-shadow-hover: rgba(101, 101, 101, 0.25) 0px 10px 20px -10px,
     rgba(128, 128, 128, 0.596) 0px 30px 60px -30px,
     rgba(83, 83, 83, 0.37) 0px -3px 10px 0px inset;
+}
+
+.color-blind-high-contrast {
+  --im-pink: rgb(219, 39, 119);
+  --im-green: rgb(0, 128, 0);
+  --im-blue: rgb(0, 64, 255);
+  --im-yellow: rgba(255, 166, 0, 10);
+  --im-lightgreen: rgb(0, 255, 0);
+  --im-teal: rgb(0, 200, 200);
+  --im-lightblue: rgb(0, 100, 255);
 }
 
 /* SCROLLBARS */

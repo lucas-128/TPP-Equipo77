@@ -1,18 +1,12 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-`;
-
 export const EditorWrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 0;
-  height: 100%;
   background-color: var(--im-gray);
   transition: all 0.15s;
+  height: 100%;
 `;
 
 export const EditorHeader = styled.div`
@@ -32,68 +26,12 @@ export const EditorHeaderIconContainer = styled.div`
 `;
 
 export const EditorHeaderText = styled.p`
-  font-size: 14px;
-  color: black;
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
   user-select: none;
   margin: 0px;
-`;
-
-export const EditorTextWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  background-color: var(--im-white);
-  padding: 2px;
-  margin: 0px 5px;
-  border-radius: 10px;
-  flex: 20;
-  overflow-y: scroll;
-  max-height: 100%;
-  height: 100%;
-`;
-
-export const LineCounter = styled.div`
-  width: 30px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  line-height: 20px;
-  user-select: none;
-  height: 100%;
-`;
-
-export const LineCounterText = styled.p`
-  font-size: 10px;
-  color: black;
-  margin: 0px;
-`;
-
-export const LineNumber = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  color: black;
-  background-color: ${(props) => (props.selected ? "#d7d7d7" : "")};
-  margin-right: 5px;
-`;
-
-export const EditorText = styled.textarea`
-  font-size: 12px;
-  width: 100%;
-  height: calc(100vh - 100px);
-  border: none;
-  background-color: var(--im-white);
-  padding: 0px;
-  border-radius: 0 0 10px 0;
-  color: black;
-  font-family: "Courier New", Courier, monospace;
-  resize: none;
-  box-shadow: none;
-  outline: none;
-  line-height: 20px;
-  tab-size: 4;
-  white-space: pre;
-  overflow-y: hidden;
+  margin-right: auto;
 `;
 
 export const EditorTextContainer = styled.div`
@@ -123,4 +61,23 @@ export const Button = styled.label`
 export const HiddenEditorContainer = styled.div`
   padding: 2px;
   transition: all 0.15s;
+`;
+
+export const CustomHandle = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 2px;
+  height: 100%;
+  border-radius: 10px;
+  position: absolute;
+  right: 3px;
+  top: 0;
+  cursor: ew-resize;
+  z-index: 1;
+  &:hover,
+  &:active {
+    background-color: #008cff;
+  }
 `;

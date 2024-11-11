@@ -1,41 +1,34 @@
-import { Handle } from "reactflow";
+import { Handle } from "@xyflow/react";
 import styled from "styled-components";
 
 export const TableHeader = styled.th`
   background-color: var(--im-primary);
+  font-size: 16px;
   color: var(--im-white);
   padding: 8px;
   text-align: center;
 `;
 
 export const TableContainer = styled.div`
-  width: fit-content;
+  width: 100%;
   padding: 15px;
   background-color: var(--im-primary);
   border-radius: 10px;
   text-align: center;
   box-shadow: var(--im-shadow);
-  cursor: pointer;
-
-  &:hover {
-    background-color: var(--im-primary-hover);
-    box-shadow: var(--im-shadow-hover);
-
-    ${TableHeader} {
-      background-color: var(--im-primary-hover);
-    }
-  }
+  cursor: grab;
 `;
 
 export const TableTitle = styled.div`
   color: var(--im-white);
   font-weight: bold;
-  font-size: 22px;
+  font-size: 25px;
 `;
 
 export const Table = styled.table`
   width: 100%;
   border-radius: 10px;
+  font-size: 16px;
   overflow: hidden;
   border-collapse: collapse;
   margin: auto;
@@ -44,8 +37,9 @@ export const Table = styled.table`
 export const TableRow = styled.tr``;
 
 export const TableCell = styled.td`
-  padding: 4 px;
+  padding: 2px;
   border: 1px solid black;
+  font-size: 16px;
   text-align: center;
   color: black;
   background-color: var(--im-white);

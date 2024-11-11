@@ -1,15 +1,14 @@
-import { getSmoothStepPath, Position } from "reactflow";
+import { getSmoothStepPath, Position } from "@xyflow/react";
 import { useSelector } from "react-redux";
 import {
   aluRegistersId,
   registerAluTopId,
   registerAluBottomId,
-  //registerCacheId,
   controlUnitCacheId,
   mainMemControlUnitDataId,
   controlUnitMainMemAddrId,
-  // controlUnitMainMemDataId,
   registersControlUnitId,
+  controlUnitCacheAddrBusId,
 } from "../containers/SimulatorSection/components";
 import { useMemo } from "react";
 
@@ -19,7 +18,7 @@ export const usePosition = ({
   targetComponentId,
   position,
 }) => {
-  const nodes = useSelector((state) => state.application.execute.nodes);
+  const nodes = useSelector((state) => state.application.nodes);
 
   const getComponentInfo = (id) => {
     return {
@@ -46,7 +45,7 @@ export const usePosition = ({
           sourceY: sourceComponent.position.y + sourceComponent.height / 2,
           targetX: targetComponent.position.x + targetComponent.width / 2,
           targetY: targetComponent.position.y + targetComponent.height,
-          offset: 40,
+          offset: 60,
           sourcePosition: Position.Right,
           targetPosition: Position.Bottom,
         };
@@ -66,9 +65,9 @@ export const usePosition = ({
         };
       case controlUnitCacheId:
         return {
-          sourceX: targetComponent.position.x + targetComponent.width / 2,
+          sourceX: targetComponent.position.x + targetComponent.width / 3,
           sourceY: sourceComponent.position.y,
-          targetX: targetComponent.position.x + targetComponent.width / 2,
+          targetX: targetComponent.position.x + targetComponent.width / 3,
           targetY: targetComponent.position.y + targetComponent.height,
           sourcePosition: Position.Top,
           targetPosition: Position.Bottom,
@@ -76,22 +75,12 @@ export const usePosition = ({
       case mainMemControlUnitDataId:
         return {
           sourceX: sourceComponent.position.x,
-          sourceY: targetComponent.position.y + targetComponent.height / 2,
+          sourceY: targetComponent.position.y + targetComponent.height / 2.5,
           targetX: targetComponent.position.x + targetComponent.width,
-          targetY: targetComponent.position.y + targetComponent.height / 2,
+          targetY: targetComponent.position.y + targetComponent.height / 2.5,
           sourcePosition: Position.Left,
           targetPosition: Position.Right,
         };
-      // case controlUnitMainMemDataId:
-      //   return {
-      //     sourceX: sourceComponent.position.x,
-      //     sourceY: sourceComponent.position.y + sourceComponent.height / 2,
-      //     targetX: targetComponent.position.x + targetComponent.width,
-      //     targetY: sourceComponent.position.y + sourceComponent.height / 2,
-      //     offset: 100,
-      //     sourcePosition: Position.Right,
-      //     targetPosition: Position.Left,
-      //   };
       case controlUnitMainMemAddrId:
         return {
           sourceX: sourceComponent.position.x + sourceComponent.width,
@@ -103,19 +92,29 @@ export const usePosition = ({
         };
       case registersControlUnitId:
         return {
-          sourceX: sourceComponent.position.x,
+          sourceX: sourceComponent.position.x + 10,
           sourceY: sourceComponent.height / 3.1,
           targetX: targetComponent.position.x,
           targetY: sourceComponent.height / 3.1,
           sourcePosition: Position.Right,
           targetPosition: Position.Left,
         };
+      case controlUnitCacheAddrBusId:
+        return {
+          sourceX: targetComponent.position.x + targetComponent.width / 1.5,
+          sourceY: sourceComponent.position.y + sourceComponent.height,
+          targetX: targetComponent.position.x + targetComponent.width / 1.5,
+          targetY: targetComponent.position.y,
+          sourcePosition: Position.Top,
+          targetPosition: Position.Bottom,
+        };
+
       default:
         console.log("ERROR", edgeId);
     }
   }, [sourceComponent, targetComponent, position, sourceComponentId]);
 
-  const [edgePath] = getSmoothStepPath({
+  const [edgePath, labelX, labelY] = getSmoothStepPath({
     sourceX: positions.sourceX,
     sourceY: positions.sourceY,
     targetX: positions.targetX,
@@ -125,5 +124,5 @@ export const usePosition = ({
     targetPosition: positions.targetPosition,
   });
 
-  return [edgePath];
+  return [edgePath, labelX, labelY];
 };

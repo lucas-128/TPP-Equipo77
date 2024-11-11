@@ -1,9 +1,9 @@
-import { Handle } from "reactflow";
+import { Handle } from "@xyflow/react";
 import styled, { keyframes, css } from "styled-components";
 
-const shine = keyframes`
+const shine = (color) => keyframes`
   100% {
-    background-color: #2c5d75;
+    background-color: ${color};
     box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
     transform: scale(1.01);
   }
@@ -20,15 +20,12 @@ export const MainContainer = styled.div`
   padding: 25px;
   overflow: hidden;
   box-shadow: var(--im-shadow);
-  cursor: ${(props) =>
-    props.$operating
-      ? "pointer"
-      : "default"};
+  cursor: ${(props) => (props.$operating ? "pointer" : "default")};
   pointer-events: ${(props) => (props.$operating ? "auto" : "none")};
   animation: ${(props) =>
     props.$operating
       ? css`
-          ${shine} 0.7s infinite alternate
+          ${shine(props.$color)} 0.7s infinite alternate
         `
       : "none"};
 
@@ -43,7 +40,7 @@ export const BodyContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 10px;
+  gap: 15px;
 `;
 
 export const SpecialRegisterContainer = styled.div`
@@ -67,16 +64,16 @@ export const SpecialRegisterValue = styled.div`
 
 export const CustomText = styled.p`
   color: var(--im-white);
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
   margin: 0px;
 `;
 
 export const HeaderText = styled.p`
   color: var(--im-white);
-  font-size: 22px;
+  font-size: 25px;
   font-weight: bold;
-  margin: 0px 0px 20px 0px;
+  margin: 0px 0px 15px 0px;
 `;
 
 const pulse = keyframes`

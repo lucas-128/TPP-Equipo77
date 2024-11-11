@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { BaseEdge } from "reactflow";
+import { BaseEdge, EdgeLabelRenderer } from "@xyflow/react";
 import { usePosition } from "../../../hooks/usePosition";
 import { useMemo } from "react";
 import {
@@ -8,30 +8,53 @@ import {
   registerAluBottomId,
   registersId,
 } from "../../../containers/SimulatorSection/components";
+import { BusAnimation } from "../BusAnimation";
+import { Globe } from "../../Globe";
+import { Title } from "./styled";
+import { convertValue, toHexaPadStart } from "../../../interpreter/utils";
+import { textAddressTitle, textDataTitle } from "../utils";
 
 export const RegistersToALUBus = ({ id, data }) => {
+  const typeSimulation = useSelector(
+    (state) => state.application.typeSimulations
+  );
+  const color = useSelector((state) => state.application.execute.color);
+
   const animations = useSelector(
     (state) => state.application.execute.edgeAnimation
   );
 
-  const edgeAnimationAluBottom = useMemo(
-    () => animations.includes(registerAluTopId),
-    [animations, registerAluTopId]
-  );
+  const numericBase = useSelector((state) => state.application.numericBase);
 
-  const edgeAnimationAluTop = useMemo(
-    () => animations.includes(registerAluBottomId),
-    [animations, registerAluBottomId]
-  );
+  const animationDataTop = useMemo(() => {
+    const data = animations.find((anim) => anim.id === registerAluTopId);
+    return data;
+  }, [animations, registerAluTopId]);
 
-  const [edgePath] = usePosition({
+  const animationDataBottom = useMemo(() => {
+    const data = animations.find((anim) => anim.id === registerAluBottomId);
+    return data;
+  }, [animations, registerAluBottomId]);
+
+  const animationDataTopToShow = useMemo(() => {
+    return convertValue(animationDataTop?.data, numericBase);
+  }, [animationDataTop, numericBase]);
+
+  const animationDataBottomToShow = useMemo(() => {
+    return convertValue(animationDataBottom?.data, numericBase);
+  }, [animationDataBottom, numericBase]);
+
+  const edgeAnimationAluTop = !!animationDataTop;
+  const edgeAnimationAluBottom = !!animationDataBottom;
+
+  const [edgePathTop, labelXTop, labelYTop] = usePosition({
     edgeId: id,
     sourceComponentId: registersId,
     targetComponentId: aluId,
     position: "top",
   });
 
-  const [secondEdgePath] = usePosition({
+  const [edgePathBottom, labelXBottom, labelYBottom] = usePosition({
     edgeId: id,
     sourceComponentId: registersId,
     targetComponentId: aluId,
@@ -77,48 +100,80 @@ export const RegistersToALUBus = ({ id, data }) => {
       <g>
         {/* Background Edges */}
         <BaseEdge
-          path={edgePath}
+          path={edgePathTop}
           interactionWidth={20}
           style={{
-            stroke: "grey",
-            strokeWidth: 20,
+            stroke: "var(--im-gray-lighter)",
+            strokeWidth: 30,
             filter: "url(#drop-shadow-top)",
           }}
         />
         <BaseEdge
-          path={secondEdgePath}
+          path={edgePathBottom}
           interactionWidth={20}
           style={{
-            stroke: "grey",
-            strokeWidth: 20,
+            stroke: "var(--im-gray-lighter)",
+            strokeWidth: 30,
             filter: "url(#drop-shadow-bottom)",
           }}
         />
-        {edgeAnimationAluTop && edgeAnimationAluBottom && (
-          <>
-            <path
-              d={edgePath}
-              stroke="black"
-              strokeWidth={4}
-              strokeDasharray="15,15"
-              strokeLinecap="round"
-              fill="none"
-              style={{
-                animation: "dash 20s linear infinite reverse",
-              }}
-            />
-            <path
-              d={secondEdgePath}
-              stroke="black"
-              strokeWidth={4}
-              strokeDasharray="15,15"
-              strokeLinecap="round"
-              fill="none"
-              style={{
-                animation: "dash 20s linear infinite reverse",
-              }}
-            />
-          </>
+        <EdgeLabelRenderer>
+          <div
+            style={{
+              position: "absolute",
+              transform: `translate(0%, -180%) translate(${labelXTop}px,${labelYTop}px)`,
+            }}
+            className="nodrag nopan"
+          >
+            {edgeAnimationAluTop && (
+              <Globe arrowPosition={"bottom"} color={color}>
+                <div className="row">
+                  <Title $color={color}>
+                    {textAddressTitle("Dirección (Execute)", typeSimulation)}
+                  </Title>
+                  {parseInt(animationDataTop.address, 10)
+                    .toString(16)
+                    .toUpperCase()}
+                </div>
+                <div className="row">
+                  <Title $color={color}>
+                    {textDataTitle("Datos (Execute)", typeSimulation)}
+                  </Title>
+                  {animationDataTopToShow}
+                </div>
+              </Globe>
+            )}
+          </div>
+        </EdgeLabelRenderer>
+        <EdgeLabelRenderer>
+          <div
+            style={{
+              position: "absolute",
+              transform: `translate(0%, 90%) translate(${labelXBottom}px,${labelYBottom}px)`,
+            }}
+            className="nodrag nopan"
+          >
+            {edgeAnimationAluBottom && (
+              <Globe arrowPosition={"top"} color={color}>
+                <div className="row">
+                  <Title $color={color}>Dirección</Title>
+                  {parseInt(animationDataBottom.address, 10)
+                    .toString(16)
+                    .toUpperCase()}
+                </div>
+                <div className="row">
+                  <Title $color={color}>Datos</Title>
+                  {animationDataBottomToShow}
+                </div>
+              </Globe>
+            )}
+          </div>
+        </EdgeLabelRenderer>
+        {edgeAnimationAluTop && (
+          <BusAnimation edgePath={edgePathTop} id={id} color={color} />
+        )}
+        {edgeAnimationAluBottom && (
+          <BusAnimation edgePath={edgePathBottom} id={id} color={color} />
         )}
       </g>
     </>

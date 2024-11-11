@@ -1,21 +1,32 @@
 import React from "react";
-import { BaseEdge } from "reactflow";
+import { BaseEdge } from "@xyflow/react";
 
-export const BusAnimation = ({ edgePath, id, onClick }) => {
+export const BusAnimation = ({ edgePath, id, reverse, color }) => {
   return (
     <>
       <BaseEdge id={id} path={edgePath} style={{ stroke: "none" }} />
       <g>
         <path
           d={edgePath}
-          stroke="black"
-          strokeWidth={4}
-          strokeDasharray="15,15"
+          stroke={"black"} // Color del contorno
+          strokeWidth={9} // Grosor del contorno, mayor que el de la línea principal
+          strokeDasharray="20,15"
+          strokeLinecap="round"
+          fill="none"
+          style={{
+            animation: `dash 15s linear infinite ${reverse ? "" : "reverse"}`,
+          }}
+        />
+        <path
+          d={edgePath}
+          stroke={color || "black"}
+          strokeWidth={7}
+          strokeDasharray="20,15"
           strokeDashoffset="0"
           strokeLinecap="round"
           fill="none"
           style={{
-            animation: "dash 15s linear infinite reverse",
+            animation: `dash 15s linear infinite ${reverse ? "" : "reverse"}`,
           }}
         />
       </g>
