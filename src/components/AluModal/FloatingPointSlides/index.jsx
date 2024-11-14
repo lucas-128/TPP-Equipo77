@@ -541,17 +541,17 @@ export const FloatingPointSlides = ({
             <FaQuestion />
           </Button>
         )}
-        {currentSlide === -1 && (
+        {currentSlide === HELP_SLIDE && (
           <Button lightColor={true} onClick={toInitialSlide}>
             <IoArrowBack />
           </Button>
         )}
-        {currentSlide != initialSlide && currentSlide != -1 && (
+        {currentSlide != initialSlide && currentSlide != HELP_SLIDE && (
           <Button lightColor={true} onClick={prevSlide}>
             <IoArrowBack />
           </Button>
         )}
-        {currentSlide != lastSlide && currentSlide != -1 && (
+        {currentSlide != lastSlide && currentSlide != HELP_SLIDE && (
           <Button lightColor={true} onClick={nextSlide}>
             <IoArrowForward />
           </Button>
