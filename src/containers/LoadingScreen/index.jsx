@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { LoadingContainer, Icon, Title, Subtitle, StartButton } from "./styled";
+import {
+  LoadingContainer,
+  Icon,
+  Title,
+  Subtitle,
+  StartButton,
+  Credits,
+} from "./styled";
 import favicon from "/favicon.png";
 
 export const LoadingScreen = () => {
