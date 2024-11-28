@@ -2,7 +2,7 @@
 
 Este simulador web te permite explorar y experimentar con los principios fundamentales de una arquitectura de computadora RISC (Reduced Instruction Set Computer). Podrás ejecutar programas, observar el funcionamiento de los distintos componentes de la computadora y ver en tiempo real cómo se procesan las instrucciones.
 
-![Descripción del simulador](public/readme/simulador.gif)
+![Simulador](public/readme/simulador.gif)
 
 Trabajo Profesional de Ingeniería en Informática - 2024  
 Integrantes:
@@ -16,11 +16,20 @@ Tutor: Prof. Arturo Carlos Servetto
 
 ## Simulador de la Computadora
 
-La interfaz principal del simulador te muestra cómo se ejecutan las instrucciones de un programa, cómo interactúan los componentes de la máquina y cómo fluye la información a través de los buses. Además, puedes hacer clic en algunos componentes para obtener más detalles sobre su funcionamiento. Esto te permitirá comprender a profundidad el comportamiento interno de la máquina.
+La interfaz principal del simulador te muestra cómo se ejecutan las instrucciones de un programa, cómo interactúan los componentes de la máquina y cómo fluye la información a través de los buses.
+
+![Simulador](public/readme/principal.png)
+
+Además, puedes hacer clic en algunos componentes para obtener más detalles sobre su funcionamiento. Esto te permitirá comprender a profundidad el comportamiento interno de la máquina.
+
+![Unidad de control](public/readme/detalle_uc.png)
+_Vista detallada de la unidad de control._
 
 ## Editor de Programas
 
 El editor de texto es donde puedes cargar o crear programas que serán interpretados por el simulador.
+
+![Editor](public/readme/editor.png)
 
 En la barra superior, encontrarás herramientas para:
 
@@ -41,6 +50,8 @@ Para comenzar, simplemente carga un programa en el editor y haz clic en "Simular
 ## Configuración de la Simulación
 
 En el panel de opciones, puedes personalizar cómo se ejecutará el programa:
+
+![Opciones](public/readme/opciones.png)
 
 - Seleccionar la base numérica para los datos: **binaria** o **hexadecimal**.
 
