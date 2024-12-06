@@ -71,6 +71,12 @@ export const FloatingPointSlides = ({
   let registerToComplement = null;
   let complementedRegister = null;
 
+  // Store mantissas pre-complement
+  alignedRegisters.register2.mantissa.impliedPrev =
+    alignedRegisters.register2.mantissa.implied;
+  alignedRegisters.register1.mantissa.impliedPrev =
+    alignedRegisters.register1.mantissa.implied;
+
   const diffSigns = parsedS.sign !== parsedT.sign;
   if (diffSigns) {
     if (alignedRegisters.register2.sign === 1) {
@@ -263,7 +269,7 @@ export const FloatingPointSlides = ({
                       {alignedRegisters.register2.sign === 0 ? "+" : "-"}
                     </SignBit>
                     <MantissaBits>
-                      {alignedRegisters.register2.mantissa.implied}
+                      {alignedRegisters.register2.mantissa.impliedPrev}
                     </MantissaBits>
                   </BitsRow>
                   {"*2^"}
@@ -278,7 +284,7 @@ export const FloatingPointSlides = ({
                       {alignedRegisters.register1.sign === 0 ? "+" : "-"}
                     </SignBit>
                     <MantissaBits>
-                      {alignedRegisters.register1.mantissa.implied}
+                      {alignedRegisters.register1.mantissa.impliedPrev}
                     </MantissaBits>
                   </BitsRow>
                   {"*2^"}
