@@ -32,13 +32,10 @@ export default class Program {
   */
   getCurrentInstructionId(state) {
     if (state.fetch.instructionId !== null) {
-      console.log("DECODE", state.fetch.instructionId);
       return state.fetch.instructionId;
     } else if (state.decode.instructionId !== null) {
-      console.log("EXECUTE", state.decode.instructionId);
       return state.decode.instructionId;
     }
-    console.log("FETCH", state.execute.instructionId);
     return state.execute.instructionId || 0;
   }
 
@@ -148,21 +145,6 @@ export default class Program {
       newFetchState.execute.cacheMemoryCells
     );
 
-    // console.log("lo que devuelvo es ", {
-    //   ...oldState,
-    //   fetch: {
-    //     ...newFetchState.fetch,
-    //     color: this.getNextColor(oldState.fetch.color),
-    //   },
-    //   decode: { ...newDecodeState.decode, color: oldState.fetch.color },
-    //   execute: {
-    //     ...newExecuteState.execute,
-    //     instructionId: executeInstructionId,
-    //     color: oldState.decode.color,
-    //     cacheMemoryCells: newCacheMemoryCells,
-    //   },
-    // });
-
     return {
       ...oldState,
       fetch: {
@@ -197,9 +179,13 @@ export default class Program {
         instruction.resetCycle();
       }
     });
-
     const newState = actualInstruction.makeJump(oldState, this.typeSimulation);
-
+    if (
+      newState.execute.instructionId > this.instructions.length - 1 ||
+      newState.execute.instructionId % 1 !== 0
+    ) {
+      newState.execute.errorLine = idBranch;
+    }
     return newState;
   }
 }

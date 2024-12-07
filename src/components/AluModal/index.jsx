@@ -25,6 +25,8 @@ import { Button } from "../Button";
 import { toBinaryComplement, toHexa } from "../../interpreter/utils.js";
 import OperationInfo from "./OperationInfo/index.jsx";
 
+export const HELP_SLIDE = -1;
+
 export const AluModal = () => {
   const dispatch = useDispatch();
   const [showResult, setShowResult] = useState(false);
@@ -33,8 +35,13 @@ export const AluModal = () => {
     (state) => state.application.execute.aluOperation
   );
 
-  const result = (aluOperation?.result ?? 0).toString().padStart(8, "0");
-  const firstEightBits = result.slice(0, 8);
+  const result =
+    typeof aluOperation?.result === "boolean"
+      ? aluOperation.result
+      : (aluOperation?.result ?? 0).toString().padStart(8, "0");
+
+  const firstEightBits =
+    typeof result === "boolean" ? result : result.slice(0, 8);
 
   const registerSbits = toBinaryComplement(aluOperation?.registerS ?? "0");
 
@@ -50,6 +57,14 @@ export const AluModal = () => {
   };
   const prevSlide = () => {
     setCurrentSlide((prevSlide) => prevSlide - 1);
+  };
+
+  const toHelpSlide = () => {
+    setCurrentSlide(HELP_SLIDE);
+  };
+
+  const toInitialSlide = () => {
+    setCurrentSlide(0);
   };
 
   useEffect(() => {
@@ -92,6 +107,8 @@ export const AluModal = () => {
                       currentSlide={currentSlide}
                       prevSlide={prevSlide}
                       nextSlide={nextSlide}
+                      toHelpSlide={toHelpSlide}
+                      toInitialSlide={toInitialSlide}
                     />
                   ) : (
                     <OperationInfo

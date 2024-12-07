@@ -59,7 +59,7 @@ export const DescriptionTooltip = styled.span`
   position: relative;
 
   &:before {
-    content: attr(tooltipText);
+    content: "Descripción";
     font-size: 15px;
     font-weight: lighter;
     position: absolute;
@@ -85,7 +85,7 @@ export const OperationTooltip = styled.span`
   position: relative;
 
   &:before {
-    content: attr(tooltipText);
+    content: "Operación";
     font-size: 15px;
     font-weight: lighter;
     position: absolute;
