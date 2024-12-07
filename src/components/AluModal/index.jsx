@@ -25,6 +25,8 @@ import { Button } from "../Button";
 import { toBinaryComplement, toHexa } from "../../interpreter/utils.js";
 import OperationInfo from "./OperationInfo/index.jsx";
 
+export const HELP_SLIDE = -1;
+
 export const AluModal = () => {
   const dispatch = useDispatch();
   const [showResult, setShowResult] = useState(false);
@@ -55,6 +57,14 @@ export const AluModal = () => {
   };
   const prevSlide = () => {
     setCurrentSlide((prevSlide) => prevSlide - 1);
+  };
+
+  const toHelpSlide = () => {
+    setCurrentSlide(HELP_SLIDE);
+  };
+
+  const toInitialSlide = () => {
+    setCurrentSlide(0);
   };
 
   useEffect(() => {
@@ -97,6 +107,8 @@ export const AluModal = () => {
                       currentSlide={currentSlide}
                       prevSlide={prevSlide}
                       nextSlide={nextSlide}
+                      toHelpSlide={toHelpSlide}
+                      toInitialSlide={toInitialSlide}
                     />
                   ) : (
                     <OperationInfo
