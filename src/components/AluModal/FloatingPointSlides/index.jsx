@@ -175,7 +175,7 @@ export const FloatingPointSlides = ({
                   {registerSbits.slice(0, 1) === "0" ? "+" : "-"}
                 </SignBit>
 
-                <MantissaBits>{parsedS.mantissa.implied}</MantissaBits>
+                <MantissaBits>{parsedS.mantissa.impliedPrev}</MantissaBits>
               </BitsRow>
               {"*2^"}
               <ExponentBits>
@@ -205,7 +205,7 @@ export const FloatingPointSlides = ({
                   {registerTbits.slice(0, 1) === "0" ? "+" : "-"}
                 </SignBit>
 
-                <MantissaBits>{parsedT.mantissa.implied}</MantissaBits>
+                <MantissaBits>{parsedT.mantissa.impliedPrev}</MantissaBits>
               </BitsRow>
               {"*2^"}
               <ExponentBits>
@@ -225,7 +225,7 @@ export const FloatingPointSlides = ({
                   {registerSbits.slice(0, 1) === "0" ? "+" : "-"}
                 </SignBit>
 
-                <MantissaBits>{parsedS.mantissa.implied}</MantissaBits>
+                <MantissaBits>{parsedS.mantissa.impliedPrev}</MantissaBits>
               </BitsRow>
               {"*2^"}
               <ExponentBits>
@@ -240,7 +240,7 @@ export const FloatingPointSlides = ({
                   {registerTbits.slice(0, 1) === "0" ? "+" : "-"}
                 </SignBit>
 
-                <MantissaBits>{parsedT.mantissa.implied}</MantissaBits>
+                <MantissaBits>{parsedT.mantissa.impliedPrev}</MantissaBits>
               </BitsRow>
               {"*2^"}
               <ExponentBits>

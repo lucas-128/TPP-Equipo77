@@ -103,6 +103,8 @@ export function floatingPointSum(registerS, registerT) {
     }
   }
 
+  const mantissaZeroCheck = resultMantissa;
+
   const [normalizedMantissa, placesMoved] = normalizeMantissa(resultMantissa);
 
   const resultExponentInt =
@@ -121,7 +123,7 @@ export function floatingPointSum(registerS, registerT) {
     .split(".")[1]
     .substring(0, 4);
 
-  if (resultNormalizedMantissa === "0000" && resultExponent === "000") {
+  if (mantissaZeroCheck === "0.0000") {
     return resultSign + "0000000";
   }
 
