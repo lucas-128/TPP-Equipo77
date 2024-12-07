@@ -121,7 +121,7 @@ export function floatingPointSum(registerS, registerT) {
     .split(".")[1]
     .substring(0, 4);
 
-  if (resultNormalizedMantissa === "0000") {
+  if (resultNormalizedMantissa === "0000" && resultExponent === "000") {
     return resultSign + "0000000";
   }
 
