@@ -21,6 +21,7 @@ export default class LoadRegisterFromPattern extends Instruction {
     newExecuteState.registers = [...oldState.execute.registers];
     newExecuteState.registers[this.register] = this.pattern;
     newExecuteState.instructionId = this.id + 1;
+    newExecuteState.aluOperation = null;
     newExecuteState.edgeAnimation = [
       {
         id: registersControlUnitId,
