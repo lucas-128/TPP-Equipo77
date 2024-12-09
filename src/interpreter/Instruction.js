@@ -85,6 +85,16 @@ export default class Instruction {
 
     newFetchState.instructionId = this.id;
 
+    const isInCache =
+      isAddressInCache(
+        oldState.execute.cacheMemoryCells,
+        oldState.fetch.programCounter
+      ) &&
+      isAddressInCache(
+        oldState.execute.cacheMemoryCells,
+        oldState.fetch.programCounter + 1
+      );
+
     newExecuteState.cacheMemoryCells = updateCache(
       newExecuteState,
       oldState.fetch.programCounter
@@ -94,16 +104,12 @@ export default class Instruction {
       oldState.fetch.programCounter + 1
     );
 
-    //CACHE MEMORY ANIMATIONS
-    const oldLength = oldState.execute.cacheMemoryCells.filter(
-      (e) => e !== null
-    ).length;
-    const newLength = newExecuteState.cacheMemoryCells.filter(
-      (e) => e !== null
-    ).length;
-
-    // Cache memory has been updated, meaning the main memory bus should be animated
-    if (oldLength < newLength) {
+    if (isInCache) {
+      newFetchState.edgeAnimation = [
+        { id: controlUnitCacheId, reverse: false, data: currentInstruction },
+        { id: controlUnitCacheAddrBusId, address: newFetchState.address },
+      ];
+    } else {
       newFetchState.edgeAnimation = [
         { id: controlUnitMainMemAddrId, address: newFetchState.address },
         {
@@ -114,14 +120,7 @@ export default class Instruction {
         { id: controlUnitCacheId, reverse: true, data: currentInstruction },
         { id: controlUnitCacheAddrBusId, address: newFetchState.address },
       ];
-    } else {
-      // Cache memory has not been updated, meaning the main memory bus should not be animated
-      newFetchState.edgeAnimation = [
-        { id: controlUnitCacheId, reverse: false, data: currentInstruction },
-        { id: controlUnitCacheAddrBusId, address: newFetchState.address },
-      ];
     }
-
     return { ...oldState, fetch: newFetchState, execute: newExecuteState };
   }
 
@@ -136,4 +135,8 @@ export default class Instruction {
   resetCycle() {
     this.cycle = cyclesSimulations.FETCH;
   }
+}
+
+function isAddressInCache(cacheMemoryCells, address) {
+  return cacheMemoryCells.some((cell) => cell && cell.address === address);
 }
